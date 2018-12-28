@@ -1,6 +1,7 @@
-
-# IntelliJ project files
+### IntelliJ IDEA ###
 .idea
+*.iws
 *.iml
+*.ipr
 out
 gen
