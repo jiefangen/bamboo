@@ -10,6 +10,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bamboo-authorization</artifactId>
+    <packaging>pom</packaging>
+    <description>认证授权模块</description>
 
+    <modules>
+        <module>bamboo-authorization-api</module>
+        <module>bamboo-authorization-impl</module>
+    </modules>
 
 </project>
