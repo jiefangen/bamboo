@@ -24,7 +24,7 @@
 
     <modules>
         <module>bamboo-authorization</module>
-        <module>bamboo-registry</module>
+        <module>bamboo-register</module>
     </modules>
 
 </project>

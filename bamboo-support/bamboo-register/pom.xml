@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bamboo-registry</artifactId>
+    <artifactId>bamboo-register</artifactId>
     <description></description>
 
     <dependencies>
@@ -32,7 +32,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>bamboo-registry</finalName>
+        <finalName>bamboo-register</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
