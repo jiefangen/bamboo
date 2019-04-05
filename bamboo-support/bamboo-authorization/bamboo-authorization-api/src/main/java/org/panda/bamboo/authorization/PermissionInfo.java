@@ -1,4 +1,4 @@
-package org.panda.bamboo.authorization.vo;
+package org.panda.bamboo.authorization;
 
 /**
  *
