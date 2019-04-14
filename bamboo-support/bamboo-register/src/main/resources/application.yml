@@ -1,21 +1,13 @@
-server:
-  port: 8100
-
 spring:
   application:
-    name: bamboo-support-registry
+    name: register-center
 
-management:
-  security:
-    enabled: false
+server:
+  port: 8761
 
 eureka:
   client:
-    register-with-eureka: false                                   # 不作为一个客户端注册到注册中心
-    fetch-registry: false                                         # 作为客户端，并部署注册中心高可用时开启
-    service-url:
-      defaultZone: http://localhost:8100/eureka
-  instance:
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+    register-with-eureka: false                   # 用于指定该客户端实例是否在Eureka服务器上注册自己的信息以提供其他服务进行发现
+    fetch-registry: false                         # 用于指定该客户端是否获取Eureka服务器上的注册信息
+
 
