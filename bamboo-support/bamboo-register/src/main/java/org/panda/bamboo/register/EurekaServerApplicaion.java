@@ -8,12 +8,12 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
  * 服务注册发现中心
  *
  * @author: jvfagan
- * @since: 2019/3/19
+ * @date: 2019/3/19
  **/
-@EnableEurekaServer
 @SpringBootApplication
-public class DiscoveryApplicaion {
+@EnableEurekaServer
+public class EurekaServerApplicaion {
     public static void main(String[] args) {
-        SpringApplication.run(DiscoveryApplicaion.class,args);
+        SpringApplication.run(EurekaServerApplicaion.class,args);
     }
 }

@@ -7,3 +7,6 @@
 */*/target/
 out
 gen
+*.prefs
+*.project
+
