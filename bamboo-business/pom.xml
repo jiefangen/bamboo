@@ -24,6 +24,7 @@
 
     <modules>
         <module>bamboo-order</module>
+        <module>bamboo-product</module>
     </modules>
 
 

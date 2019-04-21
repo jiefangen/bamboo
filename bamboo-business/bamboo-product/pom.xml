@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>bamboo-parent</artifactId>
+        <artifactId>bamboo-business</artifactId>
         <groupId>org.panda.bamboo</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../bamboo-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bamboo-gateway</artifactId>
+    <artifactId>bamboo-product</artifactId>
 
     <dependencies>
         <dependency>
@@ -19,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+            <artifactId>spring-cloud-starter-ribbon</artifactId>
         </dependency>
     </dependencies>
 
@@ -34,5 +33,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>
