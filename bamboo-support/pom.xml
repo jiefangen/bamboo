@@ -26,6 +26,7 @@
         <module>bamboo-authorization</module>
         <module>bamboo-register</module>
         <module>bamboo-faultTolerance</module>
+        <module>bamboo-config</module>
     </modules>
 
 </project>
