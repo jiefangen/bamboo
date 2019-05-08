@@ -10,7 +10,6 @@
         <module>../bamboo-gateway</module>
         <module>../bamboo-business</module>
         <module>../bamboo-support</module>
-        <module>../bamboo-platform</module>
     </modules>
     <packaging>pom</packaging>
 

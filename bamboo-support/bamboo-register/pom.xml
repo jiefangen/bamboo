@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bamboo-register</artifactId>
-    <description></description>
+    <description>服务注册中心</description>
 
     <dependencies>
         <dependency>
