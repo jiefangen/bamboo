@@ -1,11 +1,11 @@
 spring:
   application:
-    name: orderservice
+    name: authorizationervice
   profiles:
     active: default
 
 server:
-  port: 8081
+  port: 8100
 
 eureka:
   instance:
@@ -16,9 +16,4 @@ eureka:
     fetchRegistry: true                        # 用于指定该客户端是否获取Eureka服务器上的注册信息
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/  # Eureka服务器地址
-
-security:
-  oauth2:
-    resource:
-      userInfoUri: http://localhost:8100/v1/oauth/user   # 配置认证服务器
 

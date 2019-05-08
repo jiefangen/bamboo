@@ -3,41 +3,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>bamboo-authorization</artifactId>
+        <artifactId>bamboo-parent</artifactId>
         <groupId>org.panda.bamboo</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../bamboo-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bamboo-authorization-impl</artifactId>
+    <artifactId>bamboo-dependencies</artifactId>
+    <description>Bamboo服务jar包通用依赖</description>
 
     <dependencies>
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>2.2.0</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-security</artifactId>
+            <artifactId>spring-cloud-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jersey</artifactId>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.0.14.RELEASE</version>
         </dependency>
     </dependencies>
 
@@ -59,5 +47,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
 </project>
