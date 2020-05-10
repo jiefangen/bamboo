@@ -1,3 +1,4 @@
+# bamboo后台管理系统表创建脚本
 CREATE DATABASE  IF NOT EXISTS `bamboo_admin` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bamboo_admin`;
 
