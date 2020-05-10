@@ -1,5 +1,6 @@
 package org.panda.modules.system.service.impl;
 
+import com.github.pagehelper.Page;
 import org.panda.modules.system.dao.UserDao;
 import org.panda.modules.system.domain.User;
 import org.panda.modules.system.service.UserService;
@@ -14,11 +15,11 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userMapper;
+    private UserDao userDao;
 
     @Override
-    public User getUserByUsername(String username) {
+    public Page<User> getUsers() {
 
-        return userMapper.findByUsername(username);
+        return userDao.findUsers("");
     }
 }

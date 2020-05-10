@@ -17,23 +17,24 @@
     <properties>
         <bamboo-admin.version>1.0-SNAPSHOT</bamboo-admin.version>
         <druid.version>1.1.10</druid.version>
+        <pagehelper.version>1.2.5</pagehelper.version>
     </properties>
 
     <dependencies>
-        <!-- 项目通用模块 依赖 -->
+        <!-- 项目通用模块 -->
         <dependency>
             <groupId>org.panda.bamboo</groupId>
             <artifactId>bamboo-admin-common</artifactId>
             <version>${bamboo-admin.version}</version>
         </dependency>
 
-        <!-- Spring Boot starter 依赖 -->
+        <!-- Spring Boot starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot test 依赖 -->
+        <!-- Spring Boot test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -46,18 +47,29 @@
             </exclusions>
         </dependency>
 
-        <!-- Spring Boot Mybatis 依赖 -->
+        <!-- 安全认证Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Actuator 监控 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Spring Boot Mybatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis-spring-boot}</version>
         </dependency>
 
-        <!-- MySQL 连接驱动依赖 -->
+        <!-- MySQL 连接驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector}</version>
             <scope>runtime</scope>
         </dependency>
 
@@ -66,6 +78,13 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
+        </dependency>
+
+        <!-- 分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.version}</version>
         </dependency>
 
     </dependencies>

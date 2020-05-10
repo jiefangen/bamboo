@@ -1,0 +1,37 @@
+server:
+  port: 8000
+  context-path: /bamboo-admin
+
+spring:
+  application:
+    name: bamboo-admin
+  datasource:
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin?useUnicode=true&characterEncoding=utf8
+      username: root
+      password: root
+      # 配置初始化大小（默认0）、最小、最大（默认8）
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大。 默认为false
+      pool-prepared-statements: true
+      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
+      max-open-prepared-statements: 20
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小和最大生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      max-evictable-idle-time-millis: 900000
+
+      # 用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。
+      # 如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用。
+      validation-query: SELECT 1
+      # 申请连接时执行validationQuery检测连接是否有效 默认为true
+      test-on-borrow: true
+      # 归还连接时执行validationQuery检测连接是否有效 默认为false
+      test-on-return: false
+      # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true

@@ -1,9 +1,8 @@
 package org.panda.modules.system.domain;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.math.BigInteger;
 import java.util.Date;
-import java.util.Set;
 
 /**
  * 用户表java映射对象
@@ -14,33 +13,31 @@ import java.util.Set;
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    private BigInteger id;
 
     private String username;
 
-    private String nickName;
-
-    private String sex;
-
-    private String email;
+    private String password;
 
     private String phone;
 
-    private Boolean enabled;
+    private String nickname;
 
-    private String password;
+    private String email;
 
-    private Timestamp createTime;
+    private String sex;
 
-    private Date lastPasswordResetTime;
+    private Integer disabled;
 
-    private Set<Role> roles;
+    private Date createTime;
 
-    public Long getId() {
+    private Date updateTime;
+
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
@@ -52,28 +49,12 @@ public class User implements Serializable {
         this.username = username;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhone() {
@@ -84,43 +65,51 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
-    public Boolean getEnabled() {
-        return enabled;
+    public String getNickName() {
+        return nickname;
     }
 
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
+    public void setNickName(String nickname) {
+        this.nickname = nickname;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Timestamp getCreateTime() {
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Integer getDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Integer disabled) {
+        this.disabled = disabled;
+    }
+
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Timestamp createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Date getLastPasswordResetTime() {
-        return lastPasswordResetTime;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setLastPasswordResetTime(Date lastPasswordResetTime) {
-        this.lastPasswordResetTime = lastPasswordResetTime;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

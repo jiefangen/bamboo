@@ -1,5 +1,6 @@
 package org.panda.modules.system.service;
 
+import com.github.pagehelper.Page;
 import org.panda.modules.system.domain.User;
 
 /**
@@ -8,5 +9,5 @@ import org.panda.modules.system.domain.User;
  **/
 public interface UserService {
 
-    User getUserByUsername(String username);
+    Page<User> getUsers();
 }
