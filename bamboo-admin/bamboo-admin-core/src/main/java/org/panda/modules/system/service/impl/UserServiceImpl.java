@@ -18,8 +18,8 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     @Override
-    public Page<User> getUsers() {
+    public Page<User> getUsers(String keyword) {
 
-        return userDao.findUsers("");
+        return userDao.findUsers(keyword);
     }
 }

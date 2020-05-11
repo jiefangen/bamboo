@@ -9,5 +9,5 @@ import org.panda.modules.system.domain.User;
  **/
 public interface UserService {
 
-    Page<User> getUsers();
+    Page<User> getUsers(String keyword);
 }
