@@ -9,4 +9,4 @@ out
 gen
 *.prefs
 *.project
-
+*.classpath
