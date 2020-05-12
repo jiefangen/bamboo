@@ -18,6 +18,7 @@
         <bamboo-admin.version>1.0-SNAPSHOT</bamboo-admin.version>
         <druid.version>1.1.10</druid.version>
         <pagehelper.version>1.2.5</pagehelper.version>
+        <shiro-springboot.version>1.4.0</shiro-springboot.version>
     </properties>
 
     <dependencies>
@@ -48,9 +49,16 @@
         </dependency>
 
         <!-- 安全认证Security -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-security</artifactId>-->
+        <!--</dependency>-->
+
+        <!-- 安全权限shiro -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring-boot-web-starter</artifactId>
+            <version>${shiro-springboot.version}</version>
         </dependency>
 
         <!-- Actuator 监控 -->
