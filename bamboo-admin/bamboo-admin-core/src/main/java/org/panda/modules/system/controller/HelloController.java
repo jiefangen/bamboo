@@ -12,8 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String hello(){
         return "Hello World!";
+    }
+
+    @GetMapping("/home")
+    public String home(){
+        return "Welcome to Bamboo background management system!";
+    }
+
+    @GetMapping("/unauthorizedurl")
+    public String unauthorizedurl(){
+        return "No login authentication.401";
     }
 }

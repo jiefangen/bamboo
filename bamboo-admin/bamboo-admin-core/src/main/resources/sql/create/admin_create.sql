@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `SYS_PERMISSION`;
 CREATE TABLE SYS_PERMISSION (
  id BIGINT unsigned AUTO_INCREMENT NOT NULL,
  permission_name VARCHAR(64) NOT NULL,
- permission_value VARCHAR(20) NOT NULL,
+ permission_code VARCHAR(20) NOT NULL,
  parent_id BIGINT unsigned,
  description VARCHAR(200),
  resources_type VARCHAR(20) NOT NULL,
