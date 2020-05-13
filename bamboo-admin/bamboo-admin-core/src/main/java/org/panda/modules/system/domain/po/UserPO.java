@@ -1,4 +1,4 @@
-package org.panda.modules.system.domain;
+package org.panda.modules.system.domain.po;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -16,7 +16,7 @@ import java.util.Set;
  **/
 @Setter
 @Getter
-public class User implements Serializable {
+public class UserPO implements Serializable{
     private static final long serialVersionUID = 1L;
 
     private BigInteger id;
