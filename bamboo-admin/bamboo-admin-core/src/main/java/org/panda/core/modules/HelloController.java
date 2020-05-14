@@ -1,4 +1,4 @@
-package org.panda.modules.system.controller;
+package org.panda.core.modules;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 开场白
  *
- * @author jvfagan
+ * @author jiefangen
  * @since JDK 1.8  2020/5/8
  **/
 @RestController

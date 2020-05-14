@@ -1,4 +1,4 @@
-package org.panda.modules.system.domain.po;
+package org.panda.core.modules.system.domain.po;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import java.util.Set;
 /**
  * 用户表java映射对象
  *
- * @author jvfagan
+ * @author jiefangen
  * @since JDK 1.8  2020/5/5
  **/
 @Setter
@@ -24,6 +24,9 @@ public class UserPO implements Serializable{
     private String username;
 
     private String password;
+
+    // shiro盐,用于加密验证
+    private String salt;
 
     private String phone;
 

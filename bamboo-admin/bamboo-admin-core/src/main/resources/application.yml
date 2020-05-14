@@ -14,7 +14,7 @@ shiro:
   web:
     enabled: true
   successUrl: /home
-  loginUrl: /system/user/login
+  loginUrl: /doLogin
 
 # 分页插件mysql
 pagehelper:

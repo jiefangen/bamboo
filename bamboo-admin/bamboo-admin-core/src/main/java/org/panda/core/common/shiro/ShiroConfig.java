@@ -1,4 +1,4 @@
-package org.panda.common.shiro;
+package org.panda.core.common.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -14,7 +14,7 @@ import java.util.LinkedHashMap;
 /**
  * shiro配置类
  *
- * @author jvfagan
+ * @author jiefangen
  * @since JDK 1.8  2020/5/11
  **/
 @Configuration
@@ -51,12 +51,13 @@ public class ShiroConfig {
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/index", "anon");
-        filterChainDefinitionMap.put("/system/user/doLogin","anon");
+        // 测试使用,暂时放开用户认证
+//        filterChainDefinitionMap.put("/system/user/add","anon");
         filterChainDefinitionMap.put("/css/**", "anon");
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
-        filterChainDefinitionMap.put("/system/user/logout", "logout");
+        filterChainDefinitionMap.put("/logout", "logout");
         filterChainDefinitionMap.put("/**", "authc");
         DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
         definition.addPathDefinitions(filterChainDefinitionMap);

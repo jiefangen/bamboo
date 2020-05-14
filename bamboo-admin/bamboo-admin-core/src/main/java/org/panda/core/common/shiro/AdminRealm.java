@@ -1,14 +1,15 @@
-package org.panda.common.shiro;
+package org.panda.core.common.shiro;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.panda.modules.system.dao.UserDao;
-import org.panda.modules.system.domain.po.RolePO;
-import org.panda.modules.system.domain.po.UserPO;
-import org.panda.modules.system.service.UserService;
+import org.apache.shiro.util.ByteSource;
+import org.panda.core.modules.system.dao.UserDao;
+import org.panda.core.modules.system.domain.po.RolePO;
+import org.panda.core.modules.system.domain.po.UserPO;
+import org.panda.core.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author jvfagan
+ * @author jiefangen
  * @since JDK 1.8  2020/5/11
  **/
 public class AdminRealm extends AuthorizingRealm{
@@ -46,7 +47,8 @@ public class AdminRealm extends AuthorizingRealm{
         if (user == null) {
             throw new UnknownAccountException("Username does not exist,Login failed!");
         } else {
-            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(username, user.getPassword(), getName());
+            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(username, user.getPassword(),
+                    ByteSource.Util.bytes(user.getSalt()), getName());
             return simpleAuthenticationInfo;
         }
     }
