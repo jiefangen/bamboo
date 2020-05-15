@@ -11,4 +11,6 @@ public interface UserService {
     UserDTO getUserAndRoles(String username);
 
     String addUser(UserPO user);
+
+    int updateUser(UserPO user);
 }

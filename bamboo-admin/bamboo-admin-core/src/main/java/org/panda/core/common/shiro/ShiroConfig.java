@@ -22,9 +22,18 @@ public class ShiroConfig {
     @Bean
     public AdminRealm adminRealm() {
         AdminRealm adminRealm = new AdminRealm();
+        adminRealm.setCachingEnabled(true);
+        //启用身份验证缓存，即缓存AuthenticationInfo信息，默认false
+        adminRealm.setAuthenticationCachingEnabled(true);
+        //缓存AuthenticationInfo信息的缓存名称 在ehcache-shiro.xml中有对应缓存的配置
+        adminRealm.setAuthenticationCacheName("authenticationCache");
+        //启用授权缓存，即缓存AuthorizationInfo信息，默认false
+        adminRealm.setAuthorizationCachingEnabled(true);
+        //缓存AuthorizationInfo信息的缓存名称  在ehcache-shiro.xml中有对应缓存的配置
+        adminRealm.setAuthorizationCacheName("authorizationCache");
+        
         // 使用credentialsMatcher加密算法类来验证密文
         adminRealm.setCredentialsMatcher(hashedCredentialsMatcher());
-        adminRealm.setCachingEnabled(false);
         return adminRealm;
     }
 

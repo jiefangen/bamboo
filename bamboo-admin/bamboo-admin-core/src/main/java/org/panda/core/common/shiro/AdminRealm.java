@@ -47,7 +47,7 @@ public class AdminRealm extends AuthorizingRealm{
         if (user == null) {
             throw new UnknownAccountException("Username does not exist,Login failed!");
         } else {
-            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(username, user.getPassword(),
+            SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
                     ByteSource.Util.bytes(user.getSalt()), getName());
             return simpleAuthenticationInfo;
         }
@@ -62,10 +62,10 @@ public class AdminRealm extends AuthorizingRealm{
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) principalCollection.getPrimaryPrincipal();
+        UserPO user = (UserPO) principalCollection.getPrimaryPrincipal();
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        List<RolePO> roles = userService.getUserAndRoles(username).getRoles();
+        List<RolePO> roles = userService.getUserAndRoles(user.getUsername()).getRoles();
         //添加角色鉴权,对应使用注解@RequiresRoles()
         Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
         simpleAuthorizationInfo.setRoles(roleCodes);

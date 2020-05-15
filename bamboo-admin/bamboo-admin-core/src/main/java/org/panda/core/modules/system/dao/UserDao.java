@@ -11,4 +11,6 @@ public interface UserDao {
     UserPO findByUsername(@Param("username") String username);
 
     void insertUser(@Param("user") UserPO user);
+
+    int updateUser(@Param("user") UserPO user);
 }
