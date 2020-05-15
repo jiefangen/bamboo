@@ -25,6 +25,7 @@
         <mybatis-spring-boot>1.3.2</mybatis-spring-boot>
         <shiro-springboot.version>1.4.0</shiro-springboot.version>
         <pagehelper.version>1.2.5</pagehelper.version>
+        <fastjson.version>1.2.47</fastjson.version>
     </properties>
 
     <dependencies>
@@ -47,6 +48,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+
+        <!-- fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
 
     </dependencies>

@@ -36,4 +36,19 @@ public class ShiroEncrypter {
                 ByteSource.Util.bytes(salt), hashIterations).toHex();
     }
 
+    public String getAlgorithmName() {
+        return algorithmName;
+    }
+
+    public void setAlgorithmName(String algorithmName) {
+        this.algorithmName = algorithmName;
+    }
+
+    public int getHashIterations() {
+        return hashIterations;
+    }
+
+    public void setHashIterations(int hashIterations) {
+        this.hashIterations = hashIterations;
+    }
 }

@@ -9,6 +9,8 @@ import org.panda.core.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -44,5 +46,15 @@ public class UserServiceImpl implements UserService {
             msg = "The username is already taken!";
         }
         return msg;
+    }
+
+    @Override
+    public int updateUser(UserPO user) {
+        // 只修改password
+        UserPO userPO = new UserPO();
+        userPO.setId(user.getId());
+        userPO.setPassword(user.getPassword());
+        userPO.setUpdateTime(new Date());
+        return userDao.updateUser(userPO);
     }
 }

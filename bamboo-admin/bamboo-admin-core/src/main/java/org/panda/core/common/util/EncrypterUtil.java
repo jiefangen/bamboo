@@ -1,5 +1,7 @@
 package org.panda.core.common.util;
 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.panda.common.encrypter.ShiroEncrypter;
 import org.panda.core.modules.system.domain.po.UserPO;
 
@@ -17,4 +19,10 @@ public class EncrypterUtil {
         user.setSalt(salt);
         user.setPassword(shiroEncrypter.encryptPassword(user.getPassword(), salt));
     }
+
+    public String encrypterPwd(String password, String salt){
+         return new SimpleHash(shiroEncrypter.getAlgorithmName(), password,
+                ByteSource.Util.bytes(salt), shiroEncrypter.getHashIterations()).toHex();
+    }
+
 }
