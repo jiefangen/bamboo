@@ -10,3 +10,4 @@ gen
 *.prefs
 *.project
 *.classpath
+*.factorypath
