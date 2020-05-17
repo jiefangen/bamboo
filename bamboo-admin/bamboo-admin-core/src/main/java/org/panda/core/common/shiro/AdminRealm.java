@@ -6,6 +6,7 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.panda.core.common.constant.SystemConstant;
 import org.panda.core.modules.system.dao.UserDao;
 import org.panda.core.modules.system.domain.po.RolePO;
 import org.panda.core.modules.system.domain.po.UserPO;
@@ -38,14 +39,14 @@ public class AdminRealm extends AuthorizingRealm{
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         if (authenticationToken.getPrincipal() == null) {
-            throw new AuthenticationException("Username is empty,Login failed!");
+            throw new AuthenticationException(SystemConstant.USER_EMPTY);
         }
         String username = authenticationToken.getPrincipal().toString();
 
         // 通过用户名在数据库查到该用户的信息
         UserPO user = userDao.findByUsername(username);
         if (user == null) {
-            throw new UnknownAccountException("Username does not exist,Login failed!");
+            throw new UnknownAccountException(SystemConstant.USERNAME_NOT_EXIST);
         } else {
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
                     ByteSource.Util.bytes(user.getSalt()), getName());

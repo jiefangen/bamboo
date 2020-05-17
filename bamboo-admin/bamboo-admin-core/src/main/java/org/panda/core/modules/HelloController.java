@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloController {
 
-    @GetMapping("/index")
+    @GetMapping("/")
     public String hello(){
         return "Hello World!";
+    }
+
+    @GetMapping("/index")
+    public String index(){
+        return ":: Spring Boot :: (v1.5.10.RELEASE)";
     }
 
     @GetMapping("/home")
