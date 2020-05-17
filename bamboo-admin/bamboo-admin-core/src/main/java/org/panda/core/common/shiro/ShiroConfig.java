@@ -66,7 +66,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
-        filterChainDefinitionMap.put("/logout", "logout");
+        // logout是Shiro提供的过滤器
+        filterChainDefinitionMap.put("/auth/logout", "logout");
         filterChainDefinitionMap.put("/**", "authc");
         DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
         definition.addPathDefinitions(filterChainDefinitionMap);

@@ -1,4 +1,4 @@
-package org.panda.common.query;
+package org.panda.common.domain;
 
 import com.github.pagehelper.PageHelper;
 import lombok.Getter;

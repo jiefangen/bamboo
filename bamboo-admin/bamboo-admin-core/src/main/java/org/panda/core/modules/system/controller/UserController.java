@@ -31,7 +31,7 @@ public class UserController {
     @GetMapping("/list")
     @RequiresRoles(value={"SYSTEM","ADMIN"},logical= Logical.OR)
     public PageInfo<UserPO> list(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageSize){
-        PageHelper.startPage(pageNo,pageSize);
+        PageHelper.startPage(pageNo,0);
         Page<UserPO> users = userService.getUsers("");
         PageInfo<UserPO> pageInfo = new PageInfo<>(users);
         return pageInfo;

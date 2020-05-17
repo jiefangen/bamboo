@@ -17,16 +17,16 @@ import java.util.Set;
 @Setter
 @Getter
 public class UserPO implements Serializable{
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2345642021650652148L;
 
     private BigInteger id;
 
     private String username;
 
-    private String password;
+    private transient String password;
 
     // shiro盐,用于加密验证
-    private String salt;
+    private transient String salt;
 
     private String phone;
 

@@ -5,6 +5,9 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.panda.common.domain.ResultVO;
+import org.panda.core.common.constant.SystemConstant;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,18 +20,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
     @PostMapping("/doLogin")
-    public String login(String username, String password){
+    public ResultVO login(String username, String password){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        String message = "Login Successful!";
         try {
             subject.login(token);
+            return ResultVO.getSucess();
         } catch (UnknownAccountException e) {
-            message = e.getMessage();
+            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
         } catch (IncorrectCredentialsException e){
-            message = "Wrong password,Login failed!";
+            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR,SystemConstant.PWD_WRONG);
         }
-        return message;
+
     }
 
+    /**
+     * 系统用户登出
+     */
+    @GetMapping("/logout")
+    public ResultVO logout(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout();
+        }
+        return ResultVO.getSucess();
+    }
 }

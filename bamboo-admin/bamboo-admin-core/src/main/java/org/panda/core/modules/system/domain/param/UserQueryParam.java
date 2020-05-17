@@ -2,7 +2,7 @@ package org.panda.core.modules.system.domain.param;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.panda.common.query.QueryParam;
+import org.panda.common.domain.QueryParam;
 
 /**
  * 用户分页查询参数
