@@ -7,8 +7,6 @@ import com.github.pagehelper.PageInfo;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.crypto.hash.SimpleHash;
-import org.apache.shiro.util.ByteSource;
 import org.panda.core.common.util.EncrypterUtil;
 import org.panda.core.modules.system.domain.param.UserQueryParam;
 import org.panda.core.modules.system.domain.po.UserPO;

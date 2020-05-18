@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
     @PostMapping("/doLogin")
-    public ResultVO login(String username, String password){
+    public ResultVO doLogin(String username, String password){
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
@@ -38,11 +38,10 @@ public class LoginController {
      * 系统用户登出
      */
     @GetMapping("/logout")
-    public ResultVO logout(){
+    public void logout(){
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             subject.logout();
         }
-        return ResultVO.getSucess();
     }
 }

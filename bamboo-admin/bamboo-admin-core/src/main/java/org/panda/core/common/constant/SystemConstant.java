@@ -8,6 +8,9 @@ package org.panda.core.common.constant;
  **/
 public class SystemConstant {
 
+    /**
+     * 用户信息错误状态码
+     */
     public static final Integer USER_INFO_ERROR = 5001;
 
     /**
@@ -23,6 +26,6 @@ public class SystemConstant {
     /**
      * 密码错误
      */
-    public static  final String PWD_WRONG = " Wrong password.";
+    public static  final String PWD_WRONG = "Wrong password.";
 
 }

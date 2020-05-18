@@ -7,7 +7,7 @@ spring:
     name: bamboo-admin
   datasource:
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin?useUnicode=true&characterEncoding=utf8
+      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
       username: root
       password: root
       # 配置初始化大小（默认0）、最小、最大（默认8）
