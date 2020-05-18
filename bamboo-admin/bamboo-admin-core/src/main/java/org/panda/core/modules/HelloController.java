@@ -19,7 +19,7 @@ public class HelloController {
 
     @GetMapping("/index")
     public String index(){
-        return ":: Spring Boot :: (v1.5.10.RELEASE)";
+        return ":: Spring Boot :: (v2.1.4.RELEASE)";
     }
 
     @GetMapping("/home")
@@ -29,6 +29,6 @@ public class HelloController {
 
     @GetMapping("/unauthorizedurl")
     public String unauthorizedurl(){
-        return "No login authentication.401";
+        return "No login authentication.403";
     }
 }

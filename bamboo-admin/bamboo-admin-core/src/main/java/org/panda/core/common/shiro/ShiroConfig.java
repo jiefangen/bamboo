@@ -62,10 +62,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/index", "anon");
         // 测试使用,暂时放开用户认证
 //        filterChainDefinitionMap.put("/system/user/add","anon");
-        filterChainDefinitionMap.put("/css/**", "anon");
-        filterChainDefinitionMap.put("/js/**", "anon");
-        filterChainDefinitionMap.put("/fonts/**", "anon");
-        filterChainDefinitionMap.put("/img/**", "anon");
+
         // logout是Shiro提供的过滤器
         filterChainDefinitionMap.put("/auth/logout", "logout");
         filterChainDefinitionMap.put("/**", "authc");

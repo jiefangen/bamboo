@@ -6,11 +6,11 @@ package org.panda.common.domain;
  **/
 public class ResultConstant {
 
-    protected static final Integer SUCESS = 2000;
+    protected static final Integer DEFAULT_SUCESS_CODE = 2000;
 
-    protected static  final String SUCESS_MSG = "Successfully";
+    protected static  final String DEFAULT_SUCESS_MSG = "Successfully";
 
-    protected static final Integer FAILURE = 5000;
+    protected static final Integer DEFAULT_FAILURE_CODE = 5000;
 
-    protected static  final String FAILURE_MSG = "Failure";
+    protected static  final String DEFAULT_FAILURE_MSG = "Failure";
 }

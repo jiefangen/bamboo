@@ -22,26 +22,22 @@ public class ResultVO implements Serializable {
     private ResultVO(){};
 
     public static ResultVO getSucess(){
-        return transform(ResultConstant.SUCESS, ResultConstant.SUCESS_MSG,null);
+        return transform(ResultConstant.DEFAULT_SUCESS_CODE, ResultConstant.DEFAULT_SUCESS_MSG,null);
     }
 
     public static ResultVO getSucess(String message){
-        return transform(ResultConstant.SUCESS, message,null);
-    }
-
-    public static ResultVO getSucess(Object data){
-        return transform(ResultConstant.SUCESS, ResultConstant.SUCESS_MSG, data);
+        return transform(ResultConstant.DEFAULT_SUCESS_CODE, message,null);
     }
 
     public static ResultVO getFailure(){
-        return transform(ResultConstant.FAILURE, ResultConstant.FAILURE_MSG, null);
+        return transform(ResultConstant.DEFAULT_FAILURE_CODE, ResultConstant.DEFAULT_FAILURE_MSG, null);
     }
 
-    public static ResultVO getFailure(Integer code ,String message){
-        return transform(code, message, null);
+    public static ResultVO getSucess(Object data){
+        return transform(ResultConstant.DEFAULT_SUCESS_CODE, ResultConstant.DEFAULT_SUCESS_MSG, data);
     }
 
-    public static ResultVO getFailure(Integer code ,String message, Object data){
+    public static ResultVO getFailure(Integer code ,String message, Object... data){
         return transform(code, message, data);
     }
 
