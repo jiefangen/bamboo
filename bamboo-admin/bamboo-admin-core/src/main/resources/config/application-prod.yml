@@ -1,7 +1,3 @@
-server:
-  port: 8000
-  context-path: /bamboo-admin
-
 spring:
   application:
     name: bamboo-admin

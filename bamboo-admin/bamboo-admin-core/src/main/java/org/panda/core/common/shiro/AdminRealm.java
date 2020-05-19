@@ -7,10 +7,13 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.panda.core.common.constant.SystemConstant;
+import org.panda.core.modules.LoginController;
 import org.panda.core.modules.system.dao.UserDao;
 import org.panda.core.modules.system.domain.po.RolePO;
 import org.panda.core.modules.system.domain.po.UserPO;
 import org.panda.core.modules.system.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
  * @since JDK 1.8  2020/5/11
  **/
 public class AdminRealm extends AuthorizingRealm{
+    private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizingRealm.class);
 
     @Autowired
     private UserDao userDao;
@@ -39,6 +43,7 @@ public class AdminRealm extends AuthorizingRealm{
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         if (authenticationToken.getPrincipal() == null) {
+            LOGGER.error(SystemConstant.USER_EMPTY);
             throw new AuthenticationException(SystemConstant.USER_EMPTY);
         }
         String username = authenticationToken.getPrincipal().toString();
@@ -46,6 +51,7 @@ public class AdminRealm extends AuthorizingRealm{
         // 通过用户名在数据库查到该用户的信息
         UserPO user = userDao.findByUsername(username);
         if (user == null) {
+            LOGGER.error(SystemConstant.USERNAME_NOT_EXIST);
             throw new UnknownAccountException(SystemConstant.USERNAME_NOT_EXIST);
         } else {
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),

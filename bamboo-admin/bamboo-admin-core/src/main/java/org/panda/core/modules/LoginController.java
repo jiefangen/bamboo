@@ -7,6 +7,8 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.panda.common.domain.ResultVO;
 import org.panda.core.common.constant.SystemConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 public class LoginController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+
     @PostMapping("/doLogin")
     public ResultVO doLogin(String username, String password){
         Subject subject = SecurityUtils.getSubject();
@@ -29,6 +33,7 @@ public class LoginController {
         } catch (UnknownAccountException e) {
             return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
         } catch (IncorrectCredentialsException e){
+            LOGGER.error(SystemConstant.PWD_WRONG);
             return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR,SystemConstant.PWD_WRONG);
         }
 
