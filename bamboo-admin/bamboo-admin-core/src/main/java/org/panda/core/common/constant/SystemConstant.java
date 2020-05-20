@@ -28,4 +28,11 @@ public class SystemConstant {
      */
     public static  final String PWD_WRONG = "Wrong password.";
 
+    /**
+     * 原密码错误
+     */
+    public static  final String ORIGINAL_PWD_WRONG = "The original password is incorrect!.";
+
+
+
 }

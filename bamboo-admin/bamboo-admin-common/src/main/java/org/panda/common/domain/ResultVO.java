@@ -29,12 +29,16 @@ public class ResultVO implements Serializable {
         return transform(ResultConstant.DEFAULT_SUCESS_CODE, message,null);
     }
 
+    public static ResultVO getSucess(Object data){
+        return transform(ResultConstant.DEFAULT_SUCESS_CODE, ResultConstant.DEFAULT_SUCESS_MSG, data);
+    }
+
     public static ResultVO getFailure(){
         return transform(ResultConstant.DEFAULT_FAILURE_CODE, ResultConstant.DEFAULT_FAILURE_MSG, null);
     }
 
-    public static ResultVO getSucess(Object data){
-        return transform(ResultConstant.DEFAULT_SUCESS_CODE, ResultConstant.DEFAULT_SUCESS_MSG, data);
+    public static ResultVO getFailure(String message){
+        return transform(ResultConstant.DEFAULT_FAILURE_CODE, message, null);
     }
 
     public static ResultVO getFailure(Integer code ,String message, Object... data){
