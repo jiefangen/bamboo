@@ -4,9 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.panda.common.domain.ResultVO;
+import org.panda.core.common.constant.SystemConstant;
 import org.panda.core.common.util.EncrypterUtil;
 import org.panda.core.modules.system.domain.param.UserQueryParam;
 import org.panda.core.modules.system.domain.po.UserPO;
@@ -45,23 +48,29 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String add(@RequestBody UserPO user){
+    public ResultVO add(@RequestBody UserPO user){
         if (user == null) {
-            return "";
+            return ResultVO.getFailure();
         }
-        // TODO 用户名与密码非空校验
+        String username = user.getUsername();
+        String password = user.getPassword();
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            return ResultVO.getFailure();
+        }
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
         encrypterUtil.encrypterPwd(user);
         String msg = userService.addUser(user);
-        return msg;
+        return ResultVO.getSucess(msg);
     }
 
     @PostMapping("/updatePassword")
-    public String changePassword(@RequestBody JSONObject jsonObject){
+    public ResultVO changePassword(@RequestBody JSONObject jsonObject){
         String oldPassword = jsonObject.getString("oldPassword");
         String newPassword = jsonObject.getString("newPassword");
-        // TODO 校验接受字段非空
+        if(StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
+            return ResultVO.getFailure();
+        }
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
         UserPO user = (UserPO) SecurityUtils.getSubject().getPrincipal();
@@ -69,13 +78,13 @@ public class UserController {
         String oldPasswordEncrypt = encrypterUtil.encrypterPwd(oldPassword,salt);
         // 判断旧密码是否正确
         if (!oldPasswordEncrypt.equals(user.getPassword())) {
-            return "The original password is incorrect!";
+            return ResultVO.getFailure(SystemConstant.ORIGINAL_PWD_WRONG);
         }
 
         String newPasswordEncrypt = encrypterUtil.encrypterPwd(newPassword,salt);
         user.setPassword(newPasswordEncrypt);
         userService.updateUser(user);
-        return "Successfully modified!";
+        return ResultVO.getSucess();
     }
 
 }
