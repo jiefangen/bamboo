@@ -1,5 +1,7 @@
 package org.panda.core.modules;
 
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -9,9 +11,7 @@ import org.panda.common.domain.ResultVO;
 import org.panda.core.common.constant.SystemConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 系统登录接口
@@ -24,7 +24,13 @@ public class LoginController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @PostMapping("/doLogin")
-    public ResultVO doLogin(String username, String password){
+    public ResultVO doLogin(@RequestBody JSONObject jsonObject){
+        String username = jsonObject.getString("username");
+        String password = jsonObject.getString("password");
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            return ResultVO.getFailure();
+        }
+
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         try {
