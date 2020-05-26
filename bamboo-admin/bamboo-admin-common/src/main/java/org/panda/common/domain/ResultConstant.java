@@ -6,11 +6,13 @@ package org.panda.common.domain;
  **/
 public class ResultConstant {
 
-    public static final Integer DEFAULT_SUCESS_CODE = 2000;
+    public static final Integer DEFAULT_SUCESS_CODE = 20000;
 
-    public static  final String DEFAULT_SUCESS_MSG = "Successful";
+    public static  final String DEFAULT_SUCESS_MSG = "success";
 
-    public static final Integer DEFAULT_FAILURE_CODE = 5000;
+    public static final Integer DEFAULT_FAILURE_CODE = 50000;
 
-    public static  final String DEFAULT_FAILURE_MSG = "Failure";
+    public static  final String DEFAULT_FAILURE_MSG = "failure";
+
+
 }
