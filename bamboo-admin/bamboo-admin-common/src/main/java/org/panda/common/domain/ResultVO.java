@@ -25,10 +25,6 @@ public class ResultVO implements Serializable {
         return transform(ResultConstant.DEFAULT_SUCESS_CODE, ResultConstant.DEFAULT_SUCESS_MSG,null);
     }
 
-    public static ResultVO getSucess(String message){
-        return transform(ResultConstant.DEFAULT_SUCESS_CODE, message,null);
-    }
-
     public static ResultVO getSucess(Object data){
         return transform(ResultConstant.DEFAULT_SUCESS_CODE, ResultConstant.DEFAULT_SUCESS_MSG, data);
     }

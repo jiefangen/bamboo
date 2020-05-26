@@ -9,6 +9,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.panda.common.domain.ResultVO;
 import org.panda.core.common.constant.SystemConstant;
+import org.panda.core.common.util.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +33,14 @@ public class LoginController {
         }
 
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
         try {
-            subject.login(token);
-            return ResultVO.getSucess();
+            subject.login(usernamePasswordToken);
+            // 登录成功，生成用户toke返回，用于前后端交互凭证
+            String token= TokenUtil.sign(username);
+            JSONObject json = new JSONObject();
+            json.put("token", token);
+            return ResultVO.getSucess(json);
         } catch (UnknownAccountException e) {
             return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
         } catch (IncorrectCredentialsException e){

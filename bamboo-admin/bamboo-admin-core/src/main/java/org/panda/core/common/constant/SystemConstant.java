@@ -11,7 +11,7 @@ public class SystemConstant {
     /**
      * 用户信息错误状态码
      */
-    public static final Integer USER_INFO_ERROR = 5001;
+    public static final Integer USER_INFO_ERROR = 50001;
 
     /**
      * 用户信息为空
@@ -31,8 +31,32 @@ public class SystemConstant {
     /**
      * 原密码错误
      */
-    public static  final String ORIGINAL_PWD_WRONG = "The original password is incorrect!.";
+    public static  final String ORIGINAL_PWD_WRONG = "The original password is incorrect!";
 
+    /**
+     * token验证错误Code
+     */
+    public static final Integer ILLEGAL_TOKEN = 50008;
+
+    /**
+     * Token expired
+     */
+    public static final Integer TOKEN_EXPIRED = 50014;
+
+    /**
+     * token验证错误
+     */
+    public static  final String ILLEGAL_TOKEN_FAILE = "Token verify failure.";
+
+    /**
+     * 通过Token拦截器
+     */
+    public static  final String VIA_TOKEN_INTERCEPTOR = "Via token interceptor.";
+
+    /**
+     * Token认证失败
+     */
+    public static  final String TOKEN_VERIFY_FAILURE = "Token verify failure.";
 
 
 }
