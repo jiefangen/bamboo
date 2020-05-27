@@ -41,18 +41,18 @@ public class TokenInterceptor implements HandlerInterceptor {
                 if (e instanceof TokenExpiredException) {// 处理token失效异常
                     ResultVO result = ResultVO.getFailure(SystemConstant.TOKEN_EXPIRED, e.getMessage());
                     response.getWriter().append(JSONObject.toJSONString(result));
-                } else {// 其他异常统一处理
-                    ResultVO result = ResultVO.getFailure(SystemConstant.ILLEGAL_TOKEN, SystemConstant.ILLEGAL_TOKEN_FAILE);
-                    try {
-                        response.getWriter().append(JSONObject.toJSONString(result));
-                        LOGGER.warn(SystemConstant.TOKEN_VERIFY_FAILURE);
-                    } catch (Exception e1) {
-                        LOGGER.error("Authentication failed: ", e1);
-                        response.sendError(500);
-                    }
+                    return false;
                 }
-                return false;
             }
+        }
+
+        ResultVO result = ResultVO.getFailure(SystemConstant.ILLEGAL_TOKEN, SystemConstant.ILLEGAL_TOKEN_FAILE);
+        try {
+            response.getWriter().append(JSONObject.toJSONString(result));
+            LOGGER.warn(SystemConstant.TOKEN_VERIFY_FAILURE);
+        } catch (Exception e1) {
+            LOGGER.error("Authentication failed: ", e1);
+            response.sendError(500);
         }
         return false;
     }
