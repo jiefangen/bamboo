@@ -8,6 +8,8 @@ public interface UserService {
 
     Page<UserPO> getUsers(String keyword);
 
+    UserPO getUserInfo(String username);
+
     UserDTO getUserAndRoles(String username);
 
     String addUser(UserPO user);

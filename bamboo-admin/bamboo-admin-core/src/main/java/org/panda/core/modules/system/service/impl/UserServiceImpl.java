@@ -13,7 +13,6 @@ import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
-
     @Autowired
     private UserDao userDao;
 
@@ -22,8 +21,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserPO> getUsers(String keyword) {
-
         return userDao.findUsers(keyword);
+    }
+
+    @Override
+    public UserPO getUserInfo(String username) {
+        return userDao.findByUsername(username);
     }
 
     @Override

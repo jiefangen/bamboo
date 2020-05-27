@@ -29,6 +29,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/info")
+    public ResultVO info(String username){
+        if (StringUtils.isEmpty(username)) {
+            return ResultVO.getFailure();
+        }
+        UserPO userInfo = userService.getUserInfo(username);
+        if (userInfo == null) {
+            return ResultVO.getFailure(50016, "Unable to get user details.");
+        }
+        return ResultVO.getSucess(userInfo);
+    }
+
     @GetMapping("/list")
     @RequiresRoles(value={"SYSTEM","ADMIN"},logical= Logical.OR)
     public PageInfo<UserPO> list(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageSize){
