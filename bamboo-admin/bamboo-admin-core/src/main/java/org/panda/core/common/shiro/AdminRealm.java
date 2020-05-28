@@ -43,7 +43,7 @@ public class AdminRealm extends AuthorizingRealm{
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         if (authenticationToken.getPrincipal() == null) {
-            LOGGER.error(SystemConstant.USER_EMPTY);
+//            LOGGER.error(SystemConstant.USER_EMPTY);
             throw new AuthenticationException(SystemConstant.USER_EMPTY);
         }
         String username = authenticationToken.getPrincipal().toString();
@@ -51,7 +51,7 @@ public class AdminRealm extends AuthorizingRealm{
         // 通过用户名在数据库查到该用户的信息
         UserPO user = userDao.findByUsername(username);
         if (user == null) {
-            LOGGER.error(SystemConstant.USERNAME_NOT_EXIST);
+            LOGGER.warn(SystemConstant.USERNAME_NOT_EXIST);
             throw new UnknownAccountException(SystemConstant.USERNAME_NOT_EXIST);
         } else {
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
