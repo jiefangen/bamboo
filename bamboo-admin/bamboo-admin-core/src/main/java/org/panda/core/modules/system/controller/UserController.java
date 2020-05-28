@@ -36,7 +36,7 @@ public class UserController {
         }
         UserPO userInfo = userService.getUserInfo(username);
         if (userInfo == null) {
-            return ResultVO.getFailure(50016, "Unable to get user details.");
+            return ResultVO.getFailure(50016, SystemConstant.USER_EMPTY);
         }
         return ResultVO.getSucess(userInfo);
     }

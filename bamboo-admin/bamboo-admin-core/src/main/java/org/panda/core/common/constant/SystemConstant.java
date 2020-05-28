@@ -16,7 +16,7 @@ public class SystemConstant {
     /**
      * 用户信息为空
      */
-    public static  final String USER_EMPTY = "User is empty.";
+    public static  final String USER_EMPTY = "User info is empty.";
 
     /**
      * 用户名不存在

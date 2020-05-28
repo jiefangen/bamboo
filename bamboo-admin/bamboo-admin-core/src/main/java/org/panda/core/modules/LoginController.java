@@ -44,7 +44,7 @@ public class LoginController {
         } catch (UnknownAccountException e) {
             return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
         } catch (IncorrectCredentialsException e){
-            LOGGER.error(SystemConstant.PWD_WRONG);
+            LOGGER.warn(SystemConstant.PWD_WRONG);
             return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR,SystemConstant.PWD_WRONG);
         }
 
