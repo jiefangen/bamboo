@@ -54,10 +54,11 @@ public class LoginController {
      * 系统用户登出
      */
     @GetMapping("/logout")
-    public void logout(){
+    public ResultVO logout(){
         Subject subject = SecurityUtils.getSubject();
         if (subject.isAuthenticated()) {
             subject.logout();
         }
+        return ResultVO.getSucess();
     }
 }
