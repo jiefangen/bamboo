@@ -51,7 +51,7 @@ public class SystemConstant {
     /**
      * 通过Token拦截器
      */
-    public static  final String VIA_TOKEN_INTERCEPTOR = "Via token interceptor.";
+    public static  final String VIA_TOKEN_INTERCEPTOR = "Via token interceptor";
 
     /**
      * Token认证失败
