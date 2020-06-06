@@ -35,7 +35,7 @@ pagehelper:
 pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n"
 logging:
   config: classpath:config/logback.xml
-  path: D:\bamboo-idea\logs
+  path: D:\logs\bamboo-admin
   pattern:
     console: ${pattern}
     file: ${pattern}

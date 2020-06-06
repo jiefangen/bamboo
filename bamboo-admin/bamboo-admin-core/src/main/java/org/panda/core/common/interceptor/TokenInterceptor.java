@@ -35,10 +35,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         String token = request.getHeader("X-Token");
         if (token != null) {
             try {
-                LOGGER.info(SystemConstant.VIA_TOKEN_INTERCEPTOR);
                 return TokenUtil.verify(token);
             } catch (Exception e) {
                 if (e instanceof TokenExpiredException) {// 处理token失效异常
+                    LOGGER.warn(e.getMessage());
                     ResultVO result = ResultVO.getFailure(SystemConstant.TOKEN_EXPIRED, e.getMessage());
                     response.getWriter().append(JSONObject.toJSONString(result));
                     return false;
