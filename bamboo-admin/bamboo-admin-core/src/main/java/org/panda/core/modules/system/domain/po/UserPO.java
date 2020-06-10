@@ -2,6 +2,7 @@ package org.panda.core.modules.system.domain.po;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.panda.common.util.DateUtil;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -41,4 +42,16 @@ public class UserPO implements Serializable{
     private Date createTime;
 
     private Date updateTime;
+
+    private String createTimeStr;
+
+    private String updateTimeStr;
+
+    public String getCreateTimeStr() {
+        return DateUtil.formatLong(this.createTime);
+    }
+
+    public String getUpdateTimeStr() {
+        return DateUtil.formatLong(this.updateTime);
+    }
 }
