@@ -7,7 +7,6 @@ package org.panda.core.common.constant;
  * @since JDK 1.8  2020/5/16
  **/
 public class SystemConstant {
-
     /**
      * 用户信息错误状态码
      */
@@ -21,17 +20,17 @@ public class SystemConstant {
     /**
      * 用户名不存在
      */
-    public static  final String USERNAME_NOT_EXIST = "Username does not exist.";
+    public static final String USERNAME_NOT_EXIST = "Username does not exist.";
 
     /**
      * 密码错误
      */
-    public static  final String PWD_WRONG = "Wrong password.";
+    public static final String PWD_WRONG = "Wrong password.";
 
     /**
      * 原密码错误
      */
-    public static  final String ORIGINAL_PWD_WRONG = "The original password is incorrect!";
+    public static final String ORIGINAL_PWD_WRONG = "The original password is incorrect!";
 
     /**
      * token验证错误Code
