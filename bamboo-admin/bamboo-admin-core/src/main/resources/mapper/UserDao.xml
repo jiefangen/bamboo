@@ -34,6 +34,7 @@
                 OR nickname like  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
             </if>
         </trim>
+            ORDER BY ID ASC
     </select>
 
     <select id="findByUsername" resultMap="BaseUserMap">

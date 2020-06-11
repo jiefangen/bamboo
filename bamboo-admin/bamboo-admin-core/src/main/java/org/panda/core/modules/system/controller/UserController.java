@@ -51,12 +51,12 @@ public class UserController {
     }
 
     @PostMapping("/page")
-//    @RequiresPermissions(value = "permis[get]")
-    public PageInfo<UserPO> page(@RequestBody UserQueryParam param){
+//  @RequiresPermissions(value = "permis[get]")
+    public ResultVO page(@RequestBody UserQueryParam param){
         param.initPage();
         Page<UserPO> users = userService.getUsers(param.getKeyword());
         PageInfo<UserPO> pageInfo = new PageInfo<>(users);
-        return pageInfo;
+        return ResultVO.getSucess(pageInfo);
     }
 
     @PostMapping("/add")
@@ -72,8 +72,7 @@ public class UserController {
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
         encrypterUtil.encrypterPwd(user);
-        String msg = userService.addUser(user);
-        return ResultVO.getSucess(msg);
+        return userService.addUser(user)? ResultVO.getSucess() : ResultVO.getFailure();
     }
 
     @PostMapping("/updatePassword")
