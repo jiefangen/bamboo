@@ -14,18 +14,18 @@ import lombok.Setter;
 @Getter
 public class QueryParam {
 
-    private int pageNo = 1;
+    private int pageNum = 1;
 
     private int pageSize;
 
     public QueryParam(){}
 
-    public QueryParam(int pageNo, int pageSize){
-        this.pageNo = pageNo;
+    public QueryParam(int pageNum, int pageSize){
+        this.pageNum = pageNum;
         this.pageSize = pageSize;
     }
 
     public void initPage(){
-        PageHelper.startPage(this.getPageNo(),this.getPageSize());
+        PageHelper.startPage(this.getPageNum(),this.getPageSize());
     }
 }

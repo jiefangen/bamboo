@@ -34,6 +34,7 @@
                 OR nickname like  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
             </if>
         </trim>
+            ORDER BY ID ASC
     </select>
 
     <select id="findByUsername" resultMap="BaseUserMap">
@@ -60,4 +61,8 @@
         where id = #{user.id}
 
     </update>
+
+    <delete id="deleteUser">
+        delete from sys_user where id = #{id}
+    </delete>
 </mapper>
