@@ -66,4 +66,9 @@ public class UserServiceImpl implements UserService {
         userPO.setUpdateTime(new Date());
         return userDao.updateUser(userPO);
     }
+
+    @Override
+    public int deleteUser(String id) {
+        return userDao.deleteUser(id);
+    }
 }

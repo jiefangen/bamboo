@@ -98,4 +98,13 @@ public class UserController {
         return ResultVO.getSucess();
     }
 
+    @DeleteMapping("/del")
+    public ResultVO del(@RequestBody String userId){
+        int result = userService.deleteUser(userId);
+        if (result < 1) {
+            return ResultVO.getFailure();
+        }
+        return ResultVO.getSucess();
+    }
+
 }
