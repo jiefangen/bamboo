@@ -70,9 +70,7 @@ public class CorsConfig implements WebMvcConfigurer {
         List<String> excludePath = new ArrayList<>();
         // 排除拦截，除了注册登录(此时还没token)，其他都拦截
         excludePath.add("/doLogin");
-        excludePath.add("/system/user/add");
-//        excludePath.add("/static/**");
-//        excludePath.add("/assets/**");
+//        excludePath.add("/system/user/add");
 
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")

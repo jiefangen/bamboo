@@ -1,7 +1,7 @@
 package org.panda.core.modules.system.service.impl;
 
 import com.github.pagehelper.Page;
-import org.panda.core.modules.LoginController;
+import org.panda.common.domain.ResultConstant;
 import org.panda.core.modules.system.dao.RoleDao;
 import org.panda.core.modules.system.dao.UserDao;
 import org.panda.core.modules.system.domain.dto.UserDTO;
@@ -43,28 +43,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean addUser(UserPO user) {
+    public String addUser(UserPO user) {
         // 校验username不能重复
         String username = user.getUsername();
         UserPO userPO = userDao.findByUsername(username);
-        if (userPO == null) {
-            userDao.insertUser(user);
-        } else {
+        if (userPO != null) {
             String msg = "The username is already taken!";
             LOGGER.error(msg);
-            return false;
+            return msg;
         }
-        return true;
+        userDao.insertUser(user);
+        return ResultConstant.DEFAULT_SUCESS_MSG;
     }
 
     @Override
     public int updateUser(UserPO user) {
-        // 只修改password
-        UserPO userPO = new UserPO();
-        userPO.setId(user.getId());
-        userPO.setPassword(user.getPassword());
-        userPO.setUpdateTime(new Date());
-        return userDao.updateUser(userPO);
+        // 更新时间
+        user.setUpdateTime(new Date());
+        return userDao.updateUser(user);
     }
 
     @Override

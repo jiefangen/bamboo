@@ -12,7 +12,7 @@ public interface UserService {
 
     UserDTO getUserAndRoles(String username);
 
-    boolean addUser(UserPO user);
+    String addUser(UserPO user);
 
     int updateUser(UserPO user);
 
