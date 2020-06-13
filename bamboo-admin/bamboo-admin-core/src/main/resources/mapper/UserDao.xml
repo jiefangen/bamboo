@@ -34,7 +34,7 @@
                 OR nickname like  CONCAT('%',#{keyword,jdbcType=VARCHAR},'%')
             </if>
         </trim>
-            ORDER BY ID ASC
+            ORDER BY create_time ASC
     </select>
 
     <select id="findByUsername" resultMap="BaseUserMap">
@@ -53,8 +53,11 @@
     <update id="updateUser">
         update sys_user
             <set>
-                <if test="user.username != null">username=#{user.username},</if>
                 <if test="user.password != null">password=#{user.password},</if>
+                <if test="user.sex != null">sex=#{user.sex},</if>
+                <if test="user.disabled != null">disabled=#{user.disabled},</if>
+                <if test="user.nickname != null">nickname=#{user.nickname},</if>
+                <if test="user.phone != null">phone=#{user.phone},</if>
                 <if test="user.email != null">email=#{user.email},</if>
                 update_time = #{user.updateTime}
             </set>

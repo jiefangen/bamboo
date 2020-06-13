@@ -57,5 +57,9 @@ public class SystemConstant {
      */
     public static  final String TOKEN_VERIFY_FAILURE = "Token verify failure.";
 
+    /**
+     * 传入参数不完整
+     */
+    public static  final String PARAMETERS_INCOMPLETE = "Incoming parameters are incomplete.";
 
 }

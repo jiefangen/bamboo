@@ -1,5 +1,6 @@
 package org.panda.core.modules.system.domain.po;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.panda.common.util.DateUtil;
@@ -24,9 +25,11 @@ public class UserPO implements Serializable{
 
     private String username;
 
+//    @JsonIgnore
     private transient String password;
 
     // shiro盐,用于加密验证
+    @JsonIgnore
     private transient String salt;
 
     private String phone;
@@ -42,16 +45,4 @@ public class UserPO implements Serializable{
     private Date createTime;
 
     private Date updateTime;
-
-    private String createTimeStr;
-
-    private String updateTimeStr;
-
-    public String getCreateTimeStr() {
-        return DateUtil.formatLong(this.createTime);
-    }
-
-    public String getUpdateTimeStr() {
-        return DateUtil.formatLong(this.updateTime);
-    }
 }

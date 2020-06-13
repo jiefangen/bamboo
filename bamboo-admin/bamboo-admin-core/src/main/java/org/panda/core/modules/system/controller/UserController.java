@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.core.common.constant.SystemConstant;
 import org.panda.core.common.util.EncrypterUtil;
@@ -29,27 +30,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/info")
-    public ResultVO info(String username){
-        if (StringUtils.isEmpty(username)) {
-            return ResultVO.getFailure();
-        }
-        UserPO userInfo = userService.getUserInfo(username);
-        if (userInfo == null) {
-            return ResultVO.getFailure(50016, SystemConstant.USER_EMPTY);
-        }
-        return ResultVO.getSucess(userInfo);
-    }
-
-    @GetMapping("/list")
-//    @RequiresRoles(value={"SYSTEM","ADMIN"},logical= Logical.OR)
-    public ResultVO list(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageSize){
-        PageHelper.startPage(pageNo,pageSize);
-        Page<UserPO> users = userService.getUsers("");
-        PageInfo<UserPO> pageInfo = new PageInfo<>(users);
-        return ResultVO.getSucess(pageInfo);
-    }
-
     @PostMapping("/page")
 //  @RequiresPermissions(value = "permis[get]")
     public ResultVO page(@RequestBody UserQueryParam param){
@@ -61,30 +41,46 @@ public class UserController {
 
     @PostMapping("/add")
     public ResultVO add(@RequestBody UserPO user){
-        if (user == null) {
-            return ResultVO.getFailure();
-        }
         String username = user.getUsername();
         String password = user.getPassword();
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ResultVO.getFailure();
+            return ResultVO.getFailure(SystemConstant.PARAMETERS_INCOMPLETE);
         }
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
         encrypterUtil.encrypterPwd(user);
-        return userService.addUser(user)? ResultVO.getSucess() : ResultVO.getFailure();
+        String result = userService.addUser(user);
+        if (!ResultConstant.DEFAULT_SUCESS_MSG.equals(result)) {
+            return ResultVO.getFailure(result);
+        }
+
+        return ResultVO.getSucess();
+    }
+
+    @PutMapping("/edit")
+    public ResultVO edit(@RequestBody UserPO user){
+        // 重置参数
+        user.setPassword(null);
+        int result = userService.updateUser(user);
+        if (result < 1) {
+            return ResultVO.getFailure();
+        }
+        return ResultVO.getSucess();
     }
 
     @PostMapping("/updatePassword")
-    public ResultVO changePassword(@RequestBody JSONObject jsonObject){
+    public ResultVO resetPassword(@RequestBody JSONObject jsonObject){
         String oldPassword = jsonObject.getString("oldPassword");
         String newPassword = jsonObject.getString("newPassword");
         if(StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
-            return ResultVO.getFailure();
+            return ResultVO.getFailure(SystemConstant.PARAMETERS_INCOMPLETE);
         }
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
+        // 本人可以重置自己的密码
         UserPO user = (UserPO) SecurityUtils.getSubject().getPrincipal();
+        // TODO 具有相应角色权限的管理员才可以重置
+
         String salt = user.getSalt();
         String oldPasswordEncrypt = encrypterUtil.encrypterPwd(oldPassword,salt);
         // 判断旧密码是否正确
@@ -98,13 +94,34 @@ public class UserController {
         return ResultVO.getSucess();
     }
 
-    @DeleteMapping("/del")
-    public ResultVO del(@RequestBody String userId){
-        int result = userService.deleteUser(userId);
+    @DeleteMapping("/del/{id}")
+    public ResultVO del(@PathVariable String id){
+        int result = userService.deleteUser(id);
         if (result < 1) {
             return ResultVO.getFailure();
         }
         return ResultVO.getSucess();
     }
 
+    @GetMapping("/info")
+    public ResultVO info(String username){
+        if (StringUtils.isEmpty(username)) {
+            return ResultVO.getFailure();
+        }
+        UserPO userInfo = userService.getUserInfo(username);
+        if (userInfo == null) {
+            return ResultVO.getFailure(50016, SystemConstant.USER_EMPTY);
+        }
+        return ResultVO.getSucess(userInfo);
+    }
+
+    @Deprecated
+    @GetMapping("/list")
+//    @RequiresRoles(value={"SYSTEM","ADMIN"},logical= Logical.OR)
+    public ResultVO list(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageSize){
+        PageHelper.startPage(pageNo,pageSize);
+        Page<UserPO> users = userService.getUsers("");
+        PageInfo<UserPO> pageInfo = new PageInfo<>(users);
+        return ResultVO.getSucess(pageInfo);
+    }
 }
