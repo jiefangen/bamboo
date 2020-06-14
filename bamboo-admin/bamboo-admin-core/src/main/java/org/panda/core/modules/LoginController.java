@@ -1,8 +1,10 @@
 package org.panda.core.modules;
 
 import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -13,6 +15,10 @@ import org.panda.core.common.util.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 系统登录接口
@@ -29,7 +35,7 @@ public class LoginController {
         String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ResultVO.getFailure();
+            return ResultVO.getFailure(SystemConstant.PARAMETERS_INCOMPLETE);
         }
 
         Subject subject = SecurityUtils.getSubject();
@@ -43,11 +49,28 @@ public class LoginController {
             return ResultVO.getSucess(json);
         } catch (UnknownAccountException e) {
             return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
-        } catch (IncorrectCredentialsException e){
+        } catch (IncorrectCredentialsException e) {
             LOGGER.warn(SystemConstant.PWD_WRONG);
-            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR,SystemConstant.PWD_WRONG);
+            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, SystemConstant.PWD_WRONG);
+        } catch (AccountException e) {
+            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
         }
+    }
 
+    @GetMapping("/doLogin")
+    public ResultVO doLogin(HttpServletRequest request){
+        String token = request.getHeader("X-Token");
+        if (StringUtils.isNotEmpty(token)) {
+            try {
+                TokenUtil.verify(token);
+            } catch (Exception e) {
+                if (e instanceof TokenExpiredException) {
+                    LOGGER.warn(e.getMessage());
+                    return ResultVO.getFailure(SystemConstant.TOKEN_EXPIRED, e.getMessage());
+                }
+            }
+        }
+        return ResultVO.getFailure(SystemConstant.LOGGED_OUT, SystemConstant.LOGGED_OUT_REASON);
     }
 
     /**

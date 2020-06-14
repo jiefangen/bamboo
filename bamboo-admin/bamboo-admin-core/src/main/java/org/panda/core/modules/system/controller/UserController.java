@@ -11,6 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.core.common.constant.SystemConstant;
+import org.panda.core.common.exception.SystemException;
 import org.panda.core.common.util.EncrypterUtil;
 import org.panda.core.modules.system.domain.param.UserQueryParam;
 import org.panda.core.modules.system.domain.po.UserPO;
@@ -70,16 +71,25 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     public ResultVO resetPassword(@RequestBody JSONObject jsonObject){
+        String username = jsonObject.getString("username");
         String oldPassword = jsonObject.getString("oldPassword");
         String newPassword = jsonObject.getString("newPassword");
-        if(StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
             return ResultVO.getFailure(SystemConstant.PARAMETERS_INCOMPLETE);
         }
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
-        // 本人可以重置自己的密码
         UserPO user = (UserPO) SecurityUtils.getSubject().getPrincipal();
-        // TODO 具有相应角色权限的管理员才可以重置
+        String principalUsername = user.getUsername();
+        // 具有相应角色权限的管理员才可以重置, 本人可以重置自己的密码,无需验证
+        if (!username.equals(principalUsername)) {
+            // 判断具有相应角色角色才可以更新
+            if (userService.checkRoleUpdatedPass()) {
+                user = userService.getUserInfo(username);
+            } else {
+                return ResultVO.getFailure(SystemConstant.ROLE_NOT_CHANGE_PASS);
+            }
+        }
 
         String salt = user.getSalt();
         String oldPasswordEncrypt = encrypterUtil.encrypterPwd(oldPassword,salt);
@@ -94,11 +104,19 @@ public class UserController {
         return ResultVO.getSucess();
     }
 
-    @DeleteMapping("/del/{id}")
-    public ResultVO del(@PathVariable String id){
-        int result = userService.deleteUser(id);
-        if (result < 1) {
-            return ResultVO.getFailure();
+    @DeleteMapping("/del/{username}")
+    public ResultVO del(@PathVariable String username){
+        try {
+            int result = userService.deleteUser(username);
+            if (result < 1) {
+                String msg = ResultConstant.DEFAULT_FAILURE_MSG;
+                if (result == -1) {
+                    msg = SystemConstant.ROLE_NOT_DELETE_USER;
+                }
+                return ResultVO.getFailure(msg);
+            }
+        }catch (SystemException e){
+            return ResultVO.getFailure(e.getMessage());
         }
         return ResultVO.getSucess();
     }

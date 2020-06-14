@@ -1,4 +1,4 @@
-package org.panda.core.common.shiro;
+package org.panda.core.common.security.shiro;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -7,7 +7,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.panda.core.common.constant.SystemConstant;
-import org.panda.core.modules.LoginController;
 import org.panda.core.modules.system.dao.UserDao;
 import org.panda.core.modules.system.domain.po.RolePO;
 import org.panda.core.modules.system.domain.po.UserPO;
@@ -54,6 +53,10 @@ public class AdminRealm extends AuthorizingRealm{
             LOGGER.warn(SystemConstant.USERNAME_NOT_EXIST);
             throw new UnknownAccountException(SystemConstant.USERNAME_NOT_EXIST);
         } else {
+            if (user.getDisabled() != 0) {
+                throw new AccountException(SystemConstant.USER_DISABLED);
+            }
+
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),
                     ByteSource.Util.bytes(user.getSalt()), getName());
             return simpleAuthenticationInfo;
