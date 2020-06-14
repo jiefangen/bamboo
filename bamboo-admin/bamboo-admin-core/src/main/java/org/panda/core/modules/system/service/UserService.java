@@ -1,6 +1,7 @@
 package org.panda.core.modules.system.service;
 
 import com.github.pagehelper.Page;
+import org.panda.core.common.exception.SystemException;
 import org.panda.core.modules.system.domain.dto.UserDTO;
 import org.panda.core.modules.system.domain.po.UserPO;
 
@@ -16,5 +17,7 @@ public interface UserService {
 
     int updateUser(UserPO user);
 
-    int deleteUser(String id);
+    int deleteUser(String username) throws SystemException;
+
+    boolean checkRoleUpdatedPass();
 }

@@ -1,4 +1,4 @@
-package org.panda.core.common.shiro;
+package org.panda.core.common.security.shiro;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;

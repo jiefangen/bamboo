@@ -14,5 +14,5 @@ public interface UserDao {
 
     int updateUser(@Param("user") UserPO user);
 
-    int deleteUser(@Param("id") String id);
+    int deleteUser(@Param("username") String username);
 }

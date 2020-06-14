@@ -1,10 +1,15 @@
 package org.panda.core.modules.system.service.impl;
 
 import com.github.pagehelper.Page;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.shiro.SecurityUtils;
 import org.panda.common.domain.ResultConstant;
+import org.panda.core.common.constant.enumeration.RoleType;
+import org.panda.core.common.exception.SystemException;
 import org.panda.core.modules.system.dao.RoleDao;
 import org.panda.core.modules.system.dao.UserDao;
 import org.panda.core.modules.system.domain.dto.UserDTO;
+import org.panda.core.modules.system.domain.po.RolePO;
 import org.panda.core.modules.system.domain.po.UserPO;
 import org.panda.core.modules.system.service.UserService;
 import org.slf4j.Logger;
@@ -13,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -64,7 +71,47 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int deleteUser(String id) {
-        return userDao.deleteUser(id);
+    public int deleteUser(String username) throws SystemException{
+        if (!checkTopRoles()) {
+            return -1;
+        }
+
+        // 删除操作排除自己
+        UserPO user = (UserPO) SecurityUtils.getSubject().getPrincipal();
+        String principalUsername = user.getUsername();
+        if (username.equals(principalUsername)) {
+            throw new SystemException("Can't delete yourself.");
+        }
+
+        // 校验是否绑定的有角色
+        UserDTO useDto = this.getUserAndRoles(username);
+        List<RolePO> roles = useDto.getRoles();
+        if (CollectionUtils.isNotEmpty(roles)) {
+            throw new SystemException("Please unbind this user's role first.");
+        }
+
+        return userDao.deleteUser(username);
+    }
+
+    @Override
+    public boolean checkRoleUpdatedPass() {
+        return checkTopRoles();
+    }
+
+    private boolean checkTopRoles() {
+        UserPO user = (UserPO) SecurityUtils.getSubject().getPrincipal();
+        String principalUsername = user.getUsername();
+
+        UserDTO useDto = this.getUserAndRoles(principalUsername);
+        List<RolePO> roles = useDto.getRoles();
+        if (CollectionUtils.isEmpty(roles)) {
+            return false;
+        }
+
+        List<String> topRoles = RoleType.getTopRoles();
+        List<RolePO> result = roles.stream()
+                .filter(role -> topRoles.contains(role.getRoleCode()))
+                .collect(Collectors.toList());
+        return CollectionUtils.isNotEmpty(result);
     }
 }

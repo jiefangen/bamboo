@@ -1,4 +1,4 @@
-package org.panda.core.common.interceptor;
+package org.panda.core.common.security.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.exceptions.TokenExpiredException;
@@ -48,8 +48,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 
         ResultVO result = ResultVO.getFailure(SystemConstant.ILLEGAL_TOKEN, SystemConstant.ILLEGAL_TOKEN_FAILE);
         try {
-            response.getWriter().append(JSONObject.toJSONString(result));
             LOGGER.warn(SystemConstant.TOKEN_VERIFY_FAILURE);
+            response.getWriter().append(JSONObject.toJSONString(result));
         } catch (Exception e1) {
             LOGGER.error("Authentication failed: ", e1);
             response.sendError(500);

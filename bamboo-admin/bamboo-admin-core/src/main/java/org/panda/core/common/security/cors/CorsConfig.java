@@ -1,6 +1,6 @@
-package org.panda.core.common.cors;
+package org.panda.core.common.security.cors;
 
-import org.panda.core.common.interceptor.TokenInterceptor;
+import org.panda.core.common.security.interceptor.TokenInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
