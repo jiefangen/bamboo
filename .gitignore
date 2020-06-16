@@ -11,3 +11,4 @@ gen
 *.project
 *.classpath
 *.factorypath
+*.log
