@@ -19,7 +19,7 @@
         <!--<file></file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_PATH}\${contextName}-%d{yyyyMMdd}.log</FileNamePattern>
+            <FileNamePattern>${LOG_PATH}\%d{yyyyMMdd}.log</FileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>
