@@ -7,6 +7,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.panda.core.common.constant.SystemConstant;
+import org.panda.core.common.util.ApplicationContextUtil;
 import org.panda.core.modules.system.dao.UserDao;
 import org.panda.core.modules.system.domain.po.RolePO;
 import org.panda.core.modules.system.domain.po.UserPO;
@@ -28,9 +29,6 @@ public class AdminRealm extends AuthorizingRealm{
 
     @Autowired
     private UserDao userDao;
-
-    @Autowired
-    private UserService userService;
 
     /**
      * 用户登录认证
@@ -73,6 +71,7 @@ public class AdminRealm extends AuthorizingRealm{
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         UserPO user = (UserPO) principalCollection.getPrimaryPrincipal();
+        UserService userService = ApplicationContextUtil.getBean(UserService.class);
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         List<RolePO> roles = userService.getUserAndRoles(user.getUsername()).getRoles();
