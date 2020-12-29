@@ -18,7 +18,7 @@
 
     <properties>
         <spring.version>4.3.21.RELEASE</spring.version>
-        <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
+        <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
         <spring-cloud.version>Edgware.SR3</spring-cloud.version>
     </properties>
 
