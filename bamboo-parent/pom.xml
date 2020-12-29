@@ -11,6 +11,7 @@
         <module>../bamboo-business</module>
         <module>../bamboo-support</module>
         <module>../bamboo-admin</module>
+        <module>../bamboo-springboot</module>
     </modules>
     <packaging>pom</packaging>
 
