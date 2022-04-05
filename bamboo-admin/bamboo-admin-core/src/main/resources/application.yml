@@ -35,8 +35,7 @@ pagehelper:
 pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n"
 logging:
   config: classpath:config/logback.xml
-  path: bamboo-admin-core\src\main\resources\logs # 相对路径
-#  path: D:\logs\bamboo-admin # 绝对路径
+  path: /Users/fangen/Public/Logs/bamboo-admin/logs # 绝对路径，根据系统路径而定
   pattern:
     console: ${pattern}
     file: ${pattern}
