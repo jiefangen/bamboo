@@ -1,34 +1,73 @@
+################################################## Druid连接池的配置 ##########################################
 spring:
-  application:
-    name: bamboo-admin
   datasource:
     druid:
-      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin_v1?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
       username: root
       password: root123456
+      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin_v1?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
+      driver-class-name: com.mysql.cj.jdbc.Driver
       # 配置初始化大小（默认0）、最小、最大（默认8）
-      initial-size: 1
-      min-idle: 1
+      initial-size: 5
+      min-idle: 5
       max-active: 20
-      # 配置获取连接等待超时的时间
+      #获取连接时最大等待时间，单位毫秒
       max-wait: 60000
-      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大。 默认为false
-      pool-prepared-statements: true
-      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
-      max-open-prepared-statements: 20
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 60000
-      # 配置一个连接在池中最小和最大生存的时间，单位是毫秒
+      #配置一个连接在池中最小生存的时间，单位是毫秒
       min-evictable-idle-time-millis: 300000
-      max-evictable-idle-time-millis: 900000
-
-      # 用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。
-      # 如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用。
+      #测试连接
       validation-query: SELECT 1
-      # 申请连接时执行validationQuery检测连接是否有效 默认为true
-      test-on-borrow: true
-      # 归还连接时执行validationQuery检测连接是否有效 默认为false
-      test-on-return: false
-      # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      #申请连接的时候检测，建议配置为true，不影响性能，并且保证安全性
       test-while-idle: true
+      #获取连接时执行检测，建议关闭，影响性能
+      test-on-borrow: false
+      #归还连接时执行检测，建议关闭，影响性能
+      test-on-return: false
+      #是否开启PSCache，PSCache对支持游标的数据库性能提升巨大，oracle建议开启，mysql下建议关闭
+      pool-prepared-statements: false
+      #开启poolPreparedStatements后生效
+      max-pool-prepared-statement-per-connection-size: 20
+      #配置扩展插件，常用的插件有=>stat:监控统计  wall:防御sql注入
+      filters: stat,wall
+      #通过connectProperties属性来打开mergeSql功能;慢SQL记录
+      connection-properties: 'druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000'
 
+      #Druid监控配置信息
+      #StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+      stat-view-servlet:
+        #是否开启内置监控页面，默认值为false
+        enabled: true
+        #内置监控页面的访问地址
+        url-pattern: '/druid/*'
+        #是否启用重置按钮
+        reset-enable: true
+        #内置监控页面的登录页用户名密码
+        login-username: admin
+        login-password: 123456
+        #允许所有的ip地址登陆
+        allow:
+      #WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      web-stat-filter:
+        enabled: true                                                                 #是否开启内置监控中的 Web-jdbc 关联监控的数据
+        url-pattern: '/*'                                                             #匹配路径
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'                     #排除路径
+        session-stat-enable: true                                                     #是否监控session
+      #Spring监控配置，说明请参考Druid Github Wiki，配置_Druid和Spring关联监控配置
+      aop-patterns: net.biancheng.www.*                                               #Spring监控AOP切入点，如x.y.z.abc.*,配置多个英文逗号分隔
+
+      #对配置已开启的 filters 即 stat(sql 监控) wall（防火墙）
+      filter:
+        #配置StatFilter (SQL监控配置)
+        stat:
+          enabled: true                                                               #开启SQL监控
+          slow-sql-millis: 1000                                                       #慢查询
+          log-slow-sql: true                                                          #记录慢查询SQL
+        #配置WallFilter (防火墙配置)
+        wall:
+          enabled: true                                                               #开启防火墙
+          config:
+            update-allow: true                                                        #允许更新操作
+            drop-table-allow: false                                                   #禁止删表操作
+            insert-allow:  true                                                       #允许插入操作
+            delete-allow: true                                                        #删除数据操作
