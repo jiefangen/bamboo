@@ -73,16 +73,4 @@ public class LoginController {
         }
         return ResultVO.getFailure(SystemConstant.LOGGED_OUT, SystemConstant.LOGGED_OUT_REASON);
     }
-
-    /**
-     * 系统用户登出
-     */
-    @GetMapping("/logout")
-    public ResultVO logout(){
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-        }
-        return ResultVO.getSuccess();
-    }
 }

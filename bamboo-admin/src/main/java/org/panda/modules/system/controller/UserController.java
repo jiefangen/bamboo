@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.panda.common.constant.SystemConstant;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
@@ -24,10 +25,19 @@ import org.springframework.web.bind.annotation.*;
  * @since JDK 1.8  2020/5/5
  **/
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/auth/system/user")
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @GetMapping("/logout")
+    public ResultVO logout(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout();
+        }
+        return ResultVO.getSuccess();
+    }
 
     @PostMapping("/page")
 //  @RequiresPermissions(value = "permis[get]")

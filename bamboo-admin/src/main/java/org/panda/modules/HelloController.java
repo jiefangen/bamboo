@@ -29,6 +29,6 @@ public class HelloController {
 
     @GetMapping("/unauthorizedUrl")
     public String unauthorizedUrl(){
-        return "No login authentication.403";
+        return "No login authentication 403";
     }
 }
