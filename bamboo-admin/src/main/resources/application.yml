@@ -3,6 +3,9 @@ spring:
     name: bamboo-admin
   profiles:
     active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 # 系统相关配置
 server:

@@ -2,9 +2,9 @@ package org.panda.core.security.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import org.panda.common.constant.SystemConstant;
+import org.panda.common.constant.SystemConstants;
 import org.panda.common.domain.ResultVO;
-import org.panda.common.util.TokenUtil;
+import org.panda.common.utils.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -32,23 +32,23 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=utf-8");
-        String token = request.getHeader("X-Token");
+        String token = request.getHeader(SystemConstants.AUTH_HEADER);
         if (token != null) {
             try {
                 return TokenUtil.verify(token);
             } catch (Exception e) {
                 if (e instanceof TokenExpiredException) {// 处理token失效异常
                     LOGGER.warn(e.getMessage());
-                    ResultVO result = ResultVO.getFailure(SystemConstant.TOKEN_EXPIRED, e.getMessage());
+                    ResultVO result = ResultVO.getFailure(SystemConstants.TOKEN_EXPIRED, e.getMessage());
                     response.getWriter().append(JSONObject.toJSONString(result));
                     return false;
                 }
             }
         }
 
-        ResultVO result = ResultVO.getFailure(SystemConstant.ILLEGAL_TOKEN, SystemConstant.ILLEGAL_TOKEN_FAILE);
+        ResultVO result = ResultVO.getFailure(SystemConstants.ILLEGAL_TOKEN, SystemConstants.ILLEGAL_TOKEN_FAILURE);
         try {
-            LOGGER.warn(SystemConstant.TOKEN_VERIFY_FAILURE);
+            LOGGER.warn(SystemConstants.TOKEN_VERIFY_FAILURE);
             response.getWriter().append(JSONObject.toJSONString(result));
         } catch (Exception e1) {
             LOGGER.error("Authentication failed: ", e1);

@@ -6,8 +6,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-import org.panda.common.constant.SystemConstant;
-import org.panda.common.util.ApplicationContextUtil;
+import org.panda.common.constant.SystemConstants;
+import org.panda.common.utils.ApplicationContextUtil;
 import org.panda.modules.system.dao.UserDao;
 import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.po.UserPO;
@@ -41,18 +41,18 @@ public class AdminRealm extends AuthorizingRealm{
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         if (authenticationToken.getPrincipal() == null) {
 //            LOGGER.error(SystemConstant.USER_EMPTY);
-            throw new AuthenticationException(SystemConstant.USER_EMPTY);
+            throw new AuthenticationException(SystemConstants.USER_EMPTY);
         }
         String username = authenticationToken.getPrincipal().toString();
 
         // 通过用户名在数据库查到该用户的信息
         UserPO user = userDao.findByUsername(username);
         if (user == null) {
-            LOGGER.warn(SystemConstant.USERNAME_NOT_EXIST);
-            throw new UnknownAccountException(SystemConstant.USERNAME_NOT_EXIST);
+            LOGGER.warn(SystemConstants.USERNAME_NOT_EXIST);
+            throw new UnknownAccountException(SystemConstants.USERNAME_NOT_EXIST);
         } else {
             if (user.getDisabled() != 0) {
-                throw new AccountException(SystemConstant.USER_DISABLED);
+                throw new AccountException(SystemConstants.USER_DISABLED);
             }
 
             SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(user, user.getPassword(),

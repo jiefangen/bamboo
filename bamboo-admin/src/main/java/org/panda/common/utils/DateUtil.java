@@ -1,4 +1,4 @@
-package org.panda.common.util;
+package org.panda.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

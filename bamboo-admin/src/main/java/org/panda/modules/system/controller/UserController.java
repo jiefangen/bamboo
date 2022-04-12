@@ -4,14 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.panda.common.constant.SystemConstant;
+import org.panda.common.constant.SystemConstants;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.common.exception.SystemException;
-import org.panda.common.util.EncrypterUtil;
+import org.panda.common.utils.EncrypterUtil;
 import org.panda.modules.system.domain.param.UserQueryParam;
 import org.panda.modules.system.domain.po.UserPO;
 import org.panda.modules.system.service.UserService;
@@ -24,12 +26,14 @@ import org.springframework.web.bind.annotation.*;
  * @author jiefangen
  * @since JDK 1.8  2020/5/5
  **/
+@Api(tags = "系统用户管理")
 @RestController
 @RequestMapping("/auth/system/user")
 public class UserController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "", notes = "系统用户登出")
     @GetMapping("/logout")
     public ResultVO logout(){
         Subject subject = SecurityUtils.getSubject();
@@ -49,11 +53,12 @@ public class UserController {
     }
 
     @PostMapping("/add")
+//    @RequiresRoles(value={"SYSTEM","ADMIN"},logical= Logical.OR)
     public ResultVO add(@RequestBody UserPO user){
         String username = user.getUsername();
         String password = user.getPassword();
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ResultVO.getFailure(SystemConstant.PARAMETERS_INCOMPLETE);
+            return ResultVO.getFailure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
@@ -83,7 +88,7 @@ public class UserController {
         String oldPassword = jsonObject.getString("oldPassword");
         String newPassword = jsonObject.getString("newPassword");
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
-            return ResultVO.getFailure(SystemConstant.PARAMETERS_INCOMPLETE);
+            return ResultVO.getFailure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
 
         EncrypterUtil encrypterUtil = new EncrypterUtil();
@@ -95,7 +100,7 @@ public class UserController {
             if (userService.checkRoleUpdatedPass()) {
                 user = userService.getUserInfo(username);
             } else {
-                return ResultVO.getFailure(SystemConstant.ROLE_NOT_CHANGE_PASS);
+                return ResultVO.getFailure(SystemConstants.ROLE_NOT_CHANGE_PASS);
             }
         }
 
@@ -103,7 +108,7 @@ public class UserController {
         String oldPasswordEncrypt = encrypterUtil.encrypterPwd(oldPassword,salt);
         // 判断旧密码是否正确
         if (!oldPasswordEncrypt.equals(user.getPassword())) {
-            return ResultVO.getFailure(SystemConstant.ORIGINAL_PWD_WRONG);
+            return ResultVO.getFailure(SystemConstants.ORIGINAL_PWD_WRONG);
         }
 
         String newPasswordEncrypt = encrypterUtil.encrypterPwd(newPassword,salt);
@@ -119,7 +124,7 @@ public class UserController {
             if (result < 1) {
                 String msg = ResultConstant.DEFAULT_FAILURE_MSG;
                 if (result == -1) {
-                    msg = SystemConstant.ROLE_NOT_DELETE_USER;
+                    msg = SystemConstants.ROLE_NOT_DELETE_USER;
                 }
                 return ResultVO.getFailure(msg);
             }
@@ -136,18 +141,8 @@ public class UserController {
         }
         UserPO userInfo = userService.getUserInfo(username);
         if (userInfo == null) {
-            return ResultVO.getFailure(50016, SystemConstant.USER_EMPTY);
+            return ResultVO.getFailure(50016, SystemConstants.USER_EMPTY);
         }
         return ResultVO.getSuccess(userInfo);
-    }
-
-    @Deprecated
-    @GetMapping("/list")
-//    @RequiresRoles(value={"SYSTEM","ADMIN"},logical= Logical.OR)
-    public ResultVO list(@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageSize){
-        PageHelper.startPage(pageNo,pageSize);
-        Page<UserPO> users = userService.getUsers("");
-        PageInfo<UserPO> pageInfo = new PageInfo<>(users);
-        return ResultVO.getSuccess(pageInfo);
     }
 }

@@ -6,7 +6,15 @@ package org.panda.common.constant;
  * @author jiefangen
  * @since JDK 1.8  2020/5/16
  **/
-public class SystemConstant {
+public class SystemConstants {
+    /**
+     * X-Token令牌
+     */
+    public static final String TOKEN_HEADER = "X-Token";
+    /**
+     * Token授权
+     */
+    public static final String AUTH_HEADER = "Authorization";
     /**
      * 用户信息错误状态码
      */
@@ -50,12 +58,12 @@ public class SystemConstant {
     /**
      * token验证错误
      */
-    public static final String ILLEGAL_TOKEN_FAILE = "Token verify failure.";
+    public static final String ILLEGAL_TOKEN_FAILURE = "Token verify failure.";
 
     /**
      * 掉线原因
      */
-    public static final String LOGGED_OUT_REASON = "Maybe the server restarted, or some other reason.";
+    public static final String LOGGED_OUT_REASON = "Maybe the server restarted or some other reasons. Please login again.";
 
     /**
      * 通过Token拦截器
