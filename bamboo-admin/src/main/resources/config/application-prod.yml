@@ -9,23 +9,21 @@ spring:
       initial-size: 5
       min-idle: 5
       max-active: 20
-      # 配置获取连接等待超时的时间
+      #获取连接时最大等待时间，单位毫秒
       max-wait: 60000
-      # 是否缓存preparedStatement，也就是PSCache。PSCache对支持游标的数据库性能提升巨大。 默认为false
-      pool-prepared-statements: true
-      # 要启用PSCache，必须配置大于0，当大于0时，poolPreparedStatements自动触发修改为true。
-      max-open-prepared-statements: 20
-      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
       time-between-eviction-runs-millis: 60000
-      # 配置一个连接在池中最小和最大生存的时间，单位是毫秒
+      #配置一个连接在池中最小生存的时间，单位是毫秒
       min-evictable-idle-time-millis: 300000
-      max-evictable-idle-time-millis: 900000
-      # 用来检测连接是否有效的sql，要求是一个查询语句，常用select 'x'。
-      # 如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不会起作用。
+      #测试连接
       validation-query: SELECT 1
-      # 申请连接时执行validationQuery检测连接是否有效 默认为true
-      test-on-borrow: true
-      # 归还连接时执行validationQuery检测连接是否有效 默认为false
-      test-on-return: false
-      # 申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      #申请连接的时候检测，建议配置为true，不影响性能，并且保证安全性
       test-while-idle: true
+      #获取连接时执行检测，建议关闭，影响性能
+      test-on-borrow: false
+      #归还连接时执行检测，建议关闭，影响性能
+      test-on-return: false
+      #是否开启PSCache，PSCache对支持游标的数据库性能提升巨大，oracle建议开启，mysql下建议关闭
+      pool-prepared-statements: false
+      #开启poolPreparedStatements后生效
+      max-pool-prepared-statement-per-connection-size: 20

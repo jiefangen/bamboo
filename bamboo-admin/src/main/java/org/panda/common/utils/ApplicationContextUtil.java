@@ -1,4 +1,4 @@
-package org.panda.common.util;
+package org.panda.common.utils;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

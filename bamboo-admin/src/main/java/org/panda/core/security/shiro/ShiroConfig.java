@@ -59,13 +59,11 @@ public class ShiroConfig {
     @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        filterChainDefinitionMap.put("/index", "anon");
-        // 测试使用,暂时放开用户认证
-//        filterChainDefinitionMap.put("/system/user/add","anon");
+        // 只允许认证用户访问
+        filterChainDefinitionMap.put("/auth/**", "authc");
+        // 允许匿名访问
+//        filterChainDefinitionMap.put("/index", "anon");
 
-        // logout是Shiro提供的过滤器
-        filterChainDefinitionMap.put("/auth/logout", "logout");
-        filterChainDefinitionMap.put("/**", "authc");
         DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
         definition.addPathDefinitions(filterChainDefinitionMap);
         return definition;

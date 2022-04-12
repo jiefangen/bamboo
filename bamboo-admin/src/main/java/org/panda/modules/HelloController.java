@@ -1,5 +1,6 @@
 package org.panda.modules;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author fangen
  * @since JDK 11  2020/5/8
  **/
+@Api(tags = "开场白")
 @RestController
 public class HelloController {
 
@@ -29,6 +31,6 @@ public class HelloController {
 
     @GetMapping("/unauthorizedUrl")
     public String unauthorizedUrl(){
-        return "No login authentication.403";
+        return "No login authentication 403";
     }
 }

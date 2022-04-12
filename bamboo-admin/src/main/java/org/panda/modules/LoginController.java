@@ -2,6 +2,7 @@ package org.panda.modules;
 
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AccountException;
@@ -9,9 +10,9 @@ import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.panda.common.constant.SystemConstant;
+import org.panda.common.constant.SystemConstants;
 import org.panda.common.domain.ResultVO;
-import org.panda.common.util.TokenUtil;
+import org.panda.common.utils.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author jiefangen
  * @since JDK 1.8  2020/5/13
  **/
+@Api(tags = "系统用户登录")
 @RestController
 public class LoginController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
@@ -36,7 +38,7 @@ public class LoginController {
         String username = jsonObject.getString("username");
         String password = jsonObject.getString("password");
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ResultVO.getFailure(SystemConstant.PARAMETERS_INCOMPLETE);
+            return ResultVO.getFailure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
 
         Subject subject = SecurityUtils.getSubject();
@@ -49,40 +51,28 @@ public class LoginController {
             json.put("token", token);
             return ResultVO.getSuccess(json);
         } catch (UnknownAccountException e) {
-            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
+            return ResultVO.getFailure(SystemConstants.USER_INFO_ERROR, e.getMessage());
         } catch (IncorrectCredentialsException e) {
-            LOGGER.warn(SystemConstant.PWD_WRONG);
-            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, SystemConstant.PWD_WRONG);
+            LOGGER.warn(SystemConstants.PWD_WRONG);
+            return ResultVO.getFailure(SystemConstants.USER_INFO_ERROR, SystemConstants.PWD_WRONG);
         } catch (AccountException e) {
-            return ResultVO.getFailure(SystemConstant.USER_INFO_ERROR, e.getMessage());
+            return ResultVO.getFailure(SystemConstants.USER_INFO_ERROR, e.getMessage());
         }
     }
 
     @GetMapping("/doLogin")
     public ResultVO doLogin(HttpServletRequest request){
-        String token = request.getHeader("X-Token");
+        String token = request.getHeader(SystemConstants.AUTH_HEADER);
         if (StringUtils.isNotEmpty(token)) {
             try {
                 TokenUtil.verify(token);
             } catch (Exception e) {
                 if (e instanceof TokenExpiredException) {
                     LOGGER.warn(e.getMessage());
-                    return ResultVO.getFailure(SystemConstant.TOKEN_EXPIRED, e.getMessage());
+                    return ResultVO.getFailure(SystemConstants.TOKEN_EXPIRED, e.getMessage());
                 }
             }
         }
-        return ResultVO.getFailure(SystemConstant.LOGGED_OUT, SystemConstant.LOGGED_OUT_REASON);
-    }
-
-    /**
-     * 系统用户登出
-     */
-    @GetMapping("/logout")
-    public ResultVO logout(){
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-        }
-        return ResultVO.getSuccess();
+        return ResultVO.getFailure(SystemConstants.LOGGED_OUT, SystemConstants.LOGGED_OUT_REASON);
     }
 }

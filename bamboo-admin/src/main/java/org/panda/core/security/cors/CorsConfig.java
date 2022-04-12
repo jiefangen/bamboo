@@ -70,10 +70,8 @@ public class CorsConfig implements WebMvcConfigurer {
         List<String> excludePath = new ArrayList<>();
         // 排除拦截，注册登录(此时还没token)
         excludePath.add("/doLogin");
-        // Druid监控内嵌页面
-        excludePath.add("/druid/*");
         registry.addInterceptor(tokenInterceptor)
-                .addPathPatterns("/**")
+                .addPathPatterns("/auth/**")
                 .excludePathPatterns(excludePath);
         WebMvcConfigurer.super.addInterceptors(registry);
     }
