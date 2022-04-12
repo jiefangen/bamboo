@@ -3,6 +3,7 @@ package org.panda.core.configuration;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.panda.common.constant.SystemConstants;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +36,17 @@ import java.util.stream.Collectors;
 @EnableKnife4j
 @Configuration
 public class SwaggerConfig {
+    @Value("${spring.profiles.active}")
+    private String env;
+
     @Bean
     public Docket createRestApi() {
+        boolean swaggerEnabled = false;
+        if("dev".equals(env)) {
+            swaggerEnabled = true;
+        }
         return new Docket(DocumentationType.OAS_30)
-                .enable(true)
+                .enable(swaggerEnabled)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("org.panda.modules"))
