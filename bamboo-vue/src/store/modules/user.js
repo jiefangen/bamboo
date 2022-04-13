@@ -1,4 +1,5 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login } from '@/api/login'
+import { logout, getInfo } from '@/api/system/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -43,35 +44,25 @@ const actions = {
     })
   },
 
-  // get user info
-  getInfo({ commit, state }) {
+  logout({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
+      logout().then(() => {
+        removeToken() // must remove  token  first
+        resetRouter()
+        commit('RESET_STATE')
+        resolve()
       }).catch(error => {
         reject(error)
       })
     })
   },
 
-  // user logout
-  logout({ commit, state }) {
+  // 获取用户详情
+  getInfo(username) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
+      getInfo(username).then(response => {
+        const { data } = response
+        resolve(data)
       }).catch(error => {
         reject(error)
       })

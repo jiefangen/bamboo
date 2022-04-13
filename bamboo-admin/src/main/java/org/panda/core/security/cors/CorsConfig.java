@@ -33,10 +33,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowCredentials(true)
+                .allowedOriginPatterns("*")
                 .allowedHeaders("*")
                 .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
-                .allowedOriginPatterns("*");
+                .allowCredentials(false);
     }
 
     private CorsConfiguration corsConfig() {
@@ -44,10 +44,10 @@ public class CorsConfig implements WebMvcConfigurer {
         List<String> list = new ArrayList<>();
         list.add("*");
         corsConfiguration.setAllowedOrigins(list);
-        corsConfiguration.addAllowedOrigin("*");
+        corsConfiguration.addAllowedOriginPattern("*");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.setAllowCredentials(true);
+        corsConfiguration.setAllowCredentials(false);
         corsConfiguration.setMaxAge(3600L);
         return corsConfiguration;
     }

@@ -1,20 +1,11 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <img src="@/assets/images/home.jpg" class="img-responsive"/>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 
-export default {
-  name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
-  }
-}
 </script>
 
 <style lang="scss" scoped>
@@ -26,5 +17,10 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+.img-responsive {
+  display: inline-block;
+  height: auto;
+  max-width: 100%;
 }
 </style>
