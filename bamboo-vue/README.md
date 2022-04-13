@@ -1,13 +1,13 @@
-# vue-admin-template
+# bamboo-vue
 
 English | [简体中文](./README-zh.md)
 
 > A minimal vue admin template with Element UI & axios & iconfont & permission control & lint
 
-**Live demo:** http://panjiachen.github.io/vue-admin-template
+**Live demo:** http://panjiachen.github.io/bamboo-vue
 
 
-**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/vue-admin-template/tree/tag/3.11.0), it does not rely on `vue-cli`**
+**The current version is `v4.0+` build on `vue-cli`. If you want to use the old version , you can switch branch to [tag/3.11.0](https://github.com/PanJiaChen/bamboo-vue/tree/tag/3.11.0), it does not rely on `vue-cli`**
 
 <p align="center">
   <b>SPONSORED BY</b>
@@ -22,10 +22,10 @@ English | [简体中文](./README-zh.md)
 
 ```bash
 # clone the project
-git clone https://github.com/PanJiaChen/vue-admin-template.git
+git clone https://github.com/PanJiaChen/bamboo-vue.git
 
 # enter the project directory
-cd vue-admin-template
+cd bamboo-vue
 
 # install dependency
 npm install
@@ -70,7 +70,7 @@ Refer to [Documentation](https://panjiachen.github.io/vue-element-admin-site/gui
 
 ## Extra
 
-If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/vue-admin-template/tree/permission-control)
+If you want router permission && generate menu by user roles , you can use this branch [permission-control](https://github.com/PanJiaChen/bamboo-vue/tree/permission-control)
 
 For `typescript` version, you can use [vue-typescript-admin-template](https://github.com/Armour/vue-typescript-admin-template) (Credits: [@Armour](https://github.com/Armour))
 
@@ -94,6 +94,6 @@ Modern browsers and Internet Explorer 10+.
 
 ## License
 
-[MIT](https://github.com/PanJiaChen/vue-admin-template/blob/master/LICENSE) license.
+[MIT](https://github.com/PanJiaChen/bamboo-vue/blob/master/LICENSE) license.
 
 Copyright (c) 2017-present PanJiaChen
