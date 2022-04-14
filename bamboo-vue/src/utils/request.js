@@ -8,7 +8,8 @@ axios.defaults.baseURL = '/api'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
+  // 跨域请求时是否需要使用凭证，配合后端shiro认证必须开起。
+  withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
 })
 

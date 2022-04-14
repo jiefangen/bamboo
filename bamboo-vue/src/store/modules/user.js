@@ -1,5 +1,5 @@
 import { login, logout } from '@/api/login'
-import { getInfo } from '@/api/system/user'
+import { getList, getInfo } from '@/api/system/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -44,6 +44,19 @@ const actions = {
     })
   },
 
+  logout({ commit }) {
+    return new Promise((resolve, reject) => {
+      logout().then(() => {
+        removeToken() // must remove  token  first
+        resetRouter()
+        commit('RESET_STATE')
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
   getInfo({ state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.name).then(response => {
@@ -55,13 +68,11 @@ const actions = {
     })
   },
 
-  logout({ commit }) {
+  getList(listQuery) {
     return new Promise((resolve, reject) => {
-      logout().then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        commit('RESET_STATE')
-        resolve()
+      getList(listQuery).then(response => {
+        const { data } = response
+        resolve(data)
       }).catch(error => {
         reject(error)
       })
