@@ -1,12 +1,5 @@
 import request from '@/utils/request'
 
-export function logout() {
-  return request({
-    url: '/auth/system/user/logout',
-    method: 'get'
-  })
-}
-
 export function add(data) {
   return request({
     url: '/auth/system/user/add',
@@ -54,4 +47,4 @@ export function getList(data) {
   })
 }
 
-export default { logout, add, edit, del, getInfo, getList, updatePass }
+export default { add, edit, del, getInfo, getList, updatePass }

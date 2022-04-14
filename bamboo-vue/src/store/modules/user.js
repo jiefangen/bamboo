@@ -1,5 +1,5 @@
-import { login } from '@/api/login'
-import { logout, getInfo } from '@/api/system/user'
+import { login, logout } from '@/api/login'
+import { getInfo } from '@/api/system/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -29,15 +29,26 @@ const mutations = {
 }
 
 const actions = {
-  // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
+        commit('SET_NAME', data.name)
         commit('SET_TOKEN', data.token)
         setToken(data.token)
         resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  getInfo({ state }) {
+    return new Promise((resolve, reject) => {
+      getInfo(state.name).then(response => {
+        const { data } = response
+        resolve(data)
       }).catch(error => {
         reject(error)
       })
@@ -51,18 +62,6 @@ const actions = {
         resetRouter()
         commit('RESET_STATE')
         resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // 获取用户详情
-  getInfo(username) {
-    return new Promise((resolve, reject) => {
-      getInfo(username).then(response => {
-        const { data } = response
-        resolve(data)
       }).catch(error => {
         reject(error)
       })

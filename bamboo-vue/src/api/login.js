@@ -7,3 +7,12 @@ export function login(data) {
     data
   })
 }
+
+export function logout() {
+  return request({
+    url: '/logout',
+    method: 'get'
+  })
+}
+
+export default { login, logout }
