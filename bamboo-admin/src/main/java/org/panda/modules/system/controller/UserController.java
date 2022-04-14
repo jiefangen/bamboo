@@ -33,16 +33,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "", notes = "系统用户登出")
-    @GetMapping("/logout")
-    public ResultVO logout(){
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-        }
-        return ResultVO.getSuccess();
-    }
-
     @PostMapping("/page")
 //  @RequiresPermissions(value = "permis[get]")
     public ResultVO page(@RequestBody UserQueryParam param){
