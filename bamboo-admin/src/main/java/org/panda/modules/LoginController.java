@@ -48,6 +48,7 @@ public class LoginController {
             // 登录成功，生成用户toke返回，用于前后端交互凭证
             String token= TokenUtil.sign(username);
             JSONObject json = new JSONObject();
+            json.put("name", username);
             json.put("token", token);
             return ResultVO.getSuccess(json);
         } catch (UnknownAccountException e) {
@@ -74,5 +75,14 @@ public class LoginController {
             }
         }
         return ResultVO.getFailure(SystemConstants.LOGGED_OUT, SystemConstants.LOGGED_OUT_REASON);
+    }
+
+    @GetMapping("/logout")
+    public ResultVO logout(){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            subject.logout();
+        }
+        return ResultVO.getSuccess();
     }
 }

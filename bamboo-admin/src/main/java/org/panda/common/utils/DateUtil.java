@@ -115,8 +115,8 @@ public class DateUtil {
         if (date == null) {
             return null;
         }
-        DateFormat formater = new SimpleDateFormat(pattern);
-        return formater.format(date);
+        DateFormat formatted = new SimpleDateFormat(pattern);
+        return formatted.format(date);
     }
 
     /**

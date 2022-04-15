@@ -29,19 +29,10 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "系统用户管理")
 @RestController
 @RequestMapping("/auth/system/user")
+//@RequestMapping("/system/user")
 public class UserController {
     @Autowired
     private UserService userService;
-
-    @ApiOperation(value = "", notes = "系统用户登出")
-    @GetMapping("/logout")
-    public ResultVO logout(){
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-        }
-        return ResultVO.getSuccess();
-    }
 
     @PostMapping("/page")
 //  @RequiresPermissions(value = "permis[get]")

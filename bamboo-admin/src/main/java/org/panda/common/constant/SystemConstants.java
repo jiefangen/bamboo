@@ -51,6 +51,11 @@ public class SystemConstants {
     public static final Integer LOGGED_OUT = 50010;
 
     /**
+     * 其他客户端登入
+     */
+    public static final Integer OTHER_CLIENTS_LOGGED_IN = 50012;
+
+    /**
      * Token expired
      */
     public static final Integer TOKEN_EXPIRED = 50014;
@@ -63,7 +68,7 @@ public class SystemConstants {
     /**
      * 掉线原因
      */
-    public static final String LOGGED_OUT_REASON = "Maybe the server restarted or some other reasons. Please login again.";
+    public static final String LOGGED_OUT_REASON = "Maybe the server restarted or some other reasons.";
 
     /**
      * 通过Token拦截器

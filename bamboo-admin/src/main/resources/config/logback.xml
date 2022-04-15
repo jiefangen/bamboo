@@ -41,9 +41,9 @@
 
     <!-- level:日志级别（logger中的level会覆盖root中的，即以logger中为准，不管是否向上传递）
          name:包名 或 类的全路径addtivity:日志信息是否向上（root）传递  -->
-    <logger name="org.panda.core" />
+    <logger name="org.panda" />
     <!-- 生产环境可更换成info级别,减少日志内容的产生 -->
-    <logger name="org.panda.core.modules" level="debug" additivity="false">
+    <logger name="org.panda.modules" level="debug" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
     </logger>

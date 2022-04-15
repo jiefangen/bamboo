@@ -53,8 +53,8 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .securityContexts(securityContext())
-                .securitySchemes(securitySchemes())
-                .globalRequestParameters(authorizationParameter());
+                .securitySchemes(securitySchemes());
+//                .globalRequestParameters(authorizationParameter());
     }
 
     private List<SecurityScheme> securitySchemes() {

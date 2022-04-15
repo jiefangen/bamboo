@@ -6,6 +6,7 @@ import org.apache.shiro.SecurityUtils;
 import org.panda.common.constant.enumeration.RoleType;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.exception.SystemException;
+import org.panda.common.utils.DateUtil;
 import org.panda.modules.system.dao.RoleDao;
 import org.panda.modules.system.dao.UserDao;
 import org.panda.modules.system.domain.dto.UserDTO;
@@ -35,7 +36,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserPO> getUsers(String keyword) {
-        return userDao.findUsers(keyword);
+        Page<UserPO> users = userDao.findUsers(keyword);
+        users.forEach(user -> user.setCreateTimeStr(DateUtil.format(user.getCreateTime(), DateUtil.LONG_DATE_PATTERN)));
+        return users;
     }
 
     @Override
