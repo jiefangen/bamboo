@@ -18,10 +18,10 @@
           type="text"
           tabindex="1"
           auto-complete="on"
-        />  
+        />
       </el-form-item>
 
-     <el-form-item prop="password">
+      <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
