@@ -63,7 +63,7 @@ public class SystemConstants {
     /**
      * 掉线原因
      */
-    public static final String LOGGED_OUT_REASON = "Maybe the server restarted or some other reasons. Please login again.";
+    public static final String LOGGED_OUT_REASON = "Maybe the server restarted or some other reasons.";
 
     /**
      * 通过Token拦截器
