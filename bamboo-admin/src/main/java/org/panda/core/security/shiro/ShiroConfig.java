@@ -63,21 +63,6 @@ public class ShiroConfig {
     }
 
     /**
-     * 下面有Shiro过滤器，此配置可废弃
-     */
-//    @Bean
-    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
-        LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 只允许认证用户访问
-        filterChainDefinitionMap.put("/auth/**", "authc");
-        // 允许匿名访问
-        filterChainDefinitionMap.put("/index", "anon");
-        DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
-        definition.addPathDefinitions(filterChainDefinitionMap);
-        return definition;
-    }
-
-    /**
      * 开启shiro aop注解支持
      */
     @Bean
@@ -117,8 +102,6 @@ public class ShiroConfig {
         // 允许匿名访问
 //        filterChainDefinitionMap.put("/index", "anon");
         shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
-//        shiroFilter.setFilterChainDefinitions("shiroFilterChainDefinition");
-
         Map<String, Filter> filters = new LinkedHashMap<>();
         filters.put("invalid", invalidRequestFilter);
         shiroFilter.setFilters(filters);
