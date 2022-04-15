@@ -16,17 +16,6 @@ server:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
-# 安全权限框架
-shiro:
-  sessionManager:
-    sessionIdCookieEnabled: true         # 允许将sessionId 放到 cookie 中
-    sessionIdUrlRewritingEnabled: true   # 允许将 sessionId 放到 Url 地址拦中
-  unauthorizedUrl: /unauthorizedurl      # 访问未获授权的页面时，默认的跳转路径
-  web:
-    enabled: true
-  successUrl: /home
-  loginUrl: /doLogin
-
 # 分页插件mysql
 pagehelper:
   helperDialect: mysql

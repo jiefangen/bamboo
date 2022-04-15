@@ -3,16 +3,19 @@ package org.panda.core.security.shiro;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.panda.core.security.cors.CorsFilter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.DispatcherType;
-import java.util.LinkedHashMap;
+import javax.servlet.Filter;
+import java.util.*;
 
 /**
  * shiro配置类
@@ -59,14 +62,16 @@ public class ShiroConfig {
         return securityManager;
     }
 
-    @Bean
+    /**
+     * 下面有Shiro过滤器，此配置可废弃
+     */
+//    @Bean
     public ShiroFilterChainDefinition shiroFilterChainDefinition() {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 只允许认证用户访问
         filterChainDefinitionMap.put("/auth/**", "authc");
         // 允许匿名访问
-//        filterChainDefinitionMap.put("/index", "anon");
-
+        filterChainDefinitionMap.put("/index", "anon");
         DefaultShiroFilterChainDefinition definition = new DefaultShiroFilterChainDefinition();
         definition.addPathDefinitions(filterChainDefinitionMap);
         return definition;
@@ -83,7 +88,7 @@ public class ShiroConfig {
     }
 
     /**
-     * shiro配置了放行哪些资源，访问哪些需要什么权限等
+     * Shiro配置了放行哪些资源，访问哪些需要什么权限等
      */
     @Bean
     public FilterRegistrationBean replaceTokenFilter(){
@@ -94,5 +99,32 @@ public class ShiroConfig {
         registration.setName("CrosFilter");
         registration.setOrder(1);
         return registration;
+    }
+
+    /**
+     * Shiro过滤器配置防止中文请求拦截
+     */
+    @Bean
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(CNInvalidRequestFilter invalidRequestFilter) {
+        ShiroFilterFactoryBean shiroFilter = new ShiroFilterFactoryBean();
+        shiroFilter.setSecurityManager(securityManager());
+        shiroFilter.setLoginUrl("/doLogin");
+        shiroFilter.setSuccessUrl("/home");
+        shiroFilter.setUnauthorizedUrl("/unauthorizedUrl");
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+        // 只允许认证用户访问
+        filterChainDefinitionMap.put("/auth/**", "authc");
+        // 允许匿名访问
+//        filterChainDefinitionMap.put("/index", "anon");
+        shiroFilter.setFilterChainDefinitionMap(filterChainDefinitionMap);
+//        shiroFilter.setFilterChainDefinitions("shiroFilterChainDefinition");
+
+        Map<String, Filter> filters = new LinkedHashMap<>();
+        filters.put("invalid", invalidRequestFilter);
+        shiroFilter.setFilters(filters);
+        List<String> globalFilters = new LinkedList<>();
+        globalFilters.add("invalid");
+        shiroFilter.setGlobalFilters(globalFilters);
+        return shiroFilter;
     }
 }

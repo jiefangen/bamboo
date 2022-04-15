@@ -2,6 +2,7 @@ package org.panda.modules;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,11 +20,6 @@ public class HelloController {
         return "Hello World!";
     }
 
-    @GetMapping("/index")
-    public String index(){
-        return ":: Spring Boot :: (v2.6.6)";
-    }
-
     @GetMapping("/home")
     public String home(){
         return "Welcome to Bamboo background management system!";
@@ -32,5 +28,10 @@ public class HelloController {
     @GetMapping("/unauthorizedUrl")
     public String unauthorizedUrl(){
         return "No login authentication 403";
+    }
+
+    @GetMapping("/index/{param}")
+    public String index(@PathVariable String param){
+        return param + " :: Spring Boot :: (v2.6.6)";
     }
 }

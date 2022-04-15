@@ -51,6 +51,11 @@ public class SystemConstants {
     public static final Integer LOGGED_OUT = 50010;
 
     /**
+     * 其他客户端登入
+     */
+    public static final Integer OTHER_CLIENTS_LOGGED_IN = 50012;
+
+    /**
      * Token expired
      */
     public static final Integer TOKEN_EXPIRED = 50014;
