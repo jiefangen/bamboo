@@ -10,7 +10,15 @@ const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // 跨域请求时是否需要使用凭证，配合后端shiro认证必须开起。
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 5000, // request timeout
+  headers: {
+    get: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+    },
+    post: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  }
 })
 
 // request interceptor

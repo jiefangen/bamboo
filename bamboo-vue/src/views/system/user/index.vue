@@ -53,7 +53,8 @@
       </el-table-column>
       <el-table-column label="创建时间" width="160" align="center">
         <template slot-scope="{row}">
-          <span>{{ row.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <!-- | parseTime('{y}-{m}-{d} {h}:{i}')  -->
+          <span>{{ row.createTimeStr }}</span>
         </template>
       </el-table-column>
 
