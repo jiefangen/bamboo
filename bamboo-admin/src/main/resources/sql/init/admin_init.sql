@@ -12,7 +12,7 @@ insert into SYS_ROLE (role_name, role_code, description, create_time, update_tim
 ('actuator', 'ACTUATOR' ,'监控管理员', now(), now()),
 ('system', 'SYSTEM', '系统管理员', now(), now()),
 ('user', 'USER', '用户管理员', now(), now()),
-('general', 'GENERAL', '普通管理员', now(), now()),
+('general', 'GENERAL', '普通用户', now(), now()),
 ('customer', 'CUSTOMER', '访客', now(), now());
 
 insert into SYS_USER_ROLE (user_id, role_id) values

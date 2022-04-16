@@ -11,8 +11,8 @@ import java.util.List;
  */
 public enum RoleType {
     ADMIN,
-    ACTUATOR,
     SYSTEM,
+    ACTUATOR,
     USER,
     GENERAL,
     CUSTOMER;

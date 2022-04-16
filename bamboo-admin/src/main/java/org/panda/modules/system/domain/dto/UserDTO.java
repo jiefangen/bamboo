@@ -6,11 +6,15 @@ import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.po.UserPO;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
 public class UserDTO extends UserPO {
     private List<RolePO> roles;
+
+    private Set<String> roleCodes;
 
     public UserDTO(){}
 

@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,7 +51,12 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUserAndRoles(String username) {
         UserPO userPO = userDao.findByUsername(username);
         UserDTO userDto = new UserDTO(userPO);
-        userDto.setRoles(roleDao.findByUserId(userPO.getId()));
+        List<RolePO> roles = roleDao.findByUserId(userPO.getId());
+        userDto.setRoles(roles);
+        if(CollectionUtils.isNotEmpty(roles)) {
+            Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
+            userDto.setRoleCodes(roleCodes);
+        }
         return userDto;
     }
 

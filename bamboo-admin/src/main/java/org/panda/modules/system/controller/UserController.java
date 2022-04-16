@@ -14,11 +14,17 @@ import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.common.exception.SystemException;
 import org.panda.common.utils.EncrypterUtil;
+import org.panda.modules.system.domain.dto.UserDTO;
 import org.panda.modules.system.domain.param.UserQueryParam;
+import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.po.UserPO;
 import org.panda.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 用户管理
@@ -130,10 +136,11 @@ public class UserController {
         if (StringUtils.isEmpty(username)) {
             return ResultVO.getFailure();
         }
-        UserPO userInfo = userService.getUserInfo(username);
+        UserDTO userInfo = userService.getUserAndRoles(username);
         if (userInfo == null) {
             return ResultVO.getFailure(50016, SystemConstants.USER_EMPTY);
         }
+        userInfo.getRoles().clear();
         return ResultVO.getSuccess(userInfo);
     }
 }
