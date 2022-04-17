@@ -31,6 +31,11 @@
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="role.roleName" :disabled="dialogType==='edit'?true:false" placeholder="Role Name" />
         </el-form-item>
+        <el-form-item v-show="dialogType!=='edit'?true:false" label="角色标识">
+          <el-select v-model="role.roleCode" class="filter-item">
+            <el-option v-for="item in roleCodeOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="角色描述">
           <el-input
             v-model="role.description"
@@ -39,7 +44,7 @@
             placeholder="Role Description"
           />
         </el-form-item>
-        <el-form-item label="菜单">
+        <el-form-item v-show="dialogType==='edit'?true:false" label="菜单">
           <el-tree
             ref="tree"
             :check-strictly="checkStrictly"
@@ -64,7 +69,12 @@ import path from 'path'
 import { deepClone } from '@/utils'
 import { getRoles, addRole, deleteRole, updateRole } from '@/api/system/role'
 
+// 模拟数据
+const { constantRoutes } = require('@/router/index.js')
+const routes = deepClone([...constantRoutes])
+
 const defaultRole = {
+  id: '',
   roleCode: '',
   roleName: '',
   description: '',
@@ -84,6 +94,7 @@ export default {
         children: 'children',
         label: 'title'
       },
+      roleCodeOptions: ['GENERAL', 'CUSTOMER'],
       rules: {
           roleName: [{ required: true, message: 'rolename is required', trigger: 'change' }]
         }
@@ -95,16 +106,16 @@ export default {
     }
   },
   created() {
-    // Mock: get all routes and roles list from server
-    // this.getRoutes()
+    // get all routes and roles list from server
+    this.getRoutes()
     this.getRoles()
   },
   methods: {
-    // async getRoutes() {
-    //   const res = await getRoutes()
-    //   this.serviceRoutes = res.data
-    //   this.routes = this.generateRoutes(res.data)
-    // },
+    async getRoutes() {
+      // const res = await getRoutes()
+      this.serviceRoutes = routes
+      this.routes = this.generateRoutes(routes)
+    },
     async getRoles() {
       const res = await getRoles()
       this.rolesList = res.data
@@ -113,7 +124,6 @@ export default {
     // Reshape the routes structure so that it looks the same as the sidebar
     generateRoutes(routes, basePath = '/') {
       const res = []
-
       for (let route of routes) {
         // skip some route
         if (route.hidden) { continue }
@@ -180,16 +190,14 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(async() => {
+      }).then(async() => {
           await deleteRole(row.id)
           this.rolesList.splice($index, 1)
           this.$message({
             type: 'success',
             message: '删除成功!'
           })
-        })
-        .catch(err => { console.error(err) })
+        }).catch(err => { console.error(err) })
     },
     generateTree(routes, basePath = '/', checkedKeys) {
       const res = []

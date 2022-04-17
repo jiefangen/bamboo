@@ -336,7 +336,7 @@
                 type: 'success',
                 duration: 2000
               })
-            })
+            }).catch(err => { console.error(err) })
           }
         )
       }
