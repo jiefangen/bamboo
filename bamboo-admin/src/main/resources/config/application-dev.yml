@@ -4,7 +4,7 @@ spring:
     druid:
       username: root
       password: root123456
-      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin_v1?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
+      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 配置初始化大小（默认0）、最小、最大（默认8）
       initial-size: 5
