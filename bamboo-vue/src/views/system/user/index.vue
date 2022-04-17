@@ -58,10 +58,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center" width="248" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="362" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
+          </el-button>
+          <el-button type="primary" size="mini" @click="handleUpdate(row)">
+            编辑权限
           </el-button>
           <el-button size="mini" type="success" @click="handleModifyPass(row)">
             修改密码

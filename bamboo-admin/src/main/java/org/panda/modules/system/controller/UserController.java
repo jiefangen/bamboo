@@ -2,10 +2,8 @@ package org.panda.modules.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -14,7 +12,9 @@ import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.common.exception.SystemException;
 import org.panda.common.utils.EncrypterUtil;
+import org.panda.modules.system.domain.dto.UserDTO;
 import org.panda.modules.system.domain.param.UserQueryParam;
+import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.po.UserPO;
 import org.panda.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,10 +130,11 @@ public class UserController {
         if (StringUtils.isEmpty(username)) {
             return ResultVO.getFailure();
         }
-        UserPO userInfo = userService.getUserInfo(username);
+        UserDTO userInfo = userService.getUserAndRoles(username);
         if (userInfo == null) {
             return ResultVO.getFailure(50016, SystemConstants.USER_EMPTY);
         }
+        userInfo.getRoles().clear();
         return ResultVO.getSuccess(userInfo);
     }
 }
