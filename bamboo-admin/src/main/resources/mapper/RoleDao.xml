@@ -10,6 +10,8 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <sql id="roleColumns"> role_name, role_code, description, create_time, update_time </sql>
+
     <select id="findByUserId" resultMap="BaseRoleMap">
         SELECT
             r.id role_id, r.role_name, r.role_code, r.description, r.create_time, r.update_time
@@ -17,4 +19,22 @@
         WHERE r.id = ur.role_id
          and ur.user_id = #{userId,jdbcType=BIGINT}
     </select>
+
+    <select id="findRoles" resultMap="BaseRoleMap">
+        SELECT
+            r.id role_id, r.role_name, r.role_code, r.description, r.create_time, r.update_time
+        FROM sys_role r
+    </select>
+
+    <select id="findByRoleName" resultMap="BaseRoleMap">
+        SELECT
+        id role_id,
+        <include refid="roleColumns"/>
+        FROM sys_role WHERE role_name = #{roleName,jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insertRole">
+        insert into sys_role (<include refid="roleColumns"/>)
+        values(#{role.roleName}, #{role.roleCode}, #{role.description}, now(), now())
+    </insert>
 </mapper>

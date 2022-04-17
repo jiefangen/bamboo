@@ -2,10 +2,8 @@ package org.panda.modules.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -21,10 +19,6 @@ import org.panda.modules.system.domain.po.UserPO;
 import org.panda.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 用户管理
