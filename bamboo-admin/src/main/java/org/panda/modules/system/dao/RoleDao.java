@@ -17,4 +17,6 @@ public interface RoleDao {
     RolePO findByRoleName(@Param("roleName") String roleName);
 
     void insertRole(@Param("role") RolePO role);
+
+    int deleteRole(@Param("roleId") BigInteger roleId);
 }

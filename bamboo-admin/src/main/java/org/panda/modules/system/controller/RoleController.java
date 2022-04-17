@@ -5,15 +5,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.common.constant.SystemConstants;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
-import org.panda.common.utils.EncrypterUtil;
-import org.panda.modules.system.domain.dto.UserDTO;
+import org.panda.common.exception.SystemException;
 import org.panda.modules.system.domain.po.RolePO;
-import org.panda.modules.system.domain.po.UserPO;
 import org.panda.modules.system.service.RoleService;
-import org.panda.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -44,6 +42,19 @@ public class RoleController {
         String result = roleService.addRole(role);
         if (!ResultConstant.DEFAULT_SUCCESS_MSG.equals(result)) {
             return ResultVO.getFailure(result);
+        }
+        return ResultVO.getSuccess();
+    }
+
+    @DeleteMapping("/del/{roleId}")
+    public ResultVO del(@PathVariable BigInteger roleId){
+        try {
+            int result = roleService.deleteRole(roleId);
+            if (result < 1) {
+                return ResultVO.getFailure(ResultConstant.DEFAULT_FAILURE_MSG);
+            }
+        }catch (SystemException e){
+            return ResultVO.getFailure(e.getMessage());
         }
         return ResultVO.getSuccess();
     }

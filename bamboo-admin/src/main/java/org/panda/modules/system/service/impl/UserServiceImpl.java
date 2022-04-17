@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int deleteUser(String username) throws SystemException {
-        if (!checkTopRoles()) {
+        if (!this.checkTopRoles()) {
             return -1;
         }
 
@@ -106,10 +106,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkRoleUpdatedPass() {
-        return checkTopRoles();
+        return this.checkTopRoles();
     }
 
-    private boolean checkTopRoles() {
+    public boolean checkTopRoles() {
         UserPO user = (UserPO) SecurityUtils.getSubject().getPrincipal();
         String principalUsername = user.getUsername();
 

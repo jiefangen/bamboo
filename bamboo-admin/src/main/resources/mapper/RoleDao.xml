@@ -37,4 +37,8 @@
         insert into sys_role (<include refid="roleColumns"/>)
         values(#{role.roleName}, #{role.roleCode}, #{role.description}, now(), now())
     </insert>
+
+    <delete id="deleteRole">
+        delete from sys_role where id = #{roleId}
+    </delete>
 </mapper>
