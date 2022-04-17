@@ -10,7 +10,7 @@ export function add(data) {
 
 export function del(username) {
   return request({
-    url: '/auth/system/user/del/' + username,
+    url: `/auth/system/user/del/${username}`,
     method: 'delete'
   })
 }
@@ -31,6 +31,7 @@ export function updatePass(data) {
   })
 }
 
+// 暂时没用，返回用户的信息以及角色信息
 export function getInfo(username) {
   return request({
     url: '/auth/system/system/info',
