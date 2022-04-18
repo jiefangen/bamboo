@@ -22,10 +22,10 @@ insert into SYS_USER_ROLE (user_id, role_id) values
 (4, 4);
 
 insert into SYS_MENU (id, parent_id, menu_path, redirect, menu_name, meta, component, hidden, sort) values
-(2, null, '/login', null, null, null, '/views/login/index', true, 0),
-(3, null, '/', '/dashboard', null, null, 'layout/Layout', null, 1),
+(2, 0, '/login', null, null, null, '/views/login/index', true, 0),
+(3, 0, '/', '/dashboard', null, null, 'layout/Layout', null, 1),
 (4, 3, '/dashboard', null, 'dashboard', '{ title: "首页", icon: "dashboard" }', '/views/dashboard/index', null, 0),
-(5, null, '/system', '/system/user', '系统管理', '{ title: "系统管理", icon: "system" }', 'layout/Layout', null, 2),
+(5, 0, '/system', '/system/user', '系统管理', '{ title: "系统管理", icon: "system" }', 'layout/Layout', null, 2),
 (6, 5, '/user', null, '用户管理', '{ title: "用户管理", icon: "peoples" }', '/views/system/user/index', null, 0),
 (7, 5, '/role', null, '角色管理', '{ title: "角色管理", icon: "role" }', '/views/system/role/index', null, 1),
 (8, 5, '/menu', null, '菜单管理', '{ title: "用户管理", icon: "menu" }', '/views/system/menu/index', null, 2);

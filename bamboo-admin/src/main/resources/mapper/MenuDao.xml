@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.panda.modules.system.dao.MenuDao">
+    <resultMap id="BaseMenuMap" type="org.panda.modules.system.domain.po.MenuPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="menu_path" property="menuPath" jdbcType="VARCHAR"/>
+        <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <result column="meta" property="meta" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="hidden" property="hidden" jdbcType="BOOLEAN"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <collection property="children" ofType="org.panda.modules.system.domain.po.MenuPO"
+                    select="findChildByParentId" column="id"/>
+    </resultMap>
+
+    <sql id="menuColumns"> id, parent_id, menu_path, redirect, menu_name, meta, component, hidden, sort </sql>
+
+    <select id="findChildByParentId" resultMap="BaseMenuMap">
+        select <include refid="menuColumns"/> from sys_menu where parent_id = #{parentId} order by sort asc
+    </select>
+</mapper>

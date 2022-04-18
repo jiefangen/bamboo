@@ -52,7 +52,7 @@ CREATE TABLE SYS_ROLE_MENU (
 DROP TABLE IF EXISTS `SYS_MENU`;
 CREATE TABLE `SYS_MENU` (
                           id BIGINT unsigned AUTO_INCREMENT NOT NULL,
-                          parent_id BIGINT unsigned,
+                          parent_id BIGINT unsigned NOT NULL,
                           menu_path VARCHAR(255) NOT NULL,
                           redirect VARCHAR(255),
                           menu_name VARCHAR(64),
@@ -64,6 +64,7 @@ CREATE TABLE `SYS_MENU` (
 )ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
 
 
+
 DROP TABLE IF EXISTS `SYS_PERMISSION`;
 CREATE TABLE SYS_PERMISSION (
                                 id BIGINT unsigned AUTO_INCREMENT NOT NULL,
@@ -72,7 +73,6 @@ CREATE TABLE SYS_PERMISSION (
                                 parent_id BIGINT unsigned,
                                 description VARCHAR(200),
                                 resources_type VARCHAR(20) NOT NULL,
-                                create_time DATETIME NOT NULL,
                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
 
