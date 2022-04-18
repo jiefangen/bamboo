@@ -67,11 +67,11 @@
 <script>
 import path from 'path'
 import { deepClone } from '@/utils'
-import { getRoles, addRole, deleteRole, updateRole } from '@/api/system/role'
+import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/system/role'
 
 // 模拟数据
-const { constantRoutes } = require('@/router/index.js')
-const routes = deepClone([...constantRoutes])
+// const { constantRoutes } = require('@/router/index.js')
+// const routes = deepClone([...constantRoutes])
 
 const defaultRole = {
   id: '',
@@ -112,9 +112,12 @@ export default {
   },
   methods: {
     async getRoutes() {
-      // const res = await getRoutes()
-      this.serviceRoutes = routes
-      this.routes = this.generateRoutes(routes)
+      const res = await getRoutes()
+      this.serviceRoutes = res.data
+      this.routes = this.generateRoutes(res.data)
+
+      // this.serviceRoutes = routes
+      // this.routes = this.generateRoutes(routes)
     },
     async getRoles() {
       const res = await getRoles()

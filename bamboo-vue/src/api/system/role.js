@@ -36,3 +36,5 @@ export function deleteRole(roleId) {
     method: 'delete'
   })
 }
+
+export default { getRoutes, getRoles, addRole, updateRole, deleteRole }
