@@ -6,7 +6,6 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.panda.common.constant.SystemConstants;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
@@ -14,7 +13,6 @@ import org.panda.common.exception.SystemException;
 import org.panda.common.utils.EncrypterUtil;
 import org.panda.modules.system.domain.dto.UserDTO;
 import org.panda.modules.system.domain.param.UserQueryParam;
-import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.po.UserPO;
 import org.panda.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,6 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "系统用户管理")
 @RestController
 @RequestMapping("/auth/system/user")
-//@RequestMapping("/system/user")
 public class UserController {
     @Autowired
     private UserService userService;

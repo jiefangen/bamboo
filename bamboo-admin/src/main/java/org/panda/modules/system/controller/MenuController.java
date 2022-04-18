@@ -24,8 +24,8 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @GetMapping("/getRoutes")
-    public ResultVO getRoutes(){
+    @GetMapping("/getMenus")
+    public ResultVO getMenus(){
         List<MenuPO> routes = menuService.getMenus();
         return ResultVO.getSuccess(routes);
     }

@@ -6,7 +6,10 @@ import org.panda.common.constant.SystemConstants;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.common.exception.SystemException;
+import org.panda.modules.system.domain.po.MenuPO;
 import org.panda.modules.system.domain.po.RolePO;
+import org.panda.modules.system.domain.vo.MenuVO;
+import org.panda.modules.system.service.MenuService;
 import org.panda.modules.system.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,15 @@ import java.util.List;
 public class RoleController {
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private MenuService menuService;
+
+    @GetMapping("/getRoutes")
+    public ResultVO getRoutes(){
+        List<MenuVO> routes = menuService.getRoutes();
+        return ResultVO.getSuccess(routes);
+    }
 
     @GetMapping("/getRoles")
     public ResultVO getRoles(){

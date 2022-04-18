@@ -2,6 +2,7 @@ package org.panda.modules.system.service.impl;
 
 import org.panda.modules.system.dao.MenuDao;
 import org.panda.modules.system.domain.po.MenuPO;
+import org.panda.modules.system.domain.vo.MenuVO;
 import org.panda.modules.system.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,5 +24,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuPO> getMenus() {
         return menuDao.findChildByParentId(BigInteger.ZERO);
+    }
+
+    @Override
+    public List<MenuVO> getRoutes() {
+        return menuDao.findRouteByParentId(BigInteger.ZERO);
     }
 }

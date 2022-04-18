@@ -1,12 +1,12 @@
 package org.panda.modules.system.domain.po;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.LinkedList;
-import java.util.SortedSet;
 
 /**
  * 菜单表映射对象

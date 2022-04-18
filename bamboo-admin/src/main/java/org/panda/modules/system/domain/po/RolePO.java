@@ -16,7 +16,7 @@ import java.util.Date;
 @Setter
 @Getter
 public class RolePO implements Serializable{
-    private static final long serialVersionUID = 2345642021650652148L;
+    private static final long serialVersionUID = 2345642021650676540L;
 
     private BigInteger id;
 
