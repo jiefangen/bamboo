@@ -69,10 +69,6 @@ import path from 'path'
 import { deepClone } from '@/utils'
 import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/system/role'
 
-// 模拟数据
-// const { constantRoutes } = require('@/router/index.js')
-// const routes = deepClone([...constantRoutes])
-
 const defaultRole = {
   id: '',
   roleCode: '',
@@ -115,9 +111,6 @@ export default {
       const res = await getRoutes()
       this.serviceRoutes = res.data
       this.routes = this.generateRoutes(res.data)
-
-      // this.serviceRoutes = routes
-      // this.routes = this.generateRoutes(routes)
     },
     async getRoles() {
       const res = await getRoles()
@@ -166,9 +159,9 @@ export default {
     },
     handleAddRole() {
       this.role = Object.assign({}, defaultRole)
-      // if (this.$refs.tree) {
-      //   this.$refs.tree.setCheckedNodes([])
-      // }
+      if (this.$refs.tree) {
+        this.$refs.tree.setCheckedNodes([])
+      }
       this.dialogType = 'new'
       this.dialogVisible = true
       this.$nextTick(() => {
@@ -181,8 +174,8 @@ export default {
       this.checkStrictly = true
       this.role = deepClone(scope.row)
       this.$nextTick(() => {
-        // const routes = this.generateRoutes(this.role.routes)
-        // this.$refs.tree.setCheckedNodes(this.generateArr(routes))
+        const routes = this.generateRoutes(this.role.routes)
+        this.$refs.tree.setCheckedNodes(this.generateArr(routes))
         // set checked state of a node not affects its father and child nodes
         this.checkStrictly = false
         this.$refs['dataRoleForm'].clearValidate()
@@ -221,12 +214,11 @@ export default {
     },
     async confirmRole() {
       const isEdit = this.dialogType === 'edit'
-
-      // const checkedKeys = this.$refs.tree.getCheckedKeys()
-      // this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)
-
+      const checkedKeys = this.$refs.tree.getCheckedKeys()
+      this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)
       if (isEdit) {
-        await updateRole(this.role.key, this.role)
+         debugger
+        await updateRole(this.role.id, this.role)
         for (let index = 0; index < this.rolesList.length; index++) {
           if (this.rolesList[index].key === this.role.key) {
             this.rolesList.splice(index, 1, Object.assign({}, this.role))
@@ -236,7 +228,7 @@ export default {
       } else {
         this.$refs['dataRoleForm'].validate((valid) => {
           if (valid) {
-            addRole(this.role).then((data) => {
+            addRole(this.role).then(() => {
               this.getRoles()
               this.dialogVisible = false
               this.$notify({
