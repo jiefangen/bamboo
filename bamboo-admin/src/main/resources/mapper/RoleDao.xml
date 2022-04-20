@@ -38,6 +38,13 @@
         values(#{role.roleName}, #{role.roleCode}, #{role.description}, now(), now())
     </insert>
 
+    <update id="updateRole">
+        update sys_role
+        set description = #{role.description},
+            update_time = #{role.updateTime}
+        where id = #{roleId}
+    </update>
+
     <delete id="deleteRole">
         delete from sys_role where id = #{roleId}
     </delete>

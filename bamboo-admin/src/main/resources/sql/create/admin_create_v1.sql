@@ -1,4 +1,4 @@
-# bamboo后台管理系统表创建脚本
+# bamboo后台管理系统表创建脚本v1
 CREATE DATABASE  IF NOT EXISTS `bamboo_admin` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `bamboo_admin`;
 
@@ -20,7 +20,7 @@ CREATE TABLE SYS_USER (
                           create_time DATETIME NOT NULL,
                           update_time DATETIME,
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
 
 
 DROP TABLE IF EXISTS `SYS_USER_ROLE`;
@@ -39,7 +39,7 @@ CREATE TABLE SYS_ROLE (
                           create_time DATETIME NOT NULL,
                           update_time DATETIME,
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
 
 
 DROP TABLE IF EXISTS `SYS_ROLE_MENU`;
@@ -62,7 +62,7 @@ CREATE TABLE `SYS_MENU` (
                           hidden TINYINT(1),
                           sort INT,
                           PRIMARY KEY (`id`) USING BTREE
-)ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
+)ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
 
 
 
@@ -75,7 +75,7 @@ CREATE TABLE SYS_PERMISSION (
                                 description VARCHAR(200),
                                 resources_type VARCHAR(20) NOT NULL,
                                 PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
 
 DROP TABLE IF EXISTS `SYS_PERMISSION_ROLE`;
 CREATE TABLE SYS_PERMISSION_ROLE (
@@ -93,7 +93,7 @@ CREATE TABLE SYS_ACTION_LOG (
                               operating_time DATETIME NOT NULL,
                               user_id BIGINT unsigned NOT NULL,
                               PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统操作日志' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT=2 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统操作日志' ROW_FORMAT=Compact;
 
 
 ALTER TABLE SYS_MENU ADD CONSTRAINT FK_SYS_MENU_PARENT_ID_MENU FOREIGN KEY (parent_id) REFERENCES SYS_MENU (id);

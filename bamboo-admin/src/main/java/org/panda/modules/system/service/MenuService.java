@@ -10,5 +10,4 @@ public interface MenuService {
     List<MenuPO> getMenus();
 
     List<MenuVO> getRoutes();
-
 }

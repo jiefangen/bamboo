@@ -49,4 +49,5 @@ public interface MenuDao {
      */
     BigInteger findParentById(@Param("id") BigInteger id);
 
+    void updateRoleRoutes(@Param("roleId") BigInteger roleId, @Param("menuIds") List<BigInteger> menuIds);
 }
