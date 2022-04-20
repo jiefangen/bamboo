@@ -2,10 +2,12 @@ package org.panda.modules.system.domain.po;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.panda.modules.system.domain.vo.MenuVO;
 
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 角色表映射对象
@@ -16,7 +18,7 @@ import java.util.Date;
 @Setter
 @Getter
 public class RolePO implements Serializable{
-    private static final long serialVersionUID = 2345642021650652148L;
+    private static final long serialVersionUID = 2345642021650676540L;
 
     private BigInteger id;
 
@@ -29,5 +31,4 @@ public class RolePO implements Serializable{
     private Date createTime;
 
     private Date updateTime;
-
 }

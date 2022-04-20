@@ -31,6 +31,11 @@
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="role.roleName" :disabled="dialogType==='edit'?true:false" placeholder="Role Name" />
         </el-form-item>
+        <el-form-item v-show="dialogType!=='edit'?true:false" label="角色标识">
+          <el-select v-model="role.roleCode" class="filter-item">
+            <el-option v-for="item in roleCodeOptions" :key="item" :label="item" :value="item" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="角色描述">
           <el-input
             v-model="role.description"
@@ -39,7 +44,7 @@
             placeholder="Role Description"
           />
         </el-form-item>
-        <el-form-item label="菜单">
+        <el-form-item v-show="dialogType==='edit'?true:false" label="菜单">
           <el-tree
             ref="tree"
             :check-strictly="checkStrictly"
@@ -62,9 +67,10 @@
 <script>
 import path from 'path'
 import { deepClone } from '@/utils'
-import { getRoles, addRole, deleteRole, updateRole } from '@/api/system/role'
+import { getRoutes, getRoles, addRole, deleteRole, updateRole } from '@/api/system/role'
 
 const defaultRole = {
+  id: '',
   roleCode: '',
   roleName: '',
   description: '',
@@ -84,6 +90,7 @@ export default {
         children: 'children',
         label: 'title'
       },
+      roleCodeOptions: ['GENERAL', 'CUSTOMER'],
       rules: {
           roleName: [{ required: true, message: 'rolename is required', trigger: 'change' }]
         }
@@ -95,16 +102,16 @@ export default {
     }
   },
   created() {
-    // Mock: get all routes and roles list from server
-    // this.getRoutes()
+    // get all routes and roles list from server
+    this.getRoutes()
     this.getRoles()
   },
   methods: {
-    // async getRoutes() {
-    //   const res = await getRoutes()
-    //   this.serviceRoutes = res.data
-    //   this.routes = this.generateRoutes(res.data)
-    // },
+    async getRoutes() {
+      const res = await getRoutes()
+      this.serviceRoutes = res.data
+      this.routes = this.generateRoutes(res.data)
+    },
     async getRoles() {
       const res = await getRoles()
       this.rolesList = res.data
@@ -113,7 +120,6 @@ export default {
     // Reshape the routes structure so that it looks the same as the sidebar
     generateRoutes(routes, basePath = '/') {
       const res = []
-
       for (let route of routes) {
         // skip some route
         if (route.hidden) { continue }
@@ -153,9 +159,9 @@ export default {
     },
     handleAddRole() {
       this.role = Object.assign({}, defaultRole)
-      // if (this.$refs.tree) {
-      //   this.$refs.tree.setCheckedNodes([])
-      // }
+      if (this.$refs.tree) {
+        this.$refs.tree.setCheckedNodes([])
+      }
       this.dialogType = 'new'
       this.dialogVisible = true
       this.$nextTick(() => {
@@ -168,28 +174,26 @@ export default {
       this.checkStrictly = true
       this.role = deepClone(scope.row)
       this.$nextTick(() => {
-        // const routes = this.generateRoutes(this.role.routes)
-        // this.$refs.tree.setCheckedNodes(this.generateArr(routes))
+        const routes = this.generateRoutes(this.role.routes)
+        this.$refs.tree.setCheckedNodes(this.generateArr(routes))
         // set checked state of a node not affects its father and child nodes
         this.checkStrictly = false
         this.$refs['dataRoleForm'].clearValidate()
       })
     },
     handleDelete({ $index, row }) {
-      this.$confirm('Confirm to remove the role?', 'Warning', {
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
+      this.$confirm('确认删除' + row.roleName + '角色吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
         type: 'warning'
-      })
-        .then(async() => {
-          await deleteRole(row.key)
+      }).then(async() => {
+          await deleteRole(row.id)
           this.rolesList.splice($index, 1)
           this.$message({
             type: 'success',
-            message: 'Delete succed!'
+            message: '删除成功!'
           })
-        })
-        .catch(err => { console.error(err) })
+        }).catch(err => { console.error(err) })
     },
     generateTree(routes, basePath = '/', checkedKeys) {
       const res = []
@@ -210,12 +214,11 @@ export default {
     },
     async confirmRole() {
       const isEdit = this.dialogType === 'edit'
-
-      // const checkedKeys = this.$refs.tree.getCheckedKeys()
-      // this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)
-
+      const checkedKeys = this.$refs.tree.getCheckedKeys()
+      this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)
       if (isEdit) {
-        await updateRole(this.role.key, this.role)
+         debugger
+        await updateRole(this.role.id, this.role)
         for (let index = 0; index < this.rolesList.length; index++) {
           if (this.rolesList[index].key === this.role.key) {
             this.rolesList.splice(index, 1, Object.assign({}, this.role))
@@ -225,7 +228,7 @@ export default {
       } else {
         this.$refs['dataRoleForm'].validate((valid) => {
           if (valid) {
-            addRole(this.role).then((data) => {
+            addRole(this.role).then(() => {
               this.getRoles()
               this.dialogVisible = false
               this.$notify({

@@ -58,7 +58,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="操作" align="center" width="362" class-name="small-padding fixed-width">
+      <el-table-column label="操作" align="center" width="361" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
@@ -336,7 +336,7 @@
                 type: 'success',
                 duration: 2000
               })
-            })
+            }).catch(err => { console.error(err) })
           }
         )
       }

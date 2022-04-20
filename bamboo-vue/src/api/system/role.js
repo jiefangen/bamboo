@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-// 模拟数据
 export function getRoutes() {
   return request({
     url: '/auth/system/role/getRoutes',
@@ -37,3 +36,5 @@ export function deleteRole(roleId) {
     method: 'delete'
   })
 }
+
+export default { getRoutes, getRoles, addRole, updateRole, deleteRole }

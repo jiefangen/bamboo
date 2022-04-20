@@ -34,7 +34,7 @@ export function updatePass(data) {
 // 暂时没用，返回用户的信息以及角色信息
 export function getInfo(username) {
   return request({
-    url: '/auth/system/system/info',
+    url: '/auth/system/user/info',
     method: 'get',
     params: { username }
   })

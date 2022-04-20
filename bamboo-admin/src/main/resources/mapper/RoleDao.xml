@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.panda.modules.system.dao.RoleDao">
-    <resultMap id="BaseRoleMap" type="org.panda.modules.system.domain.po.RolePO">
+    <resultMap id="baseRoleMap" type="org.panda.modules.system.domain.po.RolePO">
         <id column="role_id" property="id" jdbcType="BIGINT"/>
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
         <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
@@ -12,7 +12,7 @@
 
     <sql id="roleColumns"> role_name, role_code, description, create_time, update_time </sql>
 
-    <select id="findByUserId" resultMap="BaseRoleMap">
+    <select id="findByUserId" resultMap="baseRoleMap">
         SELECT
             r.id role_id, r.role_name, r.role_code, r.description, r.create_time, r.update_time
         FROM sys_role r, sys_user_role ur
@@ -20,13 +20,13 @@
          and ur.user_id = #{userId,jdbcType=BIGINT}
     </select>
 
-    <select id="findRoles" resultMap="BaseRoleMap">
+    <select id="findRoles" resultMap="baseRoleMap">
         SELECT
             r.id role_id, r.role_name, r.role_code, r.description, r.create_time, r.update_time
         FROM sys_role r
     </select>
 
-    <select id="findByRoleName" resultMap="BaseRoleMap">
+    <select id="findByRoleName" resultMap="baseRoleMap">
         SELECT
         id role_id,
         <include refid="roleColumns"/>
@@ -37,4 +37,8 @@
         insert into sys_role (<include refid="roleColumns"/>)
         values(#{role.roleName}, #{role.roleCode}, #{role.description}, now(), now())
     </insert>
+
+    <delete id="deleteRole">
+        delete from sys_role where id = #{roleId}
+    </delete>
 </mapper>
