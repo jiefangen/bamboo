@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -73,14 +74,32 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public int deleteRole(BigInteger roleId) throws SystemException {
-        // TODO 校验该角色是否绑定的有用户
-//        UserDTO useDto = this.getUserAndRoles(username);
-//        List<RolePO> roles = useDto.getRoles();
-//        if (CollectionUtils.isNotEmpty(roles)) {
-//            throw new SystemException("Please unbind this user's role first.");
-//        }
+    public void updateRole(BigInteger roleId, RoleDTO roleDTO) {
+        // 更新角色信息
+        roleDTO.setUpdateTime(new Date());
+        roleDao.updateRole(roleId, roleDTO);
+        // 更新角色权限
+        List<BigInteger> routeIds = new ArrayList<>();
+        getRoleRoutes(roleDTO.getRoutes(), routeIds);
+        menuDao.updateRoleRoutes(roleId, routeIds);
+    }
 
+    private void getRoleRoutes(List<MenuVO> routes, List<BigInteger> routeIds) {
+        if (CollectionUtils.isNotEmpty(routes)) {
+            routes.forEach(route -> {
+                routeIds.add(route.getId());
+                getRoleRoutes(route.getChildren(), routeIds);
+            });
+        }
+        return;
+    }
+
+    @Override
+    public int deleteRole(BigInteger roleId) throws SystemException {
+        // 校验该角色是否绑定的有用户或菜单权限资源
+        if (roleDao.delRoleVerify(roleId)) {
+            throw new SystemException("Please unbind the user or menu resource of this role first.");
+        }
         return roleDao.deleteRole(roleId);
     }
 }

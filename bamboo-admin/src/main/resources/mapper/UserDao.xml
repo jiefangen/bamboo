@@ -62,7 +62,6 @@
                 update_time = #{user.updateTime}
             </set>
         where id = #{user.id}
-
     </update>
 
     <!-- 排除自己以及top级角色用户 -->

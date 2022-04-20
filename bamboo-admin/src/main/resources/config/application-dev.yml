@@ -4,7 +4,7 @@ spring:
     druid:
       username: root
       password: root123456
-      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8
+      url: jdbc:mysql://127.0.0.1:3306/bamboo_admin?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 配置初始化大小（默认0）、最小、最大（默认8）
       initial-size: 5
@@ -71,9 +71,10 @@ spring:
             drop-table-allow: false                                                   #禁止删表操作
             insert-allow:  true                                                       #允许插入操作
             delete-allow: true                                                        #删除数据操作
+            multi-statement-allow: true
 
-################################################## Actuator 监控配置 ####################################################
-#开启监控所有端点
+
+#Actuator监控配置；开启监控所有端点
 management:
   endpoints:
     web:

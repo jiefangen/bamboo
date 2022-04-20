@@ -1,6 +1,7 @@
 package org.panda.modules.system.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.panda.modules.system.domain.dto.RoleDTO;
 import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.po.UserPO;
 
@@ -18,5 +19,9 @@ public interface RoleDao {
 
     void insertRole(@Param("role") RolePO role);
 
+    int updateRole(@Param("roleId") BigInteger roleId, @Param("role") RoleDTO role);
+
     int deleteRole(@Param("roleId") BigInteger roleId);
+
+    Boolean delRoleVerify(@Param("roleId") BigInteger roleId);
 }

@@ -7,7 +7,6 @@ import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.common.exception.SystemException;
 import org.panda.modules.system.domain.dto.RoleDTO;
-import org.panda.modules.system.domain.po.MenuPO;
 import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.vo.MenuVO;
 import org.panda.modules.system.service.MenuService;
@@ -56,6 +55,12 @@ public class RoleController {
         if (!ResultConstant.DEFAULT_SUCCESS_MSG.equals(result)) {
             return ResultVO.getFailure(result);
         }
+        return ResultVO.getSuccess();
+    }
+
+    @PutMapping("/update/{roleId}")
+    public ResultVO update(@PathVariable BigInteger roleId, @RequestBody RoleDTO roleDTO){
+        roleService.updateRole(roleId, roleDTO);
         return ResultVO.getSuccess();
     }
 

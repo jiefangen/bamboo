@@ -68,4 +68,15 @@
         select parent_id from sys_menu where id = #{id}
     </select>
 
+    <update id="updateRoleRoutes">
+        delete from sys_role_menu where role_id = #{roleId};
+
+        <if test="menuIds != null and menuIds.size() > 0 ">
+            insert into sys_role_menu (role_id, menu_id) values
+            <foreach item="menuId" index="index" collection="menuIds" separator="," close=";">
+                (#{roleId}, #{menuId})
+            </foreach>
+        </if>
+    </update>
+
 </mapper>

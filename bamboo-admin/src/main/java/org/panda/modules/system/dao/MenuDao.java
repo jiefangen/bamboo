@@ -49,4 +49,11 @@ public interface MenuDao {
      */
     BigInteger findParentById(@Param("id") BigInteger id);
 
+    /**
+     * 更新该角色的菜单权限
+     *
+     * @param roleId
+     * @param menuIds
+     */
+    void updateRoleRoutes(@Param("roleId") BigInteger roleId, @Param("menuIds") List<BigInteger> menuIds);
 }

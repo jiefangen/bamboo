@@ -13,5 +13,7 @@ public interface RoleService {
 
     String addRole(RolePO role);
 
+    void updateRole(BigInteger roleId, RoleDTO roleDTO);
+
     int deleteRole(BigInteger roleId) throws SystemException;
 }

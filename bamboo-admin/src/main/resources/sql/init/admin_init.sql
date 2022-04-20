@@ -43,5 +43,4 @@ insert into SYS_ROLE_MENU (role_id, menu_id) values
 (3, 4),
 (3, 5),
 (3, 6),
-(3, 7),
-(3, 8);
+(3, 7);

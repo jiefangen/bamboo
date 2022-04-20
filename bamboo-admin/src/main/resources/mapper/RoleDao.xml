@@ -38,7 +38,23 @@
         values(#{role.roleName}, #{role.roleCode}, #{role.description}, now(), now())
     </insert>
 
+    <update id="updateRole">
+        update sys_role
+        set description = #{role.description},
+            update_time = #{role.updateTime}
+        where id = #{roleId}
+    </update>
+
     <delete id="deleteRole">
         delete from sys_role where id = #{roleId}
     </delete>
+
+    <select id="delRoleVerify" resultType="java.lang.Boolean">
+        SELECT
+            sum(sum1)
+        FROM
+            ( SELECT count(1) AS sum1 FROM sys_user_role WHERE role_id = #{roleId}
+              UNION ALL
+              SELECT count(1) AS sum1 FROM sys_role_menu WHERE role_id = #{roleId} ) AS total
+    </select>
 </mapper>
