@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.panda.modules.system.domain.MenuMeta;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.LinkedList;
 
 /**
@@ -19,6 +20,8 @@ import java.util.LinkedList;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class MenuVO implements Serializable {
     private static final long serialVersionUID = 1278642021650652148L;
+
+    private BigInteger id;
 
     private String path;
 

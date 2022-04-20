@@ -1,10 +1,15 @@
 package org.panda.modules.system.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.panda.common.constant.enumeration.RoleType;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.exception.SystemException;
+import org.panda.modules.system.dao.MenuDao;
 import org.panda.modules.system.dao.RoleDao;
+import org.panda.modules.system.domain.dto.RoleDTO;
+import org.panda.modules.system.domain.dto.UserDTO;
 import org.panda.modules.system.domain.po.RolePO;
+import org.panda.modules.system.domain.vo.MenuVO;
 import org.panda.modules.system.service.RoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,9 +29,31 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private RoleDao roleDao;
 
+    @Autowired
+    private MenuDao menuDao;
+
     @Override
-    public List<RolePO> getRoles() {
-        return roleDao.findRoles();
+    public List<RoleDTO> getRoles() {
+        List<RolePO> roles = roleDao.findRoles();
+        List<RoleDTO> roleList = new ArrayList<>();
+        roles.forEach(role -> {
+            // 添加该角色对应的菜单权限
+            RoleDTO roleDTO = new RoleDTO(role);
+            String idAndRoleId = "0,".concat(String.valueOf(role.getId()));
+            List<MenuVO> roleRoutes = menuDao.findRouteByRoleId(idAndRoleId);
+            roleDTO.setRoutes(roleRoutes);
+            roleList.add(roleDTO);
+        });
+        return roleList;
+    }
+
+    private BigInteger getParentOfChild(BigInteger menuId) {
+        BigInteger parentId = menuDao.findParentById(menuId);
+        if (parentId == BigInteger.ZERO) {
+            return menuId;
+        } else {
+            return getParentOfChild(parentId);
+        }
     }
 
     @Override

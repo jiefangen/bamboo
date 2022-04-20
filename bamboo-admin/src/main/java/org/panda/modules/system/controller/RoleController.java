@@ -6,6 +6,7 @@ import org.panda.common.constant.SystemConstants;
 import org.panda.common.domain.ResultConstant;
 import org.panda.common.domain.ResultVO;
 import org.panda.common.exception.SystemException;
+import org.panda.modules.system.domain.dto.RoleDTO;
 import org.panda.modules.system.domain.po.MenuPO;
 import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.vo.MenuVO;
@@ -41,7 +42,7 @@ public class RoleController {
 
     @GetMapping("/getRoles")
     public ResultVO getRoles(){
-        List<RolePO> roles = roleService.getRoles();
+        List<RoleDTO> roles = roleService.getRoles();
         return ResultVO.getSuccess(roles);
     }
 
