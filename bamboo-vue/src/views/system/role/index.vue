@@ -220,11 +220,18 @@ export default {
          debugger
         await updateRole(this.role.id, this.role)
         for (let index = 0; index < this.rolesList.length; index++) {
-          if (this.rolesList[index].key === this.role.key) {
+          if (this.rolesList[index].id === this.role.id) {
             this.rolesList.splice(index, 1, Object.assign({}, this.role))
             break
           }
         }
+        this.dialogVisible = false
+        this.$notify({
+          title: '成功',
+          message: '更新角色权限成功',
+          type: 'success',
+          duration: 2000
+        })
       } else {
         this.$refs['dataRoleForm'].validate((valid) => {
           if (valid) {
