@@ -22,4 +22,6 @@ public interface RoleDao {
     int updateRole(@Param("roleId") BigInteger roleId, @Param("role") RoleDTO role);
 
     int deleteRole(@Param("roleId") BigInteger roleId);
+
+    Boolean delRoleVerify(@Param("roleId") BigInteger roleId);
 }

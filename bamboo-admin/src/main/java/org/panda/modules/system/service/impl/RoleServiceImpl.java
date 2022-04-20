@@ -96,13 +96,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public int deleteRole(BigInteger roleId) throws SystemException {
-        // TODO 校验该角色是否绑定的有用户或者权限资源
-//        UserDTO useDto = this.getUserAndRoles(username);
-//        List<RolePO> roles = useDto.getRoles();
-//        if (CollectionUtils.isNotEmpty(roles)) {
-//            throw new SystemException("Please unbind this user's role first.");
-//        }
-
+        // 校验该角色是否绑定的有用户或菜单权限资源
+        if (roleDao.delRoleVerify(roleId)) {
+            throw new SystemException("Please unbind the user or menu resource of this role first.");
+        }
         return roleDao.deleteRole(roleId);
     }
 }
