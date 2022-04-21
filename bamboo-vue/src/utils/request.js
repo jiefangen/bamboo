@@ -75,13 +75,19 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
-    return Promise.reject(error)
+    const errorResponse = error.response
+    if (errorResponse.status === 404) {
+      // 跳转到404页面
+      window.location.replace('/#/redirect/404')
+    } else {
+      console.log('err' + error)
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+      return Promise.reject(error)
+    }
   }
 )
 
