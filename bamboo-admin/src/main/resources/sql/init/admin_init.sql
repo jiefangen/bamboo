@@ -22,13 +22,12 @@ insert into SYS_USER_ROLE (user_id, role_id) values
 (4, 4);
 
 insert into SYS_MENU (id, parent_id, menu_path, redirect, menu_name, title, icon, component, hidden, sort) values
-(2, 0, '/login', null, null, null, null, '/views/login/index', true, 0),
-(3, 0, '/', '/dashboard', null, null, null, 'layout/Layout', null, 1),
-(4, 3, '/dashboard', null, 'dashboard', '首页', 'dashboard', '/views/dashboard/index', null, 0),
-(5, 0, '/system', '/system/user', '系统管理', '系统管理', 'system', 'layout/Layout', null, 2),
-(6, 5, '/user', null, '用户管理', '用户管理', 'peoples', '/views/system/user/index', null, 0),
-(7, 5, '/role', null, '角色管理', '角色管理', 'role', '/views/system/role/index', null, 1),
-(8, 5, '/menu', null, '菜单管理', '菜单管理', 'menu', '/views/system/menu/index', null, 2);
+(2, 0, '/', '/dashboard', null, null, null, 'layout/Layout', null, 1),
+(3, 2, '/dashboard', null, 'dashboard', '首页', 'dashboard', '/views/dashboard/index', null, 0),
+(4, 0, '/system', '/system/user', '系统管理', '系统管理', 'system', 'layout/Layout', null, 2),
+(5, 4, '/user', null, '用户管理', '用户管理', 'peoples', '/views/system/user/index', null, 0),
+(6, 4, '/role', null, '角色管理', '角色管理', 'role', '/views/system/role/index', null, 1),
+(7, 4, '/menu', null, '菜单管理', '菜单管理', 'menu', '/views/system/menu/index', null, 2);
 
 insert into SYS_ROLE_MENU (role_id, menu_id) values
 (2, 2),
@@ -37,7 +36,6 @@ insert into SYS_ROLE_MENU (role_id, menu_id) values
 (2, 5),
 (2, 6),
 (2, 7),
-(2, 8),
 (3, 2),
 (3, 3),
 (3, 4),
