@@ -19,7 +19,7 @@ import java.util.Date;
 public class TokenUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(TokenUtil.class);
 
-    private static final long EXPIRE_TIME = 60 * 60 * 1000; // 1小时后失效
+    private static final long EXPIRE_TIME = 4 * 60 * 60 * 1000; // 4小时后失效
     private static final String TOKEN_SECRET = "BAMBOO-ADMIN";
 
     /**

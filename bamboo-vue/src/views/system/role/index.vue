@@ -217,7 +217,6 @@ export default {
       const checkedKeys = this.$refs.tree.getCheckedKeys()
       this.role.routes = this.generateTree(deepClone(this.serviceRoutes), '/', checkedKeys)
       if (isEdit) {
-         debugger
         await updateRole(this.role.id, this.role)
         for (let index = 0; index < this.rolesList.length; index++) {
           if (this.rolesList[index].id === this.role.id) {

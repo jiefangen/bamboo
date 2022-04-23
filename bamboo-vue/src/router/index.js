@@ -32,17 +32,31 @@ import Layout from '@/layout'
  */
 export const constantRoutes = [
   {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path(.*)',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+  {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
   {
     path: '/404',
-    component: () => import('@/views/404'),
+    component: () => import('@/views/error-page/404'),
     hidden: true
   },
-
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
   {
     path: '/',
     component: Layout,
@@ -53,8 +67,14 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '首页', icon: 'dashboard' }
     }]
-  },
+  }
+]
 
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+ export const asyncRoutes = [
   {
     path: '/system',
     component: Layout,
@@ -63,29 +83,28 @@ export const constantRoutes = [
     meta: { title: '系统管理', icon: 'system' },
     children: [
       {
-        path: '/user',
+        path: 'user',
         name: '用户管理',
         component: () => import('@/views/system/user/index'),
         meta: { title: '用户管理', icon: 'peoples' }
       },
       {
-        path: '/role',
+        path: 'role',
         name: '角色管理',
         component: () => import('@/views/system/role/index'),
         meta: { title: '角色管理', icon: 'role' }
       },
       {
-        path: '/menu',
+        path: 'menu',
         name: '菜单管理',
         component: () => import('@/views/system/menu/index'),
         meta: { title: '菜单管理', icon: 'menu' }
       }
     ]
-  }
-
-  // 404 page must be placed at the end !!!
-  // { path: '*', redirect: '/404', hidden: true }
-]
+  },
+    // 404 page must be placed at the end !!!
+    { path: '*', redirect: '/404', hidden: true }
+ ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
