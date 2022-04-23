@@ -1,4 +1,17 @@
-import { asyncRoutes, constantRoutes } from '@/router'
+import { constantRoutes } from '@/router'
+
+import Layout from '@/layout'
+
+/**
+ * 组件映射容器
+ */
+const asyncRouteMap = {
+  layout: Layout,
+  dashboard: () => import('@/views/dashboard/index'),
+  sys_user: () => import('@/views/system/user/index'),
+  sys_role: () => import('@/views/system/role/index'),
+  sys_menu: () => import('@/views/system/menu/index')
+ }
 
 /**
  * Use meta.role to determine if the current user has permission
@@ -23,6 +36,7 @@ export function filterAsyncRoutes(routes, roles) {
 
   routes.forEach(route => {
     const tmp = { ...route }
+    tmp.component = asyncRouteMap[tmp.component]
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
         tmp.children = filterAsyncRoutes(tmp.children, roles)
@@ -47,14 +61,9 @@ const mutations = {
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit }, routeParam) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('ADMIN')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
+      const accessedRoutes = filterAsyncRoutes(routeParam.asyncRoutes, routeParam.roles)
       commit('SET_ROUTES', accessedRoutes)
       resolve(accessedRoutes)
     })
