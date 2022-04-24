@@ -74,7 +74,7 @@ const actions = {
         const { username, roleCodes } = data
          // roles must be a non-empty array
          if (!roleCodes || roleCodes.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
+          reject('User must bind role! Please contact the administrator.')
         }
         commit('SET_NAME', username)
         commit('SET_ROLES', roleCodes)
