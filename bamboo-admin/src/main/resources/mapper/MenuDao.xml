@@ -30,12 +30,21 @@
         <association property="meta" javaType="org.panda.modules.system.domain.MenuMeta">
             <result column="title" property="title" jdbcType="VARCHAR"/>
             <result column="icon" property="icon" jdbcType="VARCHAR"/>
+            <collection property="roles" ofType="string" select="findRoleByMenuId" column="id"/>
         </association>
         <collection property="children" ofType="org.panda.modules.system.domain.vo.MenuVO"
                     select="findRouteByParentId" column="id"/>
     </resultMap>
     <select id="findRouteByParentId" resultMap="routeMap">
-        select <include refid="menuColumns"/> from sys_menu where parent_id = #{parentId} order by sort asc
+        select
+            <include refid="menuColumns"/>
+        from sys_menu m where parent_id = #{parentId} order by sort asc
+    </select>
+
+    <select id="findRoleByMenuId" resultType="string">
+       select role_code roleCode from sys_role t
+        left join sys_role_menu t1 on t.id = t1.role_id
+        where t1.menu_id = #{id}
     </select>
 
     <select id="findSelfAndRouteById" resultMap="routeMap">

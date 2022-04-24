@@ -17,9 +17,11 @@ insert into SYS_ROLE (id, role_name, role_code, description, create_time) values
 
 insert into SYS_USER_ROLE (user_id, role_id) values
 (2, 2),
-(2, 3),
 (3, 3),
-(4, 4);
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7);
 
 insert into SYS_MENU (id, parent_id, menu_path, redirect, menu_name, title, icon, component, hidden, sort) values
 (2, 0, '/', '/dashboard', null, null, null, 'layout', null, 0),

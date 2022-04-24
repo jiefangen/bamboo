@@ -26,6 +26,14 @@ public interface MenuDao {
     List<MenuVO> findRouteByParentId(@Param("parentId") BigInteger parentId);
 
     /**
+     * 查询路由节点的角色集
+     *
+     * @param id 菜单ID
+     * @return 指定节点的角色集
+     */
+    List<String> findRoleByMenuId(@Param("id") BigInteger id);
+
+    /**
      * 查询指定节点以及指定子孙节点--包含自身节点
      *
      * @param menuId 节点唯一ID
