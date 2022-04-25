@@ -2,12 +2,15 @@ package org.panda.modules.system.service;
 
 import com.github.pagehelper.Page;
 import org.panda.common.exception.SystemException;
+import org.panda.modules.system.domain.dto.RoleDTO;
 import org.panda.modules.system.domain.dto.UserDTO;
 import org.panda.modules.system.domain.po.UserPO;
 
+import java.math.BigInteger;
+
 public interface UserService {
 
-    Page<UserPO> getUsers(String keyword);
+    Page<UserDTO> getUsers(String keyword);
 
     UserPO getUserInfo(String username);
 
@@ -20,4 +23,6 @@ public interface UserService {
     int deleteUser(String username) throws SystemException;
 
     boolean checkRoleUpdatedPass();
+
+    void updateUserRole(UserDTO userDTO);
 }

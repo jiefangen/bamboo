@@ -19,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -36,9 +38,17 @@ public class UserServiceImpl implements UserService {
     private RoleDao roleDao;
 
     @Override
-    public Page<UserPO> getUsers(String keyword) {
-        Page<UserPO> users = userDao.findUsers(keyword);
-        users.forEach(user -> user.setCreateTimeStr(DateUtil.format(user.getCreateTime(), DateUtil.LONG_DATE_PATTERN)));
+    public Page<UserDTO> getUsers(String keyword) {
+        Page<UserDTO> users = userDao.findUsers(keyword);
+        users.forEach(user -> {
+            user.setCreateTimeStr(DateUtil.format(user.getCreateTime(), DateUtil.LONG_DATE_PATTERN));
+            user.setRoles(roleDao.findByUserId(user.getId()));
+            List<RolePO> roles = roleDao.findByUserId(user.getId());
+            if(CollectionUtils.isNotEmpty(roles)) {
+                Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
+                user.setRoleCodes(roleCodes);
+            }
+        });
         return users;
     }
 
@@ -107,6 +117,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkRoleUpdatedPass() {
         return this.checkTopRoles();
+    }
+
+    @Override
+    public void updateUserRole(UserDTO userDTO) {
+        // 更新用户角色
+        BigInteger userId = userDTO.getId();
+        userDao.updateUserRole(userId, userDTO.getRoleCodes());
     }
 
     public boolean checkTopRoles() {
