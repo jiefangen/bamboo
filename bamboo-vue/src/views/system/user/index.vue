@@ -143,16 +143,16 @@
           <el-input v-model="temp.username" :disabled="true" />
         </el-form-item>
         <el-form-item label="角色范围" prop="roleName">
-        <div class="components-container">
-          <el-drag-select v-model="temp.roleCodes" style="width:360px;" multiple placeholder="请选择">
-            <el-option v-for="item in allRoles" :key="item.id" :label="item.roleName" :value="item.roleCode" />
-          </el-drag-select>
-          <div style="margin-top:20px; width:400px;">
-            <el-tag v-for="item of temp.roleCodes" :key="item" style="margin-right:15px;">
-              {{ item }}
-            </el-tag>
+          <div class="components-container">
+            <el-drag-select v-model="temp.roleCodes" style="width:360px;" multiple placeholder="请选择">
+              <el-option v-for="item in allRoles" :key="item.id" :label="item.roleName" :value="item.roleCode" />
+            </el-drag-select>
+            <div style="margin-top:20px; width:400px;">
+              <el-tag v-for="item of temp.roleCodes" :key="item" style="margin-right:15px;">
+                {{ item }}
+              </el-tag>
+            </div>
           </div>
-        </div>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -369,6 +369,10 @@
         }
         updateUserRole(data).then((data) => {
           if (data) {
+            // 提前渲染结果
+            const index = this.list.findIndex(v => v.id === this.temp.id)
+            this.list.splice(index, 1, this.temp) // 数组替换
+            // 是否立即生效
             this.dialogRoleVisible = false
             this.$confirm('用户角色更新成功，是否刷新即刻生效？', '提示', {
               confirmButtonText: '确定',
