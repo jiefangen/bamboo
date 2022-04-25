@@ -1,6 +1,5 @@
 import { login, logout } from '@/api/login'
 import { getList, getInfo } from '@/api/system/user'
-import { getRoutes } from '@/api/system/role'
 import { getToken, setToken, removeToken, getName, setName, removeName } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -78,17 +77,6 @@ const actions = {
         }
         commit('SET_NAME', username)
         commit('SET_ROLES', roleCodes)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  getRoutes() {
-    return new Promise((resolve, reject) => {
-      getRoutes().then(response => {
-        const { data } = response
         resolve(data)
       }).catch(error => {
         reject(error)

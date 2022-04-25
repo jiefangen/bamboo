@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.po.UserPO;
+import org.panda.modules.system.domain.vo.MenuVO;
 
 import java.util.List;
 import java.util.Set;
@@ -15,6 +16,8 @@ public class UserDTO extends UserPO {
     private List<RolePO> roles;
 
     private Set<String> roleCodes;
+
+    List<MenuVO> routes;
 
     public UserDTO(){}
 

@@ -14,9 +14,14 @@ import org.panda.common.utils.EncrypterUtil;
 import org.panda.modules.system.domain.dto.UserDTO;
 import org.panda.modules.system.domain.param.UserQueryParam;
 import org.panda.modules.system.domain.po.UserPO;
+import org.panda.modules.system.domain.vo.MenuVO;
+import org.panda.modules.system.service.MenuService;
+import org.panda.modules.system.service.RoleService;
 import org.panda.modules.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 用户管理
@@ -30,6 +35,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MenuService menuService;
 
     @PostMapping("/page")
 //  @RequiresPermissions(value = "permis[get]")
@@ -132,6 +140,8 @@ public class UserController {
             return ResultVO.getFailure(50016, SystemConstants.USER_EMPTY);
         }
         userInfo.getRoles().clear();
+        List<MenuVO> routes = menuService.getRoutes();
+        userInfo.setRoutes(routes);
         return ResultVO.getSuccess(userInfo);
     }
 
