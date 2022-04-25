@@ -35,8 +35,8 @@ public class UserController {
 //  @RequiresPermissions(value = "permis[get]")
     public ResultVO page(@RequestBody UserQueryParam param){
         param.initPage();
-        Page<UserPO> users = userService.getUsers(param.getKeyword());
-        PageInfo<UserPO> pageInfo = new PageInfo<>(users);
+        Page<UserDTO> users = userService.getUsers(param.getKeyword());
+        PageInfo<UserDTO> pageInfo = new PageInfo<>(users);
         return ResultVO.getSuccess(pageInfo);
     }
 
@@ -133,5 +133,11 @@ public class UserController {
         }
         userInfo.getRoles().clear();
         return ResultVO.getSuccess(userInfo);
+    }
+
+    @PostMapping("/updateUserRole")
+    public ResultVO updateUserRole(@RequestBody UserDTO userDTO){
+        userService.updateUserRole(userDTO);
+        return ResultVO.getSuccess();
     }
 }

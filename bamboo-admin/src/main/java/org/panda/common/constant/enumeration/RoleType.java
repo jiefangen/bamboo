@@ -21,6 +21,7 @@ public enum RoleType {
         List<String> list = new ArrayList<>();
         list.add(ADMIN.toString());
         list.add(SYSTEM.toString());
+        list.add(ACTUATOR.toString());
         return list;
     }
 }

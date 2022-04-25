@@ -20,7 +20,7 @@
       </el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">编辑权限</el-button>
+          <el-button type="warning" size="small" @click="handleEdit(scope)">编辑权限</el-button>
           <el-button type="danger" size="small" @click="handleDelete(scope)">删除</el-button>
         </template>
       </el-table-column>
@@ -225,11 +225,12 @@ export default {
           }
         }
         this.dialogVisible = false
-        this.$notify({
-          title: '成功',
-          message: '更新角色权限成功',
-          type: 'success',
-          duration: 2000
+        this.$confirm('角色权限更新成功，是否刷新即刻生效？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          location.reload()
         })
       } else {
         this.$refs['dataRoleForm'].validate((valid) => {

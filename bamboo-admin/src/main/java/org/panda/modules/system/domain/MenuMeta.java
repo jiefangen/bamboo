@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 菜单资源属性
  *
@@ -20,5 +22,5 @@ public class MenuMeta {
 
     private String icon;
 
-    private String path;
+    private List<String> roles;
 }

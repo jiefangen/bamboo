@@ -11,10 +11,10 @@ export function isExternal(path) {
 }
 
 /**
- * @param {string} str
+ * @param {string} name
  * @returns {Boolean}
  */
-export function validUsername(str) {
-  const valid_map = ['admin', 'jiefangen']
-  return valid_map.indexOf(str.trim()) >= 0
+export function validUsername(name) {
+  const valid_map = ['admin', 'system', 'actuator']
+  return valid_map.indexOf(name.trim()) >= 0
 }

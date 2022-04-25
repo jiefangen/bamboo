@@ -53,7 +53,6 @@
       </el-table-column>
       <el-table-column label="创建时间" width="160" align="center">
         <template slot-scope="{row}">
-          <!-- | parseTime('{y}-{m}-{d} {h}:{i}')  -->
           <span>{{ row.createTimeStr }}</span>
         </template>
       </el-table-column>
@@ -63,13 +62,13 @@
           <el-button type="primary" size="mini" @click="handleUpdate(row)">
             编辑
           </el-button>
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">
-            编辑权限
+          <el-button type="warning" size="mini" @click="handleUseRole(row)">
+            编辑角色
           </el-button>
-          <el-button size="mini" type="success" @click="handleModifyPass(row)">
+          <el-button type="success" size="mini" @click="handleModifyPass(row)">
             修改密码
           </el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(row,$index)">
+          <el-button type="danger" size="mini" @click="handleDelete(row,$index)">
             删除
           </el-button>
         </template>
@@ -137,22 +136,50 @@
         </el-button>
       </div>
     </el-dialog>
+
+    <el-dialog :visible.sync="dialogRoleVisible" title="编辑角色">
+      <el-form ref="dataRoleForm" :rules="passRules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="temp.username" :disabled="true" />
+        </el-form-item>
+        <el-form-item label="角色范围" prop="roleName">
+        <div class="components-container">
+          <el-drag-select v-model="temp.roleCodes" style="width:360px;" multiple placeholder="请选择">
+            <el-option v-for="item in allRoles" :key="item.id" :label="item.roleName" :value="item.roleCode" />
+          </el-drag-select>
+          <div style="margin-top:20px; width:400px;">
+            <el-tag v-for="item of temp.roleCodes" :key="item" style="margin-right:15px;">
+              {{ item }}
+            </el-tag>
+          </div>
+        </div>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogRoleVisible=false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="updateUserRole()">
+          确认
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { add, del, edit, getList, updatePass } from '@/api/system/user'
+  import { add, del, edit, getList, updatePass, updateUserRole } from '@/api/system/user'
+  import { getRoles } from '@/api/system/role'
   import Pagination from '@/components/Pagination'
-
+  import ElDragSelect from '@/components/DragSelect' // base on element-ui
   export default {
     name: 'Users',
-    components: { Pagination },
+    components: { Pagination, ElDragSelect },
     filters: {
       statusFilter(status) {
         const statusMap = {
           0: 'success',
           1: 'info'
-          // deleted: 'danger'
         }
         return statusMap[status]
       }
@@ -203,11 +230,14 @@
           oldPassword: [{ required: true, message: 'oldPassword is required', trigger: 'change' }],
           newPassword: [{ required: true, message: 'newPassword is required', trigger: 'change' }]
         },
+        allRoles: [],
+        dialogRoleVisible: false,
         downloadLoading: false
       }
     },
     created() {
       this.getList()
+      this.getRoles()
     },
     methods: {
       getList() {
@@ -220,6 +250,10 @@
           this.pageSize = data.pageSize
           this.listLoading = false
         })
+      },
+      async getRoles() {
+        const res = await getRoles()
+        this.allRoles = res.data
       },
       handleFilter() {
         this.listQuery.pageNum = 1
@@ -234,7 +268,9 @@
           email: '',
           sex: '',
           disabled: '',
-          nickname: ''
+          nickname: '',
+          roles: [],
+          roleCodes: []
         }
       },
       handleCreate() {
@@ -317,6 +353,29 @@
                 type: 'success',
                 duration: 2000
               })
+            })
+          }
+        })
+      },
+      handleUseRole(row) {
+        this.temp = Object.assign({}, row)
+        this.dialogRoleVisible = true
+      },
+      updateUserRole() {
+        const tempData = Object.assign({}, this.temp)
+        const data = {
+          id: tempData.id,
+          roleCodes: tempData.roleCodes
+        }
+        updateUserRole(data).then((data) => {
+          if (data) {
+            this.dialogRoleVisible = false
+            this.$confirm('用户角色更新成功，是否刷新即刻生效？', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              location.reload()
             })
           }
         })

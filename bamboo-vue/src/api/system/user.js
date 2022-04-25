@@ -31,7 +31,15 @@ export function updatePass(data) {
   })
 }
 
-// 暂时没用，返回用户的信息以及角色信息
+export function updateUserRole(data) {
+  return request({
+    url: '/auth/system/user/updateUserRole',
+    method: 'post',
+    data
+  })
+}
+
+// 返回用户的信息以及角色信息
 export function getInfo(username) {
   return request({
     url: '/auth/system/user/info',
