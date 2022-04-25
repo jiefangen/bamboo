@@ -33,11 +33,9 @@ router.beforeEach(async(to, from, next) => {
       } else {
         try {
           // 获取用户基本信息，用户权限管控必须调用
-          const { roleCodes } = await store.dispatch('user/getInfo')
-          // 动态拉取菜单列表
-          const asyncRoutes = await store.dispatch('user/getRoutes')
+          const { routes, roleCodes } = await store.dispatch('user/getInfo')
           const routeParam = {
-            asyncRoutes: asyncRoutes,
+            asyncRoutes: routes,
             roles: roleCodes
           }
           // generate accessible routes map based on roles
