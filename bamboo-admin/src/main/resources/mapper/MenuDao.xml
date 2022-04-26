@@ -9,7 +9,8 @@
         <result column="menu_path" property="menuPath" jdbcType="VARCHAR"/>
         <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
         <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
-        <result column="meta" property="meta" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="component" property="component" jdbcType="VARCHAR"/>
         <result column="hidden" property="hidden" jdbcType="BOOLEAN"/>
         <result column="sort" property="sort" jdbcType="INTEGER"/>
