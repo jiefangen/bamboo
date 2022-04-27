@@ -14,17 +14,23 @@
     >
       <!-- meta元素 -->
       <el-table-column prop="title" label="标题" />
-      <el-table-column prop="icon" label="图标" />
+      <el-table-column prop="icon" label="图标" align="center" />
 
       <!-- 菜单节点元素 -->
-      <el-table-column prop="menuName" label="名称" />
+      <!-- <el-table-column prop="menuName" label="名称" /> -->
       <el-table-column prop="menuPath" label="路径" />
       <el-table-column prop="redirect" label="跳转" />
-      <el-table-column prop="component" label="组件映射" />
-      <el-table-column prop="hidden" label="隐藏" />
+      <el-table-column prop="component" label="组件映射" align="center" />
+      <el-table-column label="隐藏" align="center" width="100">
+        <template slot-scope="{row}">
+          <el-tag :type="row.isHidden | statusFilter">
+            {{ row.isHidden === '1' ?'YES':'NO' }}
+          </el-tag>
+        </template>
+      </el-table-column>
 
       <!-- 菜单列表排序 -->
-      <el-table-column prop="sort" label="排序" />
+      <el-table-column prop="sort" label="排序" align="center" width="80" />
 
       <!-- 树节点操作 -->
       <el-table-column label="操作" :align="alignDir" width="220">
@@ -51,18 +57,32 @@
             :key="isResouceShow"
             v-model="temp.children"
             placeholder="请选择子级位置"
-            :label="'title'"
-            :value="'id'"
             :options="tableData"
-            :props="{ checkStrictly: true }"
+            :props="{ checkStrictly: true, label: 'title', value: 'id', children: 'children' }"
             size="small"
             clearable
             @change="getCasVal"
           />
         </el-form-item>
-        <el-form-item label="菜单标题" prop="label">
-          <el-input v-model="temp.label" size="small" autocomplete="off" placeholder="请输入标签名称" />
+        <el-form-item label="菜单标题" prop="title">
+          <el-input v-model="temp.title" size="small" autocomplete="off" placeholder="请输入菜单标题" />
         </el-form-item>
+        <el-form-item label="菜单路径" prop="menuPath">
+          <el-input v-model="temp.menuPath" size="small" autocomplete="off" placeholder="请输入菜单路径" />
+        </el-form-item>
+        <el-form-item label="组件映射" prop="component">
+          <el-input v-model="temp.component" size="small" autocomplete="off" placeholder="请输入组件映射" />
+        </el-form-item>
+
+        <el-form-item label="菜单图标" prop="icon">
+          <el-input v-model="temp.icon" size="small" autocomplete="off" placeholder="请输入菜单图标" />
+        </el-form-item>
+        <el-form-item v-if="!sonStatus && dialogStatus !== 'update'" label="菜单跳转" prop="redirect">
+          <el-input v-model="temp.redirect" size="small" autocomplete="off" placeholder="顶级菜单需要" />
+        </el-form-item>
+        <!-- <el-form-item label="菜单排序" prop="sort">
+          <el-input v-model="temp.sort" size="small" autocomplete="off" placeholder="请输入菜单排序" />
+        </el-form-item> -->
       </el-form>
 
       <div slot="footer" class="dialog-footer" size="small">
@@ -81,6 +101,19 @@
 import { getMenus } from '@/api/system/menu'
 
 export default {
+  filters: {
+    statusFilter(status) {
+      if (status === null) {
+        return 'success'
+      } else {
+        const statusMap = {
+          0: 'success',
+          1: 'info'
+        }
+        return statusMap[status]
+      }
+    }
+  },
   data() {
     return {
       tableData: [],
@@ -103,8 +136,10 @@ export default {
       childKey: [],
       rules: {
         location: [{ required: true, message: '请选择层级', trigger: 'blur' }],
-        label: [{ required: true, message: '请输入名称', trigger: 'blur' }],
-        children: [{ required: true, message: '请选择子级位置', trigger: 'blur' }]
+        children: [{ required: true, message: '请选择子级位置', trigger: 'blur' }],
+        menuPath: [{ required: true, message: '请输入菜单路径', trigger: 'blur' }],
+        component: [{ required: true, message: '请输入组件映射', trigger: 'blur' }],
+        title: [{ required: true, message: '请输入菜单标题', trigger: 'blur' }]
       },
       locationData: [
         { id: '1', name: '顶级' },
@@ -126,21 +161,21 @@ export default {
       const res = await getMenus()
       this.tableData = res.data
     },
-    // 是否显示子级位置
-    locationChange(v) {
-      if (v == 2) {
-        this.sonStatus = true;
-      } else {
-        this.sonStatus = false;
-      }
-    },
-    // 获取子级位置
-    getCasVal(v) {
-      this.casArr = v;
-    },
     // 临时容器置空
     resetTemp() {
       this.temp = {}
+    },
+    // 是否显示子级位置(初始化添加面板)
+    locationChange(v) {
+      if (v === '2') {
+        this.sonStatus = true
+      } else {
+        this.sonStatus = false
+      }
+    },
+    // 获取子级位置(子级位置选择变更事件)
+    getCasVal(v) {
+      this.casArr = v
     },
     // 打开添加
     handleCreate() {
@@ -151,55 +186,69 @@ export default {
           this.$refs['dataForm'].clearValidate()
       })
     },
+    // 添加
+    createData() {
+      debugger
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          if (this.sonStatus === false) { // 顶级菜单
+            // 新增节点自动排在末尾
+            this.temp.sort = String(this.tableData.length)
+            const obj = Object.assign({}, this.temp)
+            obj.children = []
+            obj.parentId = 0
+            this.tableData.push(obj)
+            // TODO 新增顶级菜单
+            // await createMenu(obj)
+          } else { // 子级菜单
+            const arr = this.find(this.tableData, 0)
+            this.temp.value = String(this.casArr[this.casArr.length - 1]) + '-' + String(arr.length)
+            delete this.temp.children
 
-    // 新增菜单
-      createData() {
-          this.$refs['dataForm'].validate((valid) => {
-              if (valid) {
-                  if (this.sonStatus == false) {
-                      this.temp.value = String(this.tableData.length)
-                      const obj = Object.assign({}, this.temp)
-                      obj.children = []
-                      obj.parent = ''
-                      this.tableData.push(obj)
-                      this.$message({
-                          type: 'success',
-                          message: '添加成功'
-                      })
-                      this.dialogFormVisible = false;
-                  } else {
-                      let arr = this.find(this.tableData, 0);
-                      this.temp.value =
-                          String(this.casArr[this.casArr.length - 1]) +
-                          '-' +
-                          String(arr.length)
-                      delete this.temp.children
-
-                      const obj = Object.assign({}, this.temp)
-                      obj.children = []
-                      obj.childKey = [...this.casArr, String(arr.length)]
-                      obj.parent = this.findTable(
-                          this.tableData,
-                          0,
-                          this.casArr
-                      ).label;
-                      if (this.temp.location === '2') {
-                          obj.location = String(
-                              [...this.casArr, String(arr.length)].length
-                          )
-                      }
-                      arr.push(obj);
-                      this.$message({
-                          type: 'success',
-                          message: '添加成功',
-                      })
-                      this.dialogFormVisible = false;
-                  }
-              } else {
-                  return false;
-              }
+            const obj = Object.assign({}, this.temp)
+            obj.children = []
+            obj.childKey = [...this.casArr, String(arr.length)]
+            obj.parentId = this.findParent(this.tableData, 0, this.casArr).id
+            if (this.temp.location === '2') {
+              obj.location = String(
+                [...this.casArr, String(arr.length)].length
+              )
+            }
+            arr.push(obj)
+            // TODO 新增子级菜单
+            // await createMenu(obj)
+          }
+          // TODO 新增菜单
+          // await createMenu(obj)
+          this.$message({
+            type: 'success',
+            message: '添加成功'
           })
-      },
+          this.dialogFormVisible = false
+        } else {
+          return false
+        }
+      })
+    },
+    // 递归表格数据(添加)
+    find(arr, i) {
+      if (i === this.casArr.length - 1) {
+        return arr[this.casArr[i].substr(this.casArr[i].length - 1, 1)].children
+      } else {
+        return this.find(arr[this.casArr[i].substr(this.casArr[i].length - 1, 1)].children, (i += 1))
+      }
+    },
+    // 查找父级(添加)
+    findParent(arr, i, casArr) {
+      if (i == casArr.length - 1) {
+        let index = casArr[i].substr(casArr[i].length - 1, 1)
+        return arr[index]
+      } else {
+        return this.findParent(
+          arr[casArr[i].substr(casArr[i].length - 1, 1)].children, (i += 1), casArr
+        )
+      }
+    },
     // 删除节点
     deleteClick(item) {
       this.$confirm(`此操作将删除该菜单, 是否继续?`, '提示', {
@@ -249,36 +298,10 @@ export default {
           if (i == casArr.length - 1) {
               return arr
           } else {
-              return this.findTable(
+              return this.findParent(
                   arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
                   (i += 1),
                   casArr
-              )
-          }
-      },
-      // 寻找父级
-      findTable(arr, i, casArr) {
-          if (i == casArr.length - 1) {
-              let index = casArr[i].substr(casArr[i].length - 1, 1)
-              return arr[index]
-          } else {
-              return this.findTable(
-                  arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
-                  (i += 1),
-                  casArr
-              )
-          }
-      },
-      // 递归表格数据(添加)
-      find(arr, i) {
-          if (i == this.casArr.length - 1) {
-              return arr[this.casArr[i].substr(this.casArr[i].length - 1, 1)]
-                  .children
-          } else {
-              return this.find(
-                  arr[this.casArr[i].substr(this.casArr[i].length - 1, 1)]
-                      .children,
-                  (i += 1)
               )
           }
       },

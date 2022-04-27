@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="filter-container" style="margin-bottom: 20px;">
+    <div class="filter-container">
       <el-input v-model="listQuery.keyword" placeholder="输入用户名或昵称搜索" style="width: 200px; margin-right: 10px;" class="filter-item" @keyup.enter.native="handleFilter" />
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
@@ -17,14 +17,14 @@
       border
       fit
       highlight-current-row
-      style="width: 100%;"
+      style="width: 100%; margin-top:20px;"
     >
-      <el-table-column label="用户名" width="130" align="center">
+      <el-table-column label="用户名" align="center">
         <template slot-scope="{row}">
           <span>{{ row.username }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="昵称" class-name="status-col" width="140" align="center">
+      <el-table-column label="昵称" class-name="status-col" align="center">
         <template slot-scope="{row}">
           <span>{{ row.nickname }}</span>
         </template>
@@ -39,7 +39,7 @@
           <span>{{ row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="邮件地址" class-name="status-col" width="170" align="center">
+      <el-table-column label="邮件地址" class-name="status-col" width="160" align="center">
         <template slot-scope="{row}">
           <span>{{ row.email }}</span>
         </template>
@@ -51,7 +51,7 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="创建时间" width="160" align="center">
+      <el-table-column label="创建时间" width="180" align="center">
         <template slot-scope="{row}">
           <span>{{ row.createTimeStr }}</span>
         </template>

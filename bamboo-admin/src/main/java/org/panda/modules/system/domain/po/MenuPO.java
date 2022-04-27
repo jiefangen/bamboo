@@ -35,7 +35,7 @@ public class MenuPO implements Serializable{
 
     private String component;
 
-    private Boolean hidden;
+    private String isHidden;
 
     private Integer sort;
 

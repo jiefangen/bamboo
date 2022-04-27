@@ -54,11 +54,11 @@ CREATE TABLE `SYS_MENU` (
                             id BIGINT unsigned AUTO_INCREMENT NOT NULL,
                             parent_id BIGINT unsigned NOT NULL,
                             menu_path VARCHAR(255) NOT NULL,
-                            redirect VARCHAR(255),
+                            component VARCHAR(50) NOT NULL,
                             menu_name VARCHAR(64),
+                            redirect VARCHAR(255),
                             title VARCHAR(300),
                             icon VARCHAR(300),
-                            component VARCHAR(50),
                             hidden TINYINT(1),
                             sort INT,
                             PRIMARY KEY (`id`) USING BTREE
