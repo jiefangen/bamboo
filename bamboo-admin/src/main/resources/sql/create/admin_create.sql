@@ -54,11 +54,11 @@ CREATE TABLE `SYS_MENU` (
                             id BIGINT unsigned AUTO_INCREMENT NOT NULL,
                             parent_id BIGINT unsigned NOT NULL,
                             menu_path VARCHAR(255) NOT NULL,
-                            redirect VARCHAR(255),
+                            component VARCHAR(50) NOT NULL,
                             menu_name VARCHAR(64),
+                            redirect VARCHAR(255),
                             title VARCHAR(300),
                             icon VARCHAR(300),
-                            component VARCHAR(50),
                             hidden TINYINT(1),
                             sort INT,
                             PRIMARY KEY (`id`) USING BTREE
@@ -83,6 +83,3 @@ ALTER TABLE SYS_USER_ROLE ADD CONSTRAINT FK_SYS_USER_ROLE_ROLE_ID_ROLE FOREIGN K
 
 ALTER TABLE SYS_ROLE_MENU ADD CONSTRAINT FK_SYS_ROLE_MENU_0 FOREIGN KEY (menu_id) REFERENCES SYS_MENU (id);
 ALTER TABLE SYS_ROLE_MENU ADD CONSTRAINT FK_SYS_ROLE_MENU_1 FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
-
-ALTER TABLE SYS_PERMISSION_ROLE ADD CONSTRAINT FK_SYS_PERMISSION_ROLE_0 FOREIGN KEY (permission_id) REFERENCES SYS_PERMISSION (id);
-ALTER TABLE SYS_PERMISSION_ROLE ADD CONSTRAINT FK_SYS_PERMISSION_ROLE_1 FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);

@@ -29,11 +29,13 @@ public class MenuPO implements Serializable{
 
     private String menuName;
 
-    private String meta;
+    private String title;
+
+    private String icon;
 
     private String component;
 
-    private Boolean hidden;
+    private String isHidden;
 
     private Integer sort;
 

@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="handleAddRole">新增角色</el-button>
+    <el-button type="primary" icon="el-icon-circle-plus-outline" @click="handleAddRole">添加</el-button>
 
-    <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
+    <el-table :data="rolesList" style="width:100%; margin-top:20px;" border>
       <el-table-column align="center" label="角色名称" width="220">
         <template slot-scope="scope">
           {{ scope.row.roleName }}
@@ -27,7 +27,7 @@
     </el-table>
 
     <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'编辑权限':'新增角色'">
-      <el-form ref="dataRoleForm" :rules="rules" :model="role" label-width="80px" label-position="left">
+      <el-form ref="dataRoleForm" :rules="rules" :model="role" label-width="80px" label-position="left" style="width: 400px; margin-left:50px;">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="role.roleName" :disabled="dialogType==='edit'?true:false" placeholder="Role Name" />
         </el-form-item>
@@ -42,6 +42,7 @@
             :autosize="{ minRows: 2, maxRows: 4}"
             type="textarea"
             placeholder="Role Description"
+            style="width:360px;"
           />
         </el-form-item>
         <el-form-item v-show="dialogType==='edit'?true:false" label="菜单">
@@ -52,11 +53,12 @@
             :props="defaultProps"
             show-checkbox
             node-key="path"
+            default-expand-all
             class="permission-tree"
           />
         </el-form-item>
       </el-form>
-      <div style="text-align:right;">
+      <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible=false">取消</el-button>
         <el-button type="primary" @click="confirmRole">确认</el-button>
       </div>
