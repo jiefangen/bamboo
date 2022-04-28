@@ -77,12 +77,17 @@
         <el-form-item label="菜单图标" prop="icon">
           <el-input v-model="temp.icon" size="small" autocomplete="off" placeholder="请输入菜单图标" />
         </el-form-item>
-        <el-form-item v-if="!sonStatus && dialogStatus !== 'update'" label="菜单跳转" prop="redirect">
+        <el-form-item v-if="!sonStatus" label="菜单跳转" prop="redirect">
           <el-input v-model="temp.redirect" size="small" autocomplete="off" placeholder="顶级菜单需要" />
         </el-form-item>
-        <!-- <el-form-item label="菜单排序" prop="sort">
+
+        <!-- 编辑面板专用 -->
+        <el-form-item v-if="dialogStatus === 'update'" label="菜单隐藏" prop="isHidden">
+          <el-input v-model="temp.isHidden" size="small" autocomplete="off" placeholder="请输入菜单隐藏" />
+        </el-form-item>
+        <el-form-item v-if="dialogStatus === 'update'" label="菜单排序" prop="sort">
           <el-input v-model="temp.sort" size="small" autocomplete="off" placeholder="请输入菜单排序" />
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer" size="small">
@@ -161,10 +166,6 @@ export default {
       const res = await getMenus()
       this.tableData = res.data
     },
-    // 临时容器置空
-    resetTemp() {
-      this.temp = {}
-    },
     // 是否显示子级位置(初始化添加面板)
     locationChange(v) {
       if (v === '2') {
@@ -177,6 +178,10 @@ export default {
     getCasVal(v) {
       this.casArr = v
     },
+    // 临时容器置空
+    resetTemp() {
+      this.temp = {}
+    },
     // 打开添加
     handleCreate() {
       this.resetTemp()
@@ -186,43 +191,48 @@ export default {
           this.$refs['dataForm'].clearValidate()
       })
     },
+    // 递归表格数据(添加)
+    find(arr, i) {
+      let currVal
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[j].id === this.casArr[i]) {
+          currVal = j
+          break
+        }
+      }
+      if (i === (this.casArr.length - 1)) {
+        return arr[currVal].children
+      } else {
+        return this.find(arr[currVal].children, (i += 1))
+      }
+    },
     // 添加
     createData() {
-      debugger
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
+          delete this.temp.children
+          const obj = Object.assign({}, this.temp)
+          obj.children = []
+          obj.id = new Date().getTime() // 添加树时需要，此处使用时间戳来确保树节点唯一
           if (this.sonStatus === false) { // 顶级菜单
             // 新增节点自动排在末尾
-            this.temp.sort = String(this.tableData.length)
-            const obj = Object.assign({}, this.temp)
-            obj.children = []
+            this.temp.sort = String(this.tableData.length) // 后续考虑放到后端统计生成
             obj.parentId = 0
             this.tableData.push(obj)
-            // TODO 新增顶级菜单
-            // await createMenu(obj)
           } else { // 子级菜单
-            const arr = this.find(this.tableData, 0)
-            this.temp.value = String(this.casArr[this.casArr.length - 1]) + '-' + String(arr.length)
-            delete this.temp.children
-
-            const obj = Object.assign({}, this.temp)
-            obj.children = []
-            obj.childKey = [...this.casArr, String(arr.length)]
-            obj.parentId = this.findParent(this.tableData, 0, this.casArr).id
-            if (this.temp.location === '2') {
-              obj.location = String(
-                [...this.casArr, String(arr.length)].length
-              )
-            }
-            arr.push(obj)
-            // TODO 新增子级菜单
-            // await createMenu(obj)
+            // obj.parentId = this.findParent(this.tableData, 0, this.casArr).id
+            obj.parentId = this.casArr[this.casArr.length - 1]
+            // 获取当前子级节点位置下的集合
+            const currentArr = this.find(this.tableData, 0)
+            currentArr.push(obj)
           }
+          // debugger
           // TODO 新增菜单
           // await createMenu(obj)
           this.$message({
             type: 'success',
-            message: '添加成功'
+            message: '新增菜单成功',
+            duration: 2000
           })
           this.dialogFormVisible = false
         } else {
@@ -230,184 +240,146 @@ export default {
         }
       })
     },
-    // 递归表格数据(添加)
-    find(arr, i) {
-      if (i === this.casArr.length - 1) {
-        return arr[this.casArr[i].substr(this.casArr[i].length - 1, 1)].children
-      } else {
-        return this.find(arr[this.casArr[i].substr(this.casArr[i].length - 1, 1)].children, (i += 1))
-      }
+    // 删除根节点
+    deleteRootNode(item) {
+      this.tableData.forEach((it, ix, arrs) => {
+        if (it === item) {
+          return arrs.splice(ix, 1)
+        }
+      })
     },
-    // 查找父级(添加)
-    findParent(arr, i, casArr) {
-      if (i == casArr.length - 1) {
-        let index = casArr[i].substr(casArr[i].length - 1, 1)
-        return arr[index]
-      } else {
-        return this.findParent(
-          arr[casArr[i].substr(casArr[i].length - 1, 1)].children, (i += 1), casArr
-        )
+    // 递归表格删除数据(删除)
+    findDel(arr, i, item) {
+      // const casArr = item.childKey
+      // if (i === casArr.length - 2) {
+      //   const index = casArr[i].substr(casArr[i].length - 1, 1)
+      //   arr[index].children.forEach((it, ix, arrs) => {
+      //     if (it === item) {
+      //       return arrs.splice(ix, 1)
+      //     }
+      //   })
+      // } else {
+      //   return this.findDel(arr[casArr[i].substr(casArr[i].length - 1, 1)].children, (i += 1), item)
+      // }
+      // 第二层级子节点删除
+      for (let j = 0; j < arr.length; j++) {
+        arr[j].children.forEach((it, ix, arrs) => {
+          if (it === item) {
+            return arrs.splice(ix, 1)
+          }
+        })
       }
     },
     // 删除节点
     deleteClick(item) {
       this.$confirm(`此操作将删除该菜单, 是否继续?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning',
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
-          if (item.children.length != 0) {
-              this.$message.warning({
-                  message: '请删除子节点',
-                  duration: 1000,
-              })
-          } else {
-              ++this.isResouceShow;
-              if (item.value.length == 1) {
-                  this.deleteParent(item)
-                  this.$message({
-                      type: 'success',
-                      message: '删除成功',
-                  });
-              } else {
-                  this.findDel(this.tableData, 0, item)
-                  this.$message({
-                      type: 'success',
-                      message: '删除成功',
-                  });
-              }
-          }
-        }).catch((err) => {
-            console.log(err);
-            this.$message({
-                type: 'info',
-                message: '已取消删除',
-            })
-        })
-      },
-      // 删除父级节点
-      deleteParent(item) {
-          this.tableData.forEach((it, ix, arrs) => {
-              if (it == item) {
-                  return arrs.splice(ix, 1)
-              }
+        if (item.children.length !== 0) {
+          this.$message.warning({
+            message: '请删除子节点',
+            duration: 1000
           })
-      },
-      // 递归寻找同级
-      findSameTable(arr, i, casArr) {
-          if (i == casArr.length - 1) {
-              return arr
-          } else {
-              return this.findParent(
-                  arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
-                  (i += 1),
-                  casArr
-              )
+        } else {
+          ++this.isResouceShow
+          if (item.parentId === 0) { // 根结点
+            this.deleteRootNode(item)
+          } else { // 子节点
+            this.findDel(this.tableData, 0, item)
           }
-      },
-      // 递归表格数据(编辑)
-      findSd(arr, i, casArr) {
-          if (i == casArr.length - 1) {
-              let index = casArr[i].substr(casArr[i].length - 1, 1)
-              return arr.splice(index, 1, this.temp)
-          } else {
-              return this.findSd(
-                  arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
-                  (i += 1),
-                  casArr
-              )
-          }
-      },
-      // 递归寻找同步名称
-      findLable(arr, i, casArr) {
-          if (i == casArr.length - 1) {
-              let index = casArr[i].substr(casArr[i].length - 1, 1);
-              return arr[index];
-          } else {
-              return this.findLable(
-                  arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
-                  (i += 1),
-                  casArr
-              )
-          }
-      },
-      // 同步子名称
-      useChildLable(arr) {
-          if (arr !== []) {
-              arr.forEach((item) => {
-                  item.parent = this.temp.label
-              })
-          }
-      },
-      // 递归表格数据(删除)
-      findDel(arr, i, item) {
-          let casArr = item.childKey
-          if (i == casArr.length - 2) {
-              let index = casArr[i].substr(casArr[i].length - 1, 1)
-              arr[index].children.forEach((it, ix, arrs) => {
-                  if (it === item) {
-                      return arrs.splice(ix, 1)
-                  }
-              })
-          } else {
-              return this.findDel(
-                  arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
-                  (i += 1),
-                  item
-              )
-          }
-      },
+          // debugger
+          // TODO 删除节点
+          // await deleteMenu(item)
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          })
+        }
+      }).catch((err) => { console.log(err) })
+    },
     // 打开更新
-      handleUpdate(row) {
-          console.log(row)
-          row.value.length !== 1
-              ? (this.sonStatus = true)
-              : (this.sonStatus = false)
-          this.temp = Object.assign({}, row) // copy obj
-          if (row.childKey) {
-              this.childKey = row.childKey
-              this.idx = row.childKey[row.childKey.length - 1]
-          } else {
-              this.idx = row.value
-          }
-          console.log(this.idx)
+    handleUpdate(row) {
+      row.parentId !== 0 ? (this.sonStatus = true) : (this.sonStatus = false)
+      this.temp = Object.assign({}, row) // copy obj
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+          this.$refs['dataForm'].clearValidate()
+      })
+    },
 
-          this.dialogStatus = 'update'
-          this.dialogFormVisible = true
-          this.$nextTick(() => {
-              this.$refs['dataForm'].clearValidate()
-          })
-      },
-    // 更新
-      updateData() {
-          this.$refs['dataForm'].validate((valid) => {
-              if (valid) {
-                  if (this.temp.location === '1') {
-                      console.log(this.temp)
-                      this.tableData.splice(this.idx, 1, this.temp)
-                      this.useChildLable(this.tableData[this.idx].children)
-                      this.$message({
-                          type: 'success',
-                          message: '编辑成功'
-                      })
-                      this.dialogFormVisible = false
-                  } else {
-                      this.findSd(this.tableData, 0, this.childKey)
-                      this.useChildLable(
-                          this.findLable(this.tableData, 0, this.childKey)
-                              .children
-                      )
-                      this.$message({
-                          type: 'success',
-                          message: '编辑成功'
-                      })
-                      this.dialogFormVisible = false
-                  }
-              } else {
-                  return false
-              }
-          })
+    // 同步子名称
+    useChildLable(arr) {
+      if (arr !== []) {
+        arr.forEach((item) => {
+          item.parent = this.temp.title
+        })
       }
+    },
+    // 递归表格数据(编辑)
+    findSd(arr, i, casArr) {
+      if (i === casArr.length - 1) {
+        const index = casArr[i].substr(casArr[i].length - 1, 1)
+        return arr.splice(index, 1, this.temp)
+      } else {
+        return this.findSd(
+          arr[casArr[i].substr(casArr[i].length - 1, 1)].children, (i += 1), casArr
+        )
+      }
+    },
+    // 递归寻找同步名称
+    findLable(arr, i, casArr) {
+      if (i === casArr.length - 1) {
+        const index = casArr[i].substr(casArr[i].length - 1, 1)
+        return arr[index]
+      } else {
+        return this.findLable(
+          arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
+          (i += 1),
+          casArr
+        )
+      }
+    },
+    // 更新
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          if (this.temp.location === '1') {
+            this.tableData.splice(this.idx, 1, this.temp)
+            this.useChildLable(this.tableData[this.idx].children)
+          } else {
+            this.findSd(this.tableData, 0, this.childKey)
+            this.useChildLable(this.findLable(this.tableData, 0, this.childKey).children)
+          }
+          // TODO 编辑节点
+          // await updateMenu(item)
+          this.$message({
+            type: 'success',
+            message: '编辑成功'
+          })
+          this.dialogFormVisible = false
+        } else {
+          return false
+        }
+      })
+    },
+    // 查找父级(添加)
+    findParent(arr, i, casArr) {
+      let currVal
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[j].id === casArr[i]) {
+          currVal = j
+          break
+        }
+      }
+      if (i === (casArr.length - 1)) {
+        return arr[currVal]
+      } else {
+        return this.findParent(arr[currVal].children, (i += 1), this.casArr)
+      }
+    }
   }
 }
 </script>
