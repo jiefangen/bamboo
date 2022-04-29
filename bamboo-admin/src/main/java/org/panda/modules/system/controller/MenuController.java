@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigInteger;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -28,5 +30,12 @@ public class MenuController {
     public ResultVO getMenus(){
         List<MenuPO> routes = menuService.getMenus();
         return ResultVO.getSuccess(routes);
+    }
+
+    @GetMapping("/getChildKeys")
+    public ResultVO getChildKeys(BigInteger menuId){
+        List<BigInteger> childKeys = menuService.getChildKeys(menuId);
+        Collections.reverse(childKeys);
+        return ResultVO.getSuccess(childKeys);
     }
 }

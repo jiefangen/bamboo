@@ -7,4 +7,12 @@ export function getMenus() {
   })
 }
 
-export default { getMenus }
+export function getChildKeys(menuId) {
+  return request({
+    url: '/auth/system/menu/getChildKeys',
+    method: 'get',
+    params: { menuId }
+  })
+}
+
+export default { getMenus, getChildKeys }

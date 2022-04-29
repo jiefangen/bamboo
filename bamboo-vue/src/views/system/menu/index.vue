@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { getMenus } from '@/api/system/menu'
+import { getMenus, getChildKeys } from '@/api/system/menu'
 
 export default {
   filters: {
@@ -138,7 +138,6 @@ export default {
       sonStatus: false,
       casArr: [],
       idx: '',
-      childKey: [],
       rules: {
         location: [{ required: true, message: '请选择层级', trigger: 'blur' }],
         children: [{ required: true, message: '请选择子级位置', trigger: 'blur' }],
@@ -161,7 +160,7 @@ export default {
     this.getMenus()
   },
   methods: {
-    // 获取菜单tree数据源
+    // 异步获取菜单tree数据源
     async getMenus() {
       const res = await getMenus()
       this.tableData = res.data
@@ -248,26 +247,23 @@ export default {
         }
       })
     },
-    // 递归表格删除数据(删除)
-    findDel(arr, i, item) {
-      // const casArr = item.childKey
-      // if (i === casArr.length - 2) {
-      //   const index = casArr[i].substr(casArr[i].length - 1, 1)
-      //   arr[index].children.forEach((it, ix, arrs) => {
-      //     if (it === item) {
-      //       return arrs.splice(ix, 1)
-      //     }
-      //   })
-      // } else {
-      //   return this.findDel(arr[casArr[i].substr(casArr[i].length - 1, 1)].children, (i += 1), item)
-      // }
-      // 第二层级子节点删除
+    // 递归表格删除子级数据(删除，最少两个层级)
+    findDel(arr, i, item, childKeys) {
+      let index
       for (let j = 0; j < arr.length; j++) {
-        arr[j].children.forEach((it, ix, arrs) => {
+        if (arr[j].id === childKeys[i]) {
+          index = j
+          break
+        }
+      }
+      if (i === (childKeys.length - 2)) {
+        arr[index].children.forEach((it, ix, arrs) => {
           if (it === item) {
             return arrs.splice(ix, 1)
           }
         })
+      } else {
+        return this.findDel(arr[index].children, (i += 1), item, childKeys)
       }
     },
     // 删除节点
@@ -287,7 +283,11 @@ export default {
           if (item.parentId === 0) { // 根结点
             this.deleteRootNode(item)
           } else { // 子节点
-            this.findDel(this.tableData, 0, item)
+            // 获取childKeys
+            getChildKeys(item.id).then(response => {
+              const childKeys = response.data
+              this.findDel(this.tableData, 0, item, childKeys)
+            })
           }
           // debugger
           // TODO 删除节点
@@ -299,62 +299,53 @@ export default {
         }
       }).catch((err) => { console.log(err) })
     },
+    findIndex(arr, id) {
+      for (let index = 0; index < arr.length; index++) {
+        if (arr[index].id === id) {
+          return index
+        }
+      }
+    },
     // 打开更新
     handleUpdate(row) {
       row.parentId !== 0 ? (this.sonStatus = true) : (this.sonStatus = false)
       this.temp = Object.assign({}, row) // copy obj
+      this.idx = this.findIndex(this.tableData, row.id)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
           this.$refs['dataForm'].clearValidate()
       })
     },
-
-    // 同步子名称
-    useChildLable(arr) {
-      if (arr !== []) {
-        arr.forEach((item) => {
-          item.parent = this.temp.title
-        })
+    // 递归表格修改子级节点数据(编辑)
+    findSd(arr, i, childKeys) {
+      let index
+      for (let j = 0; j < arr.length; j++) {
+        if (arr[j].id === childKeys[i]) {
+          index = j
+          break
+        }
       }
-    },
-    // 递归表格数据(编辑)
-    findSd(arr, i, casArr) {
-      if (i === casArr.length - 1) {
-        const index = casArr[i].substr(casArr[i].length - 1, 1)
+      if (i === (childKeys.length - 1)) {
         return arr.splice(index, 1, this.temp)
       } else {
-        return this.findSd(
-          arr[casArr[i].substr(casArr[i].length - 1, 1)].children, (i += 1), casArr
-        )
-      }
-    },
-    // 递归寻找同步名称
-    findLable(arr, i, casArr) {
-      if (i === casArr.length - 1) {
-        const index = casArr[i].substr(casArr[i].length - 1, 1)
-        return arr[index]
-      } else {
-        return this.findLable(
-          arr[casArr[i].substr(casArr[i].length - 1, 1)].children,
-          (i += 1),
-          casArr
-        )
+        return this.findSd(arr[index].children, (i += 1), childKeys)
       }
     },
     // 更新
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          if (this.temp.location === '1') {
+          if (this.temp.parentId === 0) { // 根节点
             this.tableData.splice(this.idx, 1, this.temp)
-            this.useChildLable(this.tableData[this.idx].children)
           } else {
-            this.findSd(this.tableData, 0, this.childKey)
-            this.useChildLable(this.findLable(this.tableData, 0, this.childKey).children)
+            getChildKeys(this.temp.id).then(response => {
+              const childKeys = response.data
+              this.findSd(this.tableData, 0, childKeys)
+            })
           }
           // TODO 编辑节点
-          // await updateMenu(item)
+          // await updateMenu(this.temp)
           this.$message({
             type: 'success',
             message: '编辑成功'
@@ -364,21 +355,6 @@ export default {
           return false
         }
       })
-    },
-    // 查找父级(添加)
-    findParent(arr, i, casArr) {
-      let currVal
-      for (let j = 0; j < arr.length; j++) {
-        if (arr[j].id === casArr[i]) {
-          currVal = j
-          break
-        }
-      }
-      if (i === (casArr.length - 1)) {
-        return arr[currVal]
-      } else {
-        return this.findParent(arr[currVal].children, (i += 1), this.casArr)
-      }
     }
   }
 }
