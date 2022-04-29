@@ -12,7 +12,7 @@
       style="width: 100%; margin-top: 20px"
     >
       <!-- meta元素 -->
-      <el-table-column label="标题">
+      <el-table-column label="菜单标题">
         <template slot-scope="{row}">
           <svg-icon :icon-class="row.icon" />
           <span style="margin-left: 16px">{{ row.title }}</span>
@@ -21,8 +21,8 @@
 
       <!-- 菜单节点元素 -->
       <!-- <el-table-column prop="menuName" label="名称" /> -->
-      <el-table-column prop="menuPath" label="路径" />
-      <el-table-column prop="redirect" label="跳转" />
+      <el-table-column prop="menuPath" label="菜单路径" />
+      <el-table-column prop="redirect" label="菜单跳转" />
       <el-table-column prop="component" label="组件映射" align="center" />
       <el-table-column label="隐藏" align="center" width="120">
         <template slot-scope="{row}">
