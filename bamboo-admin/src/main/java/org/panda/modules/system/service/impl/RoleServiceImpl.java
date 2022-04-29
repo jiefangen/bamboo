@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -46,15 +47,6 @@ public class RoleServiceImpl implements RoleService {
             roleList.add(roleDTO);
         });
         return roleList;
-    }
-
-    private BigInteger getParentOfChild(BigInteger menuId) {
-        BigInteger parentId = menuDao.findParentById(menuId);
-        if (parentId == BigInteger.ZERO) {
-            return menuId;
-        } else {
-            return getParentOfChild(parentId);
-        }
     }
 
     @Override

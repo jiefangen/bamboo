@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -29,5 +30,20 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuVO> getRoutes() {
         return menuDao.findRouteByParentId(BigInteger.ZERO);
+    }
+
+    private List<BigInteger> getParentOfChild(List<BigInteger> childKeys, BigInteger menuId) {
+        BigInteger parentId = menuDao.findParentById(menuId);
+        childKeys.add(menuId);
+        if (parentId == null || parentId == BigInteger.ZERO) {
+            return childKeys;
+        } else {
+            return getParentOfChild(childKeys, parentId);
+        }
+    }
+
+    @Override
+    public List<BigInteger> getChildKeys(BigInteger menuId) {
+        return getParentOfChild(new LinkedList<>(), menuId);
     }
 }
