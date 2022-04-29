@@ -8,20 +8,23 @@
       :tree-props="defaultProps"
       default-expand-all
       border
-      stripe
       class="menu-tree"
       style="width: 100%; margin-top: 20px"
     >
       <!-- meta元素 -->
-      <el-table-column prop="title" label="标题" />
-      <el-table-column prop="icon" label="图标" align="center" />
+      <el-table-column label="标题">
+        <template slot-scope="{row}">
+          <svg-icon :icon-class="row.icon" />
+          <span style="margin-left: 16px">{{ row.title }}</span>
+        </template>
+      </el-table-column>
 
       <!-- 菜单节点元素 -->
       <!-- <el-table-column prop="menuName" label="名称" /> -->
       <el-table-column prop="menuPath" label="路径" />
       <el-table-column prop="redirect" label="跳转" />
       <el-table-column prop="component" label="组件映射" align="center" />
-      <el-table-column label="隐藏" align="center" width="100">
+      <el-table-column label="隐藏" align="center" width="120">
         <template slot-scope="{row}">
           <el-tag :type="row.isHidden | statusFilter">
             {{ row.isHidden === '1' ?'YES':'NO' }}
@@ -30,7 +33,7 @@
       </el-table-column>
 
       <!-- 菜单列表排序 -->
-      <el-table-column prop="sort" label="排序" align="center" width="80" />
+      <el-table-column prop="sort" label="排序" align="center" width="100" />
 
       <!-- 树节点操作 -->
       <el-table-column label="操作" :align="alignDir" width="220">
@@ -82,8 +85,11 @@
         </el-form-item>
 
         <!-- 编辑面板专用 -->
-        <el-form-item v-if="dialogStatus === 'update'" label="菜单隐藏" prop="isHidden">
-          <el-input v-model="temp.isHidden" size="small" autocomplete="off" placeholder="请输入菜单隐藏" />
+        <el-form-item v-if="dialogStatus === 'update'" label="菜单隐藏">
+          <el-select v-model="temp.isHidden" size="small" class="filter-item">
+            <el-option v-for="(item, index) in statusOptions" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
+          <!-- <el-input v-model="temp.isHidden" size="small" autocomplete="off" placeholder="请输入菜单隐藏" /> -->
         </el-form-item>
         <el-form-item v-if="dialogStatus === 'update'" label="菜单排序" prop="sort">
           <el-input v-model="temp.sort" size="small" autocomplete="off" placeholder="请输入菜单排序" />
@@ -131,6 +137,15 @@ export default {
         update: '编辑',
         create: '新增菜单'
       },
+      statusOptions: [
+        {
+          value: '0',
+          label: 'NO'
+        }, {
+          value: '1',
+          label: 'YES'
+        }
+      ],
       dialogStatus: '',
       dialogFormVisible: false,
       temp: {},
