@@ -8,20 +8,23 @@
       :tree-props="defaultProps"
       default-expand-all
       border
-      stripe
       class="menu-tree"
       style="width: 100%; margin-top: 20px"
     >
       <!-- meta元素 -->
-      <el-table-column prop="title" label="标题" />
-      <el-table-column prop="icon" label="图标" align="center" />
+      <el-table-column label="菜单标题">
+        <template slot-scope="{row}">
+          <svg-icon :icon-class="row.icon" />
+          <span style="margin-left: 16px">{{ row.title }}</span>
+        </template>
+      </el-table-column>
 
       <!-- 菜单节点元素 -->
       <!-- <el-table-column prop="menuName" label="名称" /> -->
-      <el-table-column prop="menuPath" label="路径" />
-      <el-table-column prop="redirect" label="跳转" />
+      <el-table-column prop="menuPath" label="菜单路径" />
+      <el-table-column prop="redirect" label="菜单跳转" />
       <el-table-column prop="component" label="组件映射" align="center" />
-      <el-table-column label="隐藏" align="center" width="100">
+      <el-table-column label="隐藏" align="center" width="120">
         <template slot-scope="{row}">
           <el-tag :type="row.isHidden | statusFilter">
             {{ row.isHidden === '1' ?'YES':'NO' }}
@@ -30,7 +33,7 @@
       </el-table-column>
 
       <!-- 菜单列表排序 -->
-      <el-table-column prop="sort" label="排序" align="center" width="80" />
+      <el-table-column prop="sort" label="排序" align="center" width="100" />
 
       <!-- 树节点操作 -->
       <el-table-column label="操作" :align="alignDir" width="220">
@@ -82,8 +85,11 @@
         </el-form-item>
 
         <!-- 编辑面板专用 -->
-        <el-form-item v-if="dialogStatus === 'update'" label="菜单隐藏" prop="isHidden">
-          <el-input v-model="temp.isHidden" size="small" autocomplete="off" placeholder="请输入菜单隐藏" />
+        <el-form-item v-if="dialogStatus === 'update'" label="菜单隐藏">
+          <el-select v-model="temp.isHidden" size="small" class="filter-item">
+            <el-option v-for="(item, index) in statusOptions" :key="index" :label="item.label" :value="item.value" />
+          </el-select>
+          <!-- <el-input v-model="temp.isHidden" size="small" autocomplete="off" placeholder="请输入菜单隐藏" /> -->
         </el-form-item>
         <el-form-item v-if="dialogStatus === 'update'" label="菜单排序" prop="sort">
           <el-input v-model="temp.sort" size="small" autocomplete="off" placeholder="请输入菜单排序" />
@@ -103,7 +109,7 @@
 </template>
 
 <script>
-import { getMenus, getChildKeys } from '@/api/system/menu'
+import { getMenus, getChildKeys, addMenu, deleteMenu, updateMenu } from '@/api/system/menu'
 
 export default {
   filters: {
@@ -131,6 +137,15 @@ export default {
         update: '编辑',
         create: '新增菜单'
       },
+      statusOptions: [
+        {
+          value: '0',
+          label: 'NO'
+        }, {
+          value: '1',
+          label: 'YES'
+        }
+      ],
       dialogStatus: '',
       dialogFormVisible: false,
       temp: {},
@@ -160,7 +175,7 @@ export default {
     this.getMenus()
   },
   methods: {
-    // 异步获取菜单tree数据源
+    // 获取菜单tree数据源
     async getMenus() {
       const res = await getMenus()
       this.tableData = res.data
@@ -215,7 +230,7 @@ export default {
           obj.id = new Date().getTime() // 添加树时需要，此处使用时间戳来确保树节点唯一
           if (this.sonStatus === false) { // 顶级菜单
             // 新增节点自动排在末尾
-            this.temp.sort = String(this.tableData.length) // 后续考虑放到后端统计生成
+            // this.temp.sort = String(this.tableData.length) // 后续考虑放到后端统计生成
             obj.parentId = 0
             this.tableData.push(obj)
           } else { // 子级菜单
@@ -225,15 +240,17 @@ export default {
             const currentArr = this.find(this.tableData, 0)
             currentArr.push(obj)
           }
-          // debugger
-          // TODO 新增菜单
-          // await createMenu(obj)
-          this.$message({
-            type: 'success',
-            message: '新增菜单成功',
-            duration: 2000
+          // 新增菜单
+          addMenu(obj).then(response => {
+            if (response.code === 20000) {
+              this.$message({
+                type: 'success',
+                message: '新增菜单成功',
+                duration: 2000
+              })
+              this.dialogFormVisible = false
+            }
           })
-          this.dialogFormVisible = false
         } else {
           return false
         }
@@ -289,12 +306,14 @@ export default {
               this.findDel(this.tableData, 0, item, childKeys)
             })
           }
-          // debugger
-          // TODO 删除节点
-          // await deleteMenu(item)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
+          // 删除节点
+          deleteMenu(item.id).then(response => {
+            if (response.code === 20000) {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }
           })
         }
       }).catch((err) => { console.log(err) })
@@ -344,13 +363,17 @@ export default {
               this.findSd(this.tableData, 0, childKeys)
             })
           }
-          // TODO 编辑节点
-          // await updateMenu(this.temp)
-          this.$message({
-            type: 'success',
-            message: '编辑成功'
+          // 编辑节点
+          updateMenu(this.temp).then(response => {
+            if (response.code === 20000) {
+              this.$message({
+                type: 'success',
+                message: '编辑成功',
+                duration: 2000
+              })
+              this.dialogFormVisible = false
+            }
           })
-          this.dialogFormVisible = false
         } else {
           return false
         }

@@ -64,4 +64,12 @@ public interface MenuDao {
      * @param menuIds
      */
     void updateRoleRoutes(@Param("roleId") BigInteger roleId, @Param("menuIds") List<BigInteger> menuIds);
+
+    void insertMenu(@Param("menu") MenuPO menu);
+
+    int deleteMenu(@Param("menuId") BigInteger menuId);
+
+    Boolean delMenuVerify(@Param("menuId") BigInteger menuId);
+
+    int updateMenu(@Param("menu") MenuPO menu);
 }

@@ -69,7 +69,7 @@ export const constantRoutes = [
       redirect: '/dashboard',
       children: [{
         path: 'dashboard',
-        name: 'dashboard',
+        name: 'dashboard', // 设定路由的名字，一定要填写不然使用<keep-alive>时会出现各种问题
         component: () => import('@/views/dashboard/index'),
         meta: { title: '首页', icon: 'dashboard' }
       }]
