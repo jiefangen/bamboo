@@ -55,7 +55,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public int updateMenu(MenuPO menu) {
-        return 0;
+        return menuDao.updateMenu(menu);
     }
 
     @Override

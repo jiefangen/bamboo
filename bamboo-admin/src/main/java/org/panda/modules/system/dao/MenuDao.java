@@ -2,7 +2,6 @@ package org.panda.modules.system.dao;
 
 import org.apache.ibatis.annotations.Param;
 import org.panda.modules.system.domain.po.MenuPO;
-import org.panda.modules.system.domain.po.RolePO;
 import org.panda.modules.system.domain.vo.MenuVO;
 
 import java.math.BigInteger;
@@ -71,4 +70,6 @@ public interface MenuDao {
     int deleteMenu(@Param("menuId") BigInteger menuId);
 
     Boolean delMenuVerify(@Param("menuId") BigInteger menuId);
+
+    int updateMenu(@Param("menu") MenuPO menu);
 }

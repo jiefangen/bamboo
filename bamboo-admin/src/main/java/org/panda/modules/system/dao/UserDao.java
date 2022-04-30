@@ -6,7 +6,6 @@ import org.panda.modules.system.domain.dto.UserDTO;
 import org.panda.modules.system.domain.po.UserPO;
 
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Set;
 
 public interface UserDao {

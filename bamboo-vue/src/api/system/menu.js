@@ -30,4 +30,12 @@ export function deleteMenu(menuId) {
   })
 }
 
-export default { getMenus, getChildKeys, addMenu, deleteMenu }
+export function updateMenu(data) {
+  return request({
+    url: `/auth/system/menu/update`,
+    method: 'put',
+    data
+  })
+}
+
+export default { getMenus, getChildKeys, addMenu, deleteMenu, updateMenu }

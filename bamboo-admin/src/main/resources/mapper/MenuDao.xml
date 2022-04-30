@@ -113,4 +113,17 @@
               UNION ALL
               SELECT count(1) AS sum1 FROM sys_role_menu WHERE menu_id = #{menuId} ) AS total
     </select>
+
+    <update id="updateMenu">
+        update sys_menu
+        <set>
+            <if test="menu.title != null">title=#{menu.title},</if>
+            <if test="menu.menuPath != null">menu_path=#{menu.menuPath},</if>
+            <if test="menu.component != null">component=#{menu.component},</if>
+            <if test="menu.icon != null">icon=#{menu.icon},</if>
+            <if test="menu.isHidden != null">hidden=#{menu.isHidden},</if>
+            <if test="menu.sort != null">sort=#{menu.sort},</if>
+        </set>
+        where id = #{menu.id}
+    </update>
 </mapper>

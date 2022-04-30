@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { getMenus, getChildKeys, addMenu, deleteMenu } from '@/api/system/menu'
+import { getMenus, getChildKeys, addMenu, deleteMenu, updateMenu } from '@/api/system/menu'
 
 export default {
   filters: {
@@ -242,7 +242,7 @@ export default {
           }
           // 新增菜单
           addMenu(obj).then(response => {
-            if (response) {
+            if (response.code === 20000) {
               this.$message({
                 type: 'success',
                 message: '新增菜单成功',
@@ -363,13 +363,17 @@ export default {
               this.findSd(this.tableData, 0, childKeys)
             })
           }
-          // TODO 编辑节点
-          // await updateMenu(this.temp)
-          this.$message({
-            type: 'success',
-            message: '编辑成功'
+          // 编辑节点
+          updateMenu(this.temp).then(response => {
+            if (response.code === 20000) {
+              this.$message({
+                type: 'success',
+                message: '编辑成功',
+                duration: 2000
+              })
+              this.dialogFormVisible = false
+            }
           })
-          this.dialogFormVisible = false
         } else {
           return false
         }
