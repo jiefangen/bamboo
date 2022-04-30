@@ -89,4 +89,28 @@
         </if>
     </update>
 
+    <insert id="insertMenu">
+        insert into sys_menu (<include refid="menuColumns"/>)
+            values(#{menu.id}, #{menu.parentId},
+                   #{menu.menuPath}, #{menu.redirect},
+                   CONCAT('router-', #{menu.title}), #{menu.title},
+                   #{menu.icon}, #{menu.component},
+                   0, (select IFNULL(sort, 0) from
+                          (select (max(distinct sort) + 1) as sort from sys_menu where parent_id = #{menu.parentId}) as t
+                       )
+                   )
+    </insert>
+
+    <delete id="deleteMenu">
+        delete from sys_menu where id = #{menuId}
+    </delete>
+
+    <select id="delMenuVerify" resultType="java.lang.Boolean">
+        SELECT
+            sum(sum1)
+        FROM
+            ( SELECT count(1) AS sum1 FROM sys_menu WHERE parent_id = #{menuId}
+              UNION ALL
+              SELECT count(1) AS sum1 FROM sys_role_menu WHERE menu_id = #{menuId} ) AS total
+    </select>
 </mapper>

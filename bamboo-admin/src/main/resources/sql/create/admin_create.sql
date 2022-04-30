@@ -20,7 +20,7 @@ CREATE TABLE SYS_USER (
                           create_time DATETIME NOT NULL,
                           update_time DATETIME,
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 10000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
 
 
 DROP TABLE IF EXISTS `SYS_USER_ROLE`;
@@ -39,7 +39,7 @@ CREATE TABLE SYS_ROLE (
                           create_time DATETIME NOT NULL,
                           update_time DATETIME,
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 10000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
 
 
 DROP TABLE IF EXISTS `SYS_ROLE_MENU`;
@@ -59,10 +59,10 @@ CREATE TABLE `SYS_MENU` (
                             redirect VARCHAR(255),
                             title VARCHAR(300),
                             icon VARCHAR(300),
-                            hidden TINYINT(1),
-                            sort INT,
+                            hidden TINYINT(1) default(0),
+                            sort INT default(0),
                             PRIMARY KEY (`id`) USING BTREE
-)ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
+)ENGINE = InnoDB AUTO_INCREMENT = 10000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
 
 DROP TABLE IF EXISTS `SYS_ACTION_LOG`;
 CREATE TABLE SYS_ACTION_LOG (
@@ -76,10 +76,10 @@ CREATE TABLE SYS_ACTION_LOG (
 ) ENGINE = InnoDB AUTO_INCREMENT=2 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统操作日志' ROW_FORMAT=Compact;
 
 
-ALTER TABLE SYS_MENU ADD CONSTRAINT FK_SYS_MENU_PARENT_ID_MENU FOREIGN KEY (parent_id) REFERENCES SYS_MENU (id);
-
 ALTER TABLE SYS_USER_ROLE ADD CONSTRAINT FK_SYS_USER_ROLE_USER_ID_USER FOREIGN KEY (user_id) REFERENCES SYS_USER (id);
 ALTER TABLE SYS_USER_ROLE ADD CONSTRAINT FK_SYS_USER_ROLE_ROLE_ID_ROLE FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
 
 ALTER TABLE SYS_ROLE_MENU ADD CONSTRAINT FK_SYS_ROLE_MENU_0 FOREIGN KEY (menu_id) REFERENCES SYS_MENU (id);
 ALTER TABLE SYS_ROLE_MENU ADD CONSTRAINT FK_SYS_ROLE_MENU_1 FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
+
+# ALTER TABLE SYS_MENU ADD CONSTRAINT FK_SYS_MENU_PARENT_ID_MENU FOREIGN KEY (parent_id) REFERENCES SYS_MENU (id);

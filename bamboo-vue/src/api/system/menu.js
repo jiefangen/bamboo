@@ -15,4 +15,19 @@ export function getChildKeys(menuId) {
   })
 }
 
-export default { getMenus, getChildKeys }
+export function addMenu(data) {
+  return request({
+    url: '/auth/system/menu/add',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteMenu(menuId) {
+  return request({
+    url: `/auth/system/menu/del/${menuId}`,
+    method: 'delete'
+  })
+}
+
+export default { getMenus, getChildKeys, addMenu, deleteMenu }

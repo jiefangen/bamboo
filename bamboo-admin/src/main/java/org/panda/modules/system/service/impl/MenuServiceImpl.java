@@ -1,5 +1,6 @@
 package org.panda.modules.system.service.impl;
 
+import org.panda.common.exception.SystemException;
 import org.panda.modules.system.dao.MenuDao;
 import org.panda.modules.system.domain.po.MenuPO;
 import org.panda.modules.system.domain.vo.MenuVO;
@@ -45,5 +46,24 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<BigInteger> getChildKeys(BigInteger menuId) {
         return getParentOfChild(new LinkedList<>(), menuId);
+    }
+
+    @Override
+    public void addMenu(MenuPO menu) {
+        menuDao.insertMenu(menu);
+    }
+
+    @Override
+    public int updateMenu(MenuPO menu) {
+        return 0;
+    }
+
+    @Override
+    public int deleteMenu(BigInteger menuId) throws SystemException {
+        // 校验该角色是否绑定的有用户或菜单权限资源
+        if (menuDao.delMenuVerify(menuId)) {
+            throw new SystemException("Delete the submenu or unbind the menu role first.");
+        }
+        return menuDao.deleteMenu(menuId);
     }
 }
