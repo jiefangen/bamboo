@@ -158,7 +158,8 @@ export default {
         children: [{ required: true, message: '请选择子级位置', trigger: 'blur' }],
         menuPath: [{ required: true, message: '请输入菜单路径', trigger: 'blur' }],
         component: [{ required: true, message: '请输入组件映射', trigger: 'blur' }],
-        title: [{ required: true, message: '请输入菜单标题', trigger: 'blur' }]
+        title: [{ required: true, message: '请输入菜单标题', trigger: 'blur' }],
+        icon: [{ required: true, message: '请输入菜单图标', trigger: 'blur' }]
       },
       locationData: [
         { id: '1', name: '顶级' },
@@ -230,11 +231,9 @@ export default {
           obj.id = new Date().getTime() // 添加树时需要，此处使用时间戳来确保树节点唯一
           if (this.sonStatus === false) { // 顶级菜单
             // 新增节点自动排在末尾
-            // this.temp.sort = String(this.tableData.length) // 后续考虑放到后端统计生成
             obj.parentId = 0
             this.tableData.push(obj)
           } else { // 子级菜单
-            // obj.parentId = this.findParent(this.tableData, 0, this.casArr).id
             obj.parentId = this.casArr[this.casArr.length - 1]
             // 获取当前子级节点位置下的集合
             const currentArr = this.find(this.tableData, 0)
@@ -243,12 +242,14 @@ export default {
           // 新增菜单
           addMenu(obj).then(response => {
             if (response.code === 20000) {
-              this.$message({
-                type: 'success',
-                message: '新增菜单成功',
-                duration: 2000
-              })
               this.dialogFormVisible = false
+              this.$confirm('菜单新增成功，是否刷新即刻生效？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                location.reload()
+              })
             }
           })
         } else {
@@ -297,28 +298,29 @@ export default {
           })
         } else {
           ++this.isResouceShow
-          if (item.parentId === 0) { // 根结点
-            this.deleteRootNode(item)
-          } else { // 子节点
-            // 获取childKeys
-            getChildKeys(item.id).then(response => {
-              const childKeys = response.data
-              this.findDel(this.tableData, 0, item, childKeys)
-            })
-          }
-          // 删除节点
-          deleteMenu(item.id).then(response => {
-            if (response.code === 20000) {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              })
-            }
-          })
+          this.toDelete(item)
         }
       }).catch((err) => { console.log(err) })
     },
-    findIndex(arr, id) {
+    async toDelete(item) {
+      const res = await deleteMenu(item.id)
+      if (res && res.code === 20000) {
+        if (item.parentId === 0) { // 根结点
+          this.deleteRootNode(item)
+        } else { // 子节点
+          // 获取childKeys
+          const resChildKeys = await getChildKeys(item.parentId)
+          const childKeys = resChildKeys.data
+          childKeys.push(item.id)
+          this.findDel(this.tableData, 0, item, childKeys)
+        }
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }
+    },
+     findIndex(arr, id) {
       for (let index = 0; index < arr.length; index++) {
         if (arr[index].id === id) {
           return index
@@ -355,29 +357,31 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          if (this.temp.parentId === 0) { // 根节点
-            this.tableData.splice(this.idx, 1, this.temp)
-          } else {
-            getChildKeys(this.temp.id).then(response => {
-              const childKeys = response.data
-              this.findSd(this.tableData, 0, childKeys)
-            })
-          }
-          // 编辑节点
-          updateMenu(this.temp).then(response => {
-            if (response.code === 20000) {
-              this.$message({
-                type: 'success',
-                message: '编辑成功',
-                duration: 2000
-              })
-              this.dialogFormVisible = false
-            }
-          })
+          this.toUpdate(this.temp)
         } else {
           return false
         }
       })
+    },
+    async toUpdate(temp) {
+      const res = await updateMenu(temp)
+      if (res && res.code === 20000) {
+        if (temp.parentId === 0) { // 根节点
+          this.tableData.splice(this.idx, 1, temp)
+        } else {
+          // 获取childKeys
+          const resChildKeys = await getChildKeys(temp.parentId)
+          const childKeys = resChildKeys.data
+          childKeys.push(temp.id)
+          this.findSd(this.tableData, 0, childKeys)
+        }
+        this.$message({
+          type: 'success',
+          message: '编辑成功',
+          duration: 2000
+        })
+        this.dialogFormVisible = false
+      }
     }
   }
 }
