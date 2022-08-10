@@ -10,10 +10,6 @@
         <module>../bamboo-gateway</module>
         <module>../bamboo-business</module>
         <module>../bamboo-support</module>
-        <!-- 后台管理系统前端 -->
-        <module>../bamboo-vue</module>
-        <!-- 后台管理系统后端 -->
-        <module>../bamboo-admin</module>
     </modules>
     <packaging>pom</packaging>
 
