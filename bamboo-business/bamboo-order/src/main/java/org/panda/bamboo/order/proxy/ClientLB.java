@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 客户端LB
  *
- * @author jvfagan
+ * @author jiefagan
  * @date: 2019/04/15
  **/
 public class ClientLB {
