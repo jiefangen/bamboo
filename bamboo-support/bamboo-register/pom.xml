@@ -5,11 +5,12 @@
     <parent>
         <artifactId>bamboo-support</artifactId>
         <groupId>org.panda.bamboo</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bamboo-register</artifactId>
+    <version>${release.version}</version>
     <description>服务注册中心</description>
 
     <dependencies>
@@ -54,13 +55,4 @@
         </dependencies>
     </dependencyManagement>
 
-    <!--<build>-->
-        <!--<finalName>bamboo-register</finalName>-->
-        <!--<plugins>-->
-            <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--</plugin>-->
-        <!--</plugins>-->
-    <!--</build>-->
 </project>

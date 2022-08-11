@@ -1,4 +1,4 @@
-package org.panda.bamboo.register;
+package org.panda.register;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,15 +7,15 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 /**
  * 服务注册发现中心
  *
- * @author: jvfagan
- * @since JDK 1.8  2019/3/19
+ * @author: fangen
+ * @since 2019/3/19
  **/
 @SpringBootApplication
 @EnableEurekaServer
-public class EurekaServerApplicaion {
+public class EurekaServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EurekaServerApplicaion.class,args);
+        SpringApplication.run(EurekaServerApplication.class,args);
     }
 
 }

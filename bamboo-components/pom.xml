@@ -10,16 +10,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bamboo-business</artifactId>
+    <artifactId>bamboo-components</artifactId>
     <version>${release.version}</version>
     <packaging>pom</packaging>
     <name>${artifactId}</name>
-    <description>具体业务服务层</description>
-
-    <modules>
-        <module>bamboo-order</module>
-        <module>bamboo-product</module>
-    </modules>
-
+    <description>基础公共组件，可供其他服务包使用</description>
 
 </project>

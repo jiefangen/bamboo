@@ -5,16 +5,16 @@
     <parent>
         <artifactId>bamboo-parent</artifactId>
         <groupId>org.panda.bamboo</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0.RELEASE</version>
         <relativePath>../bamboo-parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bamboo-support</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${release.version}</version>
     <packaging>pom</packaging>
     <name>${artifactId}</name>
-    <description>Support service layer</description>
+    <description>微服务支撑服务层</description>
 
     <modules>
         <module>bamboo-register</module>

@@ -1,4 +1,4 @@
-package org.panda.bamboo.authorization.configurer;
+package org.panda.authorization.configurer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

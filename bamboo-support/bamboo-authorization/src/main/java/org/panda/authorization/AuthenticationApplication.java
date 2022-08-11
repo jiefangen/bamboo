@@ -1,4 +1,4 @@
-package org.panda.bamboo.authorization;
+package org.panda.authorization;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

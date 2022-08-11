@@ -1,4 +1,4 @@
-package org.panda.bamboo.authorization.controller;
+package org.panda.authorization.controller;
 
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
