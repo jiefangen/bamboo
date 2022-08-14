@@ -17,6 +17,7 @@
 
     <modules>
         <module>bamboo-common</module>
+        <module>bamboo-core</module>
     </modules>
 
 </project>

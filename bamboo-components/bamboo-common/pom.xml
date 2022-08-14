@@ -12,7 +12,12 @@
     <artifactId>bamboo-common</artifactId>
     <version>${release.version}</version>
     <packaging>jar</packaging>
-    <description>通用模块</description>
+    <description>服务支持通用模块</description>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <!-- commons-lang3 -->
@@ -28,11 +33,11 @@
             <version>2.0.10</version>
         </dependency>
 
-        <!--lombok插件-->
+        <!-- lombok插件 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+<!--            <optional>true</optional>--> <!-- 表示传递依赖，即别的包引用时该依赖不传递 -->
             <version>1.18.24</version>
         </dependency>
     </dependencies>

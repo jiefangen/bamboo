@@ -1,7 +1,7 @@
 package org.panda.common;
 
 import com.alibaba.fastjson.JSONObject;
-import org.panda.common.utils.UUIDUtils;
+import org.panda.common.utils.UUIDUtil;
 import org.panda.common.utils.collection.CustomCollectors;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CommonModule {
     public static void main(String[] args) {
         System.out.println(groupByNumberExample());
-        System.out.println(UUIDUtils.randomUUID8() + " " + UUIDUtils.randomUUID32());
+        System.out.println(UUIDUtil.randomUUID8() + " " + UUIDUtil.randomUUID32());
     }
 
     private static String groupByNumberExample() {
