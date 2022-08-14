@@ -13,7 +13,10 @@
     <artifactId>bamboo-components</artifactId>
     <version>${release.version}</version>
     <packaging>pom</packaging>
-    <name>${artifactId}</name>
-    <description>基础公共组件，可供其他服务包使用</description>
+    <description>基础公共组件包，可供其他服务包使用</description>
+
+    <modules>
+        <module>bamboo-common</module>
+    </modules>
 
 </project>
