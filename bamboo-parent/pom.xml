@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
 
     <name>${artifactId}</name>
-    <description>A microservice architecture</description>
+    <description>微服务架构</description>
 
     <properties>
         <release.version>1.0.RELEASE</release.version>
