@@ -2,23 +2,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>bamboo</artifactId>
         <groupId>org.panda</groupId>
         <version>1.0.RELEASE</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-
     <artifactId>bamboo-business</artifactId>
     <version>${release.version}</version>
     <packaging>pom</packaging>
-    <name>${artifactId}</name>
     <description>具体业务服务层</description>
-
     <modules>
         <module>bamboo-order</module>
         <module>bamboo-product</module>
     </modules>
-
 
 </project>
