@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bamboo-components</artifactId>
+    <artifactId>bamboo-technology</artifactId>
     <version>${release.version}</version>
     <packaging>pom</packaging>
-    <description>技术框架基础组件</description>
+    <description>技术框架基础支撑层</description>
 
     <modules>
         <module>bamboo-common</module>

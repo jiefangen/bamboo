@@ -7,17 +7,19 @@
     <artifactId>bamboo</artifactId>
     <version>1.0.RELEASE</version>
     <modules>
-         <!-- 具体业务服务层 -->
+        <!-- 具体业务应用层 -->
         <module>bamboo-business</module>
-         <!-- 微服务支撑服务层 -->
+        <!-- 微服务提供层 -->
+        
+        <!-- 微服务治理框架支撑层 -->
         <module>bamboo-support</module>
-         <!-- 技术框架基础组件 -->
-        <module>bamboo-components</module>
+        <!-- 技术框架基础支撑层 -->
+        <module>bamboo-technology</module>
     </modules>
     <packaging>pom</packaging>
 
     <name>${artifactId}</name>
-    <description>微服务架构</description>
+    <description>企业级微服务架构解决方案</description>
 
     <properties>
         <release.version>1.0.RELEASE</release.version>
