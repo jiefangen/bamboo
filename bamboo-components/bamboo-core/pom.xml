@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>bamboo-components</artifactId>
-        <groupId>org.panda.bamboo</groupId>
+        <groupId>org.panda</groupId>
         <version>1.0.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,7 +12,7 @@
     <artifactId>bamboo-core</artifactId>
     <version>${release.version}</version>
     <packaging>jar</packaging>
-    <description>服务支持核心模块</description>
+    <description>技术框架核心模块</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -20,9 +20,9 @@
     </properties>
 
     <dependencies>
-        <!-- 服务支持通用模块依赖 -->
+        <!-- 技术框架通用模块依赖 -->
         <dependency>
-            <groupId>org.panda.bamboo</groupId>
+            <groupId>org.panda</groupId>
             <artifactId>bamboo-common</artifactId>
             <version>${release.version}</version>
         </dependency>

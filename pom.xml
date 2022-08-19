@@ -3,16 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.panda.bamboo</groupId>
-    <artifactId>bamboo-parent</artifactId>
+    <groupId>org.panda</groupId>
+    <artifactId>bamboo</artifactId>
     <version>1.0.RELEASE</version>
     <modules>
-        <!-- 基础公共组件，可供其他服务包使用 -->
-        <module>../bamboo-components</module>
-        <!-- 微服务支撑服务层 -->
-        <module>../bamboo-support</module>
-        <!-- 具体业务服务层 -->
-        <module>../bamboo-business</module>
+         <!-- 具体业务服务层 -->
+        <module>bamboo-business</module>
+         <!-- 微服务支撑服务层 -->
+        <module>bamboo-support</module>
+         <!-- 技术框架基础组件 -->
+        <module>bamboo-components</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -27,7 +27,6 @@
         <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
         <spring-cloud.version>Edgware.SR3</spring-cloud.version>
 
-        <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

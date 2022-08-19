@@ -1,8 +1,9 @@
 package org.panda.common;
 
 import com.alibaba.fastjson.JSONObject;
+
+import org.panda.common.collection.CustomCollectors;
 import org.panda.common.utils.UUIDUtil;
-import org.panda.common.utils.collection.CustomCollectors;
 
 import java.util.ArrayList;
 import java.util.List;

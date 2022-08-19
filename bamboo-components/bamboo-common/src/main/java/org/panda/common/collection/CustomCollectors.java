@@ -1,4 +1,4 @@
-package org.panda.common.utils.collection;
+package org.panda.common.collection;
 
 import java.util.*;
 import java.util.function.BiConsumer;
