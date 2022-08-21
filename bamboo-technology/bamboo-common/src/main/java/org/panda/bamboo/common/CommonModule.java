@@ -1,9 +1,9 @@
-package org.panda.common;
+package org.panda.bamboo.common;
 
 import com.alibaba.fastjson.JSONObject;
 
-import org.panda.common.collection.CustomCollectors;
-import org.panda.common.utils.UUIDUtil;
+import org.panda.bamboo.common.collection.CustomCollectors;
+import org.panda.bamboo.common.utils.UUIDUtil;
 
 import java.util.ArrayList;
 import java.util.List;

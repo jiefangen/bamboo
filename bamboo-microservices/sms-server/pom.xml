@@ -8,15 +8,15 @@
         <groupId>org.panda</groupId>
         <version>1.0.RELEASE</version>
     </parent>
-    <artifactId>bamboo-sms</artifactId>
+    <artifactId>sms-server</artifactId>
     <version>${bamboo.version}</version>
-    <description>短信服务</description>
+    <description>短信服务器</description>
 
     <dependencies>
         <!-- 技术框架通用模块依赖 -->
-        <dependency>
-            <groupId>org.panda</groupId>
-            <artifactId>bamboo-core</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.panda</groupId>-->
+<!--            <artifactId>bamboo-core</artifactId>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

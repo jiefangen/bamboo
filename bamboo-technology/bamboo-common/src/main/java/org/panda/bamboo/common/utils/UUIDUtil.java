@@ -1,4 +1,4 @@
-package org.panda.common.utils;
+package org.panda.bamboo.common.utils;
 
 import java.util.UUID;
 

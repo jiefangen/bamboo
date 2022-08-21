@@ -3,4 +3,4 @@
 server:
   port: 10000
   servlet:
-    context-path: /bamboo-sms
+    context-path: /sms-server

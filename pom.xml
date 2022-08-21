@@ -14,14 +14,14 @@
     <name>${artifactId}</name>
     <description>企业级微服务架构解决方案</description>
     <modules>
-        <!-- 具体业务架构应用层 -->
-        <module>bamboo-business</module>
-        <!-- 微服务架构服务提供层 -->
-        <module>bamboo-microservices</module>
-        <!-- 微服务治理框架支撑层 -->
-        <module>bamboo-support</module>
         <!-- 技术框架基础支撑层 -->
         <module>bamboo-technology</module>
+        <!-- 微服务治理框架支撑层 -->
+        <module>bamboo-support</module>
+        <!-- 微服务架构服务提供层 -->
+        <module>bamboo-microservices</module>
+        <!-- 具体业务架构应用层 -->
+        <module>bamboo-business</module>
     </modules>
 
     <properties>
@@ -36,4 +36,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <release>${jdk-version}</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

@@ -1,4 +1,4 @@
-package org.panda.common.utils;
+package org.panda.bamboo.common.utils;
 
 import java.io.*;
 import java.util.zip.GZIPInputStream;

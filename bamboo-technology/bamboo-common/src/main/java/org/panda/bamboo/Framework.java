@@ -1,4 +1,4 @@
-package org.panda;
+package org.panda.bamboo;
 
 /**
  * 技术框架信息

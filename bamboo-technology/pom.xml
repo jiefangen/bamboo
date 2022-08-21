@@ -18,4 +18,5 @@
         <!-- 技术框架核心模块 -->
         <module>bamboo-core</module>
     </modules>
+
 </project>
