@@ -9,7 +9,7 @@
         <version>1.0.RELEASE</version>
     </parent>
     <artifactId>bamboo-support</artifactId>
-    <version>${release.version}</version>
+    <version>${bamboo.version}</version>
     <packaging>pom</packaging>
     <description>微服务治理框架支撑层</description>
     <modules>

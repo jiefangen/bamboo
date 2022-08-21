@@ -4,22 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>bamboo-technology</artifactId>
+        <artifactId>bamboo-microservices</artifactId>
         <groupId>org.panda</groupId>
         <version>1.0.RELEASE</version>
     </parent>
-    <artifactId>bamboo-core</artifactId>
+    <artifactId>bamboo-sms</artifactId>
     <version>${bamboo.version}</version>
-    <packaging>jar</packaging>
-    <description>技术框架核心模块</description>
+    <description>短信服务</description>
 
     <dependencies>
         <!-- 技术框架通用模块依赖 -->
         <dependency>
             <groupId>org.panda</groupId>
-            <artifactId>bamboo-common</artifactId>
-            <version>${bamboo.version}</version>
+            <artifactId>bamboo-core</artifactId>
         </dependency>
     </dependencies>
-
 </project>

@@ -14,9 +14,9 @@
     <name>${artifactId}</name>
     <description>企业级微服务架构解决方案</description>
     <modules>
-        <!-- 具体业务应用层 -->
+        <!-- 具体业务架构应用层 -->
         <module>bamboo-business</module>
-        <!-- 微服务提供层 -->
+        <!-- 微服务架构服务提供层 -->
         <module>bamboo-microservices</module>
         <!-- 微服务治理框架支撑层 -->
         <module>bamboo-support</module>
@@ -25,17 +25,15 @@
     </modules>
 
     <properties>
-        <release.version>1.0.RELEASE</release.version>
-        <snapshot.version>1.0-SNAPSHOT</snapshot.version>
-
         <spring.version>4.3.21.RELEASE</spring.version>
         <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
         <spring-cloud.version>Edgware.SR3</spring-cloud.version>
 
+        <jdk-version>11</jdk-version>
+        <bamboo.version>1.0.RELEASE</bamboo.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
 
 </project>

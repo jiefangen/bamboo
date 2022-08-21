@@ -9,7 +9,7 @@
         <version>1.0.RELEASE</version>
     </parent>
     <artifactId>bamboo-common</artifactId>
-    <version>${release.version}</version>
+    <version>${bamboo.version}</version>
     <packaging>jar</packaging>
     <description>技术框架通用模块</description>
 

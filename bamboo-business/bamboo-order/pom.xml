@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bamboo-order</artifactId>
-    <version>${release.version}</version>
+    <version>${bamboo.version}</version>
     <description>Basic order services</description>
 
     <dependencies>

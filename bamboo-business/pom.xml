@@ -9,7 +9,7 @@
         <version>1.0.RELEASE</version>
     </parent>
     <artifactId>bamboo-business</artifactId>
-    <version>${release.version}</version>
+    <version>${bamboo.version}</version>
     <packaging>pom</packaging>
     <description>具体业务服务层</description>
     <modules>
