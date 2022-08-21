@@ -9,12 +9,13 @@
         <version>1.0.RELEASE</version>
     </parent>
     <artifactId>bamboo-technology</artifactId>
-    <version>${release.version}</version>
+    <version>1.0.RELEASE</version>
     <packaging>pom</packaging>
     <description>技术框架基础支撑层</description>
     <modules>
+        <!-- 技术框架通用模块 -->
         <module>bamboo-common</module>
+        <!-- 技术框架核心模块 -->
         <module>bamboo-core</module>
     </modules>
-
 </project>

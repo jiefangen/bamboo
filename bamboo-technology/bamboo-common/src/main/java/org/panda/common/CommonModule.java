@@ -9,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 通用模块使用案例
+ * 通用模块
  *
  * @author fangen
- * @since 2022/8/13
  */
 public class CommonModule {
     public static void main(String[] args) {

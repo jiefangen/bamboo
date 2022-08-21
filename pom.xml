@@ -7,6 +7,10 @@
     <artifactId>bamboo</artifactId>
     <version>1.0.RELEASE</version>
     <packaging>pom</packaging>
+    <organization>
+        <name>bamboo</name>
+        <url>https://github.com/jiefangen/bamboo</url>
+    </organization>
     <name>${artifactId}</name>
     <description>企业级微服务架构解决方案</description>
     <modules>
@@ -32,4 +36,6 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+
 </project>
