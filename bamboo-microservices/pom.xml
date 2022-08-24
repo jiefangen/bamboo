@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
     <description>微服务架构服务提供层</description>
     <modules>
-        <!-- 短信服务器 -->
-        <module>sms-server</module>
+        <!-- 短信服务 -->
+        <module>sms-service</module>
     </modules>
 
     <dependencies>

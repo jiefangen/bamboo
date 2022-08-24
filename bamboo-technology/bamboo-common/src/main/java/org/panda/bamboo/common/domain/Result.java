@@ -1,9 +1,10 @@
 package org.panda.bamboo.common.domain;
 
 import lombok.Getter;
-import org.panda.bamboo.common.constant.enumeration.ReturnCode;
 
 import java.io.Serializable;
+
+import org.panda.bamboo.common.constant.enums.ReturnCode;
 
 /**
  * 定义restful接口标准返回格式

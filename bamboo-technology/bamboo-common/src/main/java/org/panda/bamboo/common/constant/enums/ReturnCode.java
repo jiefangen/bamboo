@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.constant.enumeration;
+package org.panda.bamboo.common.constant.enums;
 
 import lombok.Getter;
 

@@ -8,9 +8,9 @@
         <groupId>org.panda</groupId>
         <version>1.0.RELEASE</version>
     </parent>
-    <artifactId>sms-server</artifactId>
+    <artifactId>sms-service</artifactId>
     <version>${bamboo.version}</version>
-    <description>短信服务器</description>
+    <description>短信服务</description>
 
     <dependencies>
          <!-- 技术框架短信模块依赖 -->
