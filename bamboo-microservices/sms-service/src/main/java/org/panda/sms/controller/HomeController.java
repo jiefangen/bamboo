@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "home")
 public class HomeController {
     @GetMapping
-    public Result home() {
-        return Result.getSuccess("The SMS server");
+    public Result<String> home() {
+        return Result.success("The SMS server");
     }
 }

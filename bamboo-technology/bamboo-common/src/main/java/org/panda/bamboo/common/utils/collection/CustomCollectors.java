@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.collection;
+package org.panda.bamboo.common.utils.collection;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -22,7 +22,7 @@ public class CustomCollectors {
      * @return
      */
     public static <T> Collector<T, List<List<T>>, List<List<T>>> groupByNumber(int number){
-        return new NumberCollectorImpl(number);
+        return new NumberCollectorImpl<T>(number);
     }
 
     /**

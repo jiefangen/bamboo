@@ -1,7 +1,7 @@
 package org.panda.bamboo.common.constant;
 
 /**
- * 全局常量类
+ * 框架全局常量类
  *
  * @author jiefangen
  */

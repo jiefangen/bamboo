@@ -2,14 +2,14 @@ package org.panda.bamboo.common;
 
 import com.alibaba.fastjson.JSONObject;
 
-import org.panda.bamboo.common.collection.CustomCollectors;
 import org.panda.bamboo.common.utils.UUIDUtil;
+import org.panda.bamboo.common.utils.collection.CustomCollectors;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 通用模块
+ * 技术框架通用模块
  *
  * @author fangen
  */
