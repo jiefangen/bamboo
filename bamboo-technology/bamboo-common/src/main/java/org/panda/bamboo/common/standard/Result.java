@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.domain;
+package org.panda.bamboo.common.standard;
 
 import lombok.Getter;
 

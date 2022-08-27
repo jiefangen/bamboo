@@ -13,11 +13,11 @@
     <description>短信服务</description>
 
     <dependencies>
-         <!-- 技术框架短信模块依赖 -->
-        <dependency>
-            <groupId>org.panda</groupId>
-            <artifactId>bamboo-sms</artifactId>
-            <version>${bamboo.version}</version>
-        </dependency>
+<!--         &lt;!&ndash; 技术框架短信模块依赖 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.panda</groupId>-->
+<!--            <artifactId>bamboo-sms</artifactId>-->
+<!--            <version>${bamboo.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 </project>

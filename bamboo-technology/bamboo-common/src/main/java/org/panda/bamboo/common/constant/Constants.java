@@ -5,6 +5,6 @@ package org.panda.bamboo.common.constant;
  *
  * @author jiefangen
  */
-public class Constant {
+public class Constants {
 
 }

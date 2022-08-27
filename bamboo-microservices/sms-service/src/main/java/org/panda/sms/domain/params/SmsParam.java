@@ -2,6 +2,7 @@ package org.panda.sms.domain.params;
 
 import lombok.Data;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -22,5 +23,5 @@ public class SmsParam {
     /**
      * 手机号清单
      */
-    private String[] mobilePhones;
+    private List<String> mobilePhones;
 }
