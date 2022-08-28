@@ -13,7 +13,59 @@
     <packaging>pom</packaging>
     <description>具体业务服务层</description>
     <modules>
+        <!-- 后台管理系统业务 -->
+        <module>bamboo-admin</module>
         <module>bamboo-order</module>
     </modules>
+
+    <dependencies>
+        <!-- 技术框架核心模块依赖 -->
+        <dependency>
+            <groupId>org.panda</groupId>
+            <artifactId>bamboo-core</artifactId>
+            <version>${bamboo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <release>${jdk-version}</release>
+                </configuration>
+            </plugin>
+            <!-- 此插件可生成完全自包含的可执行jar文件 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
