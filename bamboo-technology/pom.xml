@@ -13,10 +13,36 @@
     <packaging>pom</packaging>
     <description>技术框架基础支撑层</description>
     <modules>
-        <!-- 技术框架通用模块 -->
-        <module>bamboo-common</module>
-        <!-- 技术框架核心模块 -->
-        <module>bamboo-core</module>
+        <!-- 核心模块-对上层服务提供统一依赖 -->
+        <module>technology-core</module>
+        <!-- 通用模块-只为本技术框架公共组件所依赖 -->
+        <module>technology-common</module>
+        <!-- 基础公共组件-存储库 -->
+        <module>technology-repo</module>
+        <!-- 基础公共组件-日志 -->
+        <module>technology-log</module>
     </modules>
+
+    <properties>
+        <technology.version>1.0.RELEASE</technology.version>
+        <jdk-version>11</jdk-version>
+
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.0</version>
+                <configuration>
+                    <release>${jdk-version}</release>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

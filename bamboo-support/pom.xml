@@ -13,10 +13,19 @@
     <packaging>pom</packaging>
     <description>微服务治理框架支撑层</description>
     <modules>
-        <module>bamboo-register</module>
-        <module>bamboo-config</module>
-        <module>bamboo-authorization</module>
+        <module>support-register</module>
+        <module>support-config</module>
+        <module>support-authorization</module>
     </modules>
+
+    <properties>
+        <support.version>1.0.RELEASE</support.version>
+        <spring-cloud.version>Edgware.SR3</spring-cloud.version>
+
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
     <dependencyManagement>
         <dependencies>

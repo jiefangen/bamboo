@@ -13,17 +13,18 @@
     <packaging>pom</packaging>
     <description>具体业务服务层</description>
     <modules>
-        <!-- 后台管理系统业务 -->
-        <module>bamboo-admin</module>
-        <module>bamboo-order</module>
+        <!-- 后台管理系统 -->
+        <module>business-admin</module>
+        <!-- 统一大平台系统 -->
+        <module>business-platform</module>
     </modules>
 
     <dependencies>
         <!-- 技术框架核心模块依赖 -->
         <dependency>
             <groupId>org.panda</groupId>
-            <artifactId>bamboo-core</artifactId>
-            <version>${bamboo.version}</version>
+            <artifactId>technology-core</artifactId>
+            <version>1.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
