@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
+        <groupId>org.panda.tech</groupId>
         <artifactId>bamboo-technology</artifactId>
-        <groupId>org.panda</groupId>
         <version>1.0.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -12,19 +12,40 @@
     <artifactId>technology-core</artifactId>
     <version>${technology.version}</version>
     <packaging>jar</packaging>
-    <description>核心模块-对上层服务提供统一依赖</description>
+    <description>核心聚合框架依赖-为上层服务提供统一技术支持</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.panda</groupId>
-            <artifactId>technology-repo</artifactId>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>technology-data</artifactId>
             <version>${technology.version}</version>
+        </dependency>
+
+        <!-- 单元测试Junit5 -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.9.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.panda</groupId>
-            <artifactId>technology-log</artifactId>
-            <version>${technology.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.0</version>
+            <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.9.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

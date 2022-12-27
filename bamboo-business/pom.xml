@@ -3,29 +3,34 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>bamboo</artifactId>
-        <groupId>org.panda</groupId>
-        <version>1.0.RELEASE</version>
-    </parent>
+    <groupId>org.panda.business</groupId>
     <artifactId>bamboo-business</artifactId>
     <version>1.0.RELEASE</version>
     <packaging>pom</packaging>
     <description>具体业务服务层</description>
     <modules>
-        <!-- 后台管理系统 -->
         <module>business-admin</module>
-        <!-- 统一大平台系统 -->
         <module>business-platform</module>
     </modules>
 
+    <properties>
+        <business.version>1.0.0</business.version>
+        <jdk-version>11</jdk-version>
+        <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencies>
-        <!-- 技术框架核心模块依赖 -->
+        <!-- 技术框架核心聚合组件依赖 -->
         <dependency>
-            <groupId>org.panda</groupId>
+            <groupId>org.panda.tech</groupId>
             <artifactId>technology-core</artifactId>
-            <version>1.0.RELEASE</version>
+            <version>1.0.0</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

@@ -3,29 +3,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>bamboo</artifactId>
-        <groupId>org.panda</groupId>
-        <version>1.0.RELEASE</version>
-    </parent>
+    <groupId>org.panda.tech</groupId>
     <artifactId>bamboo-technology</artifactId>
     <version>1.0.RELEASE</version>
     <packaging>pom</packaging>
     <description>技术框架基础支撑层</description>
     <modules>
-        <!-- 核心模块-对上层服务提供统一依赖 -->
         <module>technology-core</module>
-        <!-- 通用模块-只为本技术框架公共组件所依赖 -->
         <module>technology-common</module>
-        <!-- 基础公共组件-存储库 -->
-        <module>technology-repo</module>
-        <!-- 基础公共组件-日志 -->
-        <module>technology-log</module>
+        <module>technology-data</module>
     </modules>
 
     <properties>
-        <technology.version>1.0.RELEASE</technology.version>
+        <technology.version>1.0.0</technology.version>
         <jdk-version>11</jdk-version>
+        <spring.version>5.2.15.RELEASE</spring.version>
 
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

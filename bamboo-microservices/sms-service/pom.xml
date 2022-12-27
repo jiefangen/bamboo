@@ -2,22 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>bamboo-microservices</artifactId>
-        <groupId>org.panda</groupId>
+        <groupId>org.panda.service</groupId>
+        <artifactId>bamboo-microservice</artifactId>
         <version>1.0.RELEASE</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
+
     <artifactId>sms-service</artifactId>
-    <version>${bamboo.version}</version>
+    <version>${service.version}</version>
     <description>短信服务</description>
 
     <dependencies>
-<!--         &lt;!&ndash; 技术框架短信模块依赖 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.panda</groupId>-->
-<!--            <artifactId>bamboo-sms</artifactId>-->
-<!--            <version>${bamboo.version}</version>-->
-<!--        </dependency>-->
+
     </dependencies>
 </project>

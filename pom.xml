@@ -28,9 +28,9 @@
         <bamboo.version>1.0.RELEASE</bamboo.version>
         <jdk-version>11</jdk-version>
 
-        <spring.version>4.3.21.RELEASE</spring.version>
-        <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
-        <spring-cloud.version>Edgware.SR3</spring-cloud.version>
+        <spring.version>5.2.15.RELEASE</spring.version>
+        <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
+        <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
 
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

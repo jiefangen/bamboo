@@ -1,7 +1,7 @@
 package org.panda.core;
 
 /**
- * 核心模块
+ * 核心聚合模块
  *
  * @author fangen
  */
