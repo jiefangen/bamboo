@@ -7,11 +7,11 @@
     <artifactId>bamboo-technology</artifactId>
     <version>1.0.RELEASE</version>
     <packaging>pom</packaging>
-    <description>技术框架基础支撑层</description>
+    <description>技术框架基础支持层</description>
     <modules>
-        <module>technology-core</module>
-        <module>technology-common</module>
-        <module>technology-data</module>
+        <module>bamboo-core</module>
+        <module>bamboo-common</module>
+        <module>bamboo-data</module>
     </modules>
 
     <properties>

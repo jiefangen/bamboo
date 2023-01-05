@@ -1,6 +1,6 @@
 package org.panda.sms.controller;
 
-import org.panda.bamboo.common.standard.Result;
+import org.panda.core.restful.RestfulResult;
 import org.panda.sms.domain.params.SmsParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "sms")
 public class SmsController {
     @PostMapping("/send")
-    public Result send(@RequestBody SmsParam smsParam) {
-        return Result.success(smsParam);
+    public RestfulResult send(@RequestBody SmsParam smsParam) {
+        return RestfulResult.success(smsParam);
     }
 }

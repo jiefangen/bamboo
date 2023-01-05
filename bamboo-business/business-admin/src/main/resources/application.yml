@@ -1,6 +1,35 @@
+spring:
+  application:
+    name: business-admin
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
-# 服务相关配置
+# 系统相关配置
 server:
   port: 11001
   servlet:
-    context-path: /bamboo-admin
+    context-path: /business-admin
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+# 分页插件mysql
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countsql
+
+# 日志相关配置
+# 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符
+pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n"
+logging:
+  config: classpath:config/logback.xml
+  pattern:
+    console: ${pattern}
+    file: ${pattern}
+  file:
+    path: /Users/fangen/Public/Logs/bamboo-admin/logs

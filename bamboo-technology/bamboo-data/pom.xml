@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.panda.tech</groupId>
+        <artifactId>bamboo-technology</artifactId>
+        <version>1.0.RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bamboo-data</artifactId>
+    <version>${technology.version}</version>
+    <packaging>jar</packaging>
+    <description>数据存储、访问、转换等相关技术支持框架</description>
+
+    <dependencies>
+        <!-- 技术框架通用工具组件 -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-common</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
