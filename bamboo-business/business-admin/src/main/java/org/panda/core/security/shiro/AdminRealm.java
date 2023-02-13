@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @author jiefangen
  * @since JDK 1.8  2020/5/11
  **/
-public class AdminRealm extends AuthorizingRealm{
+public class AdminRealm extends AuthorizingRealm {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizingRealm.class);
 
     @Autowired
