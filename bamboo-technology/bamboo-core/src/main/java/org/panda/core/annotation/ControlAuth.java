@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Auth {
+public @interface ControlAuth {
     /**
      * 是否需要登录
      */

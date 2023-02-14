@@ -1,4 +1,4 @@
-package org.panda.core.restful;
+package org.panda.core.spec;
 
 /**
  * 定义返回数据结构
@@ -7,7 +7,7 @@ package org.panda.core.restful;
  */
 public interface IResult {
 	
-	Integer getCode();
+	int getCode();
 	
     String getMessage();
 }

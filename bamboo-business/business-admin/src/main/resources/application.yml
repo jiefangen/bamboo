@@ -21,7 +21,7 @@ page helper:
   helperDialect: mysql
   reasonable: true
   supportMethodsArguments: true
-  params: count=countsql
+  params: count=count-sql
 
 # 日志相关配置
 # 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符

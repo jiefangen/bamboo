@@ -1,4 +1,4 @@
-package org.panda.core.grouper;
+package org.panda.core.algorithm;
 
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -12,7 +12,7 @@ import java.util.stream.Collector;
  *
  * @param <T>
  */
-class NumberCollector<T> implements Collector<T, List<List<T>>, List<List<T>>> {
+public class NumberCollector<T> implements Collector<T, List<List<T>>, List<List<T>>> {
     // 每组的个数
     private int number;
 

@@ -1,7 +1,8 @@
-package org.panda.core.restful;
+package org.panda.core.spec.restful;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.panda.core.spec.IResult;
 
 @Getter
 @AllArgsConstructor
@@ -15,7 +16,7 @@ public enum ResultEnum implements IResult {
      */
     FAILURE(5001, "failure");
 
-    private Integer code;
+    private int code;
     private String message;
     
 }

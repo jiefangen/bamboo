@@ -1,7 +1,8 @@
-package org.panda.core.grouper;
+package org.panda.core.algorithm;
 
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.panda.core.algorithm.grouper.CollectionGrouper;
 
 import java.util.ArrayList;
 import java.util.List;

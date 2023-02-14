@@ -1,6 +1,7 @@
-package org.panda.core.restful;
+package org.panda.core.spec.restful;
 
 import lombok.Getter;
+import org.panda.core.spec.IResult;
 
 import java.io.Serializable;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
 public class RestfulResult<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private Integer code;
+    private int code;
 
     private String message;
 
@@ -42,7 +43,7 @@ public class RestfulResult<T> implements Serializable {
         return transform(ResultEnum.FAILURE.getCode(), message, null);
     }
 
-    public static RestfulResult<?> failure(Integer code , String message){
+    public static RestfulResult<?> failure(int code , String message){
         return transform(code, message, null);
     }
     
@@ -51,7 +52,7 @@ public class RestfulResult<T> implements Serializable {
     }
 
     private static <T> RestfulResult<T> transform(int code, String message, T data){
-        RestfulResult<T> result = new RestfulResult<T>();
+        RestfulResult<T> result = new RestfulResult<>();
         result.code = code;
         result.message = message;
         result.data = data;
