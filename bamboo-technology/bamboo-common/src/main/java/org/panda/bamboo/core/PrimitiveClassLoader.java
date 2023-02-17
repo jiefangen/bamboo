@@ -1,7 +1,7 @@
 package org.panda.bamboo.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.StringConstant;
+import org.panda.bamboo.common.constant.StringsConstant;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class PrimitiveClassLoader extends ClassLoader {
 
     @Override
     protected Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
-        if (StringUtils.isNotBlank(className) && !className.contains(StringConstant.DOT)) { // 不含句点的很可能为原生类型
+        if (StringUtils.isNotBlank(className) && !className.contains(StringsConstant.DOT)) { // 不含句点的很可能为原生类型
             Class<?> clazz;
             if (this.wrapped) {
                 clazz = WRAPPED_CLASSES.get(className);

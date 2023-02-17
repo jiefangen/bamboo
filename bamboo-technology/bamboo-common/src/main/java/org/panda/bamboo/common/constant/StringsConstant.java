@@ -5,9 +5,9 @@ package org.panda.bamboo.common.constant;
  *
  * @author fangen
  */
-public class StringConstant {
+public class StringsConstant {
 
-    private StringConstant() { // 禁止实例化
+    private StringsConstant() { // 禁止实例化
     }
 
     /**
