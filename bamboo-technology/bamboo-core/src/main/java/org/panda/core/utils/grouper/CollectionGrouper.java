@@ -1,4 +1,4 @@
-package org.panda.core.algorithm.grouper;
+package org.panda.core.utils.grouper;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.panda.core.exception.ParamException;

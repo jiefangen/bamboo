@@ -1,6 +1,4 @@
-package org.panda.core.algorithm.grouper;
-
-import org.panda.core.algorithm.NumberCollector;
+package org.panda.core.utils.grouper;
 
 import java.util.List;
 import java.util.stream.Collector;

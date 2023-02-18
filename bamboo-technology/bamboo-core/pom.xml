@@ -22,6 +22,12 @@
             <version>${technology.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
         <!-- 单元测试Junit5 -->
         <dependency>
             <groupId>org.junit.platform</groupId>

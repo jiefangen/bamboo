@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 /**
@@ -58,6 +60,26 @@ public class EncryptUtil {
     public static String encryptByMd5(Object source) {
         byte[] data = toBytes(source);
         return DigestUtils.md5DigestAsHex(data);
+    }
+
+    public static String encryptBySha(Object source, String shaType) {
+        try {
+            byte[] data = toBytes(source);
+            MessageDigest digest = MessageDigest.getInstance(shaType);
+            byte[] digestBytes = digest.digest(data);
+            StringBuffer result = new StringBuffer();
+            for (int i = 0; i < digestBytes.length; i++) {
+                String shaHex = Integer.toHexString(digestBytes[i] & 0xFF);
+                if (shaHex.length() < 2) {
+                    result.append(0);
+                }
+                result.append(shaHex);
+            }
+            return result.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

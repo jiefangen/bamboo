@@ -1,4 +1,4 @@
-package org.panda.core.algorithm;
+package org.panda.core.utils.grouper;
 
 import java.util.*;
 import java.util.function.BiConsumer;

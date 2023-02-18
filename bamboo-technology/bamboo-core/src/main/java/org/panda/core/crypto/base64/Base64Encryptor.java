@@ -4,7 +4,7 @@ import org.panda.bamboo.common.utils.EncryptUtil;
 import org.panda.core.crypto.BilateralEncryptor;
 
 /**
- * BASE64可逆编码算法
+ * BASE6编码算法（可逆）
  * 算法简介：Base64编码使用64个字符（A-Z，a-z，0-9，+和/）来表示二进制数据，其中每个字符表示6个位。
  * 使用场景：电子邮件中传输二进制文件；Web应用程序中传输数据；存储密码等。
  *
