@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 /**
  * 集合工具类
  *
- * @author jianglei
+ * @author fangen
  */
 public class CollectionUtil {
 

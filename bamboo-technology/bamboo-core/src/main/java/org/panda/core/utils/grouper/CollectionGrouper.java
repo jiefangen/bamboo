@@ -1,7 +1,7 @@
 package org.panda.core.utils.grouper;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.panda.core.exception.ParamException;
+import org.panda.core.exception.param.ParamException;
 
 import java.util.List;
 

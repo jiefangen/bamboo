@@ -1,4 +1,4 @@
-package org.panda.core.algorithm;
+package org.panda.core.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import org.junit.jupiter.api.Test;

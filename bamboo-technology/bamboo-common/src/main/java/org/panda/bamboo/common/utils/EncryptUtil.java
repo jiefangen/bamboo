@@ -5,16 +5,17 @@ import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.StringsConstant;
 import org.springframework.util.DigestUtils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.*;
+import java.security.*;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
 /**
- * 加密工具类
+ * 加密算法工具类
  *
  * @author fangen
  */
@@ -35,8 +36,8 @@ public class EncryptUtil {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     public static String encryptByBase64(Object source) {
@@ -77,6 +78,110 @@ public class EncryptUtil {
             }
             return result.toString();
         } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String encryptByAes(String source, String key) {
+        try {
+            // 对密钥进行处理
+            byte[] keyBytes = key.getBytes(StringsConstant.ENCODING_UTF8);
+            byte[] paddedKeyBytes = new byte[16];
+            int keyLength = keyBytes.length;
+            if (keyLength > 16) {
+                keyLength = 16;
+            }
+            System.arraycopy(keyBytes, 0, paddedKeyBytes, 0, keyLength);
+            // 初始化加密器
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecretKeySpec keySpec = new SecretKeySpec(paddedKeyBytes, "AES");
+            IvParameterSpec ivSpec = new IvParameterSpec(paddedKeyBytes);
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
+            // 进行加密
+            byte[] encrypted = cipher.doFinal(source.getBytes(StringsConstant.ENCODING_UTF8));
+            // 对结果进行base64编码并返回
+            return Base64.getEncoder().encodeToString(encrypted);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String decryptByAes(String encryptedText, String key) {
+        try {
+            // 对密钥进行处理
+            byte[] keyBytes = key.getBytes(StringsConstant.ENCODING_UTF8);
+            byte[] paddedKeyBytes = new byte[16];
+            int keyLength = keyBytes.length;
+            if (keyLength > 16) {
+                keyLength = 16;
+            }
+            System.arraycopy(keyBytes, 0, paddedKeyBytes, 0, keyLength);
+            // 初始化解密器
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            SecretKeySpec keySpec = new SecretKeySpec(paddedKeyBytes, "AES");
+            IvParameterSpec ivSpec = new IvParameterSpec(paddedKeyBytes);
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, ivSpec);
+            // 对数据进行base64解码并进行解密
+            byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+            // 返回解密结果
+            return new String(decrypted, StringsConstant.ENCODING_UTF8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String encryptByRsa(Object source, Object publicKey) {
+        try {
+            PublicKey pubKey = null;
+            if (publicKey instanceof InputStream) { // 从文件中读取公钥
+                ObjectInputStream ois = new ObjectInputStream((InputStream) publicKey);
+                pubKey = (PublicKey) ois.readObject();
+                ois.close();
+            } else if (publicKey instanceof String) { // 从Base64串中读取公钥
+                String publicKeyStr = (String) publicKey;
+                byte[] pubKeyBytes = Base64.getDecoder().decode(publicKeyStr);
+                KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+                pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(pubKeyBytes));
+            }
+            if (pubKey != null) {
+                // 得到Cipher对象来实现对源数据的RSA加密
+                Cipher cipher = Cipher.getInstance("RSA");
+                cipher.init(Cipher.ENCRYPT_MODE, pubKey);
+                byte[] data = toBytes(source);
+                // 执行加密操作
+                byte[] b1 = cipher.doFinal(data);
+                return encryptByBase64(b1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String decryptByRsa(String encryptedText, Object privateKey) {
+        try {
+            PrivateKey privKey = null;
+            if (privateKey instanceof InputStream) { // 从文件中读取私钥
+                ObjectInputStream ois = new ObjectInputStream((InputStream) privateKey);
+                privKey = (PrivateKey) ois.readObject();
+                ois.close();
+            } else if (privateKey instanceof String) { // 从Base64串中读取私钥
+                String privateKeyStr = (String) privateKey;
+                byte[] privKeyBytes = Base64.getDecoder().decode(privateKeyStr);
+                KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+                privKey = keyFactory.generatePrivate(new PKCS8EncodedKeySpec(privKeyBytes));
+            }
+
+            if (privKey != null) {
+                // 得到Cipher对象对已用公钥加密的数据进行RSA解密
+                Cipher cipher = Cipher.getInstance("RSA");
+                cipher.init(Cipher.DECRYPT_MODE, privKey);
+                return decryptByBase64(encryptedText);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

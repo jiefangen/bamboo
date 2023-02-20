@@ -7,7 +7,6 @@ import java.util.stream.Collector;
  * 自定义Collector集合分组器
  *
  * @author fangen
- * @since 2022/8/10
  */
 public class CustomCollectors {
     /**

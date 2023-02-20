@@ -6,7 +6,7 @@ import org.panda.core.crypto.Encryptor;
 /**
  * SHA系列算法加密器（不可逆）
  * 算法简介：SHA是一种密码学哈希函数，用于将数据转换为固定长度的散列值。
- * 使用场景：数据完整性验证；数字签名；数据加密；随机数生成等。
+ * 使用场景：数据完整性验证、数字签名、数据加密、随机数生成等。
  *
  * @author fangen
  */
@@ -27,7 +27,7 @@ public class ShaEncryptor implements Encryptor {
 
     @Override
     public String encrypt(Object source) {
-        return EncryptUtil.encryptBySha(source, SHA3_256);
+        return EncryptUtil.encryptBySha(source, SHA_256);
     }
 
 }
