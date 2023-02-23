@@ -1,4 +1,4 @@
-package org.panda.core.annotation;
+package org.panda.bamboo.core.annotation;
 
 import java.lang.annotation.*;
 
@@ -6,7 +6,6 @@ import java.lang.annotation.*;
  * 接口权限管控注解
  *
  * @author fangen
- * @since 2022/8/14
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

@@ -15,7 +15,7 @@
     <description>核心聚合框架依赖-为上层服务提供统一技术支持</description>
 
     <dependencies>
-        <!-- 技术框架通用工具组件 -->
+        <!-- 技术框架通用规范依赖 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-common</artifactId>
