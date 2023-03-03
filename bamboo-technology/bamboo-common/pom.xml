@@ -12,7 +12,7 @@
     <artifactId>bamboo-common</artifactId>
     <version>${technology.version}</version>
     <packaging>jar</packaging>
-    <description>通用规范框架依赖-为本技术框架提供基础支持</description>
+    <description>通用规范组件-为本技术框架提供基础支持</description>
 
     <dependencies>
         <dependency>

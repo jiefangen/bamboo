@@ -1,7 +1,7 @@
 package org.panda.core.crypto.base64;
 
-import org.panda.bamboo.common.utils.EncryptUtil;
 import org.panda.core.crypto.BilateralEncryptor;
+import org.panda.core.util.EncryptUtil;
 
 /**
  * BASE6编码算法（可逆）

@@ -1,7 +1,7 @@
 package org.panda.core.crypto.sha;
 
-import org.panda.bamboo.common.utils.EncryptUtil;
 import org.panda.core.crypto.Encryptor;
+import org.panda.core.util.EncryptUtil;
 
 /**
  * SHA系列算法加密器（不可逆）

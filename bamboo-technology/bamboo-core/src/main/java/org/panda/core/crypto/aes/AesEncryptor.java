@@ -1,7 +1,7 @@
 package org.panda.core.crypto.aes;
 
-import org.panda.bamboo.common.utils.EncryptUtil;
 import org.panda.core.crypto.KeyBilateralEncryptor;
+import org.panda.core.util.EncryptUtil;
 
 /**
  * AES算法加密器（对称可逆）

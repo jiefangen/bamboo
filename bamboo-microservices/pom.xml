@@ -10,6 +10,7 @@
     <description>微服务架构服务提供层</description>
     <modules>
         <module>sms-service</module>
+        <module>doc-service</module>
     </modules>
 
     <properties>

@@ -15,12 +15,13 @@
     <description>数据存储、访问、转换等相关技术支持框架</description>
 
     <dependencies>
-        <!-- 技术框架通用工具组件 -->
+        <!-- 技术框架通用规范依赖 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-common</artifactId>
             <version>${technology.version}</version>
         </dependency>
+
     </dependencies>
 
 </project>

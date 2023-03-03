@@ -12,7 +12,7 @@
     <artifactId>bamboo-core</artifactId>
     <version>${technology.version}</version>
     <packaging>jar</packaging>
-    <description>核心聚合框架依赖-为上层服务提供统一技术支持</description>
+    <description>核心聚合组件-为上层服务提供统一技术支持</description>
 
     <dependencies>
         <!-- 技术框架通用规范依赖 -->

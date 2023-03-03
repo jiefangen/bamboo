@@ -1,7 +1,7 @@
-package org.panda.data.model;
+package org.panda.bamboo.common.model;
 
 /**
- * 模型
+ * 原生模型
  * 
  * @author fangen
  */

@@ -1,4 +1,4 @@
-package org.panda.sms.controller;
+package org.panda.doc.controller;
 
 import org.panda.core.spec.restful.RestfulResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
     @GetMapping
     public RestfulResult<String> home() {
-        return RestfulResult.success("The sms microservice");
+        return RestfulResult.success("The doc microservice");
     }
 }

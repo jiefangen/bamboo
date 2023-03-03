@@ -1,0 +1,5 @@
+# 服务相关配置
+server:
+  port: 10002
+  servlet:
+    context-path: /doc-service

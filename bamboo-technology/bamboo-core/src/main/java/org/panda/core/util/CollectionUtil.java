@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.utils;
+package org.panda.core.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
