@@ -16,13 +16,13 @@ public class PagedResult extends Pagination {
     protected PagedResult() {
     }
 
-    public PagedResult(int pageSize, int currentPage, long totalPages) {
-        super(pageSize, currentPage);
-        this.total = totalPages;
-        this.morePage = ((long) pageSize * currentPage) < totalPages;
+    public PagedResult(int pageSize, int pageNo, long total) {
+        super(pageSize, pageNo);
+        this.total = total;
+        this.morePage = ((long) pageSize * pageNo) < total;
     }
 
-    public PagedResult(int pageSize, int pageNo, boolean morePage) {
+    protected PagedResult(int pageSize, int pageNo, boolean morePage) {
         super(pageSize, pageNo);
         this.morePage = morePage;
     }
@@ -37,7 +37,7 @@ public class PagedResult extends Pagination {
         return pagedResult;
     }
 
-    public Long getTotalPages() {
+    public Long getTotal() {
         return this.total;
     }
 

@@ -1,15 +1,15 @@
 package org.panda.data.model;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.io.Serializable;
 
 /**
- * 分页领域组件模型
+ * 分页组件模型
  *
  * @author fangen
  */
-@Data
+@Getter
 public class Pagination implements Serializable {
     private static final long serialVersionUID = 9076452816013992553L;
 
