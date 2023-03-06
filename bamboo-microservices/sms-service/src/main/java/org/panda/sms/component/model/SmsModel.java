@@ -1,18 +1,19 @@
 package org.panda.sms.component.model;
 
 import lombok.Data;
+import org.panda.bamboo.common.model.DomainModel;
 
 import java.util.Date;
 import java.util.List;
 
 /**
- * 短信模型
+ * 短信领域模型
  *
  * @author fangen
  * @since 2022/8/27
  */
 @Data
-public class SmsModel {
+public class SmsModel implements DomainModel {
     /**
      * 内容清单
      */
