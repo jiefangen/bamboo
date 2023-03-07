@@ -3,3 +3,11 @@ server:
   port: 10002
   servlet:
     context-path: /doc-service
+
+# Swagger自定义API文档配置
+swagger:
+  basePackage: org.panda.doc.controller
+  enabled: true
+  apiInfo:
+    title: Doc Microservice API
+    desc: 文档微服务，致力于传统Office套件文件解析、转换、存储等服务。
