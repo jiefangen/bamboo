@@ -1,4 +1,4 @@
-package org.panda.core.configuration;
+package org.panda.core.config;
 
 import org.panda.core.security.interceptor.TokenInterceptor;
 import org.springframework.context.annotation.Configuration;

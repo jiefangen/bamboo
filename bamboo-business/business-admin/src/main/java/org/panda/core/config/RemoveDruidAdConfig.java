@@ -1,4 +1,4 @@
-package org.panda.core.configuration;
+package org.panda.core.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;

@@ -1,4 +1,4 @@
-package org.panda.core.configuration;
+package org.panda.core.config;
 
 import org.springframework.beans.factory.annotation.Value;
 

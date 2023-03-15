@@ -1,5 +1,6 @@
 package org.panda.doc.common;
 
+import org.apache.commons.io.FilenameUtils;
 import org.panda.bamboo.common.constant.StringsConstant;
 
 /**
@@ -14,6 +15,10 @@ public class DocUtil {
             extension = extension.substring(1);
         }
         return extension.toLowerCase();
+    }
+
+    public static String getExtension(String filename) {
+        return FilenameUtils.getExtension(filename);
     }
 
 }

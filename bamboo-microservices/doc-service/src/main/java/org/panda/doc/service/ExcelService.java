@@ -5,6 +5,9 @@ import org.panda.doc.core.DocFactory;
 import org.panda.doc.core.excel.Excel;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 /**
  * Excel文档操作服务
  *
@@ -13,12 +16,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExcelService {
 
-    private DocFactory docFactory = new DocFactory();
+    private Excel excel = (Excel) DocFactory.getDocument(DocConstant.EXCEL);
 
-    public String dataRead() {
-        Excel excel = (Excel) docFactory.getDocument(DocConstant.EXCEL);
-        excel.read();
-        return "";
+    public String readExcel(InputStream inputStream, String fileExtension) {
+        try {
+            String excelContent = excel.read(inputStream, fileExtension);
+            return excelContent;
+        } catch (IOException e) {
+            // do nothing
+        }
+        return null;
     }
 
 }

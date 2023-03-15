@@ -14,4 +14,7 @@ public class DocConstant {
     public static final String WORD = "WORD";
     public static final String PPT = "PPT";
 
+    public static final String EXCEL_XLS = "xls";
+    public static final String EXCEL_XLSX = "xlsx";
+
 }
