@@ -1,14 +1,16 @@
 package org.panda.doc.core.excel;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.StringsConstant;
 import org.panda.doc.common.DocConstant;
+import org.panda.doc.core.model.DocModel;
+import org.panda.doc.core.model.ExcelModel;
 
+import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedHashMap;
@@ -20,7 +22,7 @@ import java.util.Map;
 public class ExcelDoc implements Excel {
 
     @Override
-    public Map<String, Object> imports(InputStream inputStream, String extension) {
+    public Map<String, Object> read(InputStream inputStream, String extension) {
         Map<String, Object> contentMap = new LinkedHashMap<>();
         try {
             if (DocConstant.EXCEL_XLS.equalsIgnoreCase(extension)) {
@@ -39,7 +41,7 @@ public class ExcelDoc implements Excel {
                 workbook.close();
             }
         } catch (IOException e) {
-            // do nothing
+            e.printStackTrace();
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
@@ -87,7 +89,36 @@ public class ExcelDoc implements Excel {
     }
 
     @Override
-    public void exports() {
+    public void create(DocModel docModel, ServletOutputStream outputStream) {
+        try {
+            Workbook workbook = WorkbookFactory.create(true);
+            ExcelModel excelModel = (ExcelModel) docModel;
+
+            String sheetName = excelModel.getSheetName();
+            if (StringUtils.isEmpty(sheetName)) {
+                sheetName = "Sheet1";
+            }
+            Sheet sheet = workbook.createSheet(sheetName);
+            // 添加标题行
+            Row headerRow = sheet.createRow(0);
+            Cell headerCell1 = headerRow.createCell(0);
+            headerCell1.setCellValue("列1");
+            Cell headerCell2 = headerRow.createCell(1);
+            headerCell2.setCellValue("列2");
+
+            // 添加数据行
+            Row dataRow = sheet.createRow(1);
+            Cell dataCell1 = dataRow.createCell(0);
+            dataCell1.setCellValue("数据1");
+            Cell dataCell2 = dataRow.createCell(1);
+            dataCell2.setCellValue("数据2");
+
+            workbook.write(outputStream);
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

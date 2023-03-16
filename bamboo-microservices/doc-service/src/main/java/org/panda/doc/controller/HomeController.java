@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/home")
 public class HomeController {
+
     @GetMapping
     public RestfulResult<String> home() {
         return RestfulResult.success("The doc microservice");
