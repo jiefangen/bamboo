@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/excel")
@@ -25,11 +26,11 @@ public class ExcelController {
         InputStream inputStream = excelFile.getInputStream();
         String fileExtension = DocUtil.getExtension(excelFile.getOriginalFilename());
 
-        String result = excelService.readExcel(inputStream, fileExtension);
-        if (result == null) { // 处理失败
+        Map<String, Object> excelContent = excelService.readExcel(inputStream, fileExtension);
+        if (excelContent == null || excelContent.isEmpty()) {
             return RestfulResult.failure();
         }
-        return RestfulResult.success(result);
+        return RestfulResult.success(excelContent);
     }
 
 }

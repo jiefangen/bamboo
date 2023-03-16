@@ -8,12 +8,12 @@ import java.io.InputStream;
 public class PptDoc implements Ppt {
 
     @Override
-    public String read(InputStream inputStream, String fileExtension) {
+    public String imports(InputStream inputStream, String fileExtension) {
         return null;
     }
 
     @Override
-    public void convert() {
+    public void exports() {
     }
 
 }

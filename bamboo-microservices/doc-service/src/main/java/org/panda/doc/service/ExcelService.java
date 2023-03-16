@@ -5,8 +5,8 @@ import org.panda.doc.core.DocFactory;
 import org.panda.doc.core.excel.Excel;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 /**
  * Excel文档操作服务
@@ -16,16 +16,11 @@ import java.io.InputStream;
 @Service
 public class ExcelService {
 
-    private Excel excel = (Excel) DocFactory.getDocument(DocConstant.EXCEL);
+    private Excel excelDoc = (Excel) DocFactory.getDocument(DocConstant.EXCEL);
 
-    public String readExcel(InputStream inputStream, String fileExtension) {
-        try {
-            String excelContent = excel.read(inputStream, fileExtension);
-            return excelContent;
-        } catch (IOException e) {
-            // do nothing
-        }
-        return null;
+    public Map<String, Object> readExcel(InputStream inputStream, String fileExtension) {
+        Map<String, Object> excelContent = (Map<String, Object>) excelDoc.imports(inputStream, fileExtension);
+        return excelContent;
     }
 
 }
