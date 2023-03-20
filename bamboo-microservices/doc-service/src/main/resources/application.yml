@@ -3,3 +3,11 @@ server:
   port: 10002
   servlet:
     context-path: /doc-service
+
+spring:
+  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/document_service
+    username: root
+    password: root123456
+    driver-class-name: com.mysql.jdbc.Driver

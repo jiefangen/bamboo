@@ -4,7 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.panda.doc.common.DocConstant;
-import org.panda.doc.core.model.DocModel;
+import org.panda.doc.model.domain.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
@@ -38,6 +38,11 @@ public class WordDoc implements Word {
 
     @Override
     public void create(DocModel docModel, ServletOutputStream outputStream) {
+    }
+
+    @Override
+    public void preview(ServletOutputStream outputStream) {
+
     }
 
 

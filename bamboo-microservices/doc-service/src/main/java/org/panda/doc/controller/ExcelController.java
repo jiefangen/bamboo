@@ -1,10 +1,12 @@
 package org.panda.doc.controller;
 
+import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.util.UUIDUtil;
 import org.panda.core.spec.restful.RestfulResult;
-import org.panda.core.util.UUIDUtil;
 import org.panda.doc.common.DocConstant;
 import org.panda.doc.common.DocUtil;
 import org.panda.doc.common.WebUtil;
+import org.panda.doc.model.domain.ExcelModel;
 import org.panda.doc.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,6 @@ public class ExcelController {
     public RestfulResult excelUploadMock(@RequestPart("excelFile") MultipartFile excelFile) throws IOException {
         String fileExtension = DocUtil.getExtension(excelFile.getOriginalFilename());
         InputStream inputStream = excelFile.getInputStream();
-
         Map<String, Object> excelContent = excelService.readExcel(inputStream, fileExtension);
         if (excelContent == null || excelContent.isEmpty()) {
             return RestfulResult.failure();
@@ -34,11 +35,13 @@ public class ExcelController {
         return RestfulResult.success(excelContent);
     }
 
-    @GetMapping("/excelExport")
+    @GetMapping("/excelExport/mock")
     public void excelExport(HttpServletResponse response) throws IOException {
-        String filename = UUIDUtil.randomUUID8() + "." + DocConstant.EXCEL_XLSX;
+        ExcelModel excelModel = new ExcelModel();
+        String filename = UUIDUtil.randomUUID8() + StringsConstant.DOT + DocConstant.EXCEL_XLSX;
+        excelModel.setFilename(filename);
         WebUtil.setFileResponse(response, filename);
-        excelService.excelExport(response.getOutputStream());
+        excelService.excelExport(excelModel, response.getOutputStream());
     }
 
 }

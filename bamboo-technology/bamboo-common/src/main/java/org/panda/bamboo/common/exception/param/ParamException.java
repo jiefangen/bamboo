@@ -1,7 +1,7 @@
-package org.panda.core.exception.param;
+package org.panda.bamboo.common.exception.param;
 
 import org.panda.bamboo.common.exception.AbstractRuntimeException;
-import org.panda.core.exception.ExceptionEnum;
+import org.panda.bamboo.common.exception.ExceptionEnum;
 
 /**
  * 参数异常

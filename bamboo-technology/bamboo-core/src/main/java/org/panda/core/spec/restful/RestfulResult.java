@@ -1,7 +1,7 @@
 package org.panda.core.spec.restful;
 
 import lombok.Getter;
-import org.panda.core.spec.IResult;
+import org.panda.core.spec.Result;
 
 import java.io.Serializable;
 
@@ -47,7 +47,7 @@ public class RestfulResult<T> implements Serializable {
         return transform(code, message, null);
     }
     
-    public static RestfulResult<?> getFailure(IResult failedResult){
+    public static RestfulResult<?> getFailure(Result failedResult){
         return transform(failedResult.getCode(), failedResult.getMessage(), null);
     }
 

@@ -1,4 +1,4 @@
-package org.panda.core.util;
+package org.panda.bamboo.common.util;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;

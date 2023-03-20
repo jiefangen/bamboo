@@ -1,4 +1,4 @@
-package org.panda.data.model;
+package org.panda.data.model.query;
 
 import lombok.Getter;
 

@@ -6,5 +6,4 @@ package org.panda.bamboo.common.model;
  * @author fangen
  */
 public interface Model {
-
 }

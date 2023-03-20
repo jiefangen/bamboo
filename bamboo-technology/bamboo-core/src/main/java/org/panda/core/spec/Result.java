@@ -5,7 +5,7 @@ package org.panda.core.spec;
  * 
  * @author fangen
  */
-public interface IResult {
+public interface Result {
 	
 	int getCode();
 	

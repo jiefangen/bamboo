@@ -1,6 +1,6 @@
 package org.panda.doc.core;
 
-import org.panda.doc.core.model.DocModel;
+import org.panda.doc.model.domain.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.InputStream;
@@ -24,4 +24,10 @@ public interface Document {
      */
     void create(DocModel docModel, ServletOutputStream outputStream);
 
+    /**
+     * 文档预览
+     *
+     * @param outputStream 输出响应文件流
+     */
+    void preview(ServletOutputStream outputStream);
 }

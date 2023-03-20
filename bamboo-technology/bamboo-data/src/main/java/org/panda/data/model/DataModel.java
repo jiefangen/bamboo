@@ -3,7 +3,7 @@ package org.panda.data.model;
 import org.panda.bamboo.common.model.Model;
 
 /**
- * 基础数据模型
+ * 数据模型
  * 用于抽象对各种数据类型操作的统一定义。
  *
  * @author fangen

@@ -21,4 +21,6 @@ public class DocConstant {
     public static final String PPT_PPT = "ppt";
     public static final String PPT_PPTX = "pptx";
 
+    public static final String DEFAULT_SHEET_NAME = "Sheet1";
+
 }

@@ -7,8 +7,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.StringsConstant;
 import org.panda.doc.common.DocConstant;
-import org.panda.doc.core.model.DocModel;
-import org.panda.doc.core.model.ExcelModel;
+import org.panda.doc.model.domain.DocModel;
+import org.panda.doc.model.domain.ExcelModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
@@ -91,33 +91,36 @@ public class ExcelDoc implements Excel {
     @Override
     public void create(DocModel docModel, ServletOutputStream outputStream) {
         try {
-            Workbook workbook = WorkbookFactory.create(true);
             ExcelModel excelModel = (ExcelModel) docModel;
-
             String sheetName = excelModel.getSheetName();
             if (StringUtils.isEmpty(sheetName)) {
-                sheetName = "Sheet1";
+                sheetName = DocConstant.DEFAULT_SHEET_NAME;
             }
+            Workbook workbook = WorkbookFactory.create(true);
             Sheet sheet = workbook.createSheet(sheetName);
-            // 添加标题行
-            Row headerRow = sheet.createRow(0);
-            Cell headerCell1 = headerRow.createCell(0);
-            headerCell1.setCellValue("列1");
-            Cell headerCell2 = headerRow.createCell(1);
-            headerCell2.setCellValue("列2");
 
-            // 添加数据行
+            // 创建表头
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("姓名");
+            headerRow.createCell(1).setCellValue("年龄");
+            headerRow.createCell(2).setCellValue("性别");
+
+            // 创建数据行
             Row dataRow = sheet.createRow(1);
-            Cell dataCell1 = dataRow.createCell(0);
-            dataCell1.setCellValue("数据1");
-            Cell dataCell2 = dataRow.createCell(1);
-            dataCell2.setCellValue("数据2");
+            dataRow.createCell(0).setCellValue("张三");
+            dataRow.createCell(1).setCellValue(20);
+            dataRow.createCell(2).setCellValue("男");
 
             workbook.write(outputStream);
             workbook.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void preview(ServletOutputStream outputStream) {
 
     }
 

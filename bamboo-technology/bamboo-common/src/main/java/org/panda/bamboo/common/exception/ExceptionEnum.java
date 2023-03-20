@@ -1,4 +1,4 @@
-package org.panda.core.exception;
+package org.panda.bamboo.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

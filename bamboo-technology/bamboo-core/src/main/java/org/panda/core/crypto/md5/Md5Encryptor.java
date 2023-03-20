@@ -1,7 +1,7 @@
 package org.panda.core.crypto.md5;
 
+import org.panda.bamboo.common.util.EncryptUtil;
 import org.panda.core.crypto.Encryptor;
-import org.panda.core.util.EncryptUtil;
 
 /**
  * MD5算法加密器（不可逆）

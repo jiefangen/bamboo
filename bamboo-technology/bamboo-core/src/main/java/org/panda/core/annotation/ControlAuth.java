@@ -1,4 +1,4 @@
-package org.panda.bamboo.core.annotation;
+package org.panda.core.annotation;
 
 import java.lang.annotation.*;
 

@@ -1,6 +1,4 @@
-package org.panda.data.model.result;
-
-import org.panda.data.model.Pagination;
+package org.panda.data.model.query;
 
 /**
  * 分页结果

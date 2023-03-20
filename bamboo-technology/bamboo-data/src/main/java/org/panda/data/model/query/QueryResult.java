@@ -1,7 +1,4 @@
-package org.panda.data.model.result;
-
-import org.panda.data.model.DataModel;
-import org.panda.data.model.Pagination;
+package org.panda.data.model.query;
 
 import java.util.*;
 import java.util.function.Function;
@@ -12,7 +9,7 @@ import java.util.function.Function;
  * @param <T> 结果记录类型
  * @author fangen
  */
-public class QueryResult<T> implements DataModel, Iterable<T> {
+public class QueryResult<T> implements Iterable<T> {
 
     private List<T> records;
     private PagedResult paged;

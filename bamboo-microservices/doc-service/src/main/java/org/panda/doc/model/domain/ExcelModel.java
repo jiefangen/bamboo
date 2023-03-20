@@ -1,9 +1,9 @@
-package org.panda.doc.core.model;
+package org.panda.doc.model.domain;
 
 import lombok.Data;
 
 /**
- * Excel文档数据模型
+ * Excel文档模型
  *
  * @author fangen
  **/

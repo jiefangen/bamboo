@@ -1,8 +1,5 @@
 package org.panda.data.model.query;
 
-import org.panda.data.model.DataModel;
-import org.panda.data.model.Pagination;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,7 +8,7 @@ import java.util.List;
  *
  * @author fangen
  */
-public class QueryParam extends Pagination implements DataModel {
+public class QueryParam extends Pagination implements QueryModel {
     private static final long serialVersionUID = -7685463756368907614L;
 
     private List<FieldOrder> orders;
