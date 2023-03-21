@@ -16,6 +16,8 @@
     <properties>
         <service.version>1.0.0</service.version>
         <jdk-version>11</jdk-version>
+
+        <bamboo-technology.version>1.0.0</bamboo-technology.version>
         <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
 
         <maven.compiler.source>11</maven.compiler.source>
@@ -24,11 +26,11 @@
     </properties>
 
     <dependencies>
-        <!-- 技术框架核心模块依赖 -->
+        <!-- 技术框架核心组件依赖 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-core</artifactId>
-            <version>1.0.0</version>
+            <version>${bamboo-technology.version}</version>
         </dependency>
 
         <dependency>
