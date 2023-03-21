@@ -1,7 +1,7 @@
 package org.panda.data.support;
 
 /**
- * 数据访问模板
+ * 数据访问模板定义
  *
  * @author fangen
  */

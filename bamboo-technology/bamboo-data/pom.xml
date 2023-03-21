@@ -12,7 +12,7 @@
     <artifactId>bamboo-data</artifactId>
     <version>${technology.version}</version>
     <packaging>jar</packaging>
-    <description>数据存储、访问、转换等相关技术支持框架</description>
+    <description>数据存储、访问、转换模块-为本技术框架提供数据组件支持</description>
 
     <dependencies>
         <!-- 技术框架通用规范依赖 -->

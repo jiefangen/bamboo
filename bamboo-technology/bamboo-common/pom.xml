@@ -12,13 +12,12 @@
     <artifactId>bamboo-common</artifactId>
     <version>${technology.version}</version>
     <packaging>jar</packaging>
-    <description>通用规范组件-为本技术框架提供基础支持</description>
+    <description>通用规范模块-为本技术框架提供基础支持</description>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
@@ -46,14 +45,14 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>2.0.20</version>
+            <version>2.0.25</version>
         </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
 <!--            <optional>true</optional>--> <!-- 表示传递依赖，即别的包引用时该依赖不传递 -->
-            <version>1.18.24</version>
+            <version>1.18.26</version>
         </dependency>
 
     </dependencies>

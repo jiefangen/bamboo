@@ -3,30 +3,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>org.panda.tech</groupId>
         <artifactId>bamboo-technology</artifactId>
+        <groupId>org.panda.tech</groupId>
         <version>1.0.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bamboo-core</artifactId>
+    <artifactId>bamboo-data-jpa</artifactId>
     <version>${technology.version}</version>
     <packaging>jar</packaging>
-    <description>核心聚合模块-为上层服务提供统一技术支持</description>
+    <description>jpa框架支持组件</description>
 
     <dependencies>
-        <!-- 技术框架通用规范依赖 -->
+        <!-- 技术框架数据组件依赖，禁止传递依赖 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
-            <artifactId>bamboo-common</artifactId>
+            <artifactId>bamboo-data</artifactId>
+            <optional>true</optional>
             <version>${technology.version}</version>
         </dependency>
 
-        <!-- 单元测试Junit5 -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.2</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
     </dependencies>
