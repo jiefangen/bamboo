@@ -16,7 +16,7 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-data-jpa</artifactId>
-            <version>${bamboo-technology.version}</version>
+            <version>${technology.version}</version>
         </dependency>
 
         <dependency>

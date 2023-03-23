@@ -17,10 +17,9 @@
 
     <properties>
         <technology.version>1.0.0</technology.version>
-        <jdk-version>11</jdk-version>
+        <spring-boot.version>2.6.13</spring-boot.version>
 
-        <spring-boot.version>2.3.12.RELEASE</spring-boot.version>
-
+        <oracle-jdk.version>11</oracle-jdk.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,7 +44,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <release>${jdk-version}</release>
+                    <release>${oracle-jdk.version}</release>
                 </configuration>
             </plugin>
         </plugins>
