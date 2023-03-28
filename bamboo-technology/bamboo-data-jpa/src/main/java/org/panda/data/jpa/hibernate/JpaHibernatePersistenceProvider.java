@@ -15,8 +15,7 @@ import java.util.Map;
 /**
  * 基于Hibernate的JPA持久化提供者
  */
-public class JpaHibernatePersistenceProvider extends HibernatePersistenceProvider
-        implements MetadataProvider {
+public class JpaHibernatePersistenceProvider extends HibernatePersistenceProvider implements MetadataProvider {
 
     private Metadata metadata;
 

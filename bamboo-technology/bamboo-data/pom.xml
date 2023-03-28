@@ -11,20 +11,12 @@
 
     <artifactId>bamboo-data</artifactId>
     <version>${technology.version}</version>
-    <packaging>jar</packaging>
-    <description>数据存储、访问、转换模块-为本技术框架提供数据组件支持</description>
 
     <dependencies>
-        <!-- 技术框架通用规范依赖 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-common</artifactId>
             <version>${technology.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
         </dependency>
 
     </dependencies>

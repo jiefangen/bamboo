@@ -12,6 +12,11 @@
     <artifactId>doc-service</artifactId>
     <version>${service.version}</version>
 
+    <properties>
+        <poi.version>5.2.0</poi.version>
+        <knife4j.version>3.0.3</knife4j.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.panda.tech</groupId>
@@ -19,15 +24,30 @@
             <version>${technology.version}</version>
         </dependency>
 
+        <!-- MySQL连接驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- 文档资源解析依赖 -->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <version>5.2.0</version>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
-            <version>5.2.0</version>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <!-- Swagger自动生成API文档 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
         </dependency>
 
     </dependencies>
