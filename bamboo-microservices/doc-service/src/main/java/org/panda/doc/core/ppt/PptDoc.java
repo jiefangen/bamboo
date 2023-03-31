@@ -5,7 +5,7 @@ import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 import org.panda.doc.common.DocConstant;
-import org.panda.doc.model.domain.DocModel;
+import org.panda.doc.core.domain.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;

@@ -2,7 +2,6 @@ package org.panda.data.jpa.support;
 
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
-import org.panda.bamboo.common.constant.CommonConstant;
 import org.panda.bamboo.common.util.CollectionUtil;
 import org.panda.data.jpa.hibernate.MetadataProvider;
 import org.panda.data.model.entity.Entity;
@@ -24,7 +23,7 @@ import java.util.Map.Entry;
  */
 public class JpaAccessTemplate implements DataAccessTemplate {
 
-    private String schema = CommonConstant.DEFAULT_SCHEMA_NAME;
+    private String schema = "default";
     private EntityManagerFactory entityManagerFactory;
     private MetadataProvider metadataProvider;
     private boolean nativeMode;

@@ -22,10 +22,4 @@ public class CommonConstant {
     public static final int EXCEPTION_PARAMETERS = 5100;
     public static final int EXCEPTION_PARAMETERS_REQUIRED = 5101;
 
-
-    /**
-     * 默认模式名
-     */
-    public static final String DEFAULT_SCHEMA_NAME = "default";
-
 }

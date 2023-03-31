@@ -1,4 +1,4 @@
-package org.panda.doc.common;
+package org.panda.doc.common.utils;
 
 import javax.servlet.http.HttpServletResponse;
 

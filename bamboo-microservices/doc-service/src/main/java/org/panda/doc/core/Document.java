@@ -1,6 +1,6 @@
 package org.panda.doc.core;
 
-import org.panda.doc.model.domain.DocModel;
+import org.panda.doc.core.domain.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.InputStream;

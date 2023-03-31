@@ -1,6 +1,7 @@
 package org.panda.data.jpa.config;
 
 import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.util.LogUtil;
 import org.panda.data.jpa.hibernate.JpaHibernatePersistenceProvider;
 import org.panda.data.jpa.hibernate.MetadataProvider;
 import org.panda.data.jpa.support.JpaAccessTemplate;
@@ -116,8 +117,7 @@ public class JpaDataConfiguration extends JpaBaseConfiguration {
                         adding.add(path.substring(path.lastIndexOf(dir)));
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
-//                    LogUtil.error(getClass(), e);
+                    LogUtil.error(getClass(), e);
                 }
                 iterator.remove();
             }

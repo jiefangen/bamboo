@@ -7,8 +7,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.StringsConstant;
 import org.panda.doc.common.DocConstant;
-import org.panda.doc.model.domain.DocModel;
-import org.panda.doc.model.domain.ExcelModel;
+import org.panda.doc.core.domain.DocModel;
+import org.panda.doc.core.domain.ExcelModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
