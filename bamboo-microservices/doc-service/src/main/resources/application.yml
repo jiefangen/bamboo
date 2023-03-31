@@ -3,7 +3,6 @@ server:
   port: 10002
   servlet:
     context-path: /doc-service
-
 spring:
   mvc:
     path-match:
@@ -16,10 +15,6 @@ spring:
     password: root123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
     # Hikari数据库连接池
     hikari:
       pool-name: HikariCP
@@ -29,3 +24,7 @@ spring:
       max-lifetime: 60000 # 连接的生命时长（毫秒）
       validation-timeout: 3000 # 验证连接有效性（毫秒）
 
+    jpa:
+      hibernate:
+        ddl-auto: update
+      show-sql: true

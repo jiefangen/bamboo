@@ -16,8 +16,12 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-common</artifactId>
-<!--            <optional>true</optional>-->
             <version>${technology.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
         </dependency>
 
     </dependencies>

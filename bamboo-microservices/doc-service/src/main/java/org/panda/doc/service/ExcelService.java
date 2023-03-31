@@ -2,16 +2,12 @@ package org.panda.doc.service;
 
 import org.panda.doc.common.DocConstant;
 import org.panda.doc.core.DocFactory;
-import org.panda.doc.core.excel.Excel;
-import org.panda.doc.dao.DocFileRepository;
 import org.panda.doc.core.domain.ExcelModel;
-import org.panda.doc.common.entity.DocFile;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.panda.doc.core.excel.Excel;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletOutputStream;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,8 +18,8 @@ import java.util.Map;
 @Service
 public class ExcelService {
 
-    @Autowired
-    private DocFileRepository docFileRepository;
+//    @Autowired
+//    private DocFileRepository docFileRepository;
 
     private Excel excelDoc = (Excel) DocFactory.getDocument(DocConstant.EXCEL);
 
@@ -33,7 +29,7 @@ public class ExcelService {
     }
 
     public void excelExport(ExcelModel excelModel, ServletOutputStream outputStream) {
-        List<DocFile> docFiles = docFileRepository.findAll();
+//        List<DocFile> docFiles = docFileRepository.findAll();
 
         excelDoc.create(excelModel, outputStream);
     }

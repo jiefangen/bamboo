@@ -2,6 +2,7 @@ package org.panda.doc.common.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.panda.data.model.entity.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,7 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
-public class DocFile {
+public class DocFile extends BaseEntity {
     @Id
     @GeneratedValue
     private Long id;
