@@ -1,4 +1,4 @@
-package org.panda.doc.common.utils;
+package org.panda.doc.common.util;
 
 import org.apache.commons.io.FilenameUtils;
 import org.panda.bamboo.common.constant.StringsConstant;

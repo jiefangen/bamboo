@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sms-service</artifactId>
+    <artifactId>microservice-sms</artifactId>
     <version>${service.version}</version>
 
     <dependencies>

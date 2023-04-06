@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>doc-service</artifactId>
+    <artifactId>microservice-doc</artifactId>
     <version>${service.version}</version>
 
     <properties>
