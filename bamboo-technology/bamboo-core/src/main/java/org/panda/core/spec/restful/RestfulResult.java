@@ -12,12 +12,10 @@ import java.io.Serializable;
  **/
 @Getter
 public class RestfulResult<T> implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -8012208582466904410L;
 
     private int code;
-
     private String message;
-
     private T data;
 
     // 保护返回结构不被破坏，禁止外部实例化

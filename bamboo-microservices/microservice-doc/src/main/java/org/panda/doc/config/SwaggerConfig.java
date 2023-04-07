@@ -19,7 +19,7 @@ public class SwaggerConfig {
     // 自动化API文档控制开关
     private static final boolean SWAGGER_ENABLED = true;
     private static final String BASE_PACKAGE = "org.panda.doc.controller";
-    private static final String SWAGGER_TITLE = "Doc Microservice API";
+    private static final String SWAGGER_TITLE = "Microservice Doc API";
     private static final String SWAGGER_DESC = "文档微服务，致力于传统Office套件文件解析、转换、存储等服务。";
 
     @Bean(value = "defaultApi2")

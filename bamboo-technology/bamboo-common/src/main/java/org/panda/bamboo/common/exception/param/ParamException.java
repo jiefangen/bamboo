@@ -7,7 +7,7 @@ import org.panda.bamboo.common.exception.ExceptionEnum;
  * 参数异常
  */
 public class ParamException extends AbstractRuntimeException {
-    private static final long serialVersionUID = 6743671808524987765L;
+    private static final long serialVersionUID = -6117478873288858668L;
 
     public ParamException(int code, String message) {
         super(code, message);

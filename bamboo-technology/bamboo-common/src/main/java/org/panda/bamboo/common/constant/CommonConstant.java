@@ -22,4 +22,6 @@ public class CommonConstant {
     public static final int EXCEPTION_PARAMETERS = 5100;
     public static final int EXCEPTION_PARAMETERS_REQUIRED = 5101;
 
+    public static final int EXCEPTION_BUSINESS = 5200;
+
 }

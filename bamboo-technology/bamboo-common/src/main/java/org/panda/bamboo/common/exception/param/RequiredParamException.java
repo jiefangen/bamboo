@@ -6,7 +6,7 @@ import org.panda.bamboo.common.exception.ExceptionEnum;
  * 必传参数异常
  */
 public class RequiredParamException extends ParamException {
-    private static final long serialVersionUID = 7840976808524909754L;
+    private static final long serialVersionUID = -8068045982123575191L;
 
     public RequiredParamException(String message) {
         super(ExceptionEnum.PARAMETERS_REQUIRED.getErrCode(), message);

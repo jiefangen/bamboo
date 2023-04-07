@@ -15,6 +15,10 @@ public enum ExceptionEnum {
      * 必传参数异常
      */
     PARAMETERS_REQUIRED(CommonConstant.EXCEPTION_PARAMETERS_REQUIRED, "Required parameters exception!"),
+    /**
+     * 业务异常
+     */
+    BUSINESS(CommonConstant.EXCEPTION_BUSINESS, "Business exception!"),
     ;
 
     private int errCode;
