@@ -1,8 +1,8 @@
 package org.panda.bamboo.common.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.basic.MathUtil;
+import org.panda.bamboo.common.constant.Times;
+import org.panda.bamboo.common.util.lang.MathUtil;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -11,59 +11,11 @@ import java.time.temporal.Temporal;
 import java.util.Date;
 
 /**
- * Java 8 新版时间相关类的工具类
+ * Java8新版时间相关类的工具类
  *
  * @author fangen
  */
 public class TemporalUtil {
-    /**
-     * 短日期格式
-     */
-    public static final String SHORT_DATE_PATTERN = "yyyy-MM-dd";
-    /**
-     * 时间格式
-     */
-    public static final String TIME_PATTERN = "HH:mm:ss";
-    /**
-     * 时间格式（12小时制）
-     */
-    public static final String TIME_PATTERN_12HOURS = "ahh:mm:ss";
-    /**
-     * 精确到分钟的时间格式
-     */
-    public static final String TIME_PATTERN_TO_MINUTE = "HH:mm";
-    /**
-     * 精确到分钟的时间格式（12小时制）
-     */
-    public static final String TIME_PATTERN_12HOURS_TO_MINUTE = "ahh:mm";
-    /**
-     * 长日期格式
-     */
-    public static final String LONG_DATE_PATTERN = SHORT_DATE_PATTERN + Strings.SPACE + TIME_PATTERN;
-    /**
-     * 没分隔符长日期格式
-     */
-    public static final String LONG_DATE_NO_DELIMITER_PATTERN = "yyyyMMddHHmmss";
-    /**
-     * 没分隔符的精确到毫秒的时间戳格式
-     */
-    public static final String LONG_TIMESTAMP_NO_DELIMITER_PATTERN = LONG_DATE_NO_DELIMITER_PATTERN + "S";
-    /**
-     * 精确到分钟的长日期格式
-     */
-    public static final String LONG_DATE_PATTERN_TO_MINUTE = "yyyy-MM-dd HH:mm";
-    /**
-     * 格林威治标准时间格式
-     */
-    public static final String GMT_PATTERN = "EEE, dd MMM yyyy HH:mm:ss 'GMT'";
-
-    private static final long MS_ONE_SECOND = 1000;
-
-    private static final long MS_ONE_MINUTE = 60 * 1000;
-
-    private static final long MS_ONE_HOUR = 60 * MS_ONE_MINUTE;
-
-    private static final long MS_ONE_DAY = 24 * 60 * MS_ONE_MINUTE;
 
     public static final ZoneId DEFAULT_ZONE_ID = ZoneId.systemDefault();
 
@@ -150,13 +102,13 @@ public class TemporalUtil {
         } else if (temporal instanceof Instant) {
             return formatLong((Instant) temporal);
         } else if (temporal instanceof LocalDateTime) {
-            return format(temporal, LONG_DATE_PATTERN);
+            return format(temporal, Times.LONG_DATE_PATTERN);
         } else if (temporal instanceof LocalDate) {
-            return format(temporal, SHORT_DATE_PATTERN);
+            return format(temporal, Times.SHORT_DATE_PATTERN);
         } else if (temporal instanceof LocalTime) {
-            return format(temporal, TIME_PATTERN);
+            return format(temporal, Times.TIME_PATTERN);
         } else if (temporal instanceof ZonedDateTime) {
-            return ((ZonedDateTime) temporal).format(DateTimeFormatter.ofPattern(LONG_DATE_PATTERN));
+            return ((ZonedDateTime) temporal).format(DateTimeFormatter.ofPattern(Times.LONG_DATE_PATTERN));
         }
         return temporal.toString();
     }
@@ -168,19 +120,19 @@ public class TemporalUtil {
      * @return 字符串型日期
      */
     public static String formatShort(Instant instant) {
-        return format(instant, SHORT_DATE_PATTERN);
+        return format(instant, Times.SHORT_DATE_PATTERN);
     }
 
     public static String format(LocalDate date) {
-        return format(date, SHORT_DATE_PATTERN);
+        return format(date, Times.SHORT_DATE_PATTERN);
     }
 
     public static String format(LocalTime time) {
-        return format(time, TIME_PATTERN);
+        return format(time, Times.TIME_PATTERN);
     }
 
     public static String format(LocalDateTime dateTime) {
-        return format(dateTime, LONG_DATE_PATTERN);
+        return format(dateTime, Times.LONG_DATE_PATTERN);
     }
 
     /**
@@ -190,7 +142,7 @@ public class TemporalUtil {
      * @return 字符串型日期
      */
     public static String formatLong(Instant instant) {
-        return format(instant, LONG_DATE_PATTERN);
+        return format(instant, Times.LONG_DATE_PATTERN);
     }
 
     /**
@@ -200,7 +152,7 @@ public class TemporalUtil {
      * @return 字符串型日期
      */
     public static String formatLongNoDelimiter(Instant instant) {
-        return format(instant, LONG_DATE_NO_DELIMITER_PATTERN);
+        return format(instant, Times.LONG_DATE_NO_DELIMITER_PATTERN);
     }
 
     /**
@@ -295,7 +247,7 @@ public class TemporalUtil {
                 if (millis != null) { // 纯数字的视为毫秒数进行解析
                     return Instant.ofEpochMilli(millis);
                 }
-                return formatter(LONG_DATE_PATTERN).parse(s, Instant::from);
+                return formatter(Times.LONG_DATE_PATTERN).parse(s, Instant::from);
             } catch (DateTimeParseException e) {
                 return null;
             }
@@ -306,7 +258,7 @@ public class TemporalUtil {
     public static LocalDate parseDate(String s) {
         if (StringUtils.isNotBlank(s)) {
             try {
-                return formatter(SHORT_DATE_PATTERN).parse(s, LocalDate::from);
+                return formatter(Times.SHORT_DATE_PATTERN).parse(s, LocalDate::from);
             } catch (DateTimeParseException e) {
                 return null;
             }
@@ -317,7 +269,7 @@ public class TemporalUtil {
     public static LocalTime parseTime(String s) {
         if (StringUtils.isNotBlank(s)) {
             try {
-                return formatter(TIME_PATTERN).parse(s, LocalTime::from);
+                return formatter(Times.TIME_PATTERN).parse(s, LocalTime::from);
             } catch (DateTimeParseException e) {
                 return null;
             }
@@ -328,7 +280,7 @@ public class TemporalUtil {
     public static LocalDateTime parseDateTime(String s) {
         if (StringUtils.isNotBlank(s)) {
             try {
-                return formatter(LONG_DATE_PATTERN).parse(s, LocalDateTime::from);
+                return formatter(Times.LONG_DATE_PATTERN).parse(s, LocalDateTime::from);
             } catch (DateTimeParseException e) {
                 return null;
             }
@@ -336,7 +288,6 @@ public class TemporalUtil {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Temporal> T parse(Class<T> type, String s) {
         if (type == Instant.class) {
             return (T) parseInstant(s);
@@ -350,7 +301,6 @@ public class TemporalUtil {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public static <T extends Temporal> T parse(Class<T> type, String s, String pattern) {
         if (StringUtils.isNotBlank(s)) {
             try {

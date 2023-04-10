@@ -1,6 +1,6 @@
 package org.panda.data;
 
-import org.panda.bamboo.common.util.spring.ClassUtil;
+import org.panda.bamboo.common.util.clazz.ClassUtil;
 import org.panda.data.model.entity.Entity;
 import org.springframework.data.repository.Repository;
 

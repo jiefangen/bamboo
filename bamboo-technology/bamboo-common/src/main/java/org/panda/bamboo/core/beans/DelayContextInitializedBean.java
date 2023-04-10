@@ -1,7 +1,7 @@
 package org.panda.bamboo.core.beans;
 
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.bamboo.common.util.basic.MathUtil;
+import org.panda.bamboo.common.util.lang.MathUtil;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

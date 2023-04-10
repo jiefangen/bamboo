@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.util.basic;
+package org.panda.bamboo.common.util.lang;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;

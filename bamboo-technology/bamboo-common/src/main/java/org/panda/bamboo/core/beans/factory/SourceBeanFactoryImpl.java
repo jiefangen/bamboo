@@ -1,6 +1,6 @@
 package org.panda.bamboo.core.beans.factory;
 
-import org.panda.bamboo.common.util.spring.BeanUtil;
+import org.panda.bamboo.common.util.clazz.BeanUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
