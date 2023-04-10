@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.constant.Strings;
 import org.panda.doc.common.DocConstant;
 import org.panda.doc.core.domain.DocModel;
 import org.panda.doc.core.domain.ExcelModel;
@@ -66,7 +66,7 @@ public class ExcelDoc implements Excel {
                 if (cell != null) {
                     excelData[i][j] = getCellValueAsString(cell);
                 } else {
-                    excelData[i][j] = StringsConstant.EMPTY;
+                    excelData[i][j] = Strings.EMPTY;
                 }
             }
         }
@@ -84,7 +84,7 @@ public class ExcelDoc implements Excel {
             case FORMULA:
                 return cell.toString();
             default:
-                return StringsConstant.EMPTY;
+                return Strings.EMPTY;
         }
     }
 

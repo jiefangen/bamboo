@@ -1,6 +1,6 @@
 package org.panda.data.jpa.config;
 
-import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.data.jpa.hibernate.JpaHibernatePersistenceProvider;
 import org.panda.data.jpa.hibernate.MetadataProvider;
@@ -106,7 +106,7 @@ public class JpaDataConfiguration extends JpaBaseConfiguration {
         Iterator<String> iterator = mappingResources.iterator();
         while (iterator.hasNext()) {
             String location = iterator.next();
-            int wildcardIndex = location.indexOf(StringsConstant.ASTERISK);
+            int wildcardIndex = location.indexOf(Strings.ASTERISK);
             if (wildcardIndex > 0) { // 不支持处理以*开头的路径
                 try {
                     String pattern = ResourcePatternResolver.CLASSPATH_ALL_URL_PREFIX + location;

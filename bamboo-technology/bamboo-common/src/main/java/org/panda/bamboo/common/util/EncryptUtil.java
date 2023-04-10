@@ -2,7 +2,7 @@ package org.panda.bamboo.common.util;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.constant.Strings;
 import org.springframework.util.DigestUtils;
 
 import javax.crypto.Cipher;
@@ -28,7 +28,7 @@ public class EncryptUtil {
             } else if (source instanceof InputStream) {
                 return IOUtils.toByteArray((InputStream) source);
             } else if (source instanceof Reader) {
-                return IOUtils.toByteArray((Reader) source, StringsConstant.ENCODING_UTF8);
+                return IOUtils.toByteArray((Reader) source, Strings.ENCODING_UTF8);
             } else if (source instanceof byte[]) {
                 return (byte[]) source;
             } else {
@@ -86,7 +86,7 @@ public class EncryptUtil {
     public static String encryptByAes(String source, String key) {
         try {
             // 对密钥进行处理
-            byte[] keyBytes = key.getBytes(StringsConstant.ENCODING_UTF8);
+            byte[] keyBytes = key.getBytes(Strings.ENCODING_UTF8);
             byte[] paddedKeyBytes = new byte[16];
             int keyLength = keyBytes.length;
             if (keyLength > 16) {
@@ -99,7 +99,7 @@ public class EncryptUtil {
             IvParameterSpec ivSpec = new IvParameterSpec(paddedKeyBytes);
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivSpec);
             // 进行加密
-            byte[] encrypted = cipher.doFinal(source.getBytes(StringsConstant.ENCODING_UTF8));
+            byte[] encrypted = cipher.doFinal(source.getBytes(Strings.ENCODING_UTF8));
             // 对结果进行base64编码并返回
             return Base64.getEncoder().encodeToString(encrypted);
         } catch (Exception e) {
@@ -111,7 +111,7 @@ public class EncryptUtil {
     public static String decryptByAes(String encryptedText, String key) {
         try {
             // 对密钥进行处理
-            byte[] keyBytes = key.getBytes(StringsConstant.ENCODING_UTF8);
+            byte[] keyBytes = key.getBytes(Strings.ENCODING_UTF8);
             byte[] paddedKeyBytes = new byte[16];
             int keyLength = keyBytes.length;
             if (keyLength > 16) {
@@ -126,7 +126,7 @@ public class EncryptUtil {
             // 对数据进行base64解码并进行解密
             byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
             // 返回解密结果
-            return new String(decrypted, StringsConstant.ENCODING_UTF8);
+            return new String(decrypted, Strings.ENCODING_UTF8);
         } catch (Exception e) {
             e.printStackTrace();
         }

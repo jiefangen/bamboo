@@ -2,7 +2,7 @@ package org.panda.bamboo.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.panda.bamboo.common.constant.CommonConstant;
+import org.panda.bamboo.common.constant.Commons;
 
 @Getter
 @AllArgsConstructor
@@ -10,15 +10,15 @@ public enum ExceptionEnum {
     /**
      * 参数异常，适用于各种业务异常参数
      */
-	PARAMETERS(CommonConstant.EXCEPTION_PARAMETERS, "Parameters exception!"),
+	PARAMETERS(Commons.EXCEPTION_PARAMETERS, "Parameters exception!"),
     /**
      * 必传参数异常
      */
-    PARAMETERS_REQUIRED(CommonConstant.EXCEPTION_PARAMETERS_REQUIRED, "Required parameters exception!"),
+    PARAMETERS_REQUIRED(Commons.EXCEPTION_PARAMETERS_REQUIRED, "Required parameters exception!"),
     /**
      * 业务异常
      */
-    BUSINESS(CommonConstant.EXCEPTION_BUSINESS, "Business exception!"),
+    BUSINESS(Commons.EXCEPTION_BUSINESS, "Business exception!"),
     ;
 
     private int errCode;

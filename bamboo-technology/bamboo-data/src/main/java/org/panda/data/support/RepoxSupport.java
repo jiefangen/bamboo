@@ -1,6 +1,6 @@
 package org.panda.data.support;
 
-import org.panda.bamboo.common.util.ClassUtil;
+import org.panda.bamboo.common.util.spring.ClassUtil;
 import org.panda.data.Repox;
 import org.panda.data.model.entity.Entity;
 import org.springframework.beans.factory.annotation.Autowired;

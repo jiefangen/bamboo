@@ -1,7 +1,7 @@
 package org.panda.data.model.query;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.constant.Strings;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -33,7 +33,7 @@ public class FieldOrder implements Serializable, Cloneable {
             if (order.length() > 0) {
                 String fieldName;
                 boolean desc = false;
-                int index = order.indexOf(StringsConstant.SPACE);
+                int index = order.indexOf(Strings.SPACE);
                 if (index > 0) {
                     fieldName = order.substring(0, index);
                     desc = FieldOrder.DESC.equalsIgnoreCase(order.substring(index + 1));
@@ -82,7 +82,7 @@ public class FieldOrder implements Serializable, Cloneable {
     @Override
     public String toString() {
         if (this.desc) {
-            return this.name + StringsConstant.SPACE + DESC;
+            return this.name + Strings.SPACE + DESC;
         }
         return this.name;
     }

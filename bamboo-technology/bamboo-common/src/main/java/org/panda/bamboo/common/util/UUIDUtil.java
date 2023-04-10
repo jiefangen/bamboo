@@ -10,7 +10,6 @@ import java.util.UUID;
  * <p>
  * 经测试，在生成一千万个数据也没有出现重复，完全满足大部分需求。
  *
- * @author fangen
  * @since 2022/8/10
  */
 public class UUIDUtil {

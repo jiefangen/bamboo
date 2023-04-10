@@ -2,12 +2,10 @@ package org.panda.bamboo.common.constant;
 
 /**
  * 字符串常量集
- *
- * @author fangen
  */
-public class StringsConstant {
+public class Strings {
 
-    private StringsConstant() { // 禁止实例化
+    private Strings() { // 禁止实例化
     }
 
     /**

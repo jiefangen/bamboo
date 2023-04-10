@@ -1,13 +1,11 @@
 package org.panda.bamboo.common.constant;
 
 /**
- * 框架全局常量集
- *
- * @author fangen
+ * 通用常量集
  */
-public class CommonConstant {
+public class Commons {
 
-    private CommonConstant() {
+    private Commons() {
     }
 
     /** 规范返回状态码 */

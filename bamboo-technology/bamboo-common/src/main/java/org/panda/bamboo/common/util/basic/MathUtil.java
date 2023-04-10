@@ -1,7 +1,7 @@
-package org.panda.bamboo.common.util;
+package org.panda.bamboo.common.util.basic;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.constant.Strings;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -427,10 +427,10 @@ public class MathUtil {
             return null;
         }
         String s = value.toString();
-        while (s.contains(StringsConstant.DOT) && s.endsWith("0")) {
+        while (s.contains(Strings.DOT) && s.endsWith("0")) {
             s = s.substring(0, s.length() - 1);
         }
-        if (s.endsWith(StringsConstant.DOT)) {
+        if (s.endsWith(Strings.DOT)) {
             s = s.substring(0, s.length() - 1);
         }
         return s;
@@ -485,7 +485,7 @@ public class MathUtil {
             return null;
         }
         String s = decimal.toPlainString();
-        if (s.contains(StringsConstant.DOT)) { // 包含小数点才需要缩减
+        if (s.contains(Strings.DOT)) { // 包含小数点才需要缩减
             StringBuilder sb = new StringBuilder(s);
             // 去掉小数点后所有末尾的0
             while (sb.charAt(sb.length() - 1) == '0') {

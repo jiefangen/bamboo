@@ -1,8 +1,9 @@
-package org.panda.bamboo.common.util;
+package org.panda.bamboo.common.util.spring;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.StringsConstant;
+import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.util.LogUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;
@@ -486,7 +487,7 @@ public class ClassUtil {
     public static String getFullPropertyPath(Class<?> clazz, String propertyName) {
         StringBuffer path = new StringBuffer();
         if (clazz != null) {
-            path.append(clazz.getName()).append(StringsConstant.WELL);
+            path.append(clazz.getName()).append(Strings.WELL);
         }
         path.append(propertyName);
         return path.toString();
@@ -495,7 +496,7 @@ public class ClassUtil {
     public static String getSimplePropertyPath(Class<?> clazz, String propertyName) {
         StringBuffer path = new StringBuffer();
         if (clazz != null) {
-            path.append(clazz.getSimpleName()).append(StringsConstant.WELL);
+            path.append(clazz.getSimpleName()).append(Strings.WELL);
         }
         path.append(propertyName);
         return path.toString();
@@ -609,7 +610,7 @@ public class ClassUtil {
     }
 
     public static void loopClass(String basePackage, Consumer<Class<?>> consumer) {
-        String dir = StringUtils.isBlank(basePackage) ? StringsConstant.EMPTY : basePackage.replaceAll("[.]", StringsConstant.SLASH);
+        String dir = StringUtils.isBlank(basePackage) ? Strings.EMPTY : basePackage.replaceAll("[.]", Strings.SLASH);
         Resource[] resources = getClasspathResource(dir + "/**/*.class");
         MetadataReaderFactory metadataReaderFactory = new CachingMetadataReaderFactory();
         for (Resource resource : resources) {
