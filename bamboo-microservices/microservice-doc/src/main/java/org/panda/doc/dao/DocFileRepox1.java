@@ -5,6 +5,6 @@ import org.panda.doc.common.entity.DocFile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DocFileRepox extends JpaRepoxSupport<DocFile> {
+public class DocFileRepox1 extends JpaRepoxSupport<DocFile> {
 
 }

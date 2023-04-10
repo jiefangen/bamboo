@@ -41,7 +41,7 @@ public abstract class JpaCodeGenConfigSupport {
     }
 
     @Bean
-    public JpaRepoGenerator repoGenerator() {
+    public JpaRepoGenerator repoGenerator() throws Exception {
         return new JpaRepoGeneratorImpl(getModelBasePackage(), getRepoBasePackage(), getIgnoredEntityClassesForRepo());
     }
 
