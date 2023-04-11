@@ -1,4 +1,4 @@
-package org.panda.config;
+package org.panda.support.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
