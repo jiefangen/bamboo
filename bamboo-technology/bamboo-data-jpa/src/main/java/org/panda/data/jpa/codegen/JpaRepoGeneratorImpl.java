@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRepoGenerator {
 
-    private String baseTemplateLocation = "META-INF/template/jpa-repo.ftl";
-    private String extTemplateLocation = "META-INF/template/jpa-repox.ftl";
+    private String baseTemplateLocation = "META-INF/template/unity-repo.ftl";
+    private String extTemplateLocation = "META-INF/template/unity-repox.ftl";
 
     private Class<?>[] ignoredEntityClasses;
 

@@ -14,5 +14,4 @@ public class HomeController {
         return RestfulResult.success("The doc microservice");
     }
 
-
 }

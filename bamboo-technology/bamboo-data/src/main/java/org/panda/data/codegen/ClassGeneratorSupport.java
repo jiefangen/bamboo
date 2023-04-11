@@ -58,8 +58,7 @@ public abstract class ClassGeneratorSupport extends ModelBasedGeneratorSupport {
     }
 
     private File getJavaFile(String className) throws IOException {
-        // 运行项目工程根
-        String projectPath = System.getProperty("user.dir");
+        String projectPath = System.getProperty("user.dir"); // 运行项目工程根
         String path = "src/main/java/" + className.replaceAll("[.]", Strings.SLASH) + ".java";
         String pathname = projectPath + Strings.SLASH + path;
         File file = new File(pathname);

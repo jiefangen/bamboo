@@ -33,15 +33,9 @@ public abstract class JpaCodeGenConfigSupport {
     protected Class<?>[] getIgnoredEntityClassesForRepo() {
         return null;
     }
-    
 
     @Bean
-    public JpaEntityMappingGenerator entityMappingGenerator() {
-        return new JpaEntityMappingGeneratorImpl(getModelBasePackage());
-    }
-
-    @Bean
-    public JpaRepoGenerator repoGenerator() throws Exception {
+    public JpaRepoGenerator repoGenerator() {
         return new JpaRepoGeneratorImpl(getModelBasePackage(), getRepoBasePackage(), getIgnoredEntityClassesForRepo());
     }
 

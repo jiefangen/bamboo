@@ -6,7 +6,7 @@ import org.panda.doc.test.DocApplicationTest;
 
 public class DocJpaCodeGenTest extends DocApplicationTest {
 
-    DocJpaCodeGen docJpaCodeGenerator = new DocJpaCodeGen();
+   private DocJpaCodeGen docJpaCodeGenerator = new DocJpaCodeGen();
 
     @Test
     public void docJpaCodeGen() {
