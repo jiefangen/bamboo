@@ -2,10 +2,12 @@ package org.panda.data.jpa.codegen;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.util.clazz.ClassUtil;
 import org.panda.data.codegen.ClassGeneratorSupport;
 import org.panda.data.model.entity.Entity;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,15 +42,20 @@ public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRe
     }
 
     @Override
-    public void generate(Class<? extends Entity> entityClass, boolean withImpl) throws Exception {
+    public void generate(Class<? extends Entity> entityClass, boolean withRepox) throws Exception {
         String module = getModule(entityClass);
-        generate(module, entityClass, withImpl);
+        generate(module, entityClass, withRepox);
     }
 
-    private void generate(String module, Class<? extends Entity> entityClass, boolean withImpl) throws Exception {
+    private void generate(String module, Class<? extends Entity> entityClass, boolean withRepox) throws Exception {
         Map<String, Object> params = new HashMap<>();
-        generate(module, entityClass, params, this.extTemplateLocation, "x");
+        Field keyField = ClassUtil.findField(entityClass, "id");
+        Class<?> keyFieldType = keyField.getType();
+        params.put("keyClassSimpleName", keyFieldType.getSimpleName());
         generate(module, entityClass, params, this.baseTemplateLocation, Strings.EMPTY);
+        if (withRepox) {
+            generate(module, entityClass, params, this.extTemplateLocation, "x");
+        }
     }
 
     private String generate(String module, Class<? extends Entity> entityClass, Map<String, Object> params,

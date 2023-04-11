@@ -58,10 +58,11 @@ public abstract class ClassGeneratorSupport extends ModelBasedGeneratorSupport {
     }
 
     private File getJavaFile(String className) throws IOException {
-        File file = new ClassPathResource("/").getFile(); // classpath根
-        file = file.getParentFile().getParentFile(); // 工程根
+        // 运行项目工程根
+        String projectPath = System.getProperty("user.dir");
         String path = "src/main/java/" + className.replaceAll("[.]", Strings.SLASH) + ".java";
-        file = new File(file, path);
+        String pathname = projectPath + Strings.SLASH + path;
+        File file = new File(pathname);
         file.getParentFile().mkdirs();
         if (!file.exists()) {
             file.createNewFile();

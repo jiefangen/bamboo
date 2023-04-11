@@ -5,6 +5,7 @@ import org.panda.data.jpa.codegen.JpaCodeGenConfigSupport;
 import org.panda.data.jpa.codegen.JpaEntityMappingGenerator;
 import org.panda.data.jpa.codegen.JpaRepoGenerator;
 import org.panda.doc.common.entity.DocFile;
+import org.panda.doc.dao.RepoBasePackage;
 
 public class DocJpaCodeGen extends JpaCodeGenConfigSupport {
 
@@ -15,7 +16,7 @@ public class DocJpaCodeGen extends JpaCodeGenConfigSupport {
 
     @Override
     protected String getRepoBasePackage() {
-        return "org.panda.doc.dao";
+        return RepoBasePackage.class.getPackageName();
     }
 
     @Override

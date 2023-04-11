@@ -12,6 +12,6 @@ public interface JpaRepoGenerator {
 
     void generate(String... modules) throws Exception;
 
-    void generate(Class<? extends Entity> entityClass, boolean withImpl) throws Exception;
+    void generate(Class<? extends Entity> entityClass, boolean withRepox) throws Exception;
 
 }

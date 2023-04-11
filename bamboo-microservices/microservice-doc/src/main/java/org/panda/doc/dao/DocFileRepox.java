@@ -1,12 +1,12 @@
-package ${packageName};
+package org.panda.doc.dao;
 
 import org.springframework.stereotype.Repository;
 import org.panda.data.jpa.support.JpaRepoxSupport;
-import ${entityClassName};
+import org.panda.doc.common.entity.DocFile;
 
 /**
  * @author bamboo-code-generator
  */
 @Repository
-public class ${repoClassSimpleName} extends JpaRepoxSupport<${entityClassSimpleName}> {
+public class DocFileRepox extends JpaRepoxSupport<DocFile> {
 }
