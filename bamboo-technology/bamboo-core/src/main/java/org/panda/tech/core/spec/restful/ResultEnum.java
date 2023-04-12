@@ -2,7 +2,7 @@ package org.panda.tech.core.spec.restful;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.panda.tech.common.constant.Commons;
+import org.panda.bamboo.common.constant.Commons;
 import org.panda.tech.core.spec.Result;
 
 @Getter

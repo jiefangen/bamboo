@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  org.panda.tech.core.context.ContextInitializedBeanListener,\
-  org.panda.tech.core.context.ApplicationContextBean,\
-  org.panda.tech.core.beans.factory.SourceBeanFactoryImpl
+  org.panda.bamboo.core.context.ContextInitializedBeanListener,\
+  org.panda.bamboo.core.context.ApplicationContextBean,\
+  org.panda.bamboo.core.beans.factory.SourceBeanFactoryImpl
