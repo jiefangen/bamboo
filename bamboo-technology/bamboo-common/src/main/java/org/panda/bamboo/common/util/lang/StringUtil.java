@@ -1175,6 +1175,29 @@ public class StringUtil {
     }
 
     /**
+     * 将下划线分隔的字符串转换为驼峰大小写
+     *
+     * @param s  字符串
+     * @param toSmallHump 是否转为小驼峰
+     * @return 驼峰字符串
+     */
+    public static String underLineToCamelCase(String s, boolean toSmallHump) {
+        if (StringUtils.isBlank(s)) {
+            return s;
+        }
+        StringBuilder sb = new StringBuilder(s);
+        String[] strings = s.split(Strings.UNDERLINE);
+        for (String str : strings) {
+            sb.append(Character.toUpperCase(str.charAt(0)));
+            sb.append(str.substring(1).toLowerCase());
+        }
+        if (toSmallHump) {
+            return firstToLowerCase(sb.toString());
+        }
+        return sb.toString();
+    }
+
+    /**
      * 获取指定字符串末尾包含的数字字符串
      *
      * @param s              字符串

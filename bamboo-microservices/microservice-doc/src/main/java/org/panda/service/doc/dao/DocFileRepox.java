@@ -1,7 +1,7 @@
 package org.panda.service.doc.dao;
 
 import org.springframework.stereotype.Repository;
-import org.panda.data.jpa.support.JpaRepoxSupport;
+import org.panda.tech.data.jpa.support.JpaRepoxSupport;
 import org.panda.service.doc.common.entity.DocFile;
 
 /**

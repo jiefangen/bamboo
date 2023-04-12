@@ -1,9 +1,9 @@
 package org.panda.service.doc.config;
 
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.data.jpa.codegen.JpaCodeGenConfigSupport;
-import org.panda.data.jpa.codegen.JpaEntityGenerator;
-import org.panda.data.jpa.codegen.JpaRepoGenerator;
+import org.panda.tech.data.jpa.codegen.JpaCodeGenConfigSupport;
+import org.panda.tech.data.jpa.codegen.JpaEntityGenerator;
+import org.panda.tech.data.jpa.codegen.JpaRepoGenerator;
 import org.panda.service.doc.dao.RepoBasePackage;
 
 public class DocJpaCodeGen extends JpaCodeGenConfigSupport {

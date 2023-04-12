@@ -2,7 +2,7 @@ package org.panda.service.doc.common.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.panda.data.model.entity.BaseEntity;
+import org.panda.tech.data.model.entity.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

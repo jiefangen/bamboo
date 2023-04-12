@@ -1,7 +1,7 @@
 package ${packageName};
 
 import org.springframework.stereotype.Repository;
-import org.panda.data.jpa.support.JpaRepoxSupport;
+import support.jpa.org.panda.tech.data.JpaRepoxSupport;
 import ${entityClassName};
 
 /**

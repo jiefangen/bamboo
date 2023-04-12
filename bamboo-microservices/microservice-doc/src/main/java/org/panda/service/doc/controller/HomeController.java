@@ -1,7 +1,7 @@
 package org.panda.service.doc.controller;
 
 import org.panda.bamboo.core.context.ApplicationContextBean;
-import org.panda.core.spec.restful.RestfulResult;
+import org.panda.tech.core.spec.restful.RestfulResult;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
