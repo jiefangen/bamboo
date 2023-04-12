@@ -18,8 +18,8 @@ import java.util.Map;
  */
 public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRepoGenerator {
 
-    private String baseTemplateLocation = "META-INF/template/unity-repo.ftl";
-    private String extTemplateLocation = "META-INF/template/unity-repox.ftl";
+    private String baseTemplateLocation = "META-INF/template/jpa-repo.ftl";
+    private String extTemplateLocation = "META-INF/template/jpa-repox.ftl";
 
     private Class<?>[] ignoredEntityClasses;
 
@@ -33,7 +33,7 @@ public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRe
         generate(this.modelBasePackage, (module, entityClass) -> {
             if (this.ignoredEntityClasses == null || !ArrayUtils.contains(this.ignoredEntityClasses, entityClass)) {
                 try {
-                    generate(module, entityClass, true); // 默认均生成实现类，多余的可手工删除
+                    generate(module, entityClass, true);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -53,8 +53,8 @@ public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRe
         Class<?> keyFieldType = keyField.getType();
         params.put("keyClassSimpleName", keyFieldType.getSimpleName());
         generate(module, entityClass, params, this.baseTemplateLocation, Strings.EMPTY);
-        if (withRepox) {
-            generate(module, entityClass, params, this.extTemplateLocation, "x");
+        if (withRepox) { // 生成数据库访问仓库扩展类
+//            generate(module, entityClass, params, this.extTemplateLocation, "x");
         }
     }
 

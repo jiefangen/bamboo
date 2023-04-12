@@ -6,11 +6,17 @@ import org.panda.service.doc.test.DocApplicationTest;
 
 public class DocJpaCodeGenTest extends DocApplicationTest {
 
-   private DocJpaCodeGen docJpaCodeGenerator = new DocJpaCodeGen();
+    private DocJpaCodeGen docJpaCodeGenerator = new DocJpaCodeGen();
 
     @Test
-    public void docJpaCodeGen() {
-        docJpaCodeGenerator.repoGenerator();
+    public void docJpaEntityGen() {
+        String entityName = "DocExcel";
+        docJpaCodeGenerator.docEntityGenerator(entityName);
+    }
+
+    @Test
+    public void docJpaRepoGen() {
+        docJpaCodeGenerator.docRepoGenerator();
     }
 
 }

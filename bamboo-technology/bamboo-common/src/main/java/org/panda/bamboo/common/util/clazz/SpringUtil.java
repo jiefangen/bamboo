@@ -43,7 +43,6 @@ public class SpringUtil {
      * @param <T>      bean类型
      * @return bean对象，如果找不到则返回null
      */
-    @SuppressWarnings("unchecked")
     public static <T> T getBeanByName(ApplicationContext context, String beanName) {
         try {
             return (T) context.getBean(beanName);
@@ -62,8 +61,7 @@ public class SpringUtil {
      */
     public static <T> T getBeanByDefaultName(ApplicationContext context, Class<T> beanClass) {
         try {
-            return context.getBean(StringUtil.firstToLowerCase(beanClass.getSimpleName()),
-                    beanClass);
+            return context.getBean(StringUtil.firstToLowerCase(beanClass.getSimpleName()), beanClass);
         } catch (BeansException e) {
             return null;
         }

@@ -1,0 +1,72 @@
+package org.panda.data.jpa.codegen;
+
+import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.bamboo.core.context.ApplicationContextBean;
+import org.panda.data.codegen.ClassGeneratorSupport;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * JPA实体文件生成器实现
+ *
+ * @author fangen
+ */
+public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements JpaEntityGenerator {
+
+    private String templateLocation = "META-INF/template/jpa-entity.ftl";
+
+    public JpaEntityGeneratorImpl(String modelBasePackage, String targetBasePackage) {
+        super(modelBasePackage, targetBasePackage);
+    }
+
+    @Override
+    public void generate(String entityName) throws Exception {
+        DataSource dataSource = ApplicationContextBean.getBean(DataSource.class);
+        Connection connection = DataSourceUtils.getConnection(dataSource);
+        DatabaseMetaData metaData = connection.getMetaData();
+        String tableName = StringUtil.prependUnderLineToUpperChar(entityName, true);
+        ResultSet rs = metaData.getTables(null, null, tableName, new String[]{ "TABLE" });
+        if (!rs.next()) {
+            LogUtil.warn(getClass(), "====== Table {} does not exist, entity file can not been generated.", tableName);
+            return;
+        }
+
+        ResultSetMetaData setMetaData = rs.getMetaData();
+        int columnCount = setMetaData.getColumnCount();
+        List<String> fields = new ArrayList<>();
+        List<String> types = new ArrayList<>();
+        for (int i = 1; i <= columnCount; i++) {
+            fields.add(setMetaData.getColumnName(i));
+            types.add(setMetaData.getColumnClassName(i));
+        }
+
+        generate(entityName, fields, types, this.templateLocation);
+        rs.close();
+        connection.close();
+    }
+
+    private String generate(String className, List<String> fields, List<String> types, String location) throws IOException {
+        String packageName = getTargetModulePackageName(null);
+        String entityClassName = packageName + Strings.DOT + className;
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("packageName", packageName);
+        dataModel.put("className", className);
+        dataModel.put("fields", fields);
+        dataModel.put("types", types);
+        generate(entityClassName, location, dataModel);
+        return className;
+    }
+
+}

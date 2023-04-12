@@ -1,6 +1,6 @@
 # document文档服务表创建脚本
-CREATE DATABASE IF NOT EXISTS `document_service` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `document_service`;
+CREATE DATABASE IF NOT EXISTS `service_doc` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `service_doc`;
 
 SET NAMES utf8mb4;
 SET GLOBAL FOREIGN_KEY_CHECKS = 0;
