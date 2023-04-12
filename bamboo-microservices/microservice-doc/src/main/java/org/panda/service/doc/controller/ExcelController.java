@@ -1,7 +1,7 @@
 package org.panda.service.doc.controller;
 
-import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.UUIDUtil;
+import org.panda.tech.common.constant.Strings;
+import org.panda.tech.common.util.UUIDUtil;
 import org.panda.tech.core.spec.restful.RestfulResult;
 import org.panda.service.doc.common.DocConstant;
 import org.panda.service.doc.common.util.DocUtil;

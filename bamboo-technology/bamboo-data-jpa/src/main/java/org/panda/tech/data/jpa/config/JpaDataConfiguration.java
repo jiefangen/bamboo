@@ -1,7 +1,7 @@
 package org.panda.tech.data.jpa.config;
 
-import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.LogUtil;
+import org.panda.tech.common.constant.Strings;
+import org.panda.tech.common.util.LogUtil;
 import org.panda.tech.data.jpa.hibernate.JpaHibernatePersistenceProvider;
 import org.panda.tech.data.jpa.hibernate.MetadataProvider;
 import org.panda.tech.data.jpa.support.JpaAccessTemplate;

@@ -2,9 +2,9 @@ package org.panda.tech.data.codegen;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.parser.FreeMarkerTemplateParser;
-import org.panda.bamboo.common.parser.TemplateParser;
+import org.panda.tech.common.constant.Strings;
+import org.panda.tech.common.parser.FreeMarkerTemplateParser;
+import org.panda.tech.common.parser.TemplateParser;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ClassUtils;
 

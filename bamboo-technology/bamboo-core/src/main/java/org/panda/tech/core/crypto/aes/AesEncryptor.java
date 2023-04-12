@@ -1,6 +1,6 @@
 package org.panda.tech.core.crypto.aes;
 
-import org.panda.bamboo.common.util.EncryptUtil;
+import org.panda.tech.common.util.EncryptUtil;
 import org.panda.tech.core.crypto.KeyBilateralEncryptor;
 
 /**

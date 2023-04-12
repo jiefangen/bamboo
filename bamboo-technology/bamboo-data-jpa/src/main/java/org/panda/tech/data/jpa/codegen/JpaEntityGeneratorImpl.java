@@ -1,9 +1,9 @@
 package org.panda.tech.data.jpa.codegen;
 
-import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.LogUtil;
-import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.bamboo.core.context.ApplicationContextBean;
+import org.panda.tech.common.constant.Strings;
+import org.panda.tech.common.util.LogUtil;
+import org.panda.tech.common.util.lang.StringUtil;
+import org.panda.tech.core.context.ApplicationContextBean;
 import org.panda.tech.data.codegen.ClassGeneratorSupport;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 

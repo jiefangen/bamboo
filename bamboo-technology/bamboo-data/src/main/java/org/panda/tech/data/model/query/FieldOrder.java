@@ -1,7 +1,7 @@
 package org.panda.tech.data.model.query;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.tech.common.constant.Strings;
 
 import java.io.Serializable;
 import java.util.Objects;

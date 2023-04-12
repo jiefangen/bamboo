@@ -1,6 +1,6 @@
 package org.panda.tech.data.model;
 
-import org.panda.bamboo.common.model.Model;
+import org.panda.tech.common.model.Model;
 
 /**
  * 数据模型

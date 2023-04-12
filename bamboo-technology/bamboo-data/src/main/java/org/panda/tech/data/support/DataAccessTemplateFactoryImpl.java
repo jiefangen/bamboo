@@ -1,6 +1,6 @@
 package org.panda.tech.data.support;
 
-import org.panda.bamboo.core.beans.ContextInitializedBean;
+import org.panda.tech.core.beans.ContextInitializedBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 

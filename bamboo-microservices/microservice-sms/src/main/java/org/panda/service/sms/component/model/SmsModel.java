@@ -1,7 +1,7 @@
 package org.panda.service.sms.component.model;
 
 import lombok.Data;
-import org.panda.bamboo.common.model.DomainModel;
+import org.panda.tech.common.model.DomainModel;
 
 import java.util.Date;
 import java.util.List;

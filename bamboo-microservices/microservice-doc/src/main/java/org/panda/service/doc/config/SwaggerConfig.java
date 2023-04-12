@@ -1,6 +1,6 @@
 package org.panda.service.doc.config;
 
-import org.panda.bamboo.Framework;
+import org.panda.tech.Framework;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;

@@ -1,7 +1,7 @@
 package org.panda.service.doc.core.domain;
 
 import lombok.Data;
-import org.panda.bamboo.common.model.DomainModel;
+import org.panda.tech.common.model.DomainModel;
 
 /**
  * 文档领域模型

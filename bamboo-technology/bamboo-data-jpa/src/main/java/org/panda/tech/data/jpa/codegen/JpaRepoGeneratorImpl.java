@@ -1,8 +1,8 @@
 package org.panda.tech.data.jpa.codegen;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.clazz.ClassUtil;
+import org.panda.tech.common.constant.Strings;
+import org.panda.tech.common.util.clazz.ClassUtil;
 import org.panda.tech.data.codegen.ClassGeneratorSupport;
 import org.panda.tech.data.model.entity.Entity;
 

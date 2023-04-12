@@ -2,7 +2,7 @@ package org.panda.tech.data.jpa.support;
 
 import org.hibernate.boot.Metadata;
 import org.hibernate.mapping.PersistentClass;
-import org.panda.bamboo.common.util.lang.CollectionUtil;
+import org.panda.tech.common.util.lang.CollectionUtil;
 import org.panda.tech.data.jpa.hibernate.MetadataProvider;
 import org.panda.tech.data.model.entity.Entity;
 import org.panda.tech.data.support.DataAccessTemplate;
