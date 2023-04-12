@@ -33,7 +33,7 @@ public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRe
         generate(this.modelBasePackage, (module, entityClass) -> {
             if (this.ignoredEntityClasses == null || !ArrayUtils.contains(this.ignoredEntityClasses, entityClass)) {
                 try {
-                    generate(module, entityClass, true);
+                    generateRepo(module, entityClass, true);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -44,21 +44,21 @@ public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRe
     @Override
     public void generate(Class<? extends Entity> entityClass, boolean withRepox) throws Exception {
         String module = getModule(entityClass);
-        generate(module, entityClass, withRepox);
+        generateRepo(module, entityClass, withRepox);
     }
 
-    private void generate(String module, Class<? extends Entity> entityClass, boolean withRepox) throws Exception {
+    private void generateRepo(String module, Class<? extends Entity> entityClass, boolean withRepox) throws Exception {
         Map<String, Object> params = new HashMap<>();
         Field keyField = ClassUtil.findField(entityClass, "id");
         Class<?> keyFieldType = keyField.getType();
         params.put("keyClassSimpleName", keyFieldType.getSimpleName());
-        generate(module, entityClass, params, this.baseTemplateLocation, Strings.EMPTY);
+        generateRepo(module, entityClass, params, this.baseTemplateLocation, Strings.EMPTY);
         if (withRepox) { // 生成数据库访问仓库扩展类
 //            generate(module, entityClass, params, this.extTemplateLocation, "x");
         }
     }
 
-    private String generate(String module, Class<? extends Entity> entityClass, Map<String, Object> params,
+    private String generateRepo(String module, Class<? extends Entity> entityClass, Map<String, Object> params,
             String location, String repoClassNameSuffix) throws IOException {
         String packageName = getTargetModulePackageName(module);
         String entityClassSimpleName = entityClass.getSimpleName();

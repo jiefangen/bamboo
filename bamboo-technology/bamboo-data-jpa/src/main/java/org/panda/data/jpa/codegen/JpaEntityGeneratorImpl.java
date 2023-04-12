@@ -33,6 +33,10 @@ public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements Jpa
 
     @Override
     public void generate(String entityName) throws Exception {
+        generateEntity(entityName);
+    }
+
+    private void generateEntity(String entityName)  throws Exception{
         DataSource dataSource = ApplicationContextBean.getBean(DataSource.class);
         Connection connection = DataSourceUtils.getConnection(dataSource);
         DatabaseMetaData metaData = connection.getMetaData();
@@ -52,20 +56,21 @@ public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements Jpa
             types.add(setMetaData.getColumnClassName(i));
         }
 
-        generate(entityName, fields, types, this.templateLocation);
+        Map<String, Object> params = new HashMap<>();
+        generateEntity(Strings.EMPTY, entityName, fields, types, params, this.templateLocation);
         rs.close();
         connection.close();
     }
 
-    private String generate(String className, List<String> fields, List<String> types, String location) throws IOException {
-        String packageName = getTargetModulePackageName(null);
+    private String generateEntity(String module, String className, List<String> fields, List<String> types,
+                            Map<String, Object> params, String location) throws IOException {
+        String packageName = getTargetModulePackageName(module);
         String entityClassName = packageName + Strings.DOT + className;
-        Map<String, Object> dataModel = new HashMap<>();
-        dataModel.put("packageName", packageName);
-        dataModel.put("className", className);
-        dataModel.put("fields", fields);
-        dataModel.put("types", types);
-        generate(entityClassName, location, dataModel);
+        params.put("packageName", packageName);
+        params.put("className", className);
+        params.put("fields", fields);
+        params.put("types", types);
+        generate(entityClassName, location, params);
         return className;
     }
 
