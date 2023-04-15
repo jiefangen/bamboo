@@ -23,4 +23,13 @@ public class ApplicationContextBean implements ApplicationContextAware {
     public static <T> T getBean(Class<T> type) {
         return SpringUtil.getBeanByDefaultName(applicationContext, type);
     }
+
+    public static String getActiveProfile() {
+        return SpringUtil.getActiveProfile(applicationContext);
+    }
+
+    public static boolean isActiveProfile(String profile) {
+        return SpringUtil.isActiveProfile(applicationContext, profile);
+    }
+
 }

@@ -1,22 +1,20 @@
-package org.panda.service.doc.config;
+package org.panda.service.doc.test.codegen;
 
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.data.jpa.codegen.JpaCodeGenConfigSupport;
 import org.panda.tech.data.jpa.codegen.JpaEntityGenerator;
 import org.panda.tech.data.jpa.codegen.JpaRepoGenerator;
-import org.panda.service.doc.dao.RepoBasePackage;
 
 public class DocJpaCodeGen extends JpaCodeGenConfigSupport {
-    public static final String BASE_PACKAGE = "org.panda.service.doc.common.entity";
 
     @Override
     protected String getModelBasePackage() {
-        return BASE_PACKAGE;
+        return "org.panda.service.doc.common.entity";
     }
 
     @Override
     protected String getRepoBasePackage() {
-        return RepoBasePackage.class.getPackageName();
+        return "org.panda.service.doc.dao";
     }
 
     public void docEntityGenerator(String... tableOrEntityNames) {

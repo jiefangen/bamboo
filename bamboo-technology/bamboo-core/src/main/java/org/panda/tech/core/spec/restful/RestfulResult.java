@@ -49,7 +49,7 @@ public class RestfulResult<T> implements Serializable {
         return transform(failedResult.getCode(), failedResult.getMessage(), null);
     }
 
-    private static <T> RestfulResult<T> transform(int code, String message, T data){
+    private static <T> RestfulResult<T> transform(int code, String message, T data) {
         RestfulResult<T> result = new RestfulResult<>();
         result.code = code;
         result.message = message;

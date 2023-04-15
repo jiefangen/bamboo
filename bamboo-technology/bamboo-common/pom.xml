@@ -19,6 +19,7 @@
             <artifactId>spring-context</artifactId>
         </dependency>
 
+        <!-- Freemarker模版引擎 -->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>

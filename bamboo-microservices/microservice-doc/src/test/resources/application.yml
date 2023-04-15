@@ -1,17 +1,9 @@
-# 服务相关配置
-server:
-  port: 10002
-  servlet:
-    context-path: /doc-service
 spring:
-  application:
-    name: microservice-doc
   profiles:
-    active: local
+    active: junit
   mvc:
     path-match:
-      matching-strategy: ant_path_matcher # SpringBoot2.6.X版本兼容knife4J3.0配置
-
+      matching-strategy: ant_path_matcher
   # 数据库连接配置
   datasource:
     url: jdbc:mysql://localhost:3306/service_doc
@@ -31,3 +23,11 @@ spring:
       hibernate:
         ddl-auto: update
       show-sql: true
+
+
+# 技术框架代码生成配置
+bamboo:
+  data-jpa:
+    code-gen:
+      entity-location: org.panda.service.doc.common.entity
+      repo-location: org.panda.service.doc.dao
