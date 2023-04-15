@@ -4,6 +4,10 @@ package org.panda.bamboo.common.constant;
  * 时间格式常量集
  **/
 public class Times {
+
+    private Times() {
+    }
+
     /**
      * 短日期格式
      */

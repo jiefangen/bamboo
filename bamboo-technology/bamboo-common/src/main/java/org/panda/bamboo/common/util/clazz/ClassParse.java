@@ -10,10 +10,13 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * 解析字符串为指定类型的对象
+ * 类型解析
  */
-public class ClassParseStr {
+public class ClassParse {
 
+    /**
+     * 解析字符串为指定类型的对象
+     */
     public static <T> T visit(String s,  Class<T> clazz) {
         if (clazz == null || StringUtils.isBlank(s)) {
             return null;
@@ -47,4 +50,18 @@ public class ClassParseStr {
         }
         return null;
     }
+
+    public static String getClassType(Class<?> clazz) {
+        if (clazz == null) {
+            return null;
+        }
+        return clazz.getTypeName();
+    }
+
+    public static String getClassTypeName(Class<?> clazz) {
+        String classType = getClassType(clazz);
+        String[] classTypes = classType.split("\\.");
+        return classTypes[classTypes.length-1];
+    }
+
 }

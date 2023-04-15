@@ -23,6 +23,9 @@ public class ClassDefault {
      */
     private static final Map<Class<?>, Object> OBJECT_DEFAULTS = new HashMap<>();
 
+    private ClassDefault() {
+    }
+
     static {
         PRIMITIVE_DEFAULTS.put(boolean.class, false);
         PRIMITIVE_DEFAULTS.put(char.class, '\0');
@@ -46,9 +49,6 @@ public class ClassDefault {
         OBJECT_DEFAULTS.put(Locale.class, Locale.getDefault());
         OBJECT_DEFAULTS.put(Currency.class, Currency.getInstance(Locale.getDefault()));
         OBJECT_DEFAULTS.put(Charset.class, StandardCharsets.UTF_8);
-    }
-
-    private ClassDefault() {
     }
 
     public static <T> T visit(Class<T> clazz, boolean nullObject) {

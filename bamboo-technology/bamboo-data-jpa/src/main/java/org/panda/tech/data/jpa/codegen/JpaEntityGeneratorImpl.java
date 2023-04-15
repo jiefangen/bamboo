@@ -1,23 +1,28 @@
 package org.panda.tech.data.jpa.codegen;
 
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.exception.param.RequiredParamException;
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.bamboo.common.util.clazz.ClassDefault;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.context.ApplicationContextBean;
 import org.panda.tech.data.codegen.ClassGeneratorSupport;
+import org.panda.tech.data.metadata.DatabaseTool;
 import org.panda.tech.data.model.meta.ColumnMetaData;
 import org.panda.tech.data.model.meta.FieldMetaData;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * JPA实体文件生成器实现
@@ -39,10 +44,10 @@ public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements Jpa
         }
         String tableName;
         String entityName;
-        if (tableOrEntityName.contains(Strings.UNDERLINE)) { // 表名
+        if (tableOrEntityName.contains(Strings.UNDERLINE)) { // 数据库表名
             tableName = tableOrEntityName;
-            if (tableOrEntityName.startsWith("t_")) { // 去掉表名t_前缀转换实体
-                tableOrEntityName = tableOrEntityName.substring(1);
+            if (tableOrEntityName.startsWith(Commons.TABLE_PREFIX)) { // 去掉表名t_前缀转换实体
+                tableOrEntityName = tableOrEntityName.substring(2);
             }
             entityName = StringUtil.underLineToCamelCase(tableOrEntityName, false);
         } else { // 实体类名
@@ -62,19 +67,23 @@ public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements Jpa
             return;
         }
 
-        List<ColumnMetaData> columnMetaDataList = getColumnMetadata(metaData, tableName);
+        List<ColumnMetaData> columnMetaDataList = DatabaseTool.getColumnMetadata(metaData, tableName);
         List<FieldMetaData> fieldMetaDataList = new ArrayList<>();
+        List<String> importJavaTypes = new ArrayList<>();
         for (ColumnMetaData columnMetaData : columnMetaDataList) {
             FieldMetaData fieldMetaData = new FieldMetaData();
             fieldMetaData.transform(columnMetaData);
+
             String fieldName = StringUtil.underLineToCamelCase(columnMetaData.getColumnName(), true);
             fieldMetaData.setFieldName(fieldName);
-            String fieldTypeName = getColumnJavaType(columnMetaData.getDataType());
+
+            String fieldTypeName = DatabaseTool.getColumnJavaType(columnMetaData.getDataType(), importJavaTypes);
             fieldMetaData.setFieldTypeName(fieldTypeName);
             fieldMetaDataList.add(fieldMetaData);
         }
         Map<String, Object> params = new HashMap<>();
         params.put("fieldMetaDataList", fieldMetaDataList);
+        params.put("importJavaTypes", importJavaTypes.stream().distinct().collect(Collectors.toList()));
         params.put("tableName", tableName);
         generateEntity(Strings.EMPTY, entityName, params, this.templateLocation);
 
@@ -89,56 +98,6 @@ public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements Jpa
         params.put("entityName", entityName);
         generate(entityClassName, location, params);
         return entityName;
-    }
-
-    private List<ColumnMetaData> getColumnMetadata(DatabaseMetaData metaData, String tableName) throws SQLException {
-        List<ColumnMetaData> columnMetadataList = new ArrayList<>();
-        ResultSet rs = metaData.getColumns(null, null, tableName, null);
-        while (rs.next()) {
-            ColumnMetaData columnMetaData = new ColumnMetaData();
-            columnMetaData.setColumnName(rs.getString("COLUMN_NAME"));
-            columnMetaData.setDataType(rs.getInt("DATA_TYPE"));
-            columnMetaData.setTypeName(rs.getString("TYPE_NAME"));
-            columnMetaData.setColumnSize(rs.getInt("COLUMN_SIZE"));
-            columnMetaData.setAutoIncrement(getBoolean(rs.getString("IS_AUTOINCREMENT")));
-            columnMetaData.setNullable(getBoolean(rs.getString("IS_NULLABLE")));
-            columnMetaData.setColumnDefault(rs.getString("COLUMN_DEF"));
-            columnMetadataList.add(columnMetaData);
-        }
-        rs.close();
-        return columnMetadataList;
-    }
-
-    private Boolean getBoolean(String value) {
-        if ("yes".equalsIgnoreCase(value)) {
-            return true;
-        } else if ("no".equalsIgnoreCase(value)) {
-            return false;
-        }
-        return ClassDefault.visit(boolean.class, false);
-    }
-
-    private String getColumnJavaType(int dataType) {
-        switch (dataType) {
-            case Types.CHAR:
-                return String.class.getName();
-            case Types.VARCHAR:
-                return String.class.getName();
-            case Types.LONGVARCHAR: // longtext
-                return String.class.getName();
-            case Types.TINYINT:
-                return Integer.class.getName();
-            case Types.INTEGER:
-                return Integer.class.getName();
-            case Types.BIGINT:
-                return Long.class.getName();
-            case Types.DATE:
-                return Date.class.getName();
-            case Types.TIMESTAMP:
-                return LocalDateTime.class.getName();
-            default:
-                return null;
-        }
     }
 
 }

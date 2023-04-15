@@ -12,8 +12,9 @@ import lombok.Setter;
 @Setter
 public class FieldMetaData extends ColumnMetaData{
 
-    private String fieldTypeName;
+    private String fieldType;
     private String fieldName;
+    private String fieldTypeName;
 
     public void transform(ColumnMetaData columnMetaData) {
         this.setColumnName(columnMetaData.getColumnName());

@@ -22,4 +22,16 @@ public class Commons {
 
     public static final int EXCEPTION_BUSINESS = 5200;
 
+
+    /**
+     * 通用简单常见英文
+     */
+    public static final String COMMON_YES = "yes";
+    public static final String COMMON_NO = "no";
+
+    /**
+     * 其他
+     */
+    public static final String TABLE_PREFIX = "t_";
+
 }
