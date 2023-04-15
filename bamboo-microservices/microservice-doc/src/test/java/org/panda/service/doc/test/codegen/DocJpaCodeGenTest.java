@@ -10,9 +10,7 @@ public class DocJpaCodeGenTest extends DocApplicationTest {
 
     @Test
     public void docJpaEntityGen() {
-//        String tableOrEntityName = "doc_excel";
-        String tableOrEntityName = "doc_file";
-        docJpaCodeGenerator.docEntityGenerator(tableOrEntityName);
+        docJpaCodeGenerator.docEntityGenerator("doc_file", "doc_excel");
     }
 
     @Test

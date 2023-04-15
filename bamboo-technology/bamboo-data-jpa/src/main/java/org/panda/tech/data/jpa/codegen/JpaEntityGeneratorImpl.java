@@ -1,5 +1,6 @@
 package org.panda.tech.data.jpa.codegen;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.Strings;
@@ -38,10 +39,24 @@ public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements Jpa
     }
 
     @Override
+    public void generate(String... tableOrEntityNames) throws Exception {
+        if (ArrayUtils.isEmpty(tableOrEntityNames)) {
+            throw new RequiredParamException();
+        }
+        for (String tableOrEntityName : tableOrEntityNames) {
+            generateEntity(tableOrEntityName);
+        }
+    }
+
+    @Override
     public void generate(String tableOrEntityName) throws Exception {
         if (StringUtils.isEmpty(tableOrEntityName)) {
             throw new RequiredParamException();
         }
+        generateEntity(tableOrEntityName);
+    }
+
+    private void generateEntity(String tableOrEntityName) throws Exception {
         String tableName;
         String entityName;
         if (tableOrEntityName.contains(Strings.UNDERLINE)) { // 数据库表名
