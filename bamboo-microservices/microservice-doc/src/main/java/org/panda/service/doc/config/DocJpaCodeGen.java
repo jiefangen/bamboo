@@ -19,10 +19,10 @@ public class DocJpaCodeGen extends JpaCodeGenConfigSupport {
         return RepoBasePackage.class.getPackageName();
     }
 
-    public void docEntityGenerator(String entityName) {
+    public void docEntityGenerator(String tableOrEntityName) {
         JpaEntityGenerator jpaEntityGenerator = super.entityGenerator();
         try {
-            jpaEntityGenerator.generate(entityName);
+            jpaEntityGenerator.generate(tableOrEntityName);
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
         }

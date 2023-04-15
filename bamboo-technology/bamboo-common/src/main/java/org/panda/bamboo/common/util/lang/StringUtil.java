@@ -1185,7 +1185,7 @@ public class StringUtil {
         if (StringUtils.isBlank(s)) {
             return s;
         }
-        StringBuilder sb = new StringBuilder(s);
+        StringBuilder sb = new StringBuilder();
         String[] strings = s.split(Strings.UNDERLINE);
         for (String str : strings) {
             sb.append(Character.toUpperCase(str.charAt(0)));

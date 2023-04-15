@@ -14,7 +14,7 @@ import java.util.Locale;
  */
 public class ClassParseStr {
 
-    public static <T> T visit( String s,  Class<T> clazz) {
+    public static <T> T visit(String s,  Class<T> clazz) {
         if (clazz == null || StringUtils.isBlank(s)) {
             return null;
         }

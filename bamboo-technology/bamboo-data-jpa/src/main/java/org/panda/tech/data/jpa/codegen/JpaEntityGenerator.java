@@ -8,6 +8,6 @@ package org.panda.tech.data.jpa.codegen;
  */
 public interface JpaEntityGenerator {
 
-    void generate(String entityName) throws Exception;
+    void generate(String tableOrEntityName) throws Exception;
 
 }
