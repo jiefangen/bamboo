@@ -1,5 +1,7 @@
 package org.panda.service.doc.common;
 
+import org.panda.bamboo.common.constant.FileExtensions;
+
 /**
  * 文档类型常量集
  *
@@ -14,12 +16,12 @@ public class DocConstant {
     public static final String WORD = "WORD";
     public static final String PPT = "PPT";
 
-    public static final String EXCEL_XLS = "xls";
-    public static final String EXCEL_XLSX = "xlsx";
-    public static final String WORD_DOC = "doc";
-    public static final String WORD_DOCX = "docx";
-    public static final String PPT_PPT = "ppt";
-    public static final String PPT_PPTX = "pptx";
+    public static final String EXCEL_XLS = FileExtensions.XLS;
+    public static final String EXCEL_XLSX = FileExtensions.XLSX;
+    public static final String WORD_DOC = FileExtensions.DOC;
+    public static final String WORD_DOCX = FileExtensions.DOCX;
+    public static final String PPT_PPT = FileExtensions.PPT;
+    public static final String PPT_PPTX = FileExtensions.PPTX;
 
     public static final String DEFAULT_SHEET_NAME = "Sheet1";
 

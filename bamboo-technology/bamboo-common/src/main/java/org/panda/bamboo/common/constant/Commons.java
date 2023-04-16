@@ -24,10 +24,12 @@ public class Commons {
 
 
     /**
-     * 通用简单常见英文
+     * 通用技术专业英文
      */
     public static final String COMMON_YES = "yes";
     public static final String COMMON_NO = "no";
+    public static final String COMMON_CONFIG = "config";
+    public static final String COMMON_APPLICATION = "application";
 
     /**
      * 其他

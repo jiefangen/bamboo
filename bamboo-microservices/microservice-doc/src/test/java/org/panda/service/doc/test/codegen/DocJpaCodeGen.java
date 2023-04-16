@@ -1,20 +1,34 @@
 package org.panda.service.doc.test.codegen;
 
 import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.core.context.ApplicationContextBean;
+import org.panda.service.doc.test.config.JpaCodegenProperties;
 import org.panda.tech.data.jpa.codegen.JpaCodeGenConfigSupport;
 import org.panda.tech.data.jpa.codegen.JpaEntityGenerator;
 import org.panda.tech.data.jpa.codegen.JpaRepoGenerator;
 
 public class DocJpaCodeGen extends JpaCodeGenConfigSupport {
 
+    private JpaCodegenProperties jpaCodegenProperties;
+
+    private void initConfig() {
+        if (jpaCodegenProperties == null) {
+            jpaCodegenProperties = ApplicationContextBean.getBean(JpaCodegenProperties.class);
+        }
+    }
+
     @Override
     protected String getModelBasePackage() {
-        return "org.panda.service.doc.common.entity";
+        initConfig();
+        String entityLocation = jpaCodegenProperties.getEntityLocation();
+        return entityLocation;
     }
 
     @Override
     protected String getRepoBasePackage() {
-        return "org.panda.service.doc.dao";
+        initConfig();
+        String repoLocation = jpaCodegenProperties.getRepoLocation();
+        return repoLocation;
     }
 
     public void docEntityGenerator(String... tableOrEntityNames) {
