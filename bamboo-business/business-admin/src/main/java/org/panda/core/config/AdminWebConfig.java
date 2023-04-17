@@ -1,6 +1,6 @@
-package org.panda.tech.core.config;
+package org.panda.core.config;
 
-import org.panda.tech.core.security.interceptor.TokenInterceptor;
+import org.panda.core.security.interceptor.TokenInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ConcurrentTaskExecutor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;

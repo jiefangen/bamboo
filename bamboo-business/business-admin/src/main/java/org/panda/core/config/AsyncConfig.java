@@ -1,4 +1,4 @@
-package org.panda.tech.core.config;
+package org.panda.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

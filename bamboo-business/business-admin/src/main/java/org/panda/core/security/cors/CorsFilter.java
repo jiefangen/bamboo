@@ -1,4 +1,4 @@
-package org.panda.tech.core.security.cors;
+package org.panda.core.security.cors;
 
 import org.apache.shiro.web.servlet.OncePerRequestFilter;
 import org.springframework.http.HttpStatus;

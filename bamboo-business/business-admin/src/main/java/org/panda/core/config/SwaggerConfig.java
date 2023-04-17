@@ -1,4 +1,4 @@
-package org.panda.tech.core.config;
+package org.panda.core.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.panda.common.constant.SystemConstants;

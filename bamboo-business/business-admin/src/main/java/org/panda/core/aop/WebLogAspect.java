@@ -1,4 +1,4 @@
-package org.panda.tech.core.aop;
+package org.panda.core.aop;
 
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;

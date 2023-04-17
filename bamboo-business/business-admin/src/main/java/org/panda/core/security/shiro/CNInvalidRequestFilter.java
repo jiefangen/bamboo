@@ -1,4 +1,4 @@
-package org.panda.tech.core.security.shiro;
+package org.panda.core.security.shiro;
 
 import org.apache.shiro.util.StringUtils;
 import org.apache.shiro.web.filter.AccessControlFilter;

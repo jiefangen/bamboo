@@ -1,4 +1,4 @@
-package org.panda.tech.core.security.shiro;
+package org.panda.core.security.shiro;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

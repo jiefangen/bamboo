@@ -1,4 +1,4 @@
-package org.panda.tech.core.security.interceptor;
+package org.panda.core.security.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.exceptions.TokenExpiredException;
