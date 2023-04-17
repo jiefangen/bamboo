@@ -5,7 +5,6 @@ import org.panda.bamboo.Framework;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.FileExtensions;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.clazz.SpringUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
@@ -54,11 +53,11 @@ public class ConfigSubDirEnvironmentPostProcessor implements EnvironmentPostProc
                 rootLoaded = addPropertySource(environment, dirLocation) || rootLoaded;
             }
             if (rootLoaded) {
-                LogUtil.info(getClass(), "====== Config Sub Dir Property Sources ======");
+                System.out.println("====== Config Sub Dir Property Sources ======");
                 MutablePropertySources propertySources = environment.getPropertySources();
                 for (PropertySource<?> propertySource : propertySources) {
                     if (propertySource.getName().startsWith(SOURCE_NAME_PREFIX)) {
-                        LogUtil.info(getClass(), propertySource.getName());
+                        System.out.println(propertySource.getName());
                     }
                 }
             }

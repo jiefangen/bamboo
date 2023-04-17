@@ -1,6 +1,8 @@
 package org.panda.service.doc.test;
 
 import org.junit.jupiter.api.*;
+import org.panda.bamboo.common.util.LogUtil;
+import org.slf4j.Logger;
 
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
@@ -9,6 +11,7 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * 标准单元测试用例
  */
 public class StandardTest {
+    private Logger logger = LogUtil.getLogger(getClass());
 
     @BeforeAll
     static void initAll() {
@@ -22,6 +25,11 @@ public class StandardTest {
 
     @Test
     void succeedingTest() {
+        logger.trace("trace 级别日志");
+        logger.debug("debug 级别日志");
+        logger.info("info 级别日志");
+        logger.warn("warn 级别日志");
+        logger.error("error 级别日志");
         System.out.println("succeedingTest");
     }
 
