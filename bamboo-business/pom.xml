@@ -24,11 +24,11 @@
 
     <dependencies>
         <!-- 技术框架核心聚合组件依赖 -->
-        <dependency>
-            <groupId>org.panda.tech</groupId>
-            <artifactId>bamboo-core</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.panda.tech</groupId>-->
+<!--            <artifactId>bamboo-core</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -24,7 +24,6 @@
     </properties>
 
     <dependencies>
-
         <!-- Spring Boot aop -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

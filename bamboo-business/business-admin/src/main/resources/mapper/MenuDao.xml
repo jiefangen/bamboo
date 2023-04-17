@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.panda.modules.system.dao.MenuDao">
+<mapper namespace="org.panda.business.admin.modules.system.dao.MenuDao">
     <sql id="menuColumns"> id, parent_id, menu_path, redirect, menu_name, title, icon, component, hidden, sort </sql>
 
-    <resultMap id="baseMenuMap" type="org.panda.modules.system.domain.po.MenuPO">
+    <resultMap id="baseMenuMap" type="org.panda.business.admin.modules.system.domain.po.MenuPO">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
         <result column="menu_path" property="menuPath" jdbcType="VARCHAR"/>
@@ -14,26 +14,26 @@
         <result column="component" property="component" jdbcType="VARCHAR"/>
         <result column="hidden" property="isHidden" jdbcType="VARCHAR"/>
         <result column="sort" property="sort" jdbcType="INTEGER"/>
-        <collection property="children" ofType="org.panda.modules.system.domain.po.MenuPO"
+        <collection property="children" ofType="org.panda.business.admin.modules.system.domain.po.MenuPO"
                     select="findChildByParentId" column="id"/>
     </resultMap>
     <select id="findChildByParentId" resultMap="baseMenuMap">
         select <include refid="menuColumns"/> from sys_menu where parent_id = #{parentId} order by sort asc
     </select>
 
-    <resultMap id="routeMap" type="org.panda.modules.system.domain.vo.MenuVO">
+    <resultMap id="routeMap" type="org.panda.business.admin.modules.system.domain.vo.MenuVO">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="menu_path" property="path" jdbcType="VARCHAR"/>
         <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
         <result column="menu_name" property="name" jdbcType="VARCHAR"/>
         <result column="component" property="component" jdbcType="VARCHAR"/>
         <result column="hidden" property="hidden" jdbcType="BOOLEAN"/>
-        <association property="meta" javaType="org.panda.modules.system.domain.MenuMeta">
+        <association property="meta" javaType="org.panda.business.admin.modules.system.domain.MenuMeta">
             <result column="title" property="title" jdbcType="VARCHAR"/>
             <result column="icon" property="icon" jdbcType="VARCHAR"/>
             <collection property="roles" ofType="string" select="findRoleByMenuId" column="id"/>
         </association>
-        <collection property="children" ofType="org.panda.modules.system.domain.vo.MenuVO"
+        <collection property="children" ofType="org.panda.business.admin.modules.system.domain.vo.MenuVO"
                     select="findRouteByParentId" column="id"/>
     </resultMap>
     <select id="findRouteByParentId" resultMap="routeMap">
@@ -52,18 +52,18 @@
         select <include refid="menuColumns"/> from sys_menu where id = #{menuId}
     </select>
 
-    <resultMap id="roleRouteMap" type="org.panda.modules.system.domain.vo.MenuVO">
+    <resultMap id="roleRouteMap" type="org.panda.business.admin.modules.system.domain.vo.MenuVO">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="menu_path" property="path" jdbcType="VARCHAR"/>
         <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
         <result column="menu_name" property="name" jdbcType="VARCHAR"/>
         <result column="component" property="component" jdbcType="VARCHAR"/>
         <result column="hidden" property="hidden" jdbcType="BOOLEAN"/>
-        <association property="meta" javaType="org.panda.modules.system.domain.MenuMeta">
+        <association property="meta" javaType="org.panda.business.admin.modules.system.domain.MenuMeta">
             <result column="title" property="title" jdbcType="VARCHAR"/>
             <result column="icon" property="icon" jdbcType="VARCHAR"/>
         </association>
-        <collection property="children" ofType="org.panda.modules.system.domain.vo.MenuVO"
+        <collection property="children" ofType="org.panda.business.admin.modules.system.domain.vo.MenuVO"
                     select="findRouteByRoleId" column="idAndRoleId"/>
     </resultMap>
     <select id="findRouteByRoleId" resultMap="roleRouteMap">

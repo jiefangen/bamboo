@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.panda.modules.monitor.dao.ActionLogDao">
+<mapper namespace="org.panda.business.admin.modules.monitor.dao.ActionLogDao">
     <sql id="logColumns"> action_type, content, ip_address, username, operating_time, elapsed_time, status_code, exception_info </sql>
 
-    <resultMap id="baseLogMap" type="org.panda.modules.monitor.domain.ActionLog">
+    <resultMap id="baseLogMap" type="org.panda.business.admin.modules.monitor.domain.ActionLog">
         <id column="log_id" property="id" jdbcType="BIGINT"/>
         <result column="action_type" property="actionType" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>

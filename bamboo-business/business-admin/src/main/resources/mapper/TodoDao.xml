@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.panda.modules.facade.dao.TodoDao">
+<mapper namespace="org.panda.business.admin.modules.facade.dao.TodoDao">
     <sql id="todoColumns">id, work_status, content, sort, user_id, create_time, update_time </sql>
 
-    <resultMap id="baseTodoMap" type="org.panda.modules.facade.domain.Todo">
+    <resultMap id="baseTodoMap" type="org.panda.business.admin.modules.facade.domain.Todo">
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="work_status" property="workStatus" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>

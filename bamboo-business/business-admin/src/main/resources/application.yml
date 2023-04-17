@@ -2,7 +2,7 @@ spring:
   application:
     name: business-admin
   profiles:
-    active: dev
+    active: local
   mvc:
     path match:
       matching-strategy: ant_path_matcher
@@ -32,4 +32,4 @@ logging:
     console: ${pattern}
     file: ${pattern}
   file:
-    path: /Users/fangen/Public/Logs/bamboo-admin/logs
+    path: /Users/fangen/Public/Logs/business-admin/logs
