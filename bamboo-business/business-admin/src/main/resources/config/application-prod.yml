@@ -5,7 +5,6 @@ spring:
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
-    # Druid数据库连接池
     druid:
       # 配置初始化大小（默认0）、最小、最大（默认8）
       initial-size: 5
@@ -29,5 +28,3 @@ spring:
       pool-prepared-statements: false
       # 开启poolPreparedStatements后生效
       max-pool-prepared-statement-per-connection-size: 20
-      # 通过connectProperties属性来打开mergeSql功能;慢SQL记录
-      connection-properties: 'druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000'

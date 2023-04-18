@@ -1,6 +1,6 @@
 package org.panda.service.doc.service;
 
-import org.panda.service.doc.common.DocConstant;
+import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.entity.DocFile;
 import org.panda.service.doc.core.DocFactory;
 import org.panda.service.doc.core.domain.ExcelModel;
@@ -25,7 +25,7 @@ public class ExcelService {
     @Autowired
     private DocFileRepo docFileRepo;
 
-    private Excel excelDoc = (Excel) DocFactory.getDocument(DocConstant.EXCEL);
+    private Excel excelDoc = (Excel) DocFactory.getDocument(DocConstants.EXCEL);
 
     public Map<String, Object> readExcel(InputStream inputStream, String fileExtension) {
         Map<String, Object> excelContent = (Map<String, Object>) excelDoc.read(inputStream, fileExtension);

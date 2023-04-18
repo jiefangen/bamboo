@@ -3,7 +3,7 @@ package org.panda.service.doc.core.word;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
-import org.panda.service.doc.common.DocConstant;
+import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.core.domain.DocModel;
 
 import javax.servlet.ServletOutputStream;
@@ -19,9 +19,9 @@ public class WordDoc implements Word {
     public String read(InputStream inputStream, String extension) {
         StringBuilder content = new StringBuilder();
         try {
-            if (DocConstant.WORD_DOC.equalsIgnoreCase(extension)) {
+            if (DocConstants.WORD_DOC.equalsIgnoreCase(extension)) {
                 // 使用HWPF API读取DOC格式的文档内容
-            } else if (DocConstant.WORD_DOCX.equalsIgnoreCase(extension)) {
+            } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(extension)) {
                 XWPFDocument document = new XWPFDocument(inputStream);
                 XWPFWordExtractor extractor = new XWPFWordExtractor(document);
                 content.append(extractor.getText());

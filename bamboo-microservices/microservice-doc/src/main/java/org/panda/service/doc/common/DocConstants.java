@@ -7,9 +7,9 @@ import org.panda.bamboo.common.constant.FileExtensions;
  *
  * @author fangen
  */
-public class DocConstant {
+public class DocConstants {
 
-    private DocConstant() {
+    private DocConstants() {
     }
 
     public static final String EXCEL = "EXCEL";

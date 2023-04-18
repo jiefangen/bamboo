@@ -6,7 +6,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.service.doc.common.DocConstant;
+import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.core.domain.DocModel;
 import org.panda.service.doc.core.domain.ExcelModel;
 
@@ -25,14 +25,14 @@ public class ExcelDoc implements Excel {
     public Map<String, Object> read(InputStream inputStream, String extension) {
         Map<String, Object> contentMap = new LinkedHashMap<>();
         try {
-            if (DocConstant.EXCEL_XLS.equalsIgnoreCase(extension)) {
+            if (DocConstants.EXCEL_XLS.equalsIgnoreCase(extension)) {
                 HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
                 for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                     Sheet sheet = workbook.getSheetAt(i);
                     contentHandle(contentMap, sheet);
                 }
                 workbook.close();
-            } else if (DocConstant.EXCEL_XLSX.equalsIgnoreCase(extension)) {
+            } else if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(extension)) {
                 XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
                 for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                     Sheet sheet = workbook.getSheetAt(i);
@@ -94,7 +94,7 @@ public class ExcelDoc implements Excel {
             ExcelModel excelModel = (ExcelModel) docModel;
             String sheetName = excelModel.getSheetName();
             if (StringUtils.isEmpty(sheetName)) {
-                sheetName = DocConstant.DEFAULT_SHEET_NAME;
+                sheetName = DocConstants.DEFAULT_SHEET_NAME;
             }
             Workbook workbook = WorkbookFactory.create(true);
             Sheet sheet = workbook.createSheet(sheetName);

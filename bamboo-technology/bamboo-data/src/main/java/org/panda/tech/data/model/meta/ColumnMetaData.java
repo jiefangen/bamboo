@@ -19,5 +19,6 @@ public class ColumnMetaData {
     private Boolean autoIncrement;
     private Boolean nullable;
     private String columnDefault;
+    private String remarks;
 
 }

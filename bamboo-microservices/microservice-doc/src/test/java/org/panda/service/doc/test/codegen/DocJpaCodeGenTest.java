@@ -5,10 +5,15 @@ import org.panda.service.doc.test.DocApplicationTest;
 
 public class DocJpaCodeGenTest extends DocApplicationTest {
 
+    private DocJpaCodeGen jpaCodeGenerator = new DocJpaCodeGen();
+
     @Test
-    public void jpaCodeGen() {
-        DocJpaCodeGen jpaCodeGenerator = new DocJpaCodeGen();
+    void jpaEntityGen() {
         jpaCodeGenerator.docEntityGenerator("doc_file", "doc_excel");
+    }
+
+    @Test
+    public void jpaRepoGen() {
         jpaCodeGenerator.docRepoGenerator();
     }
 

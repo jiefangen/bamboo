@@ -14,8 +14,12 @@ import ${importJavaType};
 @Setter
 @Table(name = "${tableName}")
 public class ${entityName} extends BaseEntity {
-
 <#list fieldMetaDataList as fieldMetaData>
+    <#if fieldMetaData.remarks?? && fieldMetaData.remarks?length != 0>
+    /**
+     * ${fieldMetaData.remarks}
+     */
+    </#if>
     <#if fieldMetaData_index = 0>
     @Id
         <#if fieldMetaData.autoIncrement>

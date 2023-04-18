@@ -22,19 +22,20 @@ public class DatabaseTool {
 
     public static List<ColumnMetaData> getColumnMetadata(DatabaseMetaData metaData, String tableName) throws SQLException {
         List<ColumnMetaData> columnMetadataList = new ArrayList<>();
-        ResultSet rs = metaData.getColumns(null, null, tableName, null);
-        while (rs.next()) {
+        ResultSet columns = metaData.getColumns(null, null, tableName, null);
+        while (columns.next()) {
             ColumnMetaData columnMetaData = new ColumnMetaData();
-            columnMetaData.setColumnName(rs.getString("COLUMN_NAME"));
-            columnMetaData.setDataType(rs.getInt("DATA_TYPE"));
-            columnMetaData.setTypeName(rs.getString("TYPE_NAME"));
-            columnMetaData.setColumnSize(rs.getInt("COLUMN_SIZE"));
-            columnMetaData.setAutoIncrement(getBoolean(rs.getString("IS_AUTOINCREMENT")));
-            columnMetaData.setNullable(getBoolean(rs.getString("IS_NULLABLE")));
-            columnMetaData.setColumnDefault(rs.getString("COLUMN_DEF"));
+            columnMetaData.setColumnName(columns.getString("COLUMN_NAME"));
+            columnMetaData.setDataType(columns.getInt("DATA_TYPE"));
+            columnMetaData.setTypeName(columns.getString("TYPE_NAME"));
+            columnMetaData.setColumnSize(columns.getInt("COLUMN_SIZE"));
+            columnMetaData.setAutoIncrement(getBoolean(columns.getString("IS_AUTOINCREMENT")));
+            columnMetaData.setNullable(getBoolean(columns.getString("IS_NULLABLE")));
+            columnMetaData.setColumnDefault(columns.getString("COLUMN_DEF"));
+            columnMetaData.setRemarks(columns.getString("REMARKS"));
             columnMetadataList.add(columnMetaData);
         }
-        rs.close();
+        columns.close();
         return columnMetadataList;
     }
 

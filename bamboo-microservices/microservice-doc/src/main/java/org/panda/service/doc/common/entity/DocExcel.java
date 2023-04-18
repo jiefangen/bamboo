@@ -11,24 +11,41 @@ import javax.persistence.*;
 @Setter
 @Table(name = "doc_excel")
 public class DocExcel extends BaseEntity {
-
+    /**
+     * 主键ID
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private java.lang.Long id;
+    private Long id;
 
+    /**
+     * 文档文件ID
+     */
     @Column(name = "doc_id")
-    private java.lang.Integer docId;
+    private Integer docId;
 
+    /**
+     * 工作表名称
+     */
     @Column(name = "sheet_name")
-    private java.lang.String sheetName;
+    private String sheetName;
 
+    /**
+     * 单元格行索引
+     */
     @Column(name = "row_index")
-    private java.lang.Integer rowIndex;
+    private Integer rowIndex;
 
+    /**
+     * 单元格列索引
+     */
     @Column(name = "column_index")
-    private java.lang.Integer columnIndex;
+    private Integer columnIndex;
 
+    /**
+     * 单元格值
+     */
     @Column(name = "cell_value")
-    private java.lang.String cellValue;
+    private String cellValue;
 
 }

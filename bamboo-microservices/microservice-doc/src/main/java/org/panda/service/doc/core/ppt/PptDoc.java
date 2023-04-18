@@ -4,7 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
-import org.panda.service.doc.common.DocConstant;
+import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.core.domain.DocModel;
 
 import javax.servlet.ServletOutputStream;
@@ -20,9 +20,9 @@ public class PptDoc implements Ppt {
     public String read(InputStream inputStream, String extension) {
         StringBuilder content = new StringBuilder();
         try {
-            if (DocConstant.PPT_PPT.equalsIgnoreCase(extension)) {
+            if (DocConstants.PPT_PPT.equalsIgnoreCase(extension)) {
                 // 使用HSLF API读取PPT格式的文档内容
-            } else if (DocConstant.PPT_PPTX.equalsIgnoreCase(extension)) {
+            } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(extension)) {
                 XMLSlideShow slideShow = new XMLSlideShow(inputStream);
                 for (XSLFSlide slide : slideShow.getSlides()) {
                     for (XSLFTextShape shape : slide.getPlaceholders()) {

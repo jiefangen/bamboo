@@ -3,7 +3,7 @@ package org.panda.service.doc.controller;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.UUIDUtil;
 import org.panda.tech.core.spec.restful.RestfulResult;
-import org.panda.service.doc.common.DocConstant;
+import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.util.DocUtil;
 import org.panda.service.doc.common.util.WebUtil;
 import org.panda.service.doc.core.domain.ExcelModel;
@@ -38,7 +38,7 @@ public class ExcelController {
     @GetMapping("/excelExport/mock")
     public void excelExport(HttpServletResponse response) throws IOException {
         ExcelModel excelModel = new ExcelModel();
-        String filename = UUIDUtil.randomUUID8() + Strings.DOT + DocConstant.EXCEL_XLSX;
+        String filename = UUIDUtil.randomUUID8() + Strings.DOT + DocConstants.EXCEL_XLSX;
         excelModel.setFilename(filename);
         WebUtil.setFileResponse(response, filename);
         excelService.excelExport(excelModel, response.getOutputStream());

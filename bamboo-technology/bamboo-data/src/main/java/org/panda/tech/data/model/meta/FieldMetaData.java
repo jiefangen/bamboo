@@ -23,6 +23,7 @@ public class FieldMetaData extends ColumnMetaData{
         this.setColumnSize(columnMetaData.getColumnSize());
         this.setAutoIncrement(columnMetaData.getAutoIncrement());
         this.setNullable(columnMetaData.getNullable());
+        this.setRemarks(columnMetaData.getRemarks());
         this.setColumnDefault(columnMetaData.getColumnDefault());
     }
 

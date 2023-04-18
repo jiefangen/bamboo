@@ -1,6 +1,6 @@
 package org.panda.service.doc.core;
 
-import org.panda.service.doc.common.DocConstant;
+import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.core.excel.ExcelDoc;
 import org.panda.service.doc.core.ppt.PptDoc;
 import org.panda.service.doc.core.word.WordDoc;
@@ -13,11 +13,11 @@ import org.panda.service.doc.core.word.WordDoc;
 public class DocFactory {
 
     public static Document getDocument(String docType){
-        if(DocConstant.EXCEL.equals(docType)){
+        if(DocConstants.EXCEL.equals(docType)){
             return new ExcelDoc();
-        } else if(DocConstant.WORD.equals(docType)){
+        } else if(DocConstants.WORD.equals(docType)){
             return new WordDoc();
-        } else if(DocConstant.PPT.equals(docType)){
+        } else if(DocConstants.PPT.equals(docType)){
             return new PptDoc();
         }
         return null;
