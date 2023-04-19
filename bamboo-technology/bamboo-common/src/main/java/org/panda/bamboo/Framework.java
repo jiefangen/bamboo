@@ -16,7 +16,7 @@ public class Framework {
     /**
      * 框架所有者
      */
-    public static final String OWNER = "jiefangen";
+    public static final String OWNER = "JieFangen";
     /**
      * 框架交流邮箱
      */

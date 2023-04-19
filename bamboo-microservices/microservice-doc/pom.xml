@@ -14,21 +14,27 @@
 
     <properties>
         <doc-poi.version>5.2.2</doc-poi.version>
-        <knife4j-boot.version>3.0.3</knife4j-boot.version>
+        <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
     </properties>
 
     <dependencies>
+        <!-- 技术框架jpa扩展支持 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-data-jpa</artifactId>
             <version>${technology.version}</version>
         </dependency>
-
         <!-- MySQL连接驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
+        </dependency>
+        <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+            <version>${knife4j-openapi2.version}</version>
         </dependency>
 
         <!-- 文档资源解析依赖 -->
@@ -41,13 +47,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml</artifactId>
             <version>${doc-poi.version}</version>
-        </dependency>
-
-        <!-- Swagger自动生成API文档 -->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>${knife4j-boot.version}</version>
         </dependency>
 
     </dependencies>

@@ -5,6 +5,7 @@ import org.panda.bamboo.Framework;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -12,13 +13,13 @@ import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "swagger.config")
-@EnableSwagger2
-public class SwaggerConfig {
+@EnableSwagger2WebMvc
+public class SwaggerConfig implements WebMvcConfigurer {
     private static final String SWAGGER_TITLE = "Microservice Doc API";
     private static final String SWAGGER_DESC = "文档微服务，致力于传统Office套件文件解析、转换、存储等服务。";
     /**

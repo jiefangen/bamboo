@@ -5,7 +5,7 @@ spring:
     active: local
   mvc:
     path-match:
-      # SpringBoot2.6.X版本兼容自动化文档knife4J3.0
+      # SpringBoot2.6.X版本兼容自动化文档knife4J
       matching-strategy: ant_path_matcher
 server:
   port: 11001
@@ -22,12 +22,6 @@ page helper:
   supportMethodsArguments: true
   params: count=count-sql
 
-# 格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符
-pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n"
 logging:
-  config: classpath:config/logback.xml
-  pattern:
-    console: ${pattern}
-    file: ${pattern}
-  file:
-    path: /Users/fangen/Public/Logs/business-admin/logs
+  level:
+    org.panda.business.admin: debug

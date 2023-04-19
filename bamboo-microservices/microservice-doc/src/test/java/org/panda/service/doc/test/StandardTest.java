@@ -59,7 +59,7 @@ public class StandardTest {
 
     @AfterAll
     static void tearDownAll() {
-        System.out.println("AfterEach");
+        System.out.println("AfterAll");
     }
 
 }
