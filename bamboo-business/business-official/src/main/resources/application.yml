@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: business-official
+  profiles:
+    active: local
+  mvc:
+    path-match:
+      # SpringBoot2.6.X版本兼容自动化文档knife4J
+      matching-strategy: ant_path_matcher
+server:
+  port: 11002
+  servlet:
+    context-path: /business-official
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    org.panda.business.official: debug
