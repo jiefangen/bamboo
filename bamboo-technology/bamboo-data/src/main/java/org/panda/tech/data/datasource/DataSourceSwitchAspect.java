@@ -25,7 +25,7 @@ public class DataSourceSwitchAspect {
     }
 
     @Around("dataSourcePointCut()")
-    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable{
+    public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method method = methodSignature.getMethod();
         DataSourceSwitch dataSourceSwitch = method.getAnnotation(DataSourceSwitch.class);
