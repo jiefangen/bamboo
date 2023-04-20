@@ -48,6 +48,5 @@
             <artifactId>poi-ooxml</artifactId>
             <version>${doc-poi.version}</version>
         </dependency>
-
     </dependencies>
 </project>

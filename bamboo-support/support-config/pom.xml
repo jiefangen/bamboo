@@ -31,5 +31,4 @@
             <artifactId>spring-cloud-netflix-eureka-client</artifactId>
         </dependency>
     </dependencies>
-
 </project>
