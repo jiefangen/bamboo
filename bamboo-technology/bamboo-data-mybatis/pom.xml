@@ -21,7 +21,6 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-data</artifactId>
-            <optional>true</optional>
             <version>${technology.version}</version>
         </dependency>
 

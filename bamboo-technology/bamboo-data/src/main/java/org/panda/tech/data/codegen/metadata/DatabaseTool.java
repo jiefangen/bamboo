@@ -1,9 +1,8 @@
-package org.panda.tech.data.metadata;
+package org.panda.tech.data.codegen.metadata;
 
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.util.clazz.ClassDefault;
 import org.panda.bamboo.common.util.clazz.ClassParse;
-import org.panda.tech.data.model.meta.ColumnMetaData;
 
 import java.math.BigDecimal;
 import java.sql.*;

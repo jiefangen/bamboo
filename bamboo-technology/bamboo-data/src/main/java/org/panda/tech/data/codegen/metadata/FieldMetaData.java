@@ -1,4 +1,4 @@
-package org.panda.tech.data.model.meta;
+package org.panda.tech.data.codegen.metadata;
 
 import lombok.Getter;
 import lombok.Setter;

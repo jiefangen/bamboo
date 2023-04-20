@@ -9,9 +9,9 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.context.ApplicationContextBean;
 import org.panda.tech.data.codegen.ClassGeneratorSupport;
-import org.panda.tech.data.metadata.DatabaseTool;
-import org.panda.tech.data.model.meta.ColumnMetaData;
-import org.panda.tech.data.model.meta.FieldMetaData;
+import org.panda.tech.data.codegen.metadata.DatabaseTool;
+import org.panda.tech.data.codegen.metadata.ColumnMetaData;
+import org.panda.tech.data.codegen.metadata.FieldMetaData;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 
 import javax.sql.DataSource;

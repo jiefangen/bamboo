@@ -32,7 +32,6 @@ public class RemoveDruidAdConfig {
         String pattern = config.getUrlPattern() != null ? config.getUrlPattern() : "/druid/*";
         String commonJsPattern = pattern.replaceAll("\\*", "js/common.js");
         final String filePath = "support/http/resources/js/common.js";
-
         //创建filter进行过滤
         Filter filter = new Filter() {
             @Override

@@ -30,6 +30,10 @@ public class Commons {
     public static final String COMMON_NO = "no";
     public static final String COMMON_CONFIG = "config";
     public static final String COMMON_APPLICATION = "application";
+    public static final String COMMON_MASTER = "master";
+    public static final String COMMON_SLAVE = "slave";
+    public static final String COMMON_PRIMARY = "primary";
+    public static final String COMMON_SECONDARY = "secondary";
 
     /**
      * 其他
