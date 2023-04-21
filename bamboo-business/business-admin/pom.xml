@@ -13,6 +13,7 @@
     <version>${business.version}</version>
 
     <properties>
+        <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
         <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
         <pagehelper.version>1.4.1</pagehelper.version>
     </properties>
@@ -30,17 +31,18 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
+        <!-- 监控和管理应用程序的生产级特性 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- 自动生成可视化的API文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
             <version>${knife4j-openapi2.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
         <!-- 安全验证框架 -->
         <dependency>
             <groupId>org.apache.shiro</groupId>
