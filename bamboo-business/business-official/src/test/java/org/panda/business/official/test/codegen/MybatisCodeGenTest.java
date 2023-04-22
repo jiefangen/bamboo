@@ -6,7 +6,7 @@ import org.panda.business.official.test.OfficialApplicationTest;
 public class MybatisCodeGenTest extends OfficialApplicationTest {
 
     @Test
-    void jpaEntityGen() {
+    void codeGen() {
         MybatisCodeGen mybatisCodeGen = new MybatisCodeGen();
         mybatisCodeGen.codeGenerator("sys_user");
     }
