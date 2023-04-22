@@ -31,7 +31,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
      */
     private String basePackage;
 
-    @Bean(value = "defaultApi2")
+    @Bean
     public Docket defaultApi2() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .enable(this.enabled)

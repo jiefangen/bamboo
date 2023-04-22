@@ -47,7 +47,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     private String basePackage;
 
     @Bean
-    public Docket defaultApi() {
+    public Docket defaultApi2() {
         if(Profiles.PRODUCTION.equals(env)) { // 生产环境关闭自动化文档
             this.enabled = false;
         }
@@ -112,5 +112,4 @@ public class SwaggerConfig implements WebMvcConfigurer {
     private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
     }
-
 }
