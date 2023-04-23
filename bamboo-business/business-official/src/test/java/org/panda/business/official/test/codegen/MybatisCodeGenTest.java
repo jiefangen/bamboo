@@ -8,7 +8,7 @@ public class MybatisCodeGenTest extends OfficialApplicationTest {
     @Test
     void codeGen() {
         MybatisCodeGen mybatisCodeGen = new MybatisCodeGen();
-        mybatisCodeGen.codeGenerator("sys_user");
+        mybatisCodeGen.codeGenerator("sys_user", "sys_role");
     }
 
 }

@@ -30,65 +30,89 @@ public abstract class MybatisGeneratorSupport {
         if (templateLocation != null) {
             AutoGenerator generator = new AutoGenerator();
             generator.setDataSource(dataSourceConfig);
-
-            // 配置文件生成路径参数
-            PackageConfig packageConfig = new PackageConfig();
-            packageConfig.setParent(this.classBasePackage.getParentLocation());
-            packageConfig.setEntity(this.classBasePackage.getEntityLocation());
-            packageConfig.setMapper(this.classBasePackage.getRepositoryLocation());
-            if (withService) {
-                String servicePackage = this.classBasePackage.getServiceLocation();
-                packageConfig.setService(servicePackage);
-                packageConfig.setServiceImpl(servicePackage + Strings.DOT + "impl");
-            }
-            generator.setPackageInfo(packageConfig);
+            generator.setPackageInfo(getPackageConfig(withService));
 
             String projectPath = System.getProperty("user.dir");
+            generator.setCfg(getInjectionConfig(templateLocation, projectPath));
 
-            // 调整xml生成目录位置
-            InjectionConfig injectionConfig =  new InjectionConfig() {
-                @Override
-                public void initMap() {
-                }
-            };
-            List<FileOutConfig> focList = new ArrayList<>();
-            focList.add(new FileOutConfig(templateLocation) {
-                @Override
-                public String outputFile(TableInfo tableInfo) {
-                    return projectPath + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper.xml";
-                }
-            });
-            injectionConfig.setFileOutConfigList(focList);
-            generator.setCfg(injectionConfig);
+            generator.setTemplate(getTemplateConfig(withService));
+            generator.setGlobalConfig(getGlobalConfig(projectPath));
 
-            // 自定义配置模板，指定自定义模板路径
-            TemplateConfig templateConfig = new TemplateConfig();
-            templateConfig.setXml(null);
-            templateConfig.setController(null);
-            generator.setTemplate(templateConfig);
-
-            // 全局配置
-            GlobalConfig globalConfig = new GlobalConfig();
-            globalConfig.setOutputDir(projectPath + "/src/main/java");
-            globalConfig.setAuthor("bamboo-code-generator");
-            globalConfig.setSwagger2(true); // 是否生成Swagger2注解
-            globalConfig.setFileOverride(false); // 是否覆盖同名文件，默认是false
-            globalConfig.setOpen(false); // 生成后打开文件夹
-            generator.setGlobalConfig(globalConfig);
-
-            // 生成策略配置
-            StrategyConfig strategyConfig = new StrategyConfig();
-            strategyConfig.setNaming(NamingStrategy.underline_to_camel);
-            strategyConfig.setColumnNaming(NamingStrategy.underline_to_camel);
-            strategyConfig.setEntityLombokModel(true);
-            strategyConfig.setEntityTableFieldAnnotationEnable(true); // 开启生成实体时生成字段注解
-            strategyConfig.setInclude(tableName);
-            strategyConfig.setTablePrefix(tablePrefix);
-
-            generator.setStrategy(strategyConfig);
+            generator.setStrategy(getStrategyConfig(tableName, tablePrefix));
             generator.setTemplateEngine(new FreemarkerTemplateEngine());
             generator.execute();
         }
+    }
+
+    private PackageConfig getPackageConfig(boolean withService) {
+        // 配置文件生成路径参数
+        PackageConfig packageConfig = new PackageConfig();
+        packageConfig.setParent(this.classBasePackage.getParentLocation());
+        packageConfig.setEntity(this.classBasePackage.getEntityLocation());
+        packageConfig.setMapper(this.classBasePackage.getRepositoryLocation());
+        if (withService) {
+            String servicePackage = this.classBasePackage.getServiceLocation();
+            packageConfig.setService(servicePackage);
+            packageConfig.setServiceImpl(servicePackage + Strings.DOT + "impl");
+        }
+        return packageConfig;
+    }
+
+    private InjectionConfig getInjectionConfig(String templateLocation, String projectPath) {
+        // 调整xml生成目录位置
+        InjectionConfig injectionConfig =  new InjectionConfig() {
+            @Override
+            public void initMap() {
+            }
+        };
+        List<FileOutConfig> focList = new ArrayList<>();
+        focList.add(new FileOutConfig(templateLocation) {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return projectPath + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper.xml";
+            }
+        });
+        injectionConfig.setFileOutConfigList(focList);
+        return injectionConfig;
+    }
+
+    private TemplateConfig getTemplateConfig(boolean withService) {
+        // 自定义配置模板，指定自定义模板路径
+        TemplateConfig templateConfig = new TemplateConfig();
+        templateConfig.setXml(null);
+        templateConfig.setController(null);
+        if (!withService) {
+            templateConfig.setService(null);
+            templateConfig.setServiceImpl(null);
+        }
+        return templateConfig;
+    }
+
+    private GlobalConfig getGlobalConfig(String projectPath) {
+        // 全局配置
+        GlobalConfig globalConfig = new GlobalConfig();
+        globalConfig.setOutputDir(projectPath + "/src/main/java");
+        globalConfig.setAuthor("bamboo-code-generator");
+        globalConfig.setSwagger2(true); // 是否生成Swagger2注解
+        globalConfig.setFileOverride(false); // 是否覆盖同名文件，默认是false
+        globalConfig.setOpen(false); // 生成后打开文件夹
+        return globalConfig;
+    }
+
+    private StrategyConfig getStrategyConfig(String tableName, String tablePrefix) {
+        // 生成策略配置
+        StrategyConfig strategyConfig = new StrategyConfig();
+        strategyConfig.setNaming(NamingStrategy.underline_to_camel);
+        strategyConfig.setColumnNaming(NamingStrategy.underline_to_camel);
+        strategyConfig.setEntityLombokModel(true);
+        strategyConfig.setEntityTableFieldAnnotationEnable(true); // 开启生成实体时生成字段注解
+        if (tableName.contains(",")) {
+            strategyConfig.setInclude(tableName.split("\\,"));
+        } else {
+            strategyConfig.setInclude(tableName);
+        }
+        strategyConfig.setTablePrefix(tablePrefix);
+        return strategyConfig;
     }
 
 }
