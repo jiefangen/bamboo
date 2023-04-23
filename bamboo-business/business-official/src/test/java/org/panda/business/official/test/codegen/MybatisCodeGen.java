@@ -1,34 +1,34 @@
 package org.panda.business.official.test.codegen;
 
-import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.core.context.ApplicationContextBean;
 import org.panda.tech.data.codegen.ClassBasePackage;
+import org.panda.tech.data.datasource.DataSourceConnConfig;
 import org.panda.tech.data.mybatis.codegen.MybatisCodeGenConfigSupport;
 import org.panda.tech.data.mybatis.codegen.MybatisCodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class MybatisCodeGen extends MybatisCodeGenConfigSupport {
 
+    @Autowired
     private MybatisCodegenProperties mybatisCodegenProperties;
 
     @Override
+    protected DataSourceConnConfig getDataSourceConfig() {
+        DataSourceConnConfig dataSourceConnConfig = mybatisCodegenProperties.transformDataSource();
+        return dataSourceConnConfig;
+    }
+
+    @Override
     protected ClassBasePackage getClassBasePackage() {
-        ClassBasePackage classBasePackage = new ClassBasePackage();
+        ClassBasePackage classBasePackage = mybatisCodegenProperties.transformClassPackage();
         return classBasePackage;
     }
 
-    private void initConfig() {
-        if (mybatisCodegenProperties == null) {
-            mybatisCodegenProperties = ApplicationContextBean.getBean(MybatisCodegenProperties.class);
-        }
-    }
-
     public void codeGenerator(String... tableNames) {
-        MybatisCodeGenerator mybatisCodeGenerator = super.generator();
-        try {
-            mybatisCodeGenerator.generate(tableNames);
-        } catch (Exception e) {
-            LogUtil.error(getClass(), e);
-        }
+        MybatisCodeGenerator mybatisCodeGenerator = ApplicationContextBean.getBean("generator");
+        mybatisCodeGenerator.generate(tableNames);
     }
 
 }

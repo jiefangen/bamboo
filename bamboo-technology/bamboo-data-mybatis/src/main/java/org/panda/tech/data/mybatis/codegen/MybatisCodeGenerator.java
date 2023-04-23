@@ -8,8 +8,8 @@ package org.panda.tech.data.mybatis.codegen;
  */
 public interface MybatisCodeGenerator {
 
-    void generate(String... tableNames) throws Exception;
+    void generate(String... tableNames);
 
-    void generate(String tableName, boolean withService) throws Exception;
+    void generate(String tableName, boolean withService);
 
 }

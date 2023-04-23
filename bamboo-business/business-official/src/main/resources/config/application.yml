@@ -2,7 +2,7 @@ spring:
   application:
     name: business-official
   profiles:
-    active: junit
+    active: local
 server:
   port: 11002
   servlet:

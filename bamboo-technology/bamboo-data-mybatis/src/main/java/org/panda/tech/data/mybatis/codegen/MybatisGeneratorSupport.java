@@ -26,19 +26,18 @@ public abstract class MybatisGeneratorSupport {
     }
 
     protected void generate(String templateLocation, DataSourceConfig dataSourceConfig, String tableName,
-                            boolean withService) {
+                            boolean withService, String tablePrefix) {
         if (templateLocation != null) {
             AutoGenerator generator = new AutoGenerator();
-            dataSourceConfig.setPassword(classBasePackage.getDatasourcePassword());
             generator.setDataSource(dataSourceConfig);
 
             // 配置文件生成路径参数
             PackageConfig packageConfig = new PackageConfig();
-            packageConfig.setParent(this.classBasePackage.getParentPackage());
-            packageConfig.setEntity(this.classBasePackage.getEntityPackage());
-            packageConfig.setMapper(this.classBasePackage.getRepositoryPackage());
+            packageConfig.setParent(this.classBasePackage.getParentLocation());
+            packageConfig.setEntity(this.classBasePackage.getEntityLocation());
+            packageConfig.setMapper(this.classBasePackage.getRepositoryLocation());
             if (withService) {
-                String servicePackage = this.classBasePackage.getServicePackage();
+                String servicePackage = this.classBasePackage.getServiceLocation();
                 packageConfig.setService(servicePackage);
                 packageConfig.setServiceImpl(servicePackage + Strings.DOT + "impl");
             }
@@ -84,13 +83,12 @@ public abstract class MybatisGeneratorSupport {
             strategyConfig.setEntityLombokModel(true);
             strategyConfig.setEntityTableFieldAnnotationEnable(true); // 开启生成实体时生成字段注解
             strategyConfig.setInclude(tableName);
-            strategyConfig.setTablePrefix("t_"); // 生成的类名去掉t_前缀
+            strategyConfig.setTablePrefix(tablePrefix);
 
             generator.setStrategy(strategyConfig);
             generator.setTemplateEngine(new FreemarkerTemplateEngine());
             generator.execute();
         }
-
     }
 
 }

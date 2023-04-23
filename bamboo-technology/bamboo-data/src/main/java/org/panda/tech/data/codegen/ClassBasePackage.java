@@ -14,23 +14,17 @@ public class ClassBasePackage {
     /**
      * 父级路径
      */
-    private String parentPackage;
+    private String parentLocation;
     /**
      * 实体类路径
      */
-    private String entityPackage;
+    private String entityLocation;
     /**
      * 数据访问层路径
      */
-    private String repositoryPackage;
+    private String repositoryLocation;
     /**
      * 服务层路径
      */
-    private String servicePackage;
-
-    /**
-     * 数据库连接密码
-     */
-    private String datasourcePassword;
-
+    private String serviceLocation;
 }
