@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author bamboo-code-generator
- * @since 2023-04-23
+ * @since 2023-04-24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -62,7 +62,7 @@ public class SysUser implements Serializable {
 
     @ApiModelProperty(value = "禁用")
     @TableField("disabled")
-    private Integer disabled;
+    private Boolean disabled;
 
     @ApiModelProperty(value = "创建时间")
     @TableField("create_time")

@@ -3,7 +3,9 @@ package org.panda.tech.data.mybatis.codegen;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import org.panda.bamboo.common.constant.Strings;
@@ -29,7 +31,7 @@ public abstract class MybatisGeneratorSupport {
                             boolean withService, String tablePrefix) {
         if (templateLocation != null) {
             AutoGenerator generator = new AutoGenerator();
-            generator.setDataSource(dataSourceConfig);
+            generator.setDataSource(getDataSourceConfig(dataSourceConfig));
             generator.setPackageInfo(getPackageConfig(withService));
 
             String projectPath = System.getProperty("user.dir");
@@ -42,6 +44,20 @@ public abstract class MybatisGeneratorSupport {
             generator.setTemplateEngine(new FreemarkerTemplateEngine());
             generator.execute();
         }
+    }
+
+    private DataSourceConfig getDataSourceConfig(DataSourceConfig dataSourceConfig) {
+        // tinyint转换成Boolean
+        dataSourceConfig.setTypeConvert(new MySqlTypeConvert() {
+            @Override
+            public DbColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
+                if (fieldType.toLowerCase().contains("tinyint")) {
+                    return DbColumnType.BOOLEAN;
+                }
+                return (DbColumnType) super.processTypeConvert(globalConfig, fieldType);
+            }
+        });
+        return dataSourceConfig;
     }
 
     private PackageConfig getPackageConfig(boolean withService) {
