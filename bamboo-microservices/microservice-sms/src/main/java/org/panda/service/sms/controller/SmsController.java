@@ -1,7 +1,7 @@
 package org.panda.service.sms.controller;
 
 import org.panda.tech.core.spec.restful.RestfulResult;
-import org.panda.service.sms.domain.params.SmsParam;
+import org.panda.service.sms.model.SmsParam;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

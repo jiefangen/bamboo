@@ -1,11 +1,11 @@
 package org.panda.service.doc.service;
 
 import org.panda.service.doc.common.DocConstants;
-import org.panda.service.doc.common.entity.DocFile;
+import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.core.DocFactory;
 import org.panda.service.doc.core.domain.ExcelModel;
 import org.panda.service.doc.core.excel.Excel;
-import org.panda.service.doc.dao.DocFileRepo;
+import org.panda.service.doc.repository.DocFileRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

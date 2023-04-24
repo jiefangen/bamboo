@@ -1,4 +1,4 @@
-package org.panda.service.sms.domain.params;
+package org.panda.service.sms.model;
 
 import lombok.Data;
 

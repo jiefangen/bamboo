@@ -1,4 +1,4 @@
-package org.panda.service.doc.common.entity;
+package org.panda.service.doc.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
