@@ -1,11 +1,11 @@
-package org.panda.service.doc.core.ppt;
+package org.panda.service.doc.domain.factory.ppt;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
 import org.panda.service.doc.common.DocConstants;
-import org.panda.service.doc.core.domain.DocModel;
+import org.panda.service.doc.domain.model.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;

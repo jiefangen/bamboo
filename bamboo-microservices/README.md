@@ -11,7 +11,11 @@
 
 ### 二、微服务项目目录结构
     `org.panda.service.{服务名}`: 微服务项目的根包名。
-        core - 存放该微服务核心设计的包
+        domain - 存放服务设计领域层
+            event - 领域事件
+            factory - 领域工厂
+            model - 领域模型
+            specification- 领域规约
         config - 存放项目的配置类。
             security - 存放安全相关的类和配置文件。
             filter - 存放过滤器类的包，用于处理请求和响应。

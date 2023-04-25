@@ -1,4 +1,4 @@
-package org.panda.service.doc.core.excel;
+package org.panda.service.doc.domain.factory.excel;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -7,8 +7,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.service.doc.common.DocConstants;
-import org.panda.service.doc.core.domain.DocModel;
-import org.panda.service.doc.core.domain.ExcelModel;
+import org.panda.service.doc.domain.model.DocModel;
+import org.panda.service.doc.domain.model.ExcelModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;

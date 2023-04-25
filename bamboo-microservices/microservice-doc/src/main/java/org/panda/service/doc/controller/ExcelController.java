@@ -6,7 +6,7 @@ import org.panda.tech.core.spec.restful.RestfulResult;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.util.DocUtil;
 import org.panda.service.doc.common.util.WebUtil;
-import org.panda.service.doc.core.domain.ExcelModel;
+import org.panda.service.doc.domain.model.ExcelModel;
 import org.panda.service.doc.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

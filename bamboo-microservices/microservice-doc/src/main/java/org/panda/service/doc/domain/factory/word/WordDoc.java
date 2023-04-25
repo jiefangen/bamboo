@@ -1,10 +1,10 @@
-package org.panda.service.doc.core.word;
+package org.panda.service.doc.domain.factory.word;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.panda.service.doc.common.DocConstants;
-import org.panda.service.doc.core.domain.DocModel;
+import org.panda.service.doc.domain.model.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
