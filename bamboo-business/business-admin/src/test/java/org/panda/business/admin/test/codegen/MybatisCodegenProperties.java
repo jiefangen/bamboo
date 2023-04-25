@@ -1,13 +1,11 @@
 package org.panda.business.admin.test.codegen;
 
-import lombok.Getter;
 import lombok.Setter;
 import org.panda.tech.data.codegen.ClassBasePackage;
 import org.panda.tech.data.datasource.DataSourceConnConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
-@Getter
 @Setter
 @Configuration
 @ConfigurationProperties(prefix = "bamboo.mybatis.codegen")
@@ -28,6 +26,10 @@ public class MybatisCodegenProperties {
      * 服务层路径
      */
     private String serviceLocation;
+    /**
+     * mapperXml层路径
+     */
+    private String mapperXmlLocation;
 
     /**
      * 数据库连接url
@@ -52,6 +54,7 @@ public class MybatisCodegenProperties {
         classBasePackage.setEntityLocation(this.entityLocation);
         classBasePackage.setRepositoryLocation(this.repositoryLocation);
         classBasePackage.setServiceLocation(this.serviceLocation);
+        classBasePackage.setMapperXmlLocation(this.mapperXmlLocation);
         return classBasePackage;
     }
 

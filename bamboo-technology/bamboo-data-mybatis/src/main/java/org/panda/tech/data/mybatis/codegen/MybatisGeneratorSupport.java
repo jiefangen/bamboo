@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.tech.data.codegen.ClassBasePackage;
 
@@ -82,10 +83,16 @@ public abstract class MybatisGeneratorSupport {
             }
         };
         List<FileOutConfig> focList = new ArrayList<>();
+        String mapperXmlLocation = Strings.EMPTY;
+        if (StringUtils.isNotEmpty(classBasePackage.getMapperXmlLocation())) {
+            mapperXmlLocation = classBasePackage.getMapperXmlLocation() + Strings.SLASH;
+        }
+        String finalMapperXmlLocation = mapperXmlLocation;
         focList.add(new FileOutConfig(templateLocation) {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return projectPath + "/src/main/resources/mapper/" + tableInfo.getEntityName() + "Mapper.xml";
+                return projectPath + "/src/main/resources/mapper/" + finalMapperXmlLocation + tableInfo.getEntityName()
+                        + "Mapper.xml";
             }
         });
         injectionConfig.setFileOutConfigList(focList);

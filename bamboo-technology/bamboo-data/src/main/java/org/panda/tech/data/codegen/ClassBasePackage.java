@@ -27,4 +27,9 @@ public class ClassBasePackage {
      * 服务层路径
      */
     private String serviceLocation;
+
+    /**
+     * mapperXml层路径
+     */
+    private String mapperXmlLocation;
 }
