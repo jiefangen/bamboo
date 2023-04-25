@@ -2,7 +2,7 @@ package org.panda.business.admin.modules.system.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.business.admin.common.constant.annotation.ControllerWebLog;
-import org.panda.business.admin.common.constant.enumeration.ActionType;
+import org.panda.business.admin.common.constant.enums.ActionType;
 import org.panda.business.admin.common.model.ResultConstant;
 import org.panda.business.admin.common.model.ResultVO;
 import org.panda.business.admin.common.exception.SystemException;

@@ -1,7 +1,7 @@
 package org.panda.business.admin.modules.workflow.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.panda.business.admin.common.constant.enumeration.TodoType;
+import org.panda.business.admin.common.constant.enums.TodoType;
 import org.panda.business.admin.modules.workflow.dao.TodoDao;
 import org.panda.business.admin.modules.workflow.model.WorkTodo;
 import org.panda.business.admin.modules.workflow.model.vo.TodoVO;

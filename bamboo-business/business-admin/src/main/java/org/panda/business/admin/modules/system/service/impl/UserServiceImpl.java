@@ -3,7 +3,7 @@ package org.panda.business.admin.modules.system.service.impl;
 import com.github.pagehelper.Page;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
-import org.panda.business.admin.common.constant.enumeration.RoleType;
+import org.panda.business.admin.common.constant.enums.RoleType;
 import org.panda.business.admin.common.model.ResultConstant;
 import org.panda.business.admin.common.exception.SystemException;
 import org.panda.business.admin.common.utils.DateUtil;

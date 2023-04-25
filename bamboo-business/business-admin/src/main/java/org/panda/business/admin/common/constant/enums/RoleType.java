@@ -1,4 +1,4 @@
-package org.panda.business.admin.common.constant.enumeration;
+package org.panda.business.admin.common.constant.enums;
 
 import java.util.ArrayList;
 import java.util.List;

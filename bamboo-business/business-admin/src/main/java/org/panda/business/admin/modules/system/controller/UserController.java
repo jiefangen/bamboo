@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.common.constant.annotation.ControllerWebLog;
-import org.panda.business.admin.common.constant.enumeration.ActionType;
+import org.panda.business.admin.common.constant.enums.ActionType;
 import org.panda.business.admin.common.model.ResultConstant;
 import org.panda.business.admin.common.model.ResultVO;
 import org.panda.business.admin.common.exception.SystemException;

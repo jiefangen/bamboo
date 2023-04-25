@@ -2,7 +2,7 @@ package org.panda.business.admin.modules;
 
 import io.swagger.annotations.Api;
 import org.panda.business.admin.common.constant.annotation.ControllerWebLog;
-import org.panda.business.admin.common.constant.enumeration.ActionType;
+import org.panda.business.admin.common.constant.enums.ActionType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

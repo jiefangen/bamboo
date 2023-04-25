@@ -3,7 +3,7 @@ package org.panda.business.admin.modules.monitor.controller;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.panda.business.admin.common.constant.annotation.ControllerWebLog;
-import org.panda.business.admin.common.constant.enumeration.ActionType;
+import org.panda.business.admin.common.constant.enums.ActionType;
 import org.panda.business.admin.common.model.ResultVO;
 import org.panda.business.admin.modules.monitor.model.ActionLog;
 import org.panda.business.admin.modules.monitor.model.param.LogQueryParam;

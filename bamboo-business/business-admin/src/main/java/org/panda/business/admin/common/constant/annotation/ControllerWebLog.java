@@ -1,6 +1,6 @@
 package org.panda.business.admin.common.constant.annotation;
 
-import org.panda.business.admin.common.constant.enumeration.ActionType;
+import org.panda.business.admin.common.constant.enums.ActionType;
 
 import java.lang.annotation.*;
 

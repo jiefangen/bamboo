@@ -2,7 +2,7 @@ package org.panda.business.admin.modules.monitor.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
-import org.panda.business.admin.common.constant.enumeration.ActionType;
+import org.panda.business.admin.common.constant.enums.ActionType;
 import org.panda.business.admin.common.utils.DateUtil;
 import org.panda.business.admin.modules.monitor.dao.ActionLogDao;
 import org.panda.business.admin.modules.monitor.model.ActionLog;
