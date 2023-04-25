@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  */
 public class JpaEntityGeneratorImpl extends ClassGeneratorSupport implements JpaEntityGenerator {
 
-    private String templateLocation = "META-INF/template/jpa-entity.ftl";
+    private String templateLocation = "META-INF/templates/jpa-entity.ftl";
 
     public JpaEntityGeneratorImpl(String modelBasePackage, String targetBasePackage) {
         super(modelBasePackage, targetBasePackage);

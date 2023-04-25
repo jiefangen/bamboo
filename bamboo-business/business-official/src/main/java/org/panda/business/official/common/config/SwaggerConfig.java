@@ -1,4 +1,4 @@
-package org.panda.business.official.config;
+package org.panda.business.official.common.config;
 
 import lombok.Setter;
 import org.panda.bamboo.Framework;

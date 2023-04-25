@@ -13,4 +13,37 @@
     3、优秀案例和经验分享
 
 ### 二、业务系统项目目录结构
-    
+    `org.panda.business.{业务系统名}`: 业务系统项目的根包名。
+        common - 公共模块
+            annotation - 自定义注解
+            config - 公共配置
+            constant - 常量定义
+            exception - 异常处理
+            util - 工具类
+        application - 应用层
+            scheduler - 定时任务
+            event - 事件
+            task - 异步任务
+            validation - 应用参数校验
+        modules - 平台划分模块包
+            module1
+                api - 对外暴露的接口层
+                    controller - 控制器层
+                    param - 参数对象
+                    vo - 视图对象
+                service - 服务层
+                    impl - 服务实现类
+                    dto - 数据传输对象
+                    entity - 实体类
+                    repository - 数据访问层
+            ...
+        subsystems - 平台嵌套子系统
+            subsystem1 - 参考module1的目录结构
+            ...
+        infrastructure - 基础设施层
+            cache - 缓存相关
+            message - 消息中间件
+            security - 安全相关
+            thirdparty - 第三方组件服务
+
+### 三、业务系统项目设计指导

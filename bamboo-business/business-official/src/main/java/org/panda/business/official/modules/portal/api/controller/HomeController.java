@@ -1,4 +1,4 @@
-package org.panda.business.official.controller;
+package org.panda.business.official.modules.portal.api.controller;
 
 import org.panda.tech.core.spec.restful.RestfulResult;
 import org.springframework.web.bind.annotation.GetMapping;
