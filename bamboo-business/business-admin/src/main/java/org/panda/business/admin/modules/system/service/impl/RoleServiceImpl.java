@@ -2,7 +2,7 @@ package org.panda.business.admin.modules.system.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.panda.business.admin.common.constant.enumeration.RoleType;
-import org.panda.business.admin.common.domain.ResultConstant;
+import org.panda.business.admin.common.model.ResultConstant;
 import org.panda.business.admin.common.exception.SystemException;
 import org.panda.business.admin.modules.system.dao.MenuDao;
 import org.panda.business.admin.modules.system.dao.RoleDao;

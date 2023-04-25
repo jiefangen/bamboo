@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.panda.business.admin.modules.facade.dao.TodoDao">
+<mapper namespace="org.panda.business.admin.modules.workflow.dao.TodoDao">
     <sql id="todoColumns">id, work_status, content, sort, user_id, create_time, update_time </sql>
 
-    <resultMap id="baseTodoMap" type="org.panda.business.admin.modules.facade.model.Todo">
+    <resultMap id="baseTodoMap" type="org.panda.business.admin.modules.workflow.model.WorkTodo">
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="work_status" property="workStatus" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
@@ -15,20 +15,20 @@
     <select id="findTodo" resultMap="baseTodoMap">
         SELECT
         <include refid="todoColumns"/>
-        FROM work_to_do
+        FROM work_todo
         WHERE user_id = #{userId} and work_status = #{workStatus}
         ORDER BY sort ASC
     </select>
 
     <update id="sortTodo">
-        update work_to_do
+        update work_todo
             set work_status = #{todo.workStatus},
                 `sort` = #{todo.sort}
         where `id` = #{todo.id} and user_id = #{userId}
     </update>
 
     <insert id="insertTodo">
-        insert into work_to_do (<include refid="todoColumns"/>)
+        insert into work_todo (<include refid="todoColumns"/>)
             values (#{todo.id},
                    #{todo.workStatus},
                    #{todo.content},
@@ -44,11 +44,11 @@
     </insert>
 
     <delete id="deleteTodo">
-        delete from work_to_do where id = #{todo.id} and user_id = #{todo.userId} and work_status = #{todo.workStatus}
+        delete from work_todo where id = #{todo.id} and user_id = #{todo.userId} and work_status = #{todo.workStatus}
     </delete>
 
     <update id="updateTodo">
-        update work_to_do
+        update work_todo
         set content = #{todo.content},
             update_time = #{todo.updateTime}
         where `id` = #{todo.id} and user_id = #{todo.userId}
@@ -56,6 +56,6 @@
 
     <!-- '<='替换&lt;= '>='替换&gt;= -->
     <delete id="deleteTodoByTime">
-        delete from work_to_do where work_status = 4 and update_time &lt; NOW() - INTERVAL #{intervalDay} DAY
+        delete from work_todo where work_status = 4 and update_time &lt; NOW() - INTERVAL #{intervalDay} DAY
     </delete>
 </mapper>

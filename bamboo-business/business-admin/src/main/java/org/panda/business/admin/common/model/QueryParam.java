@@ -1,4 +1,4 @@
-package org.panda.business.admin.common.domain;
+package org.panda.business.admin.common.model;
 
 import com.github.pagehelper.PageHelper;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public class QueryParam {
         this.pageSize = pageSize;
     }
 
-    public void initPage(){
+    public void initPage() {
         PageHelper.startPage(this.getPageNum(),this.getPageSize());
     }
 }

@@ -1,6 +1,6 @@
-# bambooV2后台管理系统表创建脚本
-CREATE DATABASE  IF NOT EXISTS `bamboo_admin_v2` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `bamboo_admin_v2`;
+# bamboo后台管理系统表创建脚本
+CREATE DATABASE  IF NOT EXISTS `bamboo_admin` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `bamboo_admin`;
 
 SET NAMES utf8mb4;
 SET GLOBAL FOREIGN_KEY_CHECKS = 0;

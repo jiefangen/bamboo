@@ -1,4 +1,4 @@
-# 数据表默认初始化脚本, 默认明文密码123456
+# 数据表relax初始化脚本, 默认明文密码123456
 insert into SYS_USER (id, username, password, salt, sex, disabled, create_time, update_time) values
 (1002, 'admin', '9e1c263393c88252f0a379071bb0eef0', '8fc70e1a13231c5bf28cc8da404bdcd6', '男', 0, now(), now()),
 (1003, 'system', '9e1c263393c88252f0a379071bb0eef0', '8fc70e1a13231c5bf28cc8da404bdcd6', '男', 0, now(), now()),
@@ -31,10 +31,16 @@ insert into SYS_MENU (id, parent_id, menu_path, redirect, menu_name, title, icon
 (1006, 0, '/monitor', '/monitor/log', 'router-系统监控', '系统监控', 'monitor', 'layout', 0, 1),
 (1007, 1006, 'log', null, 'router-操作日志', '操作日志', 'log', 'monitor_log', 0, 0),
 (1008, 1006, 'api', null, 'router-API文档', 'API文档', 'api', 'monitor_api', 0, 1),
-(1009, 1006, 'druid', null, 'router-Druid监控', 'Druid监控', 'druid', 'monitor_druid', 0, 2);
+(1009, 1006, 'druid', null, 'router-Druid监控', 'Druid监控', 'druid', 'monitor_druid', 0, 2),
+
+(1010, 0, '/relax', '/relax/sweep', 'router-娱乐放松', '娱乐放松', 'relax', 'layout', 0, 2),
+(1011, 1010, 'sweep', null, 'router-扫雷', '扫雷', 'sweep', 'relax_sweep', 0, 0),
+(1012, 1010, 'card', null, 'router-卡牌', '卡牌', 'card', 'relax_card', 0, 1);
 
 insert into SYS_ROLE_MENU (role_id, menu_id) values
 (1002, 1002),(1002, 1003),(1002, 1004),(1002, 1005),(1002, 1006),(1002, 1007),(1002, 1008),(1002, 1009),
 (1003, 1002),(1003, 1003),(1003, 1004),(1003, 1005),
 (1004, 1006),(1004, 1007),(1004, 1008),(1004, 1009),
-(1005, 1002),(1005, 1003);
+(1005, 1002),(1005, 1003),
+
+(1006, 1010),(1006, 1011),(1006, 1012);

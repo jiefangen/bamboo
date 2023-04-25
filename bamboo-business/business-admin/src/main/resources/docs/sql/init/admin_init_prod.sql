@@ -1,4 +1,4 @@
-# 数据表初始化脚本, 默认明文密码123456
+# 数据表默认初始化脚本, 默认明文密码123456
 insert into SYS_USER (id, username, password, salt, sex, disabled, create_time, update_time) values
 (1002, 'admin', '9e1c263393c88252f0a379071bb0eef0', '8fc70e1a13231c5bf28cc8da404bdcd6', '男', 0, now(), now()),
 (1003, 'system', '9e1c263393c88252f0a379071bb0eef0', '8fc70e1a13231c5bf28cc8da404bdcd6', '男', 0, now(), now()),

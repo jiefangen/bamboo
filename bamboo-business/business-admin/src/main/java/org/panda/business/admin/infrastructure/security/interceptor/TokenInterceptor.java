@@ -3,7 +3,7 @@ package org.panda.business.admin.infrastructure.security.interceptor;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.panda.business.admin.common.constant.SystemConstants;
-import org.panda.business.admin.common.domain.ResultVO;
+import org.panda.business.admin.common.model.ResultVO;
 import org.panda.business.admin.common.utils.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

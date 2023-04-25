@@ -1,4 +1,4 @@
-package org.panda.business.admin.modules.facade.model;
+package org.panda.business.admin.modules.workflow.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-public class Todo {
+public class WorkTodo {
     private String id;
 
     private BigInteger userId;

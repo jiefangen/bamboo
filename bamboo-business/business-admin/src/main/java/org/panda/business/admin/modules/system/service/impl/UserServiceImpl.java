@@ -4,7 +4,7 @@ import com.github.pagehelper.Page;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.SecurityUtils;
 import org.panda.business.admin.common.constant.enumeration.RoleType;
-import org.panda.business.admin.common.domain.ResultConstant;
+import org.panda.business.admin.common.model.ResultConstant;
 import org.panda.business.admin.common.exception.SystemException;
 import org.panda.business.admin.common.utils.DateUtil;
 import org.panda.business.admin.modules.system.dao.RoleDao;

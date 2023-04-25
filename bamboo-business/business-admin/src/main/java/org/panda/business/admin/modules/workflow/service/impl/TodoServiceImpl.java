@@ -1,11 +1,11 @@
-package org.panda.business.admin.modules.facade.service.impl;
+package org.panda.business.admin.modules.workflow.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.panda.business.admin.common.constant.enumeration.TodoType;
-import org.panda.business.admin.modules.facade.dao.TodoDao;
-import org.panda.business.admin.modules.facade.model.Todo;
-import org.panda.business.admin.modules.facade.model.vo.TodoVO;
-import org.panda.business.admin.modules.facade.service.TodoService;
+import org.panda.business.admin.modules.workflow.dao.TodoDao;
+import org.panda.business.admin.modules.workflow.model.WorkTodo;
+import org.panda.business.admin.modules.workflow.model.vo.TodoVO;
+import org.panda.business.admin.modules.workflow.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,11 +28,11 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void sortTodo(BigInteger userId, Integer workStatus, List<Todo> list) {
+    public void sortTodo(BigInteger userId, Integer workStatus, List<WorkTodo> list) {
         if (!CollectionUtils.isEmpty(list)) {
             for (int i = 0; i < list.size(); i++) {
-                Todo oldTodo = list.get(i);
-                Todo newTodo = new Todo();
+                WorkTodo oldTodo = list.get(i);
+                WorkTodo newTodo = new WorkTodo();
                 newTodo.setId(oldTodo.getId());
                 newTodo.setWorkStatus(workStatus);
                 newTodo.setSort(i);
@@ -42,19 +42,19 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void addTodo(Todo todo) {
+    public void addTodo(WorkTodo todo) {
         todo.setCreateTime(todo.getUpdateTime());
         todoDao.insertTodo(todo);
     }
 
     @Override
-    public int delTodo(Todo todo) {
+    public int delTodo(WorkTodo todo) {
         todo.setWorkStatus(TodoType.DISCARD.getValue());
         return todoDao.deleteTodo(todo);
     }
 
     @Override
-    public int editTodo(Todo todo) {
+    public int editTodo(WorkTodo todo) {
         return todoDao.updateTodo(todo);
     }
 }

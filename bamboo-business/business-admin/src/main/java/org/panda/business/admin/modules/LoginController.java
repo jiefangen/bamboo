@@ -13,7 +13,7 @@ import org.apache.shiro.subject.Subject;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.common.constant.annotation.ControllerWebLog;
 import org.panda.business.admin.common.constant.enumeration.ActionType;
-import org.panda.business.admin.common.domain.ResultVO;
+import org.panda.business.admin.common.model.ResultVO;
 import org.panda.business.admin.common.utils.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

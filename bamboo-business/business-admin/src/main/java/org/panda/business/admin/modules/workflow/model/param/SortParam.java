@@ -1,8 +1,8 @@
-package org.panda.business.admin.modules.facade.model.param;
+package org.panda.business.admin.modules.workflow.model.param;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.panda.business.admin.modules.facade.model.Todo;
+import org.panda.business.admin.modules.workflow.model.WorkTodo;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -21,5 +21,5 @@ public class SortParam {
 
     private Integer workStatus;
 
-    private List<Todo> list;
+    private List<WorkTodo> list;
 }

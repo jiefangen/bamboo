@@ -1,4 +1,4 @@
-package org.panda.business.admin.common.domain;
+package org.panda.business.admin.common.model;
 
 /**
  * @author jiefangen

@@ -1,11 +1,11 @@
-package org.panda.business.admin.modules.facade.controller;
+package org.panda.business.admin.modules.workflow.controller;
 
 import io.swagger.annotations.Api;
-import org.panda.business.admin.common.domain.ResultVO;
-import org.panda.business.admin.modules.facade.model.Todo;
-import org.panda.business.admin.modules.facade.model.param.SortParam;
-import org.panda.business.admin.modules.facade.model.vo.TodoVO;
-import org.panda.business.admin.modules.facade.service.TodoService;
+import org.panda.business.admin.common.model.ResultVO;
+import org.panda.business.admin.modules.workflow.model.WorkTodo;
+import org.panda.business.admin.modules.workflow.model.param.SortParam;
+import org.panda.business.admin.modules.workflow.model.vo.TodoVO;
+import org.panda.business.admin.modules.workflow.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,19 +38,19 @@ public class TodoController {
     }
 
     @PostMapping("/add")
-    public ResultVO add(@RequestBody Todo todo){
+    public ResultVO add(@RequestBody WorkTodo todo){
         todoService.addTodo(todo);
         return ResultVO.getSuccess();
     }
 
     @DeleteMapping ("/del")
-    public ResultVO del(@RequestBody Todo todo){
+    public ResultVO del(@RequestBody WorkTodo todo){
         int result = todoService.delTodo(todo);
         return ResultVO.getSuccess(result);
     }
 
     @PutMapping ("/edit")
-    public ResultVO edit(@RequestBody Todo todo){
+    public ResultVO edit(@RequestBody WorkTodo todo){
         int result = todoService.editTodo(todo);
         return ResultVO.getSuccess(result);
     }
