@@ -25,7 +25,8 @@ CREATE TABLE sys_user (
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE sys_user_role (
                                user_id INT unsigned NOT NULL COMMENT '用户表关联ID',
-                               role_id INT unsigned NOT NULL COMMENT '角色表关联ID'
+                               role_id INT unsigned NOT NULL COMMENT '角色表关联ID',
+                               PRIMARY KEY (`user_id`, `role_id`)
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户角色关系' ROW_FORMAT = Compact;
 
 
@@ -44,7 +45,8 @@ CREATE TABLE sys_role (
 DROP TABLE IF EXISTS `sys_role_menu`;
 CREATE TABLE sys_role_menu (
                                role_id INT unsigned NOT NULL COMMENT '角色表关联ID',
-                               menu_id INT unsigned NOT NULL COMMENT '菜单表关联ID'
+                               menu_id INT unsigned NOT NULL COMMENT '菜单表关联ID',
+                               PRIMARY KEY (`role_id`, `menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 CHECKSUM=1 DELAY_KEY_WRITE=1 COMMENT = '系统角色菜单关系' ROW_FORMAT=DYNAMIC;
 
 
@@ -64,11 +66,11 @@ CREATE TABLE `sys_menu` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 10000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
 
 
-ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (user_id) REFERENCES SYS_USER (id);
-ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
+-- ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (user_id) REFERENCES SYS_USER (id);
+-- ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
 
-ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_menu_id_menu FOREIGN KEY (menu_id) REFERENCES SYS_MENU (id);
-ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
+-- ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_menu_id_menu FOREIGN KEY (menu_id) REFERENCES SYS_MENU (id);
+-- ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
 
 
 DROP TABLE IF EXISTS `sys_action_log`;

@@ -34,7 +34,7 @@
                    #{todo.content},
                    (select IFNULL(sort, 0) from
                         (select (max(distinct sort) + 1) as sort from
-                            work_to_do where user_id = #{todo.userId}
+                            work_todo where user_id = #{todo.userId}
                             and work_status = #{todo.workStatus}
                         ) as t
                    ),
