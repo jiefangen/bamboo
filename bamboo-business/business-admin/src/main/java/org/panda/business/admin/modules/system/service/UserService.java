@@ -2,8 +2,8 @@ package org.panda.business.admin.modules.system.service;
 
 import com.github.pagehelper.Page;
 import org.panda.business.admin.common.exception.SystemException;
-import org.panda.business.admin.modules.system.domain.dto.UserDTO;
-import org.panda.business.admin.modules.system.domain.po.UserPO;
+import org.panda.business.admin.modules.system.model.dto.UserDTO;
+import org.panda.business.admin.modules.system.model.po.UserPO;
 
 public interface UserService {
 

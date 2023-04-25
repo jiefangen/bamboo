@@ -1,8 +1,8 @@
 package org.panda.business.admin.modules.system.service;
 
 import org.panda.business.admin.common.exception.SystemException;
-import org.panda.business.admin.modules.system.domain.dto.RoleDTO;
-import org.panda.business.admin.modules.system.domain.po.RolePO;
+import org.panda.business.admin.modules.system.model.dto.RoleDTO;
+import org.panda.business.admin.modules.system.model.po.RolePO;
 
 import java.math.BigInteger;
 import java.util.List;

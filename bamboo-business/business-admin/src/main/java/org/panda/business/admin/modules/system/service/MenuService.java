@@ -1,8 +1,8 @@
 package org.panda.business.admin.modules.system.service;
 
 import org.panda.business.admin.common.exception.SystemException;
-import org.panda.business.admin.modules.system.domain.po.MenuPO;
-import org.panda.business.admin.modules.system.domain.vo.MenuVO;
+import org.panda.business.admin.modules.system.model.po.MenuPO;
+import org.panda.business.admin.modules.system.model.vo.MenuVO;
 
 import java.math.BigInteger;
 import java.util.List;

@@ -2,9 +2,9 @@ package org.panda.business.admin.modules.facade.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.business.admin.common.domain.ResultVO;
-import org.panda.business.admin.modules.facade.domain.Todo;
-import org.panda.business.admin.modules.facade.domain.param.SortParam;
-import org.panda.business.admin.modules.facade.domain.vo.TodoVO;
+import org.panda.business.admin.modules.facade.model.Todo;
+import org.panda.business.admin.modules.facade.model.param.SortParam;
+import org.panda.business.admin.modules.facade.model.vo.TodoVO;
 import org.panda.business.admin.modules.facade.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

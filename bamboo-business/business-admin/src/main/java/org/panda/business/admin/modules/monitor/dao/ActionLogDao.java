@@ -2,7 +2,7 @@ package org.panda.business.admin.modules.monitor.dao;
 
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
-import org.panda.business.admin.modules.monitor.domain.ActionLog;
+import org.panda.business.admin.modules.monitor.model.ActionLog;
 import org.springframework.stereotype.Repository;
 
 @Repository

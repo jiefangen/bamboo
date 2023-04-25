@@ -1,7 +1,7 @@
 package org.panda.business.admin.modules.facade.service;
 
-import org.panda.business.admin.modules.facade.domain.Todo;
-import org.panda.business.admin.modules.facade.domain.vo.TodoVO;
+import org.panda.business.admin.modules.facade.model.Todo;
+import org.panda.business.admin.modules.facade.model.vo.TodoVO;
 
 import java.math.BigInteger;
 import java.util.List;

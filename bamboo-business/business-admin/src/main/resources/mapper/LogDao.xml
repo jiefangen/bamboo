@@ -3,7 +3,7 @@
 <mapper namespace="org.panda.business.admin.modules.monitor.dao.ActionLogDao">
     <sql id="logColumns"> action_type, content, ip_address, username, operating_time, elapsed_time, status_code, exception_info </sql>
 
-    <resultMap id="baseLogMap" type="org.panda.business.admin.modules.monitor.domain.ActionLog">
+    <resultMap id="baseLogMap" type="org.panda.business.admin.modules.monitor.model.ActionLog">
         <id column="log_id" property="id" jdbcType="BIGINT"/>
         <result column="action_type" property="actionType" jdbcType="INTEGER"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>

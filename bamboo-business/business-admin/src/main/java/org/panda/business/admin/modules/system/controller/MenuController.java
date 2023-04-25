@@ -6,7 +6,7 @@ import org.panda.business.admin.common.constant.enumeration.ActionType;
 import org.panda.business.admin.common.domain.ResultConstant;
 import org.panda.business.admin.common.domain.ResultVO;
 import org.panda.business.admin.common.exception.SystemException;
-import org.panda.business.admin.modules.system.domain.po.MenuPO;
+import org.panda.business.admin.modules.system.model.po.MenuPO;
 import org.panda.business.admin.modules.system.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -2,8 +2,8 @@ package org.panda.business.admin.modules.system.service.impl;
 
 import org.panda.business.admin.common.exception.SystemException;
 import org.panda.business.admin.modules.system.dao.MenuDao;
-import org.panda.business.admin.modules.system.domain.po.MenuPO;
-import org.panda.business.admin.modules.system.domain.vo.MenuVO;
+import org.panda.business.admin.modules.system.model.po.MenuPO;
+import org.panda.business.admin.modules.system.model.vo.MenuVO;
 import org.panda.business.admin.modules.system.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

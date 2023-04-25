@@ -1,7 +1,7 @@
 package org.panda.business.admin.modules.monitor.service.async;
 
 import org.panda.business.admin.modules.monitor.dao.ActionLogDao;
-import org.panda.business.admin.modules.monitor.domain.ActionLog;
+import org.panda.business.admin.modules.monitor.model.ActionLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,8 @@
 package org.panda.business.admin.modules.system.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.panda.business.admin.modules.system.domain.po.MenuPO;
-import org.panda.business.admin.modules.system.domain.vo.MenuVO;
+import org.panda.business.admin.modules.system.model.po.MenuPO;
+import org.panda.business.admin.modules.system.model.vo.MenuVO;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;

@@ -1,7 +1,7 @@
 package org.panda.business.admin.modules.facade.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.panda.business.admin.modules.facade.domain.Todo;
+import org.panda.business.admin.modules.facade.model.Todo;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;

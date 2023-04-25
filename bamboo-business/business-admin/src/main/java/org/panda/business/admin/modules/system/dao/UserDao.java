@@ -2,8 +2,8 @@ package org.panda.business.admin.modules.system.dao;
 
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
-import org.panda.business.admin.modules.system.domain.dto.UserDTO;
-import org.panda.business.admin.modules.system.domain.po.UserPO;
+import org.panda.business.admin.modules.system.model.dto.UserDTO;
+import org.panda.business.admin.modules.system.model.po.UserPO;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;

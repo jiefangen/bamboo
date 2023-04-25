@@ -2,8 +2,8 @@ package org.panda.business.admin.common.utils;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
-import org.panda.business.admin.common.encrypt.ShiroEncrypt;
-import org.panda.business.admin.modules.system.domain.po.UserPO;
+import org.panda.business.admin.infrastructure.security.encrypt.ShiroEncrypt;
+import org.panda.business.admin.modules.system.model.po.UserPO;
 
 /**
  * 加密器工具类
@@ -12,7 +12,8 @@ import org.panda.business.admin.modules.system.domain.po.UserPO;
  * @since JDK 1.8  2020/5/13
  **/
 public class EncryptUtil {
-    ShiroEncrypt shiroEncrypt = new ShiroEncrypt();
+
+   private ShiroEncrypt shiroEncrypt = new ShiroEncrypt();
 
     /**
      * 新增用户加密,盐是随机生成
