@@ -19,7 +19,7 @@ CREATE TABLE sys_user (
                           create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           update_time DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
 
 
 DROP TABLE IF EXISTS `sys_user_role`;
@@ -39,7 +39,7 @@ CREATE TABLE sys_role (
                           create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           update_time DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
 
 
 DROP TABLE IF EXISTS `sys_role_menu`;
@@ -53,7 +53,7 @@ CREATE TABLE sys_role_menu (
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
                             id INT unsigned NOT NULL COMMENT '主键ID',
-                            parent_id INT unsigned NOT NULL COMMENT '主键ID',
+                            parent_id INT unsigned DEFAULT 0 NOT NULL COMMENT '父级ID（0代表根目录）',
                             menu_path VARCHAR(255) NOT NULL COMMENT '菜单路径',
                             component VARCHAR(50) NOT NULL COMMENT '菜单组件',
                             menu_name VARCHAR(100) COMMENT '菜单名',
@@ -63,14 +63,26 @@ CREATE TABLE `sys_menu` (
                             hidden TINYINT(1) default(0) COMMENT '隐藏',
                             sort INT default(0) COMMENT '排序',
                             PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
+
+DROP TABLE IF EXISTS `sys_permission`;
+CREATE TABLE sys_permission (
+                                id INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                                permission_name VARCHAR(64) NOT NULL COMMENT '权限名称',
+                                permission_code VARCHAR(20) NOT NULL COMMENT '权限编码',
+                                description VARCHAR(200) COMMENT '描述',
+                                resources_id INT unsigned NOT NULL COMMENT '资源ID',
+                                resources_type VARCHAR(20) NOT NULL COMMENT '资源类型',
+                                operation_scope VARCHAR(20) COMMENT '操作范围',
+                                PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
 
 
--- ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (user_id) REFERENCES SYS_USER (id);
--- ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
+ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (user_id) REFERENCES SYS_USER (id);
+ALTER TABLE sys_user_role ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
 
--- ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_menu_id_menu FOREIGN KEY (menu_id) REFERENCES SYS_MENU (id);
--- ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
+ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_menu_id_menu FOREIGN KEY (menu_id) REFERENCES SYS_MENU (id);
+ALTER TABLE sys_role_menu ADD CONSTRAINT fk_sys_role_menu_role_id_role FOREIGN KEY (role_id) REFERENCES SYS_ROLE (id);
 
 
 DROP TABLE IF EXISTS `sys_action_log`;
@@ -88,14 +100,3 @@ CREATE TABLE sys_action_log (
 ) ENGINE = InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统操作日志' ROW_FORMAT=Compact;
 
 
-DROP TABLE IF EXISTS `work_todo`;
-CREATE TABLE work_todo (
-                            id VARCHAR(64) NOT NULL COMMENT '主键ID',
-                            work_status INT NOT NULL COMMENT '事项工作状态',
-                            content VARCHAR(2000) COMMENT '事项内容',
-                            sort INT default(0) COMMENT '排序',
-                            user_id INT unsigned NOT NULL COMMENT '用户ID',
-                            create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                            update_time DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                            PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='待办事项' ROW_FORMAT=Compact;

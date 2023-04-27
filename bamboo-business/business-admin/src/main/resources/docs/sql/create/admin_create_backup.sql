@@ -5,6 +5,19 @@ USE `bamboo_admin`;
 SET NAMES utf8mb4;
 SET GLOBAL FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS `work_todo`;
+CREATE TABLE work_todo (
+                           id VARCHAR(64) NOT NULL COMMENT '主键ID',
+                           work_status INT NOT NULL COMMENT '事项工作状态',
+                           content VARCHAR(2000) COMMENT '事项内容',
+                           sort INT default(0) COMMENT '排序',
+                           user_id INT unsigned NOT NULL COMMENT '用户ID',
+                           create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           update_time DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                           PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='待办事项' ROW_FORMAT=Compact;
+
+
 
 DROP TABLE IF EXISTS `SYS_PERMISSION_ROLE`;
 CREATE TABLE SYS_PERMISSION_ROLE (
