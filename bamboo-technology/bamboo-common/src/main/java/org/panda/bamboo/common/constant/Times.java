@@ -49,11 +49,11 @@ public class Times {
      */
     public static final String GMT_PATTERN = "EEE, dd MMM yyyy HH:mm:ss 'GMT'";
 
-    private static final long MS_ONE_SECOND = 1000;
+    public static final long MS_ONE_SECOND = 1000;
 
-    private static final long MS_ONE_MINUTE = 60 * 1000;
+    public static final long MS_ONE_MINUTE = 60 * MS_ONE_SECOND;
 
-    private static final long MS_ONE_HOUR = 60 * MS_ONE_MINUTE;
+    public static final long MS_ONE_HOUR = 60 * MS_ONE_MINUTE;
 
-    private static final long MS_ONE_DAY = 24 * 60 * MS_ONE_MINUTE;
+    public static final long MS_ONE_DAY = 24 * MS_ONE_HOUR;
 }

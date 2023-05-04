@@ -1,9 +1,8 @@
-package org.panda.tech.core.spec.restful;
+package org.panda.tech.core.web.restful;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.tech.core.spec.Result;
 
 @Getter
 @AllArgsConstructor

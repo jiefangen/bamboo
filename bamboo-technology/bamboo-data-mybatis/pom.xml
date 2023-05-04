@@ -15,6 +15,7 @@
     <properties>
         <druid-spring.version>1.2.16</druid-spring.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <mybatis-generator.version>3.4.0</mybatis-generator.version>
     </properties>
 
     <dependencies>
@@ -36,7 +37,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.4.0</version>
+            <version>${mybatis-generator.version}</version>
         </dependency>
     </dependencies>
 </project>

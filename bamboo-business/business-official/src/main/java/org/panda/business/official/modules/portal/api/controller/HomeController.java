@@ -1,6 +1,6 @@
 package org.panda.business.official.modules.portal.api.controller;
 
-import org.panda.tech.core.spec.restful.RestfulResult;
+import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

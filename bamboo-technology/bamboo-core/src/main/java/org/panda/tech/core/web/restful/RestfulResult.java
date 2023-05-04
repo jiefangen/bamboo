@@ -1,7 +1,6 @@
-package org.panda.tech.core.spec.restful;
+package org.panda.tech.core.web.restful;
 
 import lombok.Getter;
-import org.panda.tech.core.spec.Result;
 
 import java.io.Serializable;
 
@@ -19,7 +18,7 @@ public class RestfulResult<T> implements Serializable {
     private T data;
 
     // 保护返回结构不被破坏，禁止外部实例化
-    private RestfulResult(){};
+    private RestfulResult(){}
 
     public static <T> RestfulResult<T> success(){
         return transform(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), null);

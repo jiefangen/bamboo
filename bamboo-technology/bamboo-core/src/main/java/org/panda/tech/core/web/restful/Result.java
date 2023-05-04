@@ -1,4 +1,4 @@
-package org.panda.tech.core.spec;
+package org.panda.tech.core.web.restful;
 
 /**
  * 定义返回数据结构

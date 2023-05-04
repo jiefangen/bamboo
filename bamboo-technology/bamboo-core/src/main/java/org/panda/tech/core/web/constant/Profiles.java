@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.constant;
+package org.panda.tech.core.web.constant;
 
 /**
  * 运行环境常量集
