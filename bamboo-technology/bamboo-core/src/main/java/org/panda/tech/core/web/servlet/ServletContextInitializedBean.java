@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 /**
  * ServletContext初始化Bean
  *
- * @author jianglei
+ * @author fangen
  */
 @Component
 public class ServletContextInitializedBean implements ServletContextAware, ContextInitializedBean {
