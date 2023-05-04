@@ -1,7 +1,7 @@
 package org.panda.bamboo.common.util.clazz;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.util.TemporalUtil;
+import org.panda.bamboo.common.util.date.TemporalUtil;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

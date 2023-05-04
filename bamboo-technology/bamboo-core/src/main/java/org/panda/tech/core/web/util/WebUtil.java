@@ -1,13 +1,13 @@
 package org.panda.tech.core.web.util;
 
-import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.DateUtil;
+import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.date.DateUtil;
 import org.panda.bamboo.common.util.io.Mimetypes;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
@@ -86,7 +86,7 @@ public class WebUtil {
         Map<String, Object> body;
         String json = getRequestBodyString(request);
         if (StringUtils.isNotBlank(json)) {
-            body = JSONObject.parseObject(json, Map.class);
+            body = JsonUtil.json2Map(json);
         } else {
             body = new HashMap<>();
         }

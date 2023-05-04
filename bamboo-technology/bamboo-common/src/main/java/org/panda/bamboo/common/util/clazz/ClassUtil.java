@@ -4,6 +4,8 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.bamboo.common.util.model.PropertyMeta;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;
@@ -651,6 +653,153 @@ public class ClassUtil {
             }
         });
         return types;
+    }
+
+    /**
+     * 查找指定类型中的属性元数据集
+     *
+     * @param clazz            类型
+     * @param gettable         是否包含可读属性
+     * @param settable         是否包含可写属性
+     * @param parent           是否包含父类中的属性
+     * @param includePredicate 属性包含判定
+     * @return 属性元数据集
+     */
+    public static Collection<PropertyMeta> findPropertyMetas(Class<?> clazz, boolean gettable, boolean settable,
+                                                             boolean parent, BiPredicate<Class<?>, String> includePredicate) {
+        Map<String, PropertyMeta> result = new LinkedHashMap<>();
+        if (gettable || settable) {
+            if (parent) { // 先加入父类的属性
+                Class<?> superclass = clazz.getSuperclass();
+                if (superclass != null && superclass != Object.class) {
+                    Collection<PropertyMeta> propertyMetas = findPropertyMetas(superclass, gettable, settable, true,
+                            includePredicate);
+                    for (PropertyMeta propertyMeta : propertyMetas) {
+                        result.put(propertyMeta.getName(), propertyMeta);
+                    }
+                }
+            }
+            if (clazz.isInterface()) { // 如果类型为接口，则根据getter/setter方法名称进行筛选
+                for (Method method : clazz.getMethods()) {
+                    String propertyName = getPropertyName(method, gettable, settable);
+                    if (propertyName != null) {
+                        Class<?> propertyType = null;
+                        String methodName = method.getName();
+                        if (methodName.startsWith("get")) { // getter方法，类型取方法结果类型
+                            if (gettable) {
+                                propertyType = method.getReturnType();
+                            }
+                        } else if (methodName.startsWith("set")) { // setter方法，类型取第一个参数的类型
+                            if (settable) {
+                                propertyType = method.getParameterTypes()[0];
+                            }
+                        }
+                        // 可取得属性类型，且通过包含判断，才加入
+                        if (propertyType != null
+                                && (includePredicate == null || includePredicate.test(propertyType, propertyName))) {
+                            addPropertyMeta(result, propertyName, propertyType, method.getAnnotations());
+                        }
+                    }
+                }
+            } else { // 如果类型为类则获取其属性描述进行筛选
+                PropertyDescriptor[] pds = BeanUtils.getPropertyDescriptors(clazz);
+                for (PropertyDescriptor pd : pds) {
+                    String propertyName = pd.getName();
+                    if (!"class".equals(propertyName) && (includePredicate == null
+                            || includePredicate.test(pd.getPropertyType(), propertyName))) {
+                        Method readMethod = pd.getReadMethod();
+                        Method writeMethod = pd.getWriteMethod();
+                        if ((gettable && readMethod != null) || (settable && writeMethod != null)) {
+                            // 先添加声明字段上的注解
+                            addPropertyMeta(result, propertyName, pd.getPropertyType(),
+                                    getDeclaredFieldAnnotations(clazz, propertyName));
+                            if (readMethod != null) { // 尝试添加读方法上的注解
+                                addPropertyMeta(result, propertyName, pd.getPropertyType(),
+                                        readMethod.getAnnotations());
+                            }
+                            if (writeMethod != null) { // 尝试添加写方法上的注解
+                                addPropertyMeta(result, propertyName, pd.getPropertyType(),
+                                        writeMethod.getAnnotations());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result.values();
+    }
+
+    private static Annotation[] getDeclaredFieldAnnotations(Class<?> clazz, String propertyName) {
+        try {
+            Field field = clazz.getDeclaredField(propertyName);
+            return field.getAnnotations();
+        } catch (NoSuchFieldException | SecurityException e) {
+        }
+        return new Annotation[0];
+    }
+
+    /**
+     * 获取指定方法可能访问的属性名，如果该方法不是getter/setter方法，则返回null
+     *
+     * @param method 方法
+     * @param getter 是否考虑为getter方法的可能
+     * @param setter 是否考虑为setter方法的可能
+     * @return 属性名
+     */
+    private static String getPropertyName(Method method, boolean getter, boolean setter) {
+        // 至少要考虑为getter/setter方法中的一种
+        if (getter || setter) {
+            String methodName = method.getName();
+            if (methodName.length() > 3) { // 3为"get"或"set"的长度
+                String propertyName = methodName.substring(3); // 可能的属性名
+                // 截取出来的属性名首字母需为大写
+                if (propertyName.length() > 0 && Character.isUpperCase(propertyName.charAt(0))) {
+                    propertyName = StringUtil.firstToLowerCase(propertyName);
+                    if (getter && isPropertyMethod(method, propertyName, true)) {
+                        return propertyName;
+                    }
+                    if (setter && isPropertyMethod(method, propertyName, false)) {
+                        return propertyName;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 判断指定方法是否指定属性的访问方法
+     *
+     * @param method       方法
+     * @param propertyName 属性名
+     * @param getter       是否getter方法，false-setter方法
+     * @return 指定方法是否指定属性的访问方法
+     */
+    private static boolean isPropertyMethod(Method method, String propertyName, boolean getter) {
+        // 必须是公开的非静态方法
+        if (Modifier.isPublic(method.getModifiers()) && !Modifier.isStatic(method.getModifiers())) {
+            // 方法名称要匹配
+            String methodName = (getter ? "get" : "set") + StringUtil.firstToUpperCase(propertyName);
+            if (methodName.equals(method.getName())) {
+                if (getter) { // getter方法必须无参数且返回结果不为void
+                    return method.getParameterTypes().length == 0 && method.getReturnType() != void.class;
+                } else { // setter方法必须有一个参数且返回结果为void
+                    return method.getParameterTypes().length == 1 && method.getReturnType() == void.class;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static void addPropertyMeta(Map<String, PropertyMeta> result, String propertyName, Class<?> propertyType,
+                                        Annotation[] annotations) {
+        PropertyMeta propertyMeta = result.get(propertyName);
+        if (propertyMeta == null) {
+            propertyMeta = new PropertyMeta(propertyName, propertyType, annotations);
+        } else {
+            propertyMeta.addAnnotations(annotations);
+        }
+        result.put(propertyName, propertyMeta);
     }
 
 }

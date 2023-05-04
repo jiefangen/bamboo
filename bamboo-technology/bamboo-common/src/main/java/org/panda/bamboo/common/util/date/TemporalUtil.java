@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.util;
+package org.panda.bamboo.common.util.date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Times;
