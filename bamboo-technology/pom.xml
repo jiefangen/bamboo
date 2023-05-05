@@ -11,7 +11,7 @@
     <modules>
         <!-- 通用模块-为本技术框架提供支持（不可对外依赖） -->
         <module>bamboo-common</module>
-        <!-- 核心模块-为上层服务提供核心支持 -->
+        <!-- 核心模块-为上层框架或服务提供核心支持 -->
         <module>bamboo-core</module>
         <!-- 数据模块-为本技术框架提供数据相关支持（不可对外依赖） -->
         <module>bamboo-data</module>
@@ -19,6 +19,8 @@
         <module>bamboo-data-jpa</module>
         <!-- mybatis支持模块-为上层服务提供mybatis访问框架支持 -->
         <module>bamboo-data-mybatis</module>
+        <!-- 服务安全支持模块-为上层服务提供鉴权标准 -->
+        <module>bamboo-security</module>
     </modules>
 
     <properties>

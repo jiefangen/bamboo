@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.annotation;
+package org.panda.tech.core.annotation;
 
 import java.lang.annotation.*;
 

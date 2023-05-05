@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.constant;
+package org.panda.tech.core.constant;
 
 /**
  * 运行环境常量集

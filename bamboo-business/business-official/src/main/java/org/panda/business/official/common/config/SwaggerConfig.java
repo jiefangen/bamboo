@@ -2,7 +2,7 @@ package org.panda.business.official.common.config;
 
 import lombok.Setter;
 import org.panda.bamboo.Framework;
-import org.panda.tech.core.web.constant.Profiles;
+import org.panda.tech.core.constant.Profiles;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
