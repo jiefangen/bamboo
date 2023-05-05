@@ -22,6 +22,9 @@ public class Commons {
 
     public static final int EXCEPTION_BUSINESS = 5200;
 
+    public static final int EXCEPTION_AUTH = 4000;
+    public static final int EXCEPTION_AUTH_NO_OPERA = 4003;
+
 
     /**
      * 通用技术专业英文
