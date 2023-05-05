@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.servlet.http;
+package org.panda.tech.core.web.mvc.servlet.http;
 
 import org.apache.commons.io.IOUtils;
 

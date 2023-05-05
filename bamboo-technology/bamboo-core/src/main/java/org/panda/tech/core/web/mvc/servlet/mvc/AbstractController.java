@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.servlet.mvc;
+package org.panda.tech.core.web.mvc.servlet.mvc;
 
 import org.panda.tech.core.web.context.SpringWebContext;
 

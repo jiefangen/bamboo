@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.util.model;
+package org.panda.bamboo.common.model.nature;
 
 import org.springframework.util.CollectionUtils;
 

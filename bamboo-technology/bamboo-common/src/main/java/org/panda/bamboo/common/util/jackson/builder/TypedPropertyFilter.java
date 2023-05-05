@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.PropertyWriter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import org.panda.bamboo.common.util.model.FilteredNames;
+import org.panda.bamboo.common.model.nature.FilteredNames;
 
 import java.util.HashMap;
 import java.util.Map;

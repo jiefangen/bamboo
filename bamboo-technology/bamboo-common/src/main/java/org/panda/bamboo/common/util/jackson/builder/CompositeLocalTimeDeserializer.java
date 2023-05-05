@@ -10,8 +10,6 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * 复合LocalTime反序列化器
- *
- * @author jianglei
  */
 public class CompositeLocalTimeDeserializer extends LocalTimeDeserializer {
 

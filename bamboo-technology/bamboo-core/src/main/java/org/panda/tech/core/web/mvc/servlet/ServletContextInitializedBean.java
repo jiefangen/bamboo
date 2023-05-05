@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.servlet;
+package org.panda.tech.core.web.mvc.servlet;
 
 import org.panda.bamboo.core.beans.ContextInitializedBean;
 import org.springframework.context.ApplicationContext;

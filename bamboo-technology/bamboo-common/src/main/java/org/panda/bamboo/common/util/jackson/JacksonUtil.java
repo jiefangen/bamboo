@@ -20,7 +20,7 @@ import org.panda.bamboo.common.util.jackson.builder.CompositeLocalTimeDeserializ
 import org.panda.bamboo.common.util.jackson.builder.PredicateTypeResolverBuilder;
 import org.panda.bamboo.common.util.clazz.ClassUtil;
 import org.panda.bamboo.common.util.date.TemporalUtil;
-import org.panda.bamboo.common.util.model.PropertyMeta;
+import org.panda.bamboo.common.model.nature.PropertyMeta;
 
 import java.lang.reflect.Modifier;
 import java.time.LocalDate;

@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.bamboo.common.util.model.PropertyMeta;
+import org.panda.bamboo.common.model.nature.PropertyMeta;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.io.Resource;

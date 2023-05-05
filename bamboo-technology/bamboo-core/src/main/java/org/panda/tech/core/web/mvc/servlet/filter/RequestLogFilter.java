@@ -1,10 +1,10 @@
-package org.panda.tech.core.web.servlet.filter;
+package org.panda.tech.core.web.mvc.servlet.filter;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.tech.core.web.servlet.http.BodyRepeatableRequestWrapper;
+import org.panda.tech.core.web.mvc.servlet.http.BodyRepeatableRequestWrapper;
 import org.panda.tech.core.web.util.WebUtil;
 import org.slf4j.Logger;
 

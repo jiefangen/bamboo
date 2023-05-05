@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.util.jackson.builder.TypedPropertyFilter;
-import org.panda.bamboo.common.util.model.FilteredNames;
+import org.panda.bamboo.common.model.nature.FilteredNames;
 import org.panda.bamboo.common.util.clazz.BeanUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 
