@@ -5,7 +5,7 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.tech.core.web.mvc.servlet.http.BodyRepeatableRequestWrapper;
-import org.panda.tech.core.web.util.WebUtil;
+import org.panda.tech.core.web.util.WebHttpUtil;
 import org.slf4j.Logger;
 
 import javax.servlet.*;
@@ -30,14 +30,14 @@ public class RequestLogFilter implements Filter {
             throws IOException, ServletException {
         if (ArrayUtils.isNotEmpty(this.urlPatterns)) {
             HttpServletRequest request = (HttpServletRequest) req;
-            String url = WebUtil.getRelativeRequestUrl(request);
+            String url = WebHttpUtil.getRelativeRequestUrl(request);
             if (StringUtil.antPathMatchOneOf(url, this.urlPatterns)) {
                 request = new BodyRepeatableRequestWrapper(request);
-                this.logger.info("====== request from {} ======", WebUtil.getRemoteAddress(request));
+                this.logger.info("====== request from {} ======", WebHttpUtil.getRemoteAddress(request));
                 this.logger.info("{} {}", request.getMethod(), url);
-                this.logger.info("headers: {}", JsonUtil.toJson(WebUtil.getHeaders(request)));
-                this.logger.info("parameters: {}", JsonUtil.toJson(WebUtil.getRequestParameterMap(request)));
-                this.logger.info("body: {}", WebUtil.getRequestBodyString(request));
+                this.logger.info("headers: {}", JsonUtil.toJson(WebHttpUtil.getHeaders(request)));
+                this.logger.info("parameters: {}", JsonUtil.toJson(WebHttpUtil.getRequestParameterMap(request)));
+                this.logger.info("body: {}", WebHttpUtil.getRequestBodyString(request));
                 req = request;
             }
         }

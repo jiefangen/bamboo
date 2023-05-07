@@ -5,13 +5,14 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.date.DateUtil;
 import org.panda.bamboo.common.util.io.Mimetypes;
+import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.tech.core.web.model.HttpHeaderRange;
+import org.panda.tech.core.constant.WebConstants;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -37,15 +38,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
- * Web工具类
- *
- * @author jianglei
+ * WebHttp工具类
  */
-public class WebUtil {
+public class WebHttpUtil {
 
     private static final String HEADER_UNKNOWN = "unknown";
 
-    private WebUtil() {
+    private WebHttpUtil() {
     }
 
     /**
@@ -158,7 +157,7 @@ public class WebUtil {
                                 value = URLEncoder.encode(value, encoding);
                                 params[i] = params[i].substring(0, index + 1) + value;
                             } catch (UnsupportedEncodingException e) {
-                                LogUtil.error(WebUtil.class, e);
+                                LogUtil.error(WebHttpUtil.class, e);
                             }
                         }
                     }
@@ -186,7 +185,7 @@ public class WebUtil {
                 try {
                     tail = URLEncoder.encode(tail, encoding);
                 } catch (UnsupportedEncodingException e) {
-                    LogUtil.error(WebUtil.class, e);
+                    LogUtil.error(WebHttpUtil.class, e);
                 }
                 url = url.substring(0, index1 + 1) + tail + url.substring(index2);
             }
@@ -327,7 +326,7 @@ public class WebUtil {
         try {
             return response.getOutputStream();
         } catch (Exception e) {
-            LogUtil.error(WebUtil.class, e);
+            LogUtil.error(WebHttpUtil.class, e);
         }
         return null;
     }
@@ -344,7 +343,7 @@ public class WebUtil {
             Resource resource = new ServletContextResource(context, NetUtil.standardizeUrl(relativePath));
             return FileUtils.readFileToByteArray(resource.getFile());
         } catch (IOException e) {
-            LogUtil.error(WebUtil.class, e);
+            LogUtil.error(WebHttpUtil.class, e);
             return new byte[0];
         }
     }
@@ -373,7 +372,7 @@ public class WebUtil {
             try {
                 return URLDecoder.decode(param, encoding);
             } catch (UnsupportedEncodingException e) {
-                LogUtil.error(WebUtil.class, e); // 编码已确保有效，不应该出现该异常
+                LogUtil.error(WebHttpUtil.class, e); // 编码已确保有效，不应该出现该异常
             }
         }
         return param;
@@ -735,6 +734,23 @@ public class WebUtil {
             return ranges;
         }
         return Collections.emptyList();
+    }
+
+    /**
+     * 判断指定请求是否AJAX请求
+     *
+     * @param request HTTP请求
+     * @return 是否AJAX请求
+     */
+    public static boolean isAjaxRequest(HttpServletRequest request) {
+        if ("XMLHttpRequest".equalsIgnoreCase(request.getHeader(WebConstants.HEADER_AJAX_REQUEST))) {
+            return true;
+        }
+        String referer = request.getHeader(WebConstants.HEADER_REFERER);
+        if (referer != null && referer.endsWith("/swagger-ui.html")) {
+            return true;
+        }
+        return false;
     }
 
 }

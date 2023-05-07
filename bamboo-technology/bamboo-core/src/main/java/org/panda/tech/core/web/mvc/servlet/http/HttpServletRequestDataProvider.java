@@ -1,6 +1,6 @@
 package org.panda.tech.core.web.mvc.servlet.http;
 
-import org.panda.tech.core.web.util.WebUtil;
+import org.panda.tech.core.web.util.WebHttpUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -23,7 +23,7 @@ public class HttpServletRequestDataProvider implements HttpRequestDataProvider {
 
     @Override
     public Map<String, String> getHeaders() {
-        return WebUtil.getHeaders(this.request);
+        return WebHttpUtil.getHeaders(this.request);
     }
 
     @Override
@@ -38,12 +38,12 @@ public class HttpServletRequestDataProvider implements HttpRequestDataProvider {
 
     @Override
     public Map<String, Object> getParameters() {
-        return WebUtil.getRequestParameterMap(this.request);
+        return WebHttpUtil.getRequestParameterMap(this.request);
     }
 
     @Override
     public String getBody() {
-        return WebUtil.getRequestBodyString(this.request);
+        return WebHttpUtil.getRequestBodyString(this.request);
     }
 
 }

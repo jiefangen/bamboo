@@ -1,6 +1,6 @@
 package org.panda.business.admin.modules;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;

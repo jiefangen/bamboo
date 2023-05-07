@@ -3,7 +3,7 @@ package org.panda.tech.core.web.mvc.controller;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.tech.core.web.util.NetUtil;
-import org.panda.tech.core.web.util.WebUtil;
+import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,13 +33,13 @@ public abstract class JumpControllerSupport {
     @RequestMapping("/to/**")
     public void to(HttpServletRequest request, HttpServletResponse response,
             @RequestBody(required = false) Map<String, Object> body) throws Exception {
-        String protocol = WebUtil.getProtocol(request) + Strings.COLON + Strings.DOUBLE_SLASH;
+        String protocol = WebHttpUtil.getProtocol(request) + Strings.COLON + Strings.DOUBLE_SLASH;
         String targetUrl = getTargetUrl(protocol, request);
         jump(request, response, targetUrl, body);
     }
 
     protected String getTargetUrl(String protocol, HttpServletRequest request) {
-        String url = WebUtil.getRelativeRequestUrl(request);
+        String url = WebHttpUtil.getRelativeRequestUrl(request);
         int index = StringUtils.ordinalIndexOf(url, Strings.SLASH, 3);
         String path = url.substring(index + 1);
         String queryString = request.getQueryString();

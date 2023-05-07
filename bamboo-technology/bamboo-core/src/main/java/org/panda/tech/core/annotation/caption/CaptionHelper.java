@@ -10,13 +10,11 @@ import java.util.Collection;
 import java.util.Locale;
 
 /**
- * 显示名称工具类
- *
- * @author jianglei
+ * 显示名称注解助手
  */
-public class CaptionUtil {
+public class CaptionHelper {
 
-    private CaptionUtil() {
+    private CaptionHelper() {
     }
 
     private static String getCaptionValue(Caption[] captionAnnotations, Locale locale) {

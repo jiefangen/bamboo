@@ -20,3 +20,5 @@
 #### 5、bamboo-data-mybatis（对上层服务提供简易mybatis使用能力）
     1、mybatis框架基础功能以及扩展能力（TODO）
     2、数据库实体以及扩展类代码自动生成
+#### 5、bamboo-security（对上层服务提供统一化鉴权支持）
+    1、

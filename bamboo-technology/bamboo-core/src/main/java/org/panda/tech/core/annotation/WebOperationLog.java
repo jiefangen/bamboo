@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface WebLog {
+public @interface WebOperationLog {
 
     /**
      * 操作日志描述内容

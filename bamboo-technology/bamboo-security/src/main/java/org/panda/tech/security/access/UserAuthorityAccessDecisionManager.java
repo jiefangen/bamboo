@@ -3,10 +3,10 @@ package org.panda.tech.security.access;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.exception.business.security.NoOperationAuthorityException;
-import org.panda.tech.core.annotation.caption.CaptionUtil;
+import org.panda.tech.core.annotation.caption.CaptionHelper;
 import org.panda.tech.core.web.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.NetUtil;
-import org.panda.tech.core.web.util.WebUtil;
+import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -46,9 +46,9 @@ public class UserAuthorityAccessDecisionManager extends UnanimousBased implement
         if (!contains(fi, authorities, configAttributes)) {
             HttpServletRequest request = fi.getRequest();
             HandlerMethod handlerMethod = this.handlerMethodMapping.getHandlerMethod(request);
-            String operation = CaptionUtil.getCaption(handlerMethod.getMethod(), request.getLocale());
+            String operation = CaptionHelper.getCaption(handlerMethod.getMethod(), request.getLocale());
             if (operation == null) {
-                operation = WebUtil.getRelativeRequestAction(request);
+                operation = WebHttpUtil.getRelativeRequestAction(request);
             }
             BusinessException be = new NoOperationAuthorityException(operation);
             throw new AccessDeniedException(be.getLocalizedMessage(), be);
@@ -75,7 +75,7 @@ public class UserAuthorityAccessDecisionManager extends UnanimousBased implement
             return false;
         }
         if (configAuthority.isIntranet()) { // 如果限制内网访问
-            String ip = WebUtil.getRemoteAddress(fi.getHttpRequest());
+            String ip = WebHttpUtil.getRemoteAddress(fi.getHttpRequest());
             if (!NetUtil.isIntranetIp(ip)) {
                 return false; // 拒绝非内网访问
             }

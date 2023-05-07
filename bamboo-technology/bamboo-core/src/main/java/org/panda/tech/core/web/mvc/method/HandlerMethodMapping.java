@@ -1,9 +1,12 @@
 package org.panda.tech.core.web.mvc.method;
 
+import org.panda.tech.core.web.mvc.http.HttpAction;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerExecutionChain;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * 请求处理方法映射
@@ -22,5 +25,9 @@ public interface HandlerMethodMapping {
         }
         return null;
     }
+
+    Map<HttpAction, HandlerMethod> getAllHandlerMethods();
+
+    HandlerMethod getHandlerMethod(String uri, HttpMethod method);
 
 }

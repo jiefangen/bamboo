@@ -1,6 +1,6 @@
 package org.panda.business.admin.infrastructure.security.interceptor;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.common.model.ResultVO;
