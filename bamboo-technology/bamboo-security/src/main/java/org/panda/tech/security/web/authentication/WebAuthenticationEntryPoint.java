@@ -2,8 +2,8 @@ package org.panda.tech.security.web.authentication;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.tech.core.web.api.ApiMetaProperties;
 import org.panda.tech.core.constant.WebConstants;
+import org.panda.tech.core.web.config.ApiMetaProperties;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.core.web.util.WebMvcUtil;
@@ -13,6 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * WEB未登录访问限制的进入点
  */
+@Component
 public class WebAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
     private SecurityUrlProvider securityUrlProvider;

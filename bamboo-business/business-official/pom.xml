@@ -18,6 +18,12 @@
     </properties>
 
     <dependencies>
+        <!-- 技术框架security安全框架支持 -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-security</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
         <!-- 技术框架mybatis扩展支持 -->
         <dependency>
             <groupId>org.panda.tech</groupId>

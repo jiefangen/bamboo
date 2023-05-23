@@ -55,6 +55,11 @@
                     <release>${oracle-jdk.version}</release>
                 </configuration>
             </plugin>
+            <!-- 构建自动配置jar包插件 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -2,8 +2,8 @@ package org.panda.tech.security.config.support;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.tech.core.web.api.ApiMetaProperties;
-import org.panda.tech.core.web.api.security.WebSecurityProperties;
+import org.panda.tech.core.web.config.ApiMetaProperties;
+import org.panda.tech.core.web.config.security.WebSecurityProperties;
 import org.panda.tech.core.web.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.SwaggerUtil;
 import org.panda.tech.security.access.UserAuthorityAccessDecisionManager;
@@ -51,10 +51,8 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     private WebSecurityProperties securityProperties;
     @Autowired
     private ApiMetaProperties apiMetaProperties;
-
-    protected SecurityUrlProvider urlProvider = new SecurityUrlProvider() {
-        // 所有方法都有默认实现，默认实例无需提供
-    };
+    @Autowired
+    private SecurityUrlProvider urlProvider;
 
     @Autowired(required = false)
     public void setUrlProvider(SecurityUrlProvider urlProvider) {

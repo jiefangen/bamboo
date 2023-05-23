@@ -1,13 +1,10 @@
 package org.panda.bamboo;
 
-import org.springframework.context.annotation.ComponentScan;
-
 /**
  * 技术框架信息
  * 
  * @author fangen
  */
-@ComponentScan(basePackageClasses = Framework.class)
 public class Framework {
     /**
      * 框架名称

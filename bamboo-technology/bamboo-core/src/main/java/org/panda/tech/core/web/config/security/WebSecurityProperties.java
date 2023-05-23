@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.api.security;
+package org.panda.tech.core.web.config.security;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
