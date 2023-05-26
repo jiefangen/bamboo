@@ -16,7 +16,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 
 import java.lang.annotation.Annotation;
@@ -26,7 +25,6 @@ import java.util.*;
  * WEB过滤器调用安全元数据源<br>
  * 用于获取访问资源需要具备的权限
  */
-@Component
 public class WebFilterInvocationSecurityMetadataSource
         implements FilterInvocationSecurityMetadataSource, ContextInitializedBean, ConfigAuthorityResolver {
 

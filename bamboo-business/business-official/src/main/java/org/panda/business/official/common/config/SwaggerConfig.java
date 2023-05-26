@@ -33,7 +33,7 @@ import java.util.List;
 
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "swagger.config")
+@ConfigurationProperties(prefix="swagger.config")
 @EnableSwagger2WebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
     private static final String SWAGGER_TITLE = "Business Official Api Guide";

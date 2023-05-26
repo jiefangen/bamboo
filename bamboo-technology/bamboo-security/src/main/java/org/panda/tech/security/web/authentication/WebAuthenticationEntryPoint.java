@@ -13,7 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,6 @@ import java.nio.charset.StandardCharsets;
 /**
  * WEB未登录访问限制的进入点
  */
-@Component
 public class WebAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
     private SecurityUrlProvider securityUrlProvider;

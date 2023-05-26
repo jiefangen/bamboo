@@ -14,6 +14,7 @@ import org.panda.tech.security.web.access.intercept.WebFilterInvocationSecurityM
 import org.panda.tech.security.web.authentication.JwtAuthenticationFilter;
 import org.panda.tech.security.web.authentication.WebAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -51,35 +52,42 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     private WebSecurityProperties securityProperties;
     @Autowired
     private ApiMetaProperties apiMetaProperties;
-    @Autowired
-    private SecurityUrlProvider urlProvider;
+
+    protected SecurityUrlProvider urlProvider = new SecurityUrlProvider() {
+        // 所有方法都有默认实现，默认实例无需提供
+    };
 
     @Autowired(required = false)
     public void setUrlProvider(SecurityUrlProvider urlProvider) {
         this.urlProvider = urlProvider;
     }
 
-    // 获取访问资源需要具备的权限
+    // 获取访问资源需要具备的权限（鉴权认证）
+    @Bean
     public WebFilterInvocationSecurityMetadataSource securityMetadataSource() {
         return new WebFilterInvocationSecurityMetadataSource();
     }
 
-    // 匿名用户试图访问登录用户才能访问的资源后的错误处理
-    public WebAuthenticationEntryPoint authenticationEntryPoint() {
-        return new WebAuthenticationEntryPoint(this.urlProvider);
-    }
-
-    // 登录用户访问资源的权限判断
+    // 登录用户访问资源的权限判断（授权管理）
+    @Bean
     public UserAuthorityAccessDecisionManager accessDecisionManager() {
         return new UserAuthorityAccessDecisionManager();
     }
 
+    // 匿名用户试图访问登录用户才能访问的资源后的错误处理
+    @Bean
+    public WebAuthenticationEntryPoint authenticationEntryPoint() {
+        return new WebAuthenticationEntryPoint(this.urlProvider);
+    }
+
     // 登录用户越权访问资源后的错误处理
+    @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new AccessDeniedBusinessExceptionHandler();
     }
 
     // 登出成功后的处理
+    @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
         SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
         handler.setRedirectStrategy(this.redirectStrategy);

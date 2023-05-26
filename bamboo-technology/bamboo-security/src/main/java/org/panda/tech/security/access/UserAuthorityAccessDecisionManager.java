@@ -16,7 +16,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
-import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,6 @@ import java.util.Collections;
 /**
  * 基于用户权限的访问判定管理器
  */
-@Component
 public class UserAuthorityAccessDecisionManager extends UnanimousBased implements GrantedAuthorityDecider {
 
     @Autowired
