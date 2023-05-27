@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.config.cors;
+package org.panda.tech.core.web.mvc.cors;
 
 import org.panda.bamboo.common.constant.Strings;
 import org.springframework.boot.context.properties.ConfigurationProperties;

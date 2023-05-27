@@ -1,4 +1,4 @@
-package org.panda.tech.security.config.support;
+package org.panda.tech.security.config;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 

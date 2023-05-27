@@ -1,4 +1,4 @@
-package org.panda.tech.security.config.support;
+package org.panda.tech.security.config;
 
 import org.panda.bamboo.common.util.clazz.ClassUtil;
 import org.springframework.beans.factory.annotation.Autowired;

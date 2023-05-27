@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.mvc.method;
+package org.panda.tech.core.web.mvc.servlet.mvc.method;
 
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.LogUtil;

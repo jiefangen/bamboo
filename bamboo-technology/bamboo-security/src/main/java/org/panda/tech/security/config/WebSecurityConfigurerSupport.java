@@ -1,10 +1,10 @@
-package org.panda.tech.security.config.support;
+package org.panda.tech.security.config;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.tech.core.web.config.ApiMetaProperties;
+import org.panda.tech.core.web.config.meta.ApiMetaProperties;
 import org.panda.tech.core.web.config.security.WebSecurityProperties;
-import org.panda.tech.core.web.mvc.method.HandlerMethodMapping;
+import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.SwaggerUtil;
 import org.panda.tech.security.access.UserAuthorityAccessDecisionManager;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;

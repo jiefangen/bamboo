@@ -1,4 +1,4 @@
-package org.panda.tech.security.jwt;
+package org.panda.tech.core.web.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

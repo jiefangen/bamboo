@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.tech.core.config.CommonProperties;
 import org.panda.tech.core.constant.WebConstants;
-import org.panda.tech.core.web.config.cors.CorsRegistryProperties;
+import org.panda.tech.core.web.mvc.cors.CorsRegistryProperties;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;

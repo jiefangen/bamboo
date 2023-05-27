@@ -1,4 +1,4 @@
-package org.panda.tech.security.jwt;
+package org.panda.tech.core.web.jwt;
 
 /**
  * 内部JWT解决器

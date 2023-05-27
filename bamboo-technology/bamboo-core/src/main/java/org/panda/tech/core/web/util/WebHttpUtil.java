@@ -747,7 +747,7 @@ public class WebHttpUtil {
             return true;
         }
         String referer = request.getHeader(WebConstants.HEADER_REFERER);
-        if (referer != null && referer.endsWith("/swagger-ui.html")) {
+        if (referer != null && (referer.endsWith("/swagger-ui.html") || referer.endsWith("/doc.html"))) {
             return true;
         }
         return false;

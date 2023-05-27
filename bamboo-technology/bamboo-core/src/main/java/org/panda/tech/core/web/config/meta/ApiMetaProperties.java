@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.config;
+package org.panda.tech.core.web.config.meta;
 
 import org.panda.tech.core.constant.WebConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
