@@ -1,4 +1,4 @@
-package org.panda.tech.security.model;
+package org.panda.tech.security.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.collections4.CollectionUtils;

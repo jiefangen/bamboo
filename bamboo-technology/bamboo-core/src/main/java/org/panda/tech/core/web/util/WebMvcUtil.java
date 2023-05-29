@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.clazz.SpringUtil;
 import org.panda.bamboo.common.util.lang.ArrayUtil;
-import org.panda.tech.core.constant.WebConstants;
+import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.context.SpringWebContext;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
@@ -92,7 +92,7 @@ public class WebMvcUtil {
     }
 
     public static boolean isInternalRpc(HttpServletRequest request) {
-        String internalJwt = request.getHeader(WebConstants.HEADER_RPC_JWT);
+        String internalJwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         if (internalJwt != null) {
             return true;
         }

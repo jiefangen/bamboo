@@ -4,7 +4,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.panda.bamboo.common.util.clazz.BeanUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.tech.core.config.CommonProperties;
-import org.panda.tech.core.constant.WebConstants;
+import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.mvc.cors.CorsRegistryProperties;
 import org.panda.tech.core.web.mvc.cors.IgnoreNullConfigCorsProcessor;
 import org.panda.tech.core.web.mvc.cors.SingleCorsConfigurationSource;

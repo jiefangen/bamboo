@@ -1,7 +1,7 @@
 package org.panda.tech.core.spec.jwt;
 
 import org.panda.bamboo.core.context.ApplicationContextBean;
-import org.panda.tech.core.constant.Profiles;
+import org.panda.bamboo.common.constant.Profiles;
 
 /**
  * 抽象的内部JWT配置。

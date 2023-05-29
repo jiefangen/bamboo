@@ -1,9 +1,9 @@
 package org.panda.tech.security.web.authentication;
 
-import org.panda.tech.core.constant.WebConstants;
+import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.security.access.UserSpecificDetailsAuthenticationToken;
 import org.panda.tech.core.web.jwt.InternalJwtResolver;
-import org.panda.tech.security.model.UserSpecificDetails;
+import org.panda.tech.security.user.UserSpecificDetails;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -36,7 +36,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
             SecurityContext securityContext = SecurityContextHolder.getContext();
             if (securityContext != null) {
                 HttpServletRequest request = (HttpServletRequest) req;
-                String jwt = request.getHeader(WebConstants.HEADER_RPC_JWT);
+                String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
                 UserSpecificDetails<?> details = this.jwtResolver.parse(jwt, UserSpecificDetails.class);
                 if (details != null) {
                     Authentication authResult = new UserSpecificDetailsAuthenticationToken(details);

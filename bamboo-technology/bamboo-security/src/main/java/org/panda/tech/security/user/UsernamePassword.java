@@ -1,4 +1,4 @@
-package org.panda.tech.security.model;
+package org.panda.tech.security.user;
 
 /**
  * 用户名密码

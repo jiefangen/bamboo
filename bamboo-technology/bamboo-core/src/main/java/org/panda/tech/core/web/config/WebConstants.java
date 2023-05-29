@@ -1,4 +1,4 @@
-package org.panda.tech.core.constant;
+package org.panda.tech.core.web.config;
 
 /**
  * Web常量类
@@ -45,6 +45,11 @@ public class WebConstants {
      * 头信息名：RPC JWT
      */
     public static final String HEADER_RPC_JWT = "Rpc-Jwt";
+
+    /**
+     * 头信息名：鉴权认证
+     */
+    public static final String HEADER_AUTH_JWT = "Authorization";
 
     /**
      * 默认的跳转目标参数

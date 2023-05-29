@@ -3,7 +3,7 @@ package org.panda.tech.security.util;
 import org.panda.bamboo.common.util.clazz.BeanUtil;
 import org.panda.tech.core.spec.user.UserIdentity;
 import org.panda.tech.security.access.UserGrantedAuthority;
-import org.panda.tech.security.model.UserSpecificDetails;
+import org.panda.tech.security.user.UserSpecificDetails;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

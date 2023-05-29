@@ -2,10 +2,10 @@ package org.panda.business.official.modules;
 
 import io.swagger.annotations.Api;
 import org.panda.tech.core.web.restful.RestfulResult;
-import org.panda.tech.security.config.annotation.ConfigAnonymous;
+import org.panda.tech.security.user.UsernamePassword;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -19,9 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     @PostMapping("/doLogin")
-    @ConfigAnonymous
-    public RestfulResult doLogin(@RequestParam("username") final String username,
-                                 @RequestParam("password") final String password){
+//    @ConfigAnonymous
+    public RestfulResult doLogin(@RequestBody UsernamePassword usernamePassword){
 
         return RestfulResult.success();
     }

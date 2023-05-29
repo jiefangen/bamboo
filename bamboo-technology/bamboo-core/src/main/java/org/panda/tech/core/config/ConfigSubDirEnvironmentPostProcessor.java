@@ -3,7 +3,7 @@ package org.panda.tech.core.config;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.Framework;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.bamboo.common.constant.FileExtensions;
+import org.panda.bamboo.common.constant.file.FileExtensions;
 import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.clazz.SpringUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;

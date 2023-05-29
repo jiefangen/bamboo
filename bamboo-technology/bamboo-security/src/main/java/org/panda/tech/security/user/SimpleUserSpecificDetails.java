@@ -1,4 +1,4 @@
-package org.panda.tech.security.model;
+package org.panda.tech.security.user;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.panda.bamboo.common.util.clazz.ClassUtil;

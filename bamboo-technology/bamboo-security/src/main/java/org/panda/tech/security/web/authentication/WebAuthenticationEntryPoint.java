@@ -2,7 +2,7 @@ package org.panda.tech.security.web.authentication;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Strings;
-import org.panda.tech.core.constant.WebConstants;
+import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.meta.ApiMetaProperties;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;

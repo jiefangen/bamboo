@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.constant;
+package org.panda.bamboo.common.constant.file;
 
 import org.apache.commons.lang3.ArrayUtils;
 

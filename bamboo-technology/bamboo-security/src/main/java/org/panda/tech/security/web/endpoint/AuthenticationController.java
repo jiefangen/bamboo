@@ -1,7 +1,7 @@
 package org.panda.tech.security.web.endpoint;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.panda.tech.core.constant.AppConstants;
+import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.security.access.GrantedAuthorityDecider;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.config.annotation.ConfigAuthority;

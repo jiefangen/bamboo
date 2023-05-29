@@ -12,7 +12,7 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.tech.core.web.model.HttpHeaderRange;
-import org.panda.tech.core.constant.WebConstants;
+import org.panda.tech.core.web.config.WebConstants;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;

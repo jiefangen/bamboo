@@ -1,6 +1,6 @@
 package org.panda.tech.security.access;
 
-import org.panda.tech.security.model.UserSpecificDetails;
+import org.panda.tech.security.user.UserSpecificDetails;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 /**

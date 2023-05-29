@@ -1,6 +1,6 @@
 package org.panda.service.doc.common;
 
-import org.panda.bamboo.common.constant.FileExtensions;
+import org.panda.bamboo.common.constant.file.FileExtensions;
 
 /**
  * 文档类型常量集

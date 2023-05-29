@@ -1,4 +1,4 @@
-package org.panda.tech.security.model;
+package org.panda.tech.security.user;
 
 import org.panda.bamboo.common.constant.Strings;
 import org.springframework.security.access.ConfigAttribute;
