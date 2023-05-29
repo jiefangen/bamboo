@@ -8,7 +8,15 @@ import org.panda.bamboo.common.exception.ExceptionEnum;
  **/
 public class BusinessException extends AbstractBaseException {
 
-    private static final long serialVersionUID = 7372666313625341473L;
+    private static final long serialVersionUID = 4785249953461996288L;
+
+    private Object[] args;
+
+    public BusinessException(String codeStr, Object... args) {
+        super(codeStr);
+        this.codeStr = codeStr;
+        this.args = args;
+    }
 
     public BusinessException(int code, String message) {
         super(code, message);

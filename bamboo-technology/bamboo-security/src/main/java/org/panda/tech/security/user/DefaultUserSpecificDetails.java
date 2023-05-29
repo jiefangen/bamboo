@@ -7,6 +7,6 @@ import org.panda.tech.core.spec.user.DefaultUserIdentity;
  */
 public class DefaultUserSpecificDetails extends SimpleUserSpecificDetails<DefaultUserIdentity> {
 
-    private static final long serialVersionUID = -6118323879726494066L;
+    private static final long serialVersionUID = 7422068201658878398L;
 
 }
