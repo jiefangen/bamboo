@@ -1,4 +1,4 @@
-package org.panda.tech.security.access;
+package org.panda.tech.security.authentication;
 
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -8,7 +8,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
  */
 public class UserSpecificDetailsAuthenticationToken extends AbstractAuthenticationToken {
 
-    private static final long serialVersionUID = 5719790668377346866L;
+    private static final long serialVersionUID = -7220717019759924639L;
 
     private String ip;
 

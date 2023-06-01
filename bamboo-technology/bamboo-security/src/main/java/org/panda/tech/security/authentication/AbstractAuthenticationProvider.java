@@ -16,5 +16,4 @@ public abstract class AbstractAuthenticationProvider<A extends Authentication> i
         Class<?> genericType = ClassUtil.getActualGenericType(getClass(), 0);
         return genericType != null && genericType.isAssignableFrom(authentication);
     }
-
 }

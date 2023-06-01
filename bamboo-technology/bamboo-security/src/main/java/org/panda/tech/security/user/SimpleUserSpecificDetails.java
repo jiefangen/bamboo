@@ -16,7 +16,7 @@ import java.util.Collection;
  */
 public class SimpleUserSpecificDetails<I extends UserIdentity<?>> implements UserSpecificDetails<I> {
 
-    private static final long serialVersionUID = 2807428946816203247L;
+    private static final long serialVersionUID = 3697183508044079460L;
 
     private I identity;
     private String username;
