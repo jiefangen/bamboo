@@ -1,6 +1,6 @@
 package org.panda.tech.security.web.access;
 
-import org.panda.tech.security.access.UserConfigAuthority;
+import org.panda.tech.security.user.UserConfigAuthority;
 import org.springframework.http.HttpMethod;
 
 import java.util.Collection;

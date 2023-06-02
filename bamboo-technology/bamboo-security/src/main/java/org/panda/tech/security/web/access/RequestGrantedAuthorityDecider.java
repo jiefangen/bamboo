@@ -1,7 +1,7 @@
 package org.panda.tech.security.web.access;
 
 import org.panda.tech.security.access.GrantedAuthorityDecider;
-import org.panda.tech.security.access.UserConfigAuthority;
+import org.panda.tech.security.user.UserConfigAuthority;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;

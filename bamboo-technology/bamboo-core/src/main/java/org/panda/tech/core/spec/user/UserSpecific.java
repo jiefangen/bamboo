@@ -4,7 +4,6 @@ package org.panda.tech.core.spec.user;
  * 具有用户特性的
  *
  * @param <I> 用户标识类型
- * @author jianglei
  */
 public interface UserSpecific<I extends UserIdentity<?>> {
 

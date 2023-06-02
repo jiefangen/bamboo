@@ -1,4 +1,4 @@
-package org.panda.tech.security.authentication;
+package org.panda.business.official.infrastructure.security.authentication;
 
 import org.panda.bamboo.common.util.clazz.ClassUtil;
 import org.panda.tech.security.user.UserSpecificDetails;

@@ -7,6 +7,8 @@ import org.panda.tech.core.annotation.caption.CaptionHelper;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
+import org.panda.tech.security.user.UserConfigAuthority;
+import org.panda.tech.security.user.UserGrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
