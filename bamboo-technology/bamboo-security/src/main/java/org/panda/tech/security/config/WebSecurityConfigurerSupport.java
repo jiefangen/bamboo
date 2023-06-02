@@ -62,13 +62,13 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
         this.urlProvider = urlProvider;
     }
 
-    // 获取访问资源需要具备的权限（鉴权认证）
+    // 获取访问资源需要具备的权限
     @Bean
     public WebFilterInvocationSecurityMetadataSource securityMetadataSource() {
         return new WebFilterInvocationSecurityMetadataSource();
     }
 
-    // 登录用户访问资源的权限判断（授权管理）
+    // 登录用户访问资源的权限判断
     @Bean
     public UserAuthorityAccessDecisionManager accessDecisionManager() {
         return new UserAuthorityAccessDecisionManager();

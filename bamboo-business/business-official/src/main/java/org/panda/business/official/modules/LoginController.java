@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 官网平台登录控制器
  *
@@ -34,11 +37,16 @@ public class LoginController {
     @ConfigAnonymous
     public RestfulResult login(){
         // 安全认证登录成功后的业务处理
-        DefaultUserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
-        // 登录成功，生成用户toke返回，用于前后端交互凭证
-        String token = jwtResolver.generate(appName, userSpecificDetails);
-
-        return RestfulResult.success(token);
+        if (SecurityUtil.isAuthorized()) {
+            DefaultUserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
+            // 登录成功，生成用户toke返回，用于前后端交互凭证
+            String token = jwtResolver.generate(appName, userSpecificDetails);
+            Map<String, String> userMap = new HashMap<>(3);
+            userMap.put("username", userSpecificDetails.getUsername());
+            userMap.put("token", token);
+            return RestfulResult.success(userMap);
+        }
+        return RestfulResult.failure();
     }
 
     @PostMapping("/login")
