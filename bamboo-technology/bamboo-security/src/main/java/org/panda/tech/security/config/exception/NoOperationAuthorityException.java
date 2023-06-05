@@ -1,6 +1,5 @@
-package org.panda.bamboo.common.exception.business.security;
+package org.panda.tech.security.config.exception;
 
-import org.panda.bamboo.common.exception.ExceptionEnum;
 import org.panda.bamboo.common.exception.business.BusinessException;
 
 /**
@@ -8,18 +7,18 @@ import org.panda.bamboo.common.exception.business.BusinessException;
  */
 public class NoOperationAuthorityException extends BusinessException {
 
-    private static final long serialVersionUID = -1443043734306415676L;
+    private static final long serialVersionUID = -2590909164816415039L;
 
     public NoOperationAuthorityException(int code, String message) {
         super(code, message);
     }
 
     public NoOperationAuthorityException(String message) {
-        super(ExceptionEnum.AUTH_NO_OPERA.getErrCode(), message);
+        super(SecurityExceptionEnum.AUTH_NO_OPERA.getCode(), message);
     }
 
     public NoOperationAuthorityException() {
-        super(ExceptionEnum.AUTH_NO_OPERA.getErrCode(), ExceptionEnum.AUTH_NO_OPERA.getErrMessage());
+        super(SecurityExceptionEnum.AUTH_NO_OPERA.getCode(), SecurityExceptionEnum.AUTH_NO_OPERA.getMessage());
     }
 
 }

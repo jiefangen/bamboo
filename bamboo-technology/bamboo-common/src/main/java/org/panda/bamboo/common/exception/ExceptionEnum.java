@@ -19,18 +19,9 @@ public enum ExceptionEnum {
      * 业务异常
      */
     BUSINESS(Commons.EXCEPTION_BUSINESS, "Business exception!"),
-
-    /**
-     * 安全认证异常
-     */
-    AUTH(Commons.EXCEPTION_AUTH, "Safety certificate exception!"),
-    /**
-     * 安全认证异常
-     */
-    AUTH_NO_OPERA(Commons.EXCEPTION_AUTH_NO_OPERA, "Authorization failed exception!"),
     ;
 
-    private int errCode;
-    private String errMessage;
+    private int code;
+    private String message;
     
 }

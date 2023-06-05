@@ -50,13 +50,13 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public RestfulResult doLogin(@RequestParam String username, @RequestParam String password){
+    public RestfulResult doPostLogin(@RequestParam String username, @RequestParam String password) {
         // 只做安全认证登录引导，无需处理任何逻辑
         return RestfulResult.success(username + password);
     }
 
     @GetMapping("/logout")
-    public RestfulResult logout(){
+    public RestfulResult logout() {
         return RestfulResult.success();
     }
 

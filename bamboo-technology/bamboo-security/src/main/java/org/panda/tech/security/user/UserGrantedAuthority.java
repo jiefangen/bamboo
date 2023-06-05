@@ -19,7 +19,7 @@ import java.util.function.Consumer;
  */
 public class UserGrantedAuthority implements GrantedAuthority {
 
-    private static final long serialVersionUID = -2834509708888634914L;
+    private static final long serialVersionUID = 1904088821285977835L;
 
     private String type;
     private String rank;

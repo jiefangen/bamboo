@@ -8,14 +8,14 @@ import org.springframework.security.core.AuthenticationException;
  */
 public class BusinessAuthenticationException extends AuthenticationException {
 
-    private static final long serialVersionUID = 623069682664666369L;
+    private static final long serialVersionUID = -5571766088305286560L;
 
     public BusinessAuthenticationException(BusinessException cause) {
-        super(cause.getCodeStr(), cause);
+        super(cause.getMessage(), cause);
     }
 
-    public BusinessAuthenticationException(String code, Object... args) {
-        this(new BusinessException(code, args));
+    public BusinessAuthenticationException(String message, Object... args) {
+        this(new BusinessException(message, args));
     }
 
 }

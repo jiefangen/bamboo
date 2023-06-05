@@ -12,9 +12,9 @@ public class BusinessException extends AbstractBaseException {
 
     private Object[] args;
 
-    public BusinessException(String codeStr, Object... args) {
-        super(codeStr);
-        this.codeStr = codeStr;
+    public BusinessException(String message, Object... args) {
+        super(message);
+        this.message = message;
         this.args = args;
     }
 
@@ -23,10 +23,10 @@ public class BusinessException extends AbstractBaseException {
     }
 
     public BusinessException(String message) {
-        super(ExceptionEnum.BUSINESS.getErrCode(), message);
+        super(ExceptionEnum.BUSINESS.getCode(), message);
     }
 
     public BusinessException() {
-        super(ExceptionEnum.BUSINESS.getErrCode(), ExceptionEnum.BUSINESS.getErrMessage());
+        super(ExceptionEnum.BUSINESS.getCode(), ExceptionEnum.BUSINESS.getMessage());
     }
 }

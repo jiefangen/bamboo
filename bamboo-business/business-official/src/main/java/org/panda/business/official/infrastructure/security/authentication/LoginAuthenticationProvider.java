@@ -1,5 +1,6 @@
 package org.panda.business.official.infrastructure.security.authentication;
 
+import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.official.common.constant.UserAuthConstants;
 import org.panda.tech.security.authentication.AbstractAuthenticationProvider;
 import org.panda.tech.security.authentication.UserSpecificDetailsAuthenticationToken;
@@ -34,6 +35,7 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
         DefaultUserSpecificDetails userSpecificDetails = (DefaultUserSpecificDetails) userDetailsService.loadUserByUsername(username);
 
         if (!passwordEncoder.matches(password, userSpecificDetails.getPassword())) {
+            LogUtil.error(getClass(), UserAuthConstants.ORIGINAL_PWD_WRONG);
             throw new BadCredentialsException(UserAuthConstants.ORIGINAL_PWD_WRONG);
         }
         WebAuthenticationDetails webAuthenticationDetails = (WebAuthenticationDetails) authentication.getDetails();
