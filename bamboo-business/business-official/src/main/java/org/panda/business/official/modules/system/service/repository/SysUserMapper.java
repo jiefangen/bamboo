@@ -2,6 +2,7 @@ package org.panda.business.official.modules.system.service.repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.panda.business.official.modules.system.service.entity.SysUser;
+import org.springframework.stereotype.Repository;
 
 /**
  * <p>
@@ -9,8 +10,9 @@ import org.panda.business.official.modules.system.service.entity.SysUser;
  * </p>
  *
  * @author bamboo-code-generator
- * @since 2023-06-06
+ * @since 2023-06-07
  */
+@Repository
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
 }

@@ -31,4 +31,9 @@ public class MybatisCodeGen extends MybatisCodeGenConfigSupport {
         mybatisCodeGenerator.generate(tableNames);
     }
 
+    public void codeGenerator(String tableName, boolean withService) {
+        MybatisCodeGenerator mybatisCodeGenerator = ApplicationContextBean.getBean("generator");
+        mybatisCodeGenerator.generate(tableName, withService);
+    }
+
 }
