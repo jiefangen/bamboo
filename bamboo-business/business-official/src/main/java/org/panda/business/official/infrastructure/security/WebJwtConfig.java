@@ -29,7 +29,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
      * 3.构造函数的功能主要用于在类的对象创建时定义初始化的状态。
      * 4.普通代码块的执行顺序和书写顺序一致
      */
-    static {
+    static { // 服务每次重启都会更新密钥key，提高系统安全性
         KEY = Long.toString(MathUtil.randomLong(10000000, 99999999));
     }
 

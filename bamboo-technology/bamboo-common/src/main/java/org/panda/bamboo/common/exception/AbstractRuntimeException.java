@@ -5,7 +5,7 @@ package org.panda.bamboo.common.exception;
  */
 public abstract class AbstractRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = -7580996376952960084L;
+    private static final long serialVersionUID = 2300174770930974698L;
 
     private int code;
     protected String message;
@@ -13,7 +13,6 @@ public abstract class AbstractRuntimeException extends RuntimeException {
     public AbstractRuntimeException(String message) {
         super(message);
     }
-
 
     public AbstractRuntimeException(int code, String message) {
         super(message);

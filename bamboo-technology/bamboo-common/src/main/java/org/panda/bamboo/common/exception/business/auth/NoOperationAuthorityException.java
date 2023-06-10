@@ -1,5 +1,6 @@
-package org.panda.tech.security.config.exception;
+package org.panda.bamboo.common.exception.business.auth;
 
+import org.panda.bamboo.common.exception.ExceptionEnum;
 import org.panda.bamboo.common.exception.business.BusinessException;
 
 /**
@@ -14,11 +15,11 @@ public class NoOperationAuthorityException extends BusinessException {
     }
 
     public NoOperationAuthorityException(String message) {
-        super(SecurityExceptionEnum.AUTH_NO_OPERA.getCode(), message);
+        super(ExceptionEnum.AUTH_NO_OPERA.getCode(), message);
     }
 
     public NoOperationAuthorityException() {
-        super(SecurityExceptionEnum.AUTH_NO_OPERA.getCode(), SecurityExceptionEnum.AUTH_NO_OPERA.getMessage());
+        super(ExceptionEnum.AUTH_NO_OPERA.getCode(), ExceptionEnum.AUTH_NO_OPERA.getMessage());
     }
 
 }

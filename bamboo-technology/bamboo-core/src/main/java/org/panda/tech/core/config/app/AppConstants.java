@@ -18,4 +18,9 @@ public class AppConstants {
      */
     public static final String EL_SPRING_APP_NAME = "${spring.application.name}";
 
+    /**
+     * 表达式：服务启动环境
+     */
+    public static final String EL_SPRING_PROFILES_ACTIVE = "${spring.profiles.active}";
+
 }

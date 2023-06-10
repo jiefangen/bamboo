@@ -12,8 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 配置认证成功的jwt处理器
@@ -32,12 +30,12 @@ public class JwtAuthenticationSuccessHandler extends AjaxAuthenticationSuccessHa
     @Override
     protected Object getAjaxLoginResult(HttpServletRequest request, Authentication authentication) {
         // 安全认证登录成功后的业务处理
-        DefaultUserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
-        // 登录成功，生成用户toke返回，用于前后端交互凭证
-        String token = jwtResolver.generate(appName, userSpecificDetails);
-        Map<String, String> userMap = new HashMap<>(3);
-        userMap.put("username", userSpecificDetails.getUsername());
-        userMap.put("token", token);
-        return RestfulResult.success(userMap);
+        if (SecurityUtil.isAuthorized() && jwtResolver.isGenerable(appName) ) {
+            DefaultUserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
+            // 登录成功，生成用户toke返回，用于前后端交互凭证
+            String token = jwtResolver.generate(appName, userSpecificDetails);
+            return RestfulResult.success(token);
+        }
+        return RestfulResult.failure();
     }
 }

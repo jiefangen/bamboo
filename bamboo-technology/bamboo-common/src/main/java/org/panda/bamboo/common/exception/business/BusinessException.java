@@ -18,6 +18,10 @@ public class BusinessException extends AbstractRuntimeException {
         this.args = args;
     }
 
+    public Object[] getArgs() {
+        return this.args;
+    }
+
     public BusinessException(int code, String message) {
         super(code, message);
     }

@@ -4,6 +4,7 @@ import lombok.Setter;
 import org.panda.bamboo.Framework;
 import org.panda.bamboo.common.constant.Profiles;
 import org.panda.business.official.common.constant.UserAuthConstants;
+import org.panda.tech.core.config.app.AppConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
@@ -18,7 +19,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -37,11 +37,11 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix="swagger.config")
 @EnableSwagger2WebMvc
-public class SwaggerConfig implements WebMvcConfigurer {
+public class SwaggerConfig extends WebMvcConfig {
     private static final String SWAGGER_TITLE = "Business Official Api Guide";
     private static final String SWAGGER_DESC = "平台官网系统API指导";
 
-    @Value("${spring.profiles.active}")
+    @Value(AppConstants.EL_SPRING_PROFILES_ACTIVE)
     private String env;
 
     private boolean enabled;
