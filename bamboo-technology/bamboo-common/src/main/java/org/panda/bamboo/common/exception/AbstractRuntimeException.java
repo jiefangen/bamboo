@@ -8,6 +8,12 @@ public abstract class AbstractRuntimeException extends RuntimeException {
     private static final long serialVersionUID = -7580996376952960084L;
 
     private int code;
+    protected String message;
+
+    public AbstractRuntimeException(String message) {
+        super(message);
+    }
+
 
     public AbstractRuntimeException(int code, String message) {
         super(message);
@@ -20,5 +26,9 @@ public abstract class AbstractRuntimeException extends RuntimeException {
 
     public void setCode(int code) {
         this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

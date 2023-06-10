@@ -1,11 +1,13 @@
 package org.panda.tech.data.codegen.metadata;
 
-import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.util.clazz.ClassDefault;
 import org.panda.bamboo.common.util.clazz.ClassParse;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,6 +20,8 @@ import java.util.List;
  * @author fangen
  **/
 public class DatabaseTool {
+    public static final String COMMON_YES = "yes";
+    public static final String COMMON_NO = "no";
 
     public static List<ColumnMetaData> getColumnMetadata(DatabaseMetaData metaData, String tableName) throws SQLException {
         List<ColumnMetaData> columnMetadataList = new ArrayList<>();
@@ -39,9 +43,9 @@ public class DatabaseTool {
     }
 
     private static Boolean getBoolean(String value) {
-        if (Commons.COMMON_YES.equalsIgnoreCase(value)) {
+        if (COMMON_YES.equalsIgnoreCase(value)) {
             return true;
-        } else if (Commons.COMMON_NO.equalsIgnoreCase(value)) {
+        } else if (COMMON_NO.equalsIgnoreCase(value)) {
             return false;
         }
         return ClassDefault.visit(boolean.class, false);

@@ -169,8 +169,8 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
         // @formatter:off
         http.authorizeRequests().requestMatchers(anonymousMatchers).permitAll().anyRequest().authenticated().and()
                 .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint())
-                .accessDeniedHandler(accessDeniedHandler()).and().logout()
-                .logoutUrl(this.urlProvider.getLogoutProcessUrl()).logoutSuccessHandler(logoutSuccessHandler())
+                .accessDeniedHandler(accessDeniedHandler())
+                .and().logout().logoutUrl(this.urlProvider.getLogoutProcessUrl()).logoutSuccessHandler(logoutSuccessHandler())
                 .deleteCookies(getLogoutClearCookies()).permitAll();
         // @formatter:on
 

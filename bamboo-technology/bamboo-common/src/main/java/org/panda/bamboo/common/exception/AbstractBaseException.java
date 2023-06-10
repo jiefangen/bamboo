@@ -8,11 +8,6 @@ public abstract class AbstractBaseException extends Exception {
     private static final long serialVersionUID = -8278275368712652369L;
 
     private int code;
-    protected String message;
-
-    public AbstractBaseException(String message) {
-        super(message);
-    }
 
     public AbstractBaseException(int code, String message) {
         super(message);
@@ -27,7 +22,4 @@ public abstract class AbstractBaseException extends Exception {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
-    }
 }

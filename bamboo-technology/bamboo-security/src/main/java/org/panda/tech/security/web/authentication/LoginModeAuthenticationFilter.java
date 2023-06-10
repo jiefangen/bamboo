@@ -53,8 +53,8 @@ public class LoginModeAuthenticationFilter extends LoginAuthenticationFilter {
                 AbstractAuthenticationToken authRequest = resolver.resolveAuthenticationToken(request);
                 setDetails(request, authRequest);
                 return getAuthenticationManager().authenticate(authRequest);
-            } catch (Exception e) {
-                throw new BusinessAuthenticationException((BusinessException) e);
+            } catch (BusinessException e) {
+                throw new BusinessAuthenticationException(e);
             }
         }
         // 找不到匹配登录方式的构建器，则采用父类的用户名密码登录方式
@@ -68,5 +68,6 @@ public class LoginModeAuthenticationFilter extends LoginAuthenticationFilter {
     protected void setDetails(HttpServletRequest request, AbstractAuthenticationToken authRequest) {
         authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
     }
+
 
 }

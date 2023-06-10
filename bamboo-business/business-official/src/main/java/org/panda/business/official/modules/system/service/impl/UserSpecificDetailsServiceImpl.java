@@ -1,6 +1,7 @@
 package org.panda.business.official.modules.system.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.official.common.constant.UserAuthConstants;
 import org.panda.business.official.modules.system.service.ISysUserRoleService;
@@ -67,6 +68,7 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         UserGrantedAuthority grantedAuthority = new UserGrantedAuthority();
         grantedAuthority.setType(sysUser.getUserType());
         grantedAuthority.setRank(sysUser.getUserRank());
+        grantedAuthority.setApp(Strings.ASTERISK); // 通配符'*'
         grantedAuthority.setPermissions(sysUserDto.getRoleCodes());
 
         authorities.add(grantedAuthority);

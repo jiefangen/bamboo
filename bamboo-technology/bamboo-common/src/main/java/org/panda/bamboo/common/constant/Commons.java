@@ -26,10 +26,10 @@ public class Commons {
     /**
      * 通用技术专业英文
      */
-    public static final String COMMON_YES = "yes";
-    public static final String COMMON_NO = "no";
-    public static final String COMMON_CONFIG = "config";
     public static final String COMMON_APPLICATION = "application";
+    public static final String COMMON_CONFIG = "config";
+    public static final String COMMON_DEFAULT = "default";
+    public static final String COMMON_SMS = "sms";
     public static final String COMMON_MASTER = "master";
     public static final String COMMON_SLAVE = "slave";
     public static final String COMMON_PRIMARY = "primary";
