@@ -1,7 +1,7 @@
 package org.panda.business.official.modules.system.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.official.common.constant.UserAuthConstants;
 import org.panda.business.official.modules.system.service.ISysUserRoleService;

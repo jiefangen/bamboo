@@ -1,7 +1,7 @@
 package org.panda.bamboo.common.constant;
 
 /**
- * 通用常量集
+ * 框架全局通用常量集
  */
 public class Commons {
 
@@ -21,23 +21,12 @@ public class Commons {
     public static final int EXCEPTION_BUSINESS = 5200;
 
     public static final int EXCEPTION_AUTH_NO_OPERA = 4003;
-    
-
-    /**
-     * 通用技术专业英文
-     */
-    public static final String COMMON_APPLICATION = "application";
-    public static final String COMMON_CONFIG = "config";
-    public static final String COMMON_DEFAULT = "default";
-    public static final String COMMON_SMS = "sms";
-    public static final String COMMON_MASTER = "master";
-    public static final String COMMON_SLAVE = "slave";
-    public static final String COMMON_PRIMARY = "primary";
-    public static final String COMMON_SECONDARY = "secondary";
 
     /**
      * 其它
      */
+    public static final String COMMON_APPLICATION = "application";
+    public static final String COMMON_CONFIG = "config";
     public static final String TABLE_PREFIX = "t_";
 
 }

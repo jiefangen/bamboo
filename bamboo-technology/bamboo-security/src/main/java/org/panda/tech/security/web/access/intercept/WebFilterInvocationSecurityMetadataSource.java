@@ -2,7 +2,7 @@ package org.panda.tech.security.web.access.intercept;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;

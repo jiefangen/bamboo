@@ -1,7 +1,7 @@
 package org.panda.business.admin.common.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
-import org.panda.bamboo.common.constant.Commons;
+import org.panda.tech.data.common.DataCommons;
 import org.panda.tech.data.datasource.DynamicDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -37,8 +37,8 @@ public class DatasourceConfig {
     public DataSource dynamicDataSource() {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> dataSourceMap = new HashMap<>();
-        dataSourceMap.put(Commons.COMMON_PRIMARY, primaryDataSource());
-        dataSourceMap.put(Commons.COMMON_SECONDARY, secondaryDataSource());
+        dataSourceMap.put(DataCommons.DATASOURCE_PRIMARY, primaryDataSource());
+        dataSourceMap.put(DataCommons.DATASOURCE_SECONDARY, secondaryDataSource());
         dynamicDataSource.setTargetDataSources(dataSourceMap);
         dynamicDataSource.setDefaultTargetDataSource(primaryDataSource());
         return dynamicDataSource;

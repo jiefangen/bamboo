@@ -1,8 +1,8 @@
 package org.panda.bamboo.common.parser;
 
 import freemarker.template.Configuration;
-import org.panda.bamboo.common.constant.Strings;
-import org.panda.bamboo.common.constant.Times;
+import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.constant.basic.Times;
 
 /**
  * FreeMarker助手

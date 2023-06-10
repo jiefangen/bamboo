@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.constant;
+package org.panda.bamboo.common.constant.basic;
 
 /**
  * 字符串常量集

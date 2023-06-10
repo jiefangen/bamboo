@@ -1,6 +1,8 @@
 package org.panda.tech.security.web.authentication;
 
+import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.tech.core.web.config.LoginModeEnum;
 import org.panda.tech.security.config.exception.BusinessAuthenticationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -62,7 +64,11 @@ public class LoginModeAuthenticationFilter extends LoginAuthenticationFilter {
     }
 
     public String obtainLoginMode(HttpServletRequest request) {
-        return request.getParameter(PARAMETER_LOGIN_MODE);
+        String loginMode = request.getParameter(PARAMETER_LOGIN_MODE);
+        if (StringUtils.isEmpty(loginMode)) { // 默认账户密码登录方式
+            loginMode = LoginModeEnum.ACCOUNT.getValue();
+        }
+        return loginMode;
     }
 
     protected void setDetails(HttpServletRequest request, AbstractAuthenticationToken authRequest) {

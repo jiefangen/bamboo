@@ -1,7 +1,7 @@
 package org.panda.business.official.infrastructure.security;
 
-import org.panda.bamboo.common.constant.Commons;
 import org.panda.business.official.infrastructure.security.authentication.LoginAuthenticationProvider;
+import org.panda.tech.core.web.config.LoginModeEnum;
 import org.panda.tech.security.config.LoginSecurityConfigurerSupport;
 import org.panda.tech.security.web.authentication.DefaultAuthenticationTokenResolver;
 import org.panda.tech.security.web.authentication.LoginModeAuthenticationFilter;
@@ -18,12 +18,12 @@ public class LoginSecurityConfig extends LoginSecurityConfigurerSupport<Username
 
     @Bean
     public DefaultAuthenticationTokenResolver defaultAuthenticationTokenResolver() {
-        return new DefaultAuthenticationTokenResolver(Commons.COMMON_DEFAULT);
+        return new DefaultAuthenticationTokenResolver(LoginModeEnum.ACCOUNT.getValue());
     }
 
     @Bean
     public SmsAuthenticationTokenResolver smsAuthenticationTokenResolver() {
-        return new SmsAuthenticationTokenResolver(Commons.COMMON_SMS);
+        return new SmsAuthenticationTokenResolver(LoginModeEnum.SMS.getValue());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package org.panda.tech.data.annotation;
 
-import org.panda.bamboo.common.constant.Commons;
+import org.panda.tech.data.common.DataCommons;
 
 import java.lang.annotation.*;
 
@@ -12,5 +12,5 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD})
 public @interface DataSourceSwitch {
 
-    String value() default Commons.COMMON_PRIMARY;
+    String value() default DataCommons.DATASOURCE_PRIMARY;
 }

@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.constant;
+package org.panda.bamboo.common.constant.basic;
 
 /**
  * 时间格式常量集

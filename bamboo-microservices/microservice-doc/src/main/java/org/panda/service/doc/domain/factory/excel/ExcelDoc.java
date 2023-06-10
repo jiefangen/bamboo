@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.domain.model.DocModel;
 import org.panda.service.doc.domain.model.ExcelModel;

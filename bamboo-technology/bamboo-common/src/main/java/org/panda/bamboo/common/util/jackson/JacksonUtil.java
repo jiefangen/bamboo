@@ -15,7 +15,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import org.panda.bamboo.common.constant.Times;
+import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.bamboo.common.util.jackson.builder.CompositeLocalTimeDeserializer;
 import org.panda.bamboo.common.util.jackson.builder.PredicateTypeResolverBuilder;
 import org.panda.bamboo.common.util.clazz.ClassUtil;

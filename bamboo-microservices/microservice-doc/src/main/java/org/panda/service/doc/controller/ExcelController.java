@@ -1,6 +1,6 @@
 package org.panda.service.doc.controller;
 
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.UUIDUtil;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.service.doc.common.DocConstants;

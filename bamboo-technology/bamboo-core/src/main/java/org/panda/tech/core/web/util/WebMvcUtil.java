@@ -1,7 +1,7 @@
 package org.panda.tech.core.web.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.clazz.SpringUtil;
 import org.panda.bamboo.common.util.lang.ArrayUtil;
 import org.panda.tech.core.web.config.WebConstants;

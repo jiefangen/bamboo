@@ -1,6 +1,6 @@
 package org.panda.bamboo.common.util.io;
 
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;

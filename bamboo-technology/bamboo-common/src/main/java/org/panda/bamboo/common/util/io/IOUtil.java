@@ -2,7 +2,7 @@ package org.panda.bamboo.common.util.io;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.EncryptUtil;
 import org.panda.bamboo.common.util.LogUtil;
 import org.springframework.core.io.ClassPathResource;

@@ -1,6 +1,6 @@
 package org.panda.tech.core.web.mvc.servlet.mvc.method;
 
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.core.web.mvc.http.HttpAction;
 import org.springframework.beans.factory.annotation.Autowired;

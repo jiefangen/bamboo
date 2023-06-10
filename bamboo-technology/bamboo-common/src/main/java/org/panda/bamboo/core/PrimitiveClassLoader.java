@@ -1,7 +1,7 @@
 package org.panda.bamboo.core;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 
 import java.util.HashMap;
 import java.util.Map;

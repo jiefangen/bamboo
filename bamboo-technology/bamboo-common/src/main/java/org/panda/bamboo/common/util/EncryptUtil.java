@@ -2,7 +2,7 @@ package org.panda.bamboo.common.util;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.springframework.util.DigestUtils;
 
 import javax.crypto.Cipher;

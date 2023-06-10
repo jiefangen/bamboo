@@ -1,7 +1,7 @@
 package org.panda.tech.security.web;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.tech.core.config.CommonProperties;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.mvc.cors.CorsRegistryProperties;

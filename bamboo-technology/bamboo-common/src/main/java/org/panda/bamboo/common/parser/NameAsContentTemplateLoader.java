@@ -1,7 +1,7 @@
 package org.panda.bamboo.common.parser;
 
 import freemarker.cache.TemplateLoader;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 
 import java.io.IOException;
 import java.io.Reader;

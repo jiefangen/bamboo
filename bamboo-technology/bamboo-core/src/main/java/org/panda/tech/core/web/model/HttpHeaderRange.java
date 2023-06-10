@@ -1,6 +1,6 @@
 package org.panda.tech.core.web.model;
 
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.lang.MathUtil;
 
 public class HttpHeaderRange {

@@ -1,6 +1,6 @@
 package org.panda.bamboo.common.util.clazz;
 
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

@@ -5,8 +5,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.panda.bamboo.common.constant.Commons;
 import org.panda.tech.data.annotation.DataSourceSwitch;
+import org.panda.tech.data.common.DataCommons;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -32,7 +32,7 @@ public class DataSourceSwitchAspect {
         if (dataSourceSwitch != null) {
             DynamicDataSourceContextHolder.setDataSourceKey(dataSourceSwitch.value());
         } else {
-            DynamicDataSourceContextHolder.setDataSourceKey(Commons.COMMON_PRIMARY);
+            DynamicDataSourceContextHolder.setDataSourceKey(DataCommons.DATASOURCE_PRIMARY);
         }
         try {
             return joinPoint.proceed();

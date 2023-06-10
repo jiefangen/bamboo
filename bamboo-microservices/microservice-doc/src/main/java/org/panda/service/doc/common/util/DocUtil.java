@@ -1,7 +1,7 @@
 package org.panda.service.doc.common.util;
 
 import org.apache.commons.io.FilenameUtils;
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 
 /**
  * 文档处理工具类

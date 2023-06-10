@@ -1,6 +1,6 @@
 package org.panda.tech.security.web.authentication;
 
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.tech.security.authentication.SmsVerifyCodeAuthenticationToken;
 
 import javax.servlet.http.HttpServletRequest;

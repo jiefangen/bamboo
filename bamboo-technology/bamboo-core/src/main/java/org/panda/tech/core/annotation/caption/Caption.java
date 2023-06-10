@@ -1,6 +1,6 @@
 package org.panda.tech.core.annotation.caption;
 
-import org.panda.bamboo.common.constant.Strings;
+import org.panda.bamboo.common.constant.basic.Strings;
 
 import java.lang.annotation.*;
 
