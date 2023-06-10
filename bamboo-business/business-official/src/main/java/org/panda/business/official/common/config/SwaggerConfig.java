@@ -3,8 +3,8 @@ package org.panda.business.official.common.config;
 import lombok.Setter;
 import org.panda.bamboo.Framework;
 import org.panda.bamboo.common.constant.Profiles;
-import org.panda.business.official.common.constant.UserAuthConstants;
 import org.panda.tech.core.config.app.AppConstants;
+import org.panda.tech.core.web.config.WebConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
@@ -65,7 +65,7 @@ public class SwaggerConfig extends WebMvcConfig {
     }
 
     private List<SecurityScheme> securitySchemes() {
-        return Collections.singletonList(new ApiKey(UserAuthConstants.AUTH_HEADER, UserAuthConstants.AUTH_HEADER, "header"));
+        return Collections.singletonList(new ApiKey(WebConstants.HEADER_AUTH_JWT, WebConstants.HEADER_AUTH_JWT, "header"));
     }
 
     private List<SecurityContext> securityContext() {
@@ -79,7 +79,7 @@ public class SwaggerConfig extends WebMvcConfig {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        return Collections.singletonList(new SecurityReference(UserAuthConstants.AUTH_HEADER, authorizationScopes));
+        return Collections.singletonList(new SecurityReference(WebConstants.HEADER_AUTH_JWT, authorizationScopes));
     }
 
     private ApiInfo apiInfo() {

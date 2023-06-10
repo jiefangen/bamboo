@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 配置认证成功的jwt处理器
+ * 配置登录认证成功的处理器
  *
  * @author fangen
  **/
 @Component
-public class JwtAuthenticationSuccessHandler extends AjaxAuthenticationSuccessHandler {
+public class LoginAuthenticationSuccessHandler extends AjaxAuthenticationSuccessHandler {
 
     @Autowired
     private InternalJwtResolver jwtResolver;

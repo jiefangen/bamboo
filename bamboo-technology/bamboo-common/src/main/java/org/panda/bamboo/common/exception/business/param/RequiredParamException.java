@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.exception.param;
+package org.panda.bamboo.common.exception.business.param;
 
 import org.panda.bamboo.common.exception.ExceptionEnum;
 

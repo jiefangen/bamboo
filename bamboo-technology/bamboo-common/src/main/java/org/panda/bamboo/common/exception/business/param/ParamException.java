@@ -1,12 +1,12 @@
-package org.panda.bamboo.common.exception.param;
+package org.panda.bamboo.common.exception.business.param;
 
-import org.panda.bamboo.common.exception.AbstractRuntimeException;
 import org.panda.bamboo.common.exception.ExceptionEnum;
+import org.panda.bamboo.common.exception.business.BusinessException;
 
 /**
  * 参数异常
  */
-public class ParamException extends AbstractRuntimeException {
+public class ParamException extends BusinessException {
 
     private static final long serialVersionUID = -6117478873288858668L;
 

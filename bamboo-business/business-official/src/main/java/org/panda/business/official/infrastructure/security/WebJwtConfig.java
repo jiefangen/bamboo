@@ -5,10 +5,7 @@ import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.spec.jwt.AbstractInternalJwtConfiguration;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * WebJwt配置器
@@ -31,11 +28,6 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
      */
     static { // 服务每次重启都会更新密钥key，提高系统安全性
         KEY = Long.toString(MathUtil.randomLong(10000000, 99999999));
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     @Value(AppConstants.EL_SPRING_APP_NAME)

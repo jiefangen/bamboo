@@ -1,7 +1,6 @@
 package org.panda.business.official.infrastructure.security.authentication;
 
-import org.panda.bamboo.common.util.LogUtil;
-import org.panda.business.official.common.constant.UserAuthConstants;
+import org.panda.business.official.common.constant.AuthenticationConstants;
 import org.panda.tech.security.authentication.*;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetailsService;
@@ -33,8 +32,7 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
         DefaultUserSpecificDetails userSpecificDetails = (DefaultUserSpecificDetails) userDetailsService.loadUserByUsername(username);
         if (authentication instanceof DefaultAuthenticationToken) { // 用户名密码令牌方式
             if (!passwordEncoder.matches(password, userSpecificDetails.getPassword())) {
-                LogUtil.error(getClass(), UserAuthConstants.ORIGINAL_PWD_WRONG);
-                throw new BadCredentialsException(UserAuthConstants.ORIGINAL_PWD_WRONG);
+                throw new BadCredentialsException(AuthenticationConstants.PWD_WRONG);
             }
         }
         if (authentication instanceof SmsVerifyCodeAuthenticationToken) { // 短信令牌登录方式
