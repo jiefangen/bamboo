@@ -19,6 +19,9 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
      */
     private static final String KEY;
 
+    @Value(AppConstants.EL_SPRING_APP_NAME)
+    private String appName;
+
     /**
      * 静态代码块>构造代码块>构造函数>普通代码块
      * 1.静态代码块在类被加载的时候就运行了，而且只运行一次，并且优先于各种代码块以及构造函数。如果一个类中有多个静态代码块，会按照书写顺序依次执行。
@@ -29,9 +32,6 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
     static { // 服务每次重启都会更新密钥key，提高系统安全性
         KEY = Long.toString(MathUtil.randomLong(10000000, 99999999));
     }
-
-    @Value(AppConstants.EL_SPRING_APP_NAME)
-    private String appName;
 
     @Override
     public String getAppName() {

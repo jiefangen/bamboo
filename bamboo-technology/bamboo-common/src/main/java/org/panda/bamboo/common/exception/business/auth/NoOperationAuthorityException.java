@@ -8,11 +8,7 @@ import org.panda.bamboo.common.exception.business.BusinessException;
  */
 public class NoOperationAuthorityException extends BusinessException {
 
-    private static final long serialVersionUID = -2590909164816415039L;
-
-    public NoOperationAuthorityException(int code, String message) {
-        super(code, message);
-    }
+    private static final long serialVersionUID = -1663613536084450295L;
 
     public NoOperationAuthorityException(String message) {
         super(ExceptionEnum.AUTH_NO_OPERA.getCode(), message);

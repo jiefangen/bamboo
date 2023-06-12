@@ -8,9 +8,9 @@ import org.panda.bamboo.common.exception.business.BusinessException;
  */
 public class ParamException extends BusinessException {
 
-    private static final long serialVersionUID = -6117478873288858668L;
+    private static final long serialVersionUID = 1487156738294354716L;
 
-    public ParamException(int code, String message) {
+    public ParamException(Integer code, String message) {
         super(code, message);
     }
 

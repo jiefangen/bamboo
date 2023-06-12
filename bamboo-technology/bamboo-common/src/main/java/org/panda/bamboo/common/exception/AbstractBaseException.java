@@ -5,11 +5,11 @@ package org.panda.bamboo.common.exception;
  */
 public abstract class AbstractBaseException extends Exception {
 
-    private static final long serialVersionUID = -8278275368712652369L;
+    private static final long serialVersionUID = 6980402847581981301L;
 
-    private int code;
+    private Integer code;
 
-    public AbstractBaseException(int code, String message) {
+    public AbstractBaseException(Integer code, String message) {
         super(message);
         this.code = code;
     }
@@ -18,7 +18,7 @@ public abstract class AbstractBaseException extends Exception {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 

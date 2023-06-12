@@ -2,32 +2,34 @@ package org.panda.bamboo.common.exception;
 
 /**
  * 抽象运行时异常基类
+ * 仅作为标识，在进行异常处理时便于判断
  */
 public abstract class AbstractRuntimeException extends RuntimeException {
 
-    private static final long serialVersionUID = 2300174770930974698L;
+    private static final long serialVersionUID = 3485711626418585749L;
 
-    private int code;
-    protected String message;
+    private Object payload;
+
+    public AbstractRuntimeException() {
+        super();
+    }
 
     public AbstractRuntimeException(String message) {
         super(message);
     }
 
-    public AbstractRuntimeException(int code, String message) {
-        super(message);
-        this.code = code;
+    /**
+     * 设置负载，用于在异常处理过程中向后续处理环节传递数据
+     *
+     * @param payload 负载
+     */
+    public void setPayload(Object payload) {
+        this.payload = payload;
     }
 
-    public int getCode() {
-        return code;
+    @SuppressWarnings("unchecked")
+    public <T> T getPayload() {
+        return (T) this.payload;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

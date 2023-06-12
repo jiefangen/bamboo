@@ -35,7 +35,7 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
     @Override
     public UserSpecificDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         if (StringUtils.isEmpty(username)) {
-            throw new RequiredParamException(AuthenticationConstants.USERNAME_NOT_EXIST);
+            throw new RequiredParamException();
         }
         // 用户信息查询判断拦截
         SysUserDto sysUserDto = userRoleService.getUserAndRoles(username);
@@ -69,7 +69,7 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
 
         authorities.add(grantedAuthority);
         userSpecificDetails.setAuthorities(authorities);
-        userSpecificDetails.setEnabled(enabled);
+        userSpecificDetails.setEnabled(true);
         return userSpecificDetails;
     }
 
