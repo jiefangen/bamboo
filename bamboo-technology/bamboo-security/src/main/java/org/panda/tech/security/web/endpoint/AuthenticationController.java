@@ -76,21 +76,4 @@ public class AuthenticationController {
         }
     }
 
-    /**
-     * 获取登录地址，已登录则返回null，未登录才返回登录地址
-     *
-     * @param type       类型
-     * @param rank       级别
-     * @param permission 许可
-     * @return 登录地址
-     */
-    @GetMapping("/login-url")
-    @ConfigAnonymous
-    public String getLoginUrl(@RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "rank", required = false) String rank,
-            @RequestParam(value = "permission", required = false) String permission) {
-        return (isAuthorized() && isGranted(type, rank, permission)) ? null
-                : this.authenticationEntryPoint.getLoginFormUrl();
-    }
-
 }

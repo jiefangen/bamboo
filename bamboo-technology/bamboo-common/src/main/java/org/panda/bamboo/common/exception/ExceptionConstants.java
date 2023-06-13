@@ -11,21 +11,22 @@ class ExceptionConstants {
     /**
      * 通用业务异常
      */
-    protected static final int ERROR_BUSINESS_CODE = 5100;
-    protected static final String ERROR_BUSINESS = "Business exception!";
-
+    protected static final int EXCEPTION_BUSINESS_CODE = 5100;
+    protected static final String EXCEPTION_BUSINESS = "Business exception!";
     /**
      * 参数异常
      */
-    protected static final int ERROR_PARAMETERS_CODE = 5200;
-    protected static final String ERROR_PARAMETERS = "Parameters exception!";
-    protected static final int ERROR_PARAMETERS_REQUIRED_CODE = 5201;
-    protected static final String ERROR_PARAMETERS_REQUIRED = "Required parameters exception!";
+    protected static final int EXCEPTION_PARAMETERS_CODE = 5110;
+    protected static final String EXCEPTION_PARAMETERS = "Parameters exception!";
+    protected static final int EXCEPTION_PARAMETERS_REQUIRED_CODE = 5111;
+    protected static final String EXCEPTION_PARAMETERS_REQUIRED = "Required parameters exception!";
 
     /**
      * 认证鉴权异常
      */
-    protected static final int ERROR_AUTH_NO_OPERA_CODE = 4003;
-    protected static final String ERROR_AUTH_NO_OPERA = "No operation authority exception!";
+    protected static final int EXCEPTION_UNAUTHORIZED_CODE = 4010;
+    protected static final String EXCEPTION_UNAUTHORIZED = "Unauthorized exception!";
+    protected static final int EXCEPTION_FORBIDDEN_CODE = 4030;
+    protected static final String EXCEPTION_FORBIDDEN = "No operation authority exception!";
 
 }

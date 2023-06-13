@@ -2,8 +2,10 @@ package org.panda.tech.security.web.authentication;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.exception.ExceptionEnum;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
+import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +36,16 @@ public abstract class ResolvableExceptionAuthenticationFailureHandler implements
             AuthenticationException exception) throws IOException, ServletException {
         // AJAX请求登录认证失败直接报401错误，不使用sendError()方法，以避免错误消息丢失
         if (WebHttpUtil.isAjaxRequest(request)) {
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             Object result = getFailureResult(request, exception);
             if (result != null) {
-                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-                response.setCharacterEncoding(StandardCharsets.UTF_8.name());
                 response.getWriter().print(JsonUtil.toJson(result));
             } else {
-                LogUtil.error(getClass(), exception);
+                LogUtil.error(getClass(), exception); // 未知登录认证异常打印，方便后续追溯
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().print(JsonUtil.toJson(
+                        RestfulResult.failure(ExceptionEnum.UNAUTHORIZED.getCode(), ExceptionEnum.UNAUTHORIZED.getMessage())));
             }
         } else {
             String targetView = this.viewResolver.resolveFailureView(request);

@@ -12,7 +12,6 @@ import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
 import org.panda.tech.core.spec.jwt.InternalJwtConfiguration;
 import org.springframework.context.ApplicationContext;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import java.util.Map;
 /**
  * 默认内部JWT解决器实现
  */
-@Component
 public class DefaultInternalJwtResolver implements InternalJwtResolver, ContextInitializedBean {
 
     private static final String JWT_PREFIX = "jwt:";
