@@ -6,7 +6,6 @@ import org.panda.tech.security.access.GrantedAuthorityDecider;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.panda.tech.security.util.SecurityUtil;
-import org.panda.tech.security.web.authentication.WebAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,8 +24,6 @@ import java.util.Collection;
 @RequestMapping("/authentication")
 public class AuthenticationController {
 
-    @Autowired
-    private WebAuthenticationEntryPoint authenticationEntryPoint;
     @Autowired
     private GrantedAuthorityDecider grantedAuthorityDecider;
     @Value(AppConstants.EL_SPRING_APP_NAME)

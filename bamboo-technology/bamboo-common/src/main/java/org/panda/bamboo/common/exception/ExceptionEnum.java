@@ -23,11 +23,15 @@ public enum ExceptionEnum {
     /**
      * 未认证异常
      */
-    UNAUTHORIZED(ExceptionConstants.EXCEPTION_UNAUTHORIZED_CODE, ExceptionConstants.EXCEPTION_UNAUTHORIZED),
+    UNAUTHORIZED(ExceptionConstants.UNAUTHORIZED_CODE, ExceptionConstants.UNAUTHORIZED),
+    /**
+     * Token认证校验异常
+     */
+    ILLEGAL_TOKEN(ExceptionConstants.ILLEGAL_TOKEN_CODE, ExceptionConstants.ILLEGAL_TOKEN),
     /**
      * 没有操作权限异常
      */
-    AUTH_NO_OPERA(ExceptionConstants.EXCEPTION_FORBIDDEN_CODE, ExceptionConstants.EXCEPTION_FORBIDDEN),
+    AUTH_NO_OPERA(ExceptionConstants.FORBIDDEN_CODE, ExceptionConstants.FORBIDDEN),
     ;
 
     private int code;

@@ -24,9 +24,11 @@ class ExceptionConstants {
     /**
      * 认证鉴权异常
      */
-    protected static final int EXCEPTION_UNAUTHORIZED_CODE = 4010;
-    protected static final String EXCEPTION_UNAUTHORIZED = "Unauthorized exception!";
-    protected static final int EXCEPTION_FORBIDDEN_CODE = 4030;
-    protected static final String EXCEPTION_FORBIDDEN = "No operation authority exception!";
+    protected static final int UNAUTHORIZED_CODE = 4010;
+    protected static final String UNAUTHORIZED = "Unauthorized exception!";
+    protected static final int ILLEGAL_TOKEN_CODE = 4012;
+    protected static final String ILLEGAL_TOKEN = "Token verify failure!";
+    protected static final int FORBIDDEN_CODE = 4030;
+    protected static final String FORBIDDEN = "No operation authority exception!";
 
 }

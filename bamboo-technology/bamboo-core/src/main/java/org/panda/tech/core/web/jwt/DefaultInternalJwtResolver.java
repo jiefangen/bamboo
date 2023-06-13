@@ -94,8 +94,8 @@ public class DefaultInternalJwtResolver implements InternalJwtResolver, ContextI
             int index = jwt.indexOf(Strings.SLASH);
             if (index > 0 && index < jwt.length() - 1) {
                 String appName = jwt.substring(JWT_PREFIX.length(), index);
-                JWTVerifier verifier = getVerifier(appName);
                 try {
+                    JWTVerifier verifier = getVerifier(appName);
                     String token = jwt.substring(index + 1);
                     List<String> audience = verifier.verify(token).getAudience();
                     String audienceJson = CollectionUtil.getFirst(audience, null);

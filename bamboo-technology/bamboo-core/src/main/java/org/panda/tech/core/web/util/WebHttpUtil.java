@@ -11,10 +11,11 @@ import org.panda.bamboo.common.util.io.Mimetypes;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.tech.core.web.model.HttpHeaderRange;
 import org.panda.tech.core.web.config.WebConstants;
+import org.panda.tech.core.web.model.HttpHeaderRange;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.ServletContextResource;
@@ -751,6 +752,19 @@ public class WebHttpUtil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 构建json响应结果
+     *
+     * @param response 响应
+     * @param obj 响应内容
+     * @throws IOException
+     */
+    public static void buildJsonResponse(HttpServletResponse response, Object obj) throws IOException {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        response.getWriter().print(JsonUtil.toJson(obj));
     }
 
 }

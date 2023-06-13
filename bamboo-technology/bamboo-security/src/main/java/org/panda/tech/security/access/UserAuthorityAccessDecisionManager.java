@@ -52,8 +52,8 @@ public class UserAuthorityAccessDecisionManager extends UnanimousBased implement
             if (operation == null) {
                 operation = WebHttpUtil.getRelativeRequestAction(request);
             }
-            BusinessException be = new NoOperationAuthorityException(operation);
-            throw new AccessDeniedException(be.getLocalizedMessage(), be);
+            BusinessException be = new NoOperationAuthorityException();
+            throw new AccessDeniedException(operation, be);
         }
     }
 

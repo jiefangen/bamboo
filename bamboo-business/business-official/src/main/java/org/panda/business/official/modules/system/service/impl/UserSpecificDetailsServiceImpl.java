@@ -3,7 +3,7 @@ package org.panda.business.official.modules.system.service.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.exception.business.param.RequiredParamException;
-import org.panda.business.official.common.constant.AuthenticationConstants;
+import org.panda.business.official.common.constant.Authentication;
 import org.panda.business.official.modules.system.service.ISysUserRoleService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.business.official.modules.system.service.entity.SysUser;
@@ -40,13 +40,13 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         // 用户信息查询判断拦截
         SysUserDto sysUserDto = userRoleService.getUserAndRoles(username);
         if (sysUserDto == null || sysUserDto.getUser() == null) {
-            throw new UsernameNotFoundException(AuthenticationConstants.USERNAME_NOT_EXIST);
+            throw new UsernameNotFoundException(Authentication.USERNAME_NOT_EXIST);
         }
         SysUser sysUser = sysUserDto.getUser();
         Boolean enabled = sysUser.getEnabled();
         // 账户禁用状态拦截
         if (!enabled) {
-            throw new DisabledException(AuthenticationConstants.USER_DISABLED);
+            throw new DisabledException(Authentication.USER_DISABLED);
         }
 
         // 组装用户特性细节
