@@ -71,4 +71,12 @@ public class AuthorityController {
         return RestfulResult.success(true);
     }
 
+    /**
+     * 拒绝所有权限访问
+     */
+    @GetMapping("/accessDenyAll")
+    public RestfulResult accessDenyAll() {
+        return RestfulResult.success(true);
+    }
+
 }

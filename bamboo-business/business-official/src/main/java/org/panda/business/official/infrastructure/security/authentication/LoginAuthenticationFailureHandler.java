@@ -1,6 +1,6 @@
 package org.panda.business.official.infrastructure.security.authentication;
 
-import org.panda.business.official.common.constant.Authentication;
+import org.panda.business.official.common.constant.Authentications;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.web.authentication.ResolvableExceptionAuthenticationFailureHandler;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,11 +22,11 @@ public class LoginAuthenticationFailureHandler extends ResolvableExceptionAuthen
     @Override
     protected Object getFailureResult(HttpServletRequest request, AuthenticationException exception) {
         if (exception instanceof UsernameNotFoundException) {
-            return RestfulResult.failure(Authentication.USER_NOT_EXIST_CODE, exception.getMessage());
+            return RestfulResult.failure(Authentications.USER_NOT_EXIST_CODE, exception.getMessage());
         } else if (exception instanceof BadCredentialsException) {
-            return RestfulResult.failure(Authentication.PWD_WRONG_CODE, exception.getMessage());
+            return RestfulResult.failure(Authentications.PWD_WRONG_CODE, exception.getMessage());
         } else if (exception instanceof DisabledException) {
-            return RestfulResult.failure(Authentication.USER_DISABLED_CODE, exception.getMessage());
+            return RestfulResult.failure(Authentications.USER_DISABLED_CODE, exception.getMessage());
         }
         return null;
     }

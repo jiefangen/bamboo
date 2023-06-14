@@ -4,6 +4,7 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -27,6 +28,8 @@ public abstract class AjaxAuthenticationSuccessHandler extends SavedRequestAware
                 response.setCharacterEncoding(StandardCharsets.UTF_8.name());
                 response.getWriter().print(JsonUtil.toJson(result));
             }
+            // 清除当前线程的SecurityContext，使用一次性授权token交互认证
+            SecurityContextHolder.clearContext();
         } else {
             super.onAuthenticationSuccess(request, response, authentication);
         }

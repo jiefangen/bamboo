@@ -3,7 +3,7 @@ package org.panda.business.official.common.constant;
 /**
  * 认证鉴权异常规范常量
  */
-public class Authentication {
+public class Authentications {
     /**
      * 用户账户不存在
      */
