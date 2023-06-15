@@ -1,9 +1,9 @@
-package org.panda.business.official.modules.system.service.impl;
+package org.panda.business.official.infrastructure.security.userdetails;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.exception.business.param.RequiredParamException;
-import org.panda.business.official.common.constant.Authentications;
+import org.panda.business.official.common.constant.AuthConstants;
 import org.panda.business.official.modules.system.service.ISysUserRoleService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.business.official.modules.system.service.entity.SysUser;
@@ -13,7 +13,6 @@ import org.panda.tech.security.user.UserGrantedAuthority;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -40,15 +39,9 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         // 用户信息查询判断拦截
         SysUserDto sysUserDto = userRoleService.getUserAndRoles(username);
         if (sysUserDto == null || sysUserDto.getUser() == null) {
-            throw new UsernameNotFoundException(Authentications.USERNAME_NOT_EXIST);
+            throw new UsernameNotFoundException(AuthConstants.USERNAME_NOT_EXIST);
         }
         SysUser sysUser = sysUserDto.getUser();
-        Boolean enabled = sysUser.getEnabled();
-        // 账户禁用状态拦截
-        if (!enabled) {
-            throw new DisabledException(Authentications.USER_DISABLED);
-        }
-
         // 组装用户特性细节
         DefaultUserSpecificDetails userSpecificDetails = new DefaultUserSpecificDetails();
         userSpecificDetails.setUsername(username);
@@ -56,7 +49,6 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         // 从数据库中直接取加密密码
         String encodedPassword = sysUser.getPassword();
         userSpecificDetails.setPassword(encodedPassword);
-
         userSpecificDetails.setIdentity(new DefaultUserIdentity(sysUser.getUserType(), sysUser.getId()));
 
         // 添加角色鉴权以及权限鉴权，每次访问带有权限限制的接口时就会验证，拥有对应权限code的话才可以正常访问。
@@ -66,10 +58,14 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         grantedAuthority.setRank(sysUser.getUserRank());
         grantedAuthority.setApp(Strings.ASTERISK); // 通配符'*'
         grantedAuthority.setPermissions(sysUserDto.getRoleCodes());
-
         authorities.add(grantedAuthority);
         userSpecificDetails.setAuthorities(authorities);
-        userSpecificDetails.setEnabled(true);
+
+        // 账户状态配置
+        userSpecificDetails.setEnabled(sysUser.getEnabled());
+        userSpecificDetails.setAccountNonLocked(true);
+        userSpecificDetails.setAccountNonExpired(true);
+        userSpecificDetails.setCredentialsNonExpired(true);
         return userSpecificDetails;
     }
 

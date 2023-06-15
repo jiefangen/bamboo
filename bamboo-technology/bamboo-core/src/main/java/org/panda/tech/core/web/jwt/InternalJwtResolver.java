@@ -13,4 +13,6 @@ public interface InternalJwtResolver {
 
     <T> T parse(String jwt, Class<T> type);
 
+    boolean verify(String jwt);
+
 }

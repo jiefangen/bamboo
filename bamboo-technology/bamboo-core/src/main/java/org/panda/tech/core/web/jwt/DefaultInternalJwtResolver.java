@@ -110,4 +110,23 @@ public class DefaultInternalJwtResolver implements InternalJwtResolver, ContextI
         return null;
     }
 
+    @Override
+    public boolean verify(String jwt) {
+        if (jwt != null && jwt.startsWith(JWT_PREFIX)) {
+            int index = jwt.indexOf(Strings.SLASH);
+            if (index > 0 && index < jwt.length() - 1) {
+                String appName = jwt.substring(JWT_PREFIX.length(), index);
+                try {
+                    JWTVerifier verifier = getVerifier(appName);
+                    String token = jwt.substring(index + 1);
+                    verifier.verify(token);
+                    return true;
+                } catch (Exception e) { // 出现任何错误均只打印日志，视为验证失败
+                    LogUtil.error(getClass(), e);
+                }
+            }
+        }
+        return false;
+    }
+
 }

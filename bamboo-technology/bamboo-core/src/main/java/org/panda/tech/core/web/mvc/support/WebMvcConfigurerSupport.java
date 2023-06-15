@@ -9,10 +9,7 @@ import org.panda.tech.core.web.mvc.cors.CorsRegistryProperties;
 import org.panda.tech.core.web.mvc.cors.IgnoreNullConfigCorsProcessor;
 import org.panda.tech.core.web.mvc.cors.SingleCorsConfigurationSource;
 import org.panda.tech.core.web.util.SwaggerUtil;
-import org.panda.tech.core.web.jwt.DefaultInternalJwtResolver;
-import org.panda.tech.core.web.jwt.InternalJwtResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -107,12 +104,6 @@ public abstract class WebMvcConfigurerSupport implements WebMvcConfigurer {
         CorsFilter corsFilter = new CorsFilter(this.corsConfigurationSource);
         corsFilter.setCorsProcessor(this.ignoreNullConfigCorsProcessor);
         return corsFilter;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(InternalJwtResolver.class)
-    public InternalJwtResolver internalJwtResolver() {
-        return new DefaultInternalJwtResolver();
     }
 
 }

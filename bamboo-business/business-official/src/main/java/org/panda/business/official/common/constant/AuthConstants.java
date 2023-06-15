@@ -1,9 +1,9 @@
 package org.panda.business.official.common.constant;
 
 /**
- * 认证鉴权异常规范常量
+ * 认证鉴权规范常量
  */
-public class Authentications {
+public class AuthConstants {
     /**
      * 用户账户不存在
      */
@@ -19,17 +19,11 @@ public class Authentications {
      */
     public static final int USER_DISABLED_CODE = 5003;
     public static final String USER_DISABLED = "This account has been disabled.";
-
     /**
-     * token验证失败
+     * 账户已被锁定
      */
-    public static final int ILLEGAL_TOKEN_CODE = 5004;
-    public static final String ILLEGAL_TOKEN = "Token verify failure.";
-    /**
-     * Token过期
-     */
-    public static final int TOKEN_EXPIRED_CODE = 5005;
-    public static final String TOKEN_EXPIRED = "Token verify expired.";
+    public static final int USER_LOCKED_CODE = 5004;
+    public static final String USER_LOCKED = "This account has been locked.";
 
 
     /**

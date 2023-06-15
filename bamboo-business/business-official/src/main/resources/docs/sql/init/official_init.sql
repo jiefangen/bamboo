@@ -16,8 +16,8 @@ insert into `sys_role` (`id`, `role_name`, `role_code`, `description`) values
 (106, 'customer', 'CUSTOMER', '访客，只能查看无权限管控页面。');
 
 insert into `sys_user_role` (`user_id`, `role_id`) values
-(101, 101),
-(102, 102),
+(101, 101),(101, 102),(101, 103),
+(102, 102),(102, 103),
 (103, 103),
 (104, 104),
 (105, 105),

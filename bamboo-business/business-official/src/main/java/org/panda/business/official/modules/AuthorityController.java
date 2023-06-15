@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 权限验证控制器
+ * 权限验证模版控制器
  *
  * @author fangen
  **/
-@Api(tags = "权限验证控制器")
+@Api(tags = "权限验证模版控制器")
 @RestController("/authority")
 public class AuthorityController {
 

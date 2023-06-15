@@ -11,7 +11,7 @@ import java.io.Serializable;
  **/
 @Getter
 public class RestfulResult<T> implements Serializable {
-    private static final long serialVersionUID = -8012208582466904410L;
+    private static final long serialVersionUID = -9160736807872838171L;
 
     private int code;
     private String message;
