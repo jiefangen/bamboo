@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>business-official</artifactId>
-    <version>${business.version}</version>
+    <artifactId>business-admin-v1</artifactId>
+    <version>1.1.0</version>
 
     <properties>
         <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
