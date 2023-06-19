@@ -1,4 +1,4 @@
-# 官网系统库创建脚本
+/* 官网系统库创建脚本 */
 CREATE DATABASE  IF NOT EXISTS `official_system` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `official_system`;
 
@@ -48,16 +48,15 @@ CREATE TABLE sys_role_permission (
                                      `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
                                      `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
                                      PRIMARY KEY (`role_id`, `permission_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 CHECKSUM=1 DELAY_KEY_WRITE=1 COMMENT = '系统角色权限关系' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色权限关系' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE sys_permission (
                                 `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                `permission_name` VARCHAR(64) NOT NULL COMMENT '权限名称',
+                                `permission_name` VARCHAR(100) NOT NULL COMMENT '权限名称',
                                 `permission_code` VARCHAR(20) NOT NULL COMMENT '权限编码',
                                 `description` VARCHAR(200) COMMENT '描述',
-                                `resources_id` INT unsigned NOT NULL COMMENT '资源ID',
                                 `resources_type` VARCHAR(20) NOT NULL COMMENT '资源类型',
                                 `operation_scope` VARCHAR(20) COMMENT '操作范围',
                                 PRIMARY KEY (`id`) USING BTREE
@@ -65,6 +64,10 @@ CREATE TABLE sys_permission (
 
 ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (`user_id`) REFERENCES sys_user (`id`);
 ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (`role_id`) REFERENCES sys_role (`id`);
+
+-- 删除关联表外建的方式
+-- ALTER TABLE sys_role_permission DROP FOREIGN KEY fk_sys_role_permission_permission_id_permission;
+-- ALTER TABLE sys_role_permission DROP FOREIGN KEY fk_sys_role_permission_role_id_role;
 
 ALTER TABLE `sys_role_permission` ADD CONSTRAINT fk_sys_role_permission_permission_id_permission FOREIGN KEY (`permission_id`) REFERENCES sys_permission (`id`);
 ALTER TABLE `sys_role_permission` ADD CONSTRAINT fk_sys_role_permission_role_id_role FOREIGN KEY (`role_id`) REFERENCES sys_role (`id`);

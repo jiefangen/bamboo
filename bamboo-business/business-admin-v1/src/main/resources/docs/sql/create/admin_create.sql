@@ -1,4 +1,4 @@
-# 官网系统库创建脚本
+/* 后台管理系统库创建脚本 */
 CREATE DATABASE  IF NOT EXISTS `admin_system` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `admin_system`;
 
@@ -44,7 +44,7 @@ CREATE TABLE `sys_role` (
 
 
 DROP TABLE IF EXISTS `sys_role_menu`;
-CREATE TABLE sys_role_menu (
+CREATE TABLE `sys_role_menu` (
                                `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
                                `menu_id` INT unsigned NOT NULL COMMENT '菜单表关联ID',
                                PRIMARY KEY (`role_id`, `menu_id`)
@@ -74,13 +74,21 @@ ALTER TABLE `sys_role_menu` ADD CONSTRAINT fk_sys_role_menu_role_id_role FOREIGN
 ALTER TABLE `sys_role_menu` ADD CONSTRAINT fk_sys_role_menu_menu_id_menu FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`);
 
 
+DROP TABLE IF EXISTS `sys_role_permission`;
+CREATE TABLE sys_role_permission (
+                                     `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
+                                     `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
+                                     PRIMARY KEY (`role_id`, `permission_id`)
+) ENGINE=InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色权限关系' ROW_FORMAT=Compact;
+
+
 DROP TABLE IF EXISTS `sys_permission`;
-CREATE TABLE sys_permission (
+CREATE TABLE `sys_permission` (
                                 `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                `permission_name` VARCHAR(64) NOT NULL COMMENT '权限名称',
+                                `permission_name` VARCHAR(100) NOT NULL COMMENT '权限名称',
                                 `permission_code` VARCHAR(20) NOT NULL COMMENT '权限编码',
                                 `description` VARCHAR(200) COMMENT '描述',
-                                `resources_id` INT unsigned NOT NULL COMMENT '资源ID',
+                                `resources_id` VARCHAR(1000) COMMENT '资源ID',
                                 `resources_type` VARCHAR(20) NOT NULL COMMENT '资源类型',
                                 `operation_scope` VARCHAR(20) COMMENT '操作范围',
                                 PRIMARY KEY (`id`) USING BTREE
