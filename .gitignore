@@ -12,4 +12,5 @@ gen
 *.classpath
 *.factorypath
 *.log
-.DS_Store 
+.DS_Store
+*.lock
