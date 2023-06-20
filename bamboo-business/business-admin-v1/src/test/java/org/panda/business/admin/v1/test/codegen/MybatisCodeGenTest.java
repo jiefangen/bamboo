@@ -1,7 +1,7 @@
-package org.panda.business.adminv1.test.codegen;
+package org.panda.business.admin.v1.test.codegen;
 
 import org.junit.jupiter.api.Test;
-import org.panda.business.adminv1.test.AdminV1ApplicationTest;
+import org.panda.business.admin.v1.test.AdminV1ApplicationTest;
 
 public class MybatisCodeGenTest extends AdminV1ApplicationTest {
 

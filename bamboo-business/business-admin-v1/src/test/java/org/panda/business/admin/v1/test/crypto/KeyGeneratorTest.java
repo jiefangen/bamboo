@@ -1,8 +1,8 @@
-package org.panda.business.adminv1.test.crypto;
+package org.panda.business.admin.v1.test.crypto;
 
 import org.junit.jupiter.api.Test;
 import org.panda.bamboo.common.util.lang.MathUtil;
-import org.panda.business.adminv1.test.AdminV1ApplicationTest;
+import org.panda.business.admin.v1.test.AdminV1ApplicationTest;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
