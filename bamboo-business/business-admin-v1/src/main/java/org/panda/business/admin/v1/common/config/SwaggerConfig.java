@@ -34,9 +34,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Setter
-@Configuration
 @ConfigurationProperties(prefix="swagger.config")
 @EnableSwagger2WebMvc
+@Configuration
 public class SwaggerConfig extends WebMvcConfig {
     private static final String SWAGGER_TITLE = "Business Admin Api-v1 Guide";
     private static final String SWAGGER_DESC = "后台管理系统API指导";

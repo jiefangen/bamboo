@@ -17,6 +17,7 @@ public class Pagination implements Serializable {
     private int pageSize;
 
     public Pagination() {
+        this.pageSize = 10; // 默认每页大小10
     }
 
     public Pagination(int pageSize, int pageNo) {
