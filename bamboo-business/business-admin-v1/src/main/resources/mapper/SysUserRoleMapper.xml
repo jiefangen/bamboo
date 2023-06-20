@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.panda.business.official.modules.system.service.repository.SysUserRoleMapper">
-    <resultMap id="baseUserMap" type="org.panda.business.admin.modules.system.service.dto.SysUserDto">
+<mapper namespace="org.panda.business.admin.v1.modules.system.service.repository.SysUserRoleMapper">
+    <resultMap id="baseUserMap" type="org.panda.business.admin.v1.modules.system.service.dto.SysUserDto">
         <id column="user_id" property="userId" jdbcType="INTEGER"/>
-        <association property="user" javaType="org.panda.business.admin.modules.system.service.entity.SysUser">
+        <association property="user" javaType="org.panda.business.admin.v1.modules.system.service.entity.SysUser">
             <id column="user_id" property="id" jdbcType="INTEGER"/>
             <result column="username" property="username" jdbcType="VARCHAR"/>
             <result column="password" property="password" jdbcType="VARCHAR"/>
@@ -18,7 +18,7 @@
             <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         </association>
         <!-- 关联属性Roles -->
-        <collection property="roles" ofType="org.panda.business.admin.modules.system.service.entity.SysRole">
+        <collection property="roles" ofType="org.panda.business.admin.v1.modules.system.service.entity.SysRole">
             <id column="role_id" property="id" jdbcType="INTEGER"/>
             <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
             <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
