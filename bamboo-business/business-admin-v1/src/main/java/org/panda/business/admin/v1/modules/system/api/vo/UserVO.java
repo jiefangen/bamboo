@@ -17,10 +17,6 @@ public class UserVO implements Serializable {
     private static final long serialVersionUID = -1905046718519934587L;
 
     /**
-     * 用户ID
-     */
-    private Integer userId;
-    /**
      * 用户信息
      */
     private SysUser user;
@@ -32,7 +28,6 @@ public class UserVO implements Serializable {
      * 角色权限code集
      */
     private Set<String> roleCodes = new HashSet<>();
-
     /**
      * 路由菜单信息
      */

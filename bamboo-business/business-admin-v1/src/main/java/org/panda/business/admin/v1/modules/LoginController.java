@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Admin后台系统登录控制器
+ * 后台管理系统登录控制器
  *
  * @author fangen
  * @since 2023-05-27
  **/
-@Api(tags = "Admin后台系统登录控制器")
+@Api(tags = "后台管理系统登录控制器")
 @RestController
 public class LoginController {
 

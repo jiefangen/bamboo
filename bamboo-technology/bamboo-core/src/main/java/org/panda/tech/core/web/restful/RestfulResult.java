@@ -1,6 +1,7 @@
 package org.panda.tech.core.web.restful;
 
 import lombok.Getter;
+import org.panda.bamboo.common.util.jackson.JsonUtil;
 
 import java.io.Serializable;
 
@@ -11,7 +12,7 @@ import java.io.Serializable;
  **/
 @Getter
 public class RestfulResult<T> implements Serializable {
-    private static final long serialVersionUID = -9160736807872838171L;
+    private static final long serialVersionUID = 8037544993836312672L;
 
     private int code;
     private String message;
@@ -53,7 +54,10 @@ public class RestfulResult<T> implements Serializable {
         result.code = code;
         result.message = message;
         result.data = data;
-        return result;
+        // 序列化结果集,兼容规范返回属性
+        String resultJson = JsonUtil.toJson(result);
+        RestfulResult<T> restfulResult = JsonUtil.json2Bean(resultJson, RestfulResult.class);
+        return restfulResult;
     }
 
 }

@@ -11,13 +11,12 @@ import java.io.Serializable;
  */
 @Getter
 public class Pagination implements Serializable {
-    private static final long serialVersionUID = 9076452816013992553L;
+    private static final long serialVersionUID = 119150227662842605L;
 
     private int pageNo = 1;
     private int pageSize;
 
     public Pagination() {
-        this.pageSize = 10; // 默认每页大小10
     }
 
     public Pagination(int pageSize, int pageNo) {
