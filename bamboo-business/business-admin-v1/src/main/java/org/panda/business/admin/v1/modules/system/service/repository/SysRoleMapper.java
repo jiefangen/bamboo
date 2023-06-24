@@ -2,6 +2,7 @@ package org.panda.business.admin.v1.modules.system.service.repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
+import org.panda.business.admin.v1.modules.system.service.dto.SysRoleDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysRole;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +20,19 @@ import java.util.List;
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     List<SysRole> findRolesByUserId(@Param("userId") Integer userId);
+
+    List<SysRole> findByUserId(@Param("userId") Integer userId);
+
+    List<SysRole> findRoles();
+
+    SysRole findByRoleName(@Param("roleName") String roleName);
+
+    void insertRole(@Param("role") SysRole role);
+
+    int updateRole(@Param("roleId") Integer roleId, @Param("role") SysRoleDto role);
+
+    int deleteRole(@Param("roleId") Integer roleId);
+
+    Boolean delRoleVerify(@Param("roleId") Integer roleId);
 
 }

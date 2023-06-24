@@ -6,7 +6,7 @@ spring:
 server:
   port: 11002
   servlet:
-    context-path: /business-official
+    context-path: /biz-official
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

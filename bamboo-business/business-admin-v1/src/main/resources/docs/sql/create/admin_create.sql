@@ -19,8 +19,8 @@ CREATE TABLE `sys_user` (
                           `enabled` TINYINT DEFAULT 1 NOT NULL COMMENT '启用',
                           `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                          UNIQUE KEY `UQ_USERNAME` (`username`),
-                          PRIMARY KEY (`id`) USING BTREE
+                          PRIMARY KEY (`id`) USING BTREE,
+                          UNIQUE KEY `UQ_USERNAME` (`username`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
 
 
@@ -64,7 +64,8 @@ CREATE TABLE `sys_menu` (
                             `icon` VARCHAR(100) COMMENT '图标',
                             `hidden` TINYINT(1) default(0) COMMENT '隐藏',
                             `sort` INT default(0) COMMENT '排序',
-                            PRIMARY KEY (`id`) USING BTREE
+                            PRIMARY KEY (`id`) USING BTREE,
+                            KEY `IDX_PARENT_ID` (`parent_id`)
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
 
 

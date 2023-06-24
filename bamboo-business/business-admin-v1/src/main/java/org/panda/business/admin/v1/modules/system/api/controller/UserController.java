@@ -1,10 +1,16 @@
 package org.panda.business.admin.v1.modules.system.api.controller;
 
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.Commons;
+import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.common.constant.AuthConstants;
+import org.panda.business.admin.v1.modules.system.api.param.ResetPassParam;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
-import org.panda.business.admin.v1.modules.system.service.ISysUserService;
+import org.panda.business.admin.v1.modules.system.service.SysUserService;
+import org.panda.business.admin.v1.modules.system.service.dto.SysUserDto;
+import org.panda.business.admin.v1.modules.system.service.entity.SysUser;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
@@ -16,17 +22,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 用户管理
+ * 用户权限管理
  *
- * @author jiefangen
+ * @author fangen
  **/
 @Api(tags = "系统用户管理")
 @RestController
-@RequestMapping("/system/user")
+@RequestMapping("/auth/system/user")
 public class UserController {
 
     @Autowired
-    private ISysUserService userService;
+    private SysUserService userService;
 
     @PostMapping("/page")
     @ConfigAnonymous
@@ -46,92 +52,64 @@ public class UserController {
         return RestfulResult.success(userInfo);
     }
 
-//    @PostMapping("/add")
-//    public RestfulResult add(@RequestBody UserPO user){
-//        String username = user.getUsername();
-//        String password = user.getPassword();
-//        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-//            return ResultVO.getFailure(SystemConstants.PARAMETERS_INCOMPLETE);
-//        }
-//        EncryptUtil encryptUtil = new EncryptUtil();
-//        encryptUtil.encryptedPwd(user);
-//        String result = userService.addUser(user);
-//        if (!ResultConstant.DEFAULT_SUCCESS_MSG.equals(result)) {
-//            return ResultVO.getFailure(result);
-//        }
-//
-//        return ResultVO.getSuccess();
-//    }
-//
-//    @PutMapping("/edit")
-//    public RestfulResult edit(@RequestBody UserPO user){
-//        // 重置参数
-//        user.setPassword(null);
-//        int result = userService.updateUser(user);
-//        if (result < 1) {
-//            return ResultVO.getFailure();
-//        }
-//        return ResultVO.getSuccess();
-//    }
-//
-//    @PostMapping("/updatePassword")
-//    public RestfulResult resetPassword(@RequestBody JSONObject jsonObject){
-//        String username = jsonObject.getString("username");
-//        String oldPassword = jsonObject.getString("oldPassword");
-//        String newPassword = jsonObject.getString("newPassword");
-//        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
-//            return ResultVO.getFailure(SystemConstants.PARAMETERS_INCOMPLETE);
-//        }
-//
-//        EncryptUtil encryptUtil = new EncryptUtil();
-//        UserPO user = (UserPO) SecurityUtils.getSubject().getPrincipal();
-//        String principalUsername = user.getUsername();
-//        // 具有相应角色权限的管理员才可以重置, 本人可以重置自己的密码,无需验证
-//        if (!username.equals(principalUsername)) {
-//            // 判断具有相应角色角色才可以更新
-//            if (userService.checkRoleUpdatedPass()) {
-//                user = userService.getUserInfo(username);
-//            } else {
-//                return ResultVO.getFailure(SystemConstants.ROLE_NOT_CHANGE_PASS);
-//            }
-//        }
-//
-//        String salt = user.getSalt();
-//        String oldPasswordEncrypt = encryptUtil.encryptedPwd(oldPassword,salt);
-//        // 判断旧密码是否正确
-//        if (!oldPasswordEncrypt.equals(user.getPassword())) {
-//            return ResultVO.getFailure(SystemConstants.ORIGINAL_PWD_WRONG);
-//        }
-//
-//        String newPasswordEncrypt = encryptUtil.encryptedPwd(newPassword,salt);
-//        user.setPassword(newPasswordEncrypt);
-//        userService.updateUser(user);
-//        return ResultVO.getSuccess();
-//    }
-//
-//    @DeleteMapping("/del/{username}")
-//    @ControllerWebLog(content = "/system/user/del", actionType = ActionType.DEL, intoDb = true)
-//    public RestfulResult del(@PathVariable String username){
-//        try {
-//            int result = userService.deleteUser(username);
-//            if (result < 1) {
-//                String msg = ResultConstant.DEFAULT_FAILURE_MSG;
-//                if (result == -1) {
-//                    msg = SystemConstants.ROLE_NOT_DELETE_USER;
-//                }
-//                return ResultVO.getFailure(msg);
-//            }
-//        }catch (SystemException e){
-//            return ResultVO.getFailure(e.getMessage());
-//        }
-//        return ResultVO.getSuccess();
-//    }
-//
+    @PostMapping("/add")
+    public RestfulResult add(@RequestBody SysUser user){
+        String username = user.getUsername();
+        String password = user.getPassword();
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+            return RestfulResult.failure(AuthConstants.PARAMETERS_INCOMPLETE);
+        }
+        boolean result = userService.addUser(user);
+        if (result) {
+            return RestfulResult.failure();
+        }
+        return RestfulResult.success();
+    }
 
-//
-//    @PostMapping("/updateUserRole")
-//    public RestfulResult updateUserRole(@RequestBody UserDTO userDTO){
-//        userService.updateUserRole(userDTO);
-//        return ResultVO.getSuccess();
-//    }
+    @PutMapping("/edit")
+    public RestfulResult edit(@RequestBody SysUser user){
+        // 重置参数
+        user.setPassword(null);
+        boolean result = userService.updateUser(user);
+        if (result) {
+            return RestfulResult.failure();
+        }
+        return RestfulResult.success();
+    }
+
+    @PostMapping("/updatePassword")
+    public RestfulResult resetPassword(@RequestBody ResetPassParam resetPassParam){
+        String username = resetPassParam.getUsername();
+        String oldPassword = resetPassParam.getOldPassword();
+        String newPassword = resetPassParam.getNewPassword();
+        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
+            return RestfulResult.failure(AuthConstants.PARAMETERS_INCOMPLETE);
+        }
+        String result = userService.resetPassword(username, oldPassword, newPassword);
+        if (Commons.RESULT_SUCCESS.equals(result)) {
+            return RestfulResult.success();
+        } else {
+            return RestfulResult.failure(result);
+        }
+    }
+
+    @DeleteMapping("/del/{username}")
+    public RestfulResult del(@PathVariable String username){
+        try {
+            boolean result = userService.deleteUser(username);
+            if (result) {
+                return RestfulResult.failure();
+            }
+        }catch (BusinessException e){
+            return RestfulResult.failure(e.getMessage());
+        }
+        return RestfulResult.success();
+    }
+
+
+    @PostMapping("/updateUserRole")
+    public RestfulResult updateUserRole(@RequestBody SysUserDto userDto){
+        userService.updateUserRole(userDto);
+        return RestfulResult.success();
+    }
 }

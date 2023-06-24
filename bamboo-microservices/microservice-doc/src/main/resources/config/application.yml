@@ -1,6 +1,6 @@
 spring:
   application:
-    name: microservice-doc
+    name: document
   profiles:
     active: local
 server:

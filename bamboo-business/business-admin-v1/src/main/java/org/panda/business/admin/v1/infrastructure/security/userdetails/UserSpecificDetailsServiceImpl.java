@@ -4,7 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.exception.business.param.RequiredParamException;
 import org.panda.business.admin.v1.common.constant.AuthConstants;
-import org.panda.business.admin.v1.modules.system.service.ISysUserRoleService;
+import org.panda.business.admin.v1.modules.system.service.SysUserService;
 import org.panda.business.admin.v1.modules.system.service.dto.SysUserDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysUser;
 import org.panda.tech.core.spec.user.DefaultUserIdentity;
@@ -29,7 +29,7 @@ import java.util.List;
 public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsService {
 
     @Autowired
-    private ISysUserRoleService userRoleService;
+    private SysUserService userService;
 
     @Override
     public UserSpecificDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,7 +37,7 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
             throw new RequiredParamException();
         }
         // 用户信息查询判断拦截
-        SysUserDto sysUserDto = userRoleService.getUserAndRoles(username);
+        SysUserDto sysUserDto = userService.getUserAndRoles(username);
         if (sysUserDto == null || sysUserDto.getUser() == null) {
             throw new UsernameNotFoundException(AuthConstants.USERNAME_NOT_EXIST);
         }

@@ -25,7 +25,14 @@ public class AuthConstants {
     public static final int USER_LOCKED_CODE = 5004;
     public static final String USER_LOCKED = "This account has been locked.";
 
-
+    /**
+     * 传入参数不完整
+     */
+    public static final String PARAMETERS_INCOMPLETE = "Incoming parameters are incomplete.";
+    /**
+     * 没有修改密码的角色
+     */
+    public static final String ROLE_NOT_CHANGE_PASS = "You have no role to change someone else's password.";
     /**
      * 掉线
      */

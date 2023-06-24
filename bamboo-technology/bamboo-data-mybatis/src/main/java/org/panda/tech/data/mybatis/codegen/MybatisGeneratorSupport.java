@@ -116,6 +116,7 @@ public abstract class MybatisGeneratorSupport {
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig.setOutputDir(projectPath + "/src/main/java");
         globalConfig.setAuthor("bamboo-code-generator");
+        globalConfig.setServiceName("%sService");
         globalConfig.setSwagger2(true); // 是否生成Swagger2注解
         globalConfig.setFileOverride(false); // 是否覆盖同名文件，默认是false
         globalConfig.setOpen(false); // 生成后打开文件夹
