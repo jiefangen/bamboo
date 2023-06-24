@@ -31,6 +31,6 @@ public class UserVO implements Serializable {
     /**
      * 路由菜单信息
      */
-    List<MenuVO> routes;
+    private List<MenuVO> routes;
 
 }

@@ -18,6 +18,8 @@ public interface ISysUserService extends IService<SysUser> {
 
     QueryResult<UserVO> getUserByPage(UserQueryParam queryParam);
 
+    UserVO getUserByToken(String token);
+
 //    UserPO getUserInfo(String username);
 //
 //    UserDTO getUserAndRoles(String username);

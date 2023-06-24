@@ -19,6 +19,7 @@ CREATE TABLE `sys_user` (
                           `enabled` TINYINT DEFAULT 1 NOT NULL COMMENT '启用',
                           `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                          UNIQUE KEY `UQ_USERNAME` (`username`),
                           PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
 
@@ -67,13 +68,6 @@ CREATE TABLE `sys_menu` (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
 
 
-ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`);
-ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`);
-
-ALTER TABLE `sys_role_menu` ADD CONSTRAINT fk_sys_role_menu_role_id_role FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`);
-ALTER TABLE `sys_role_menu` ADD CONSTRAINT fk_sys_role_menu_menu_id_menu FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`);
-
-
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE sys_role_permission (
                                      `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
@@ -93,6 +87,13 @@ CREATE TABLE `sys_permission` (
                                 `operation_scope` VARCHAR(20) COMMENT '操作范围',
                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
+
+
+ALTER TABLE `sys_user_role` ADD CONSTRAINT FK_USER_ROLE_USER_ID_USER FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`);
+ALTER TABLE `sys_user_role` ADD CONSTRAINT FK_USER_ROLE_ROLE_ID_ROLE FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`);
+
+ALTER TABLE `sys_role_menu` ADD CONSTRAINT FK_ROLE_MENU_ROLE_ID_ROLE FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`);
+ALTER TABLE `sys_role_menu` ADD CONSTRAINT FK_ROLE_MENU_MENU_ID_MENU FOREIGN KEY (`menu_id`) REFERENCES `sys_menu` (`id`);
 
 
 DROP TABLE IF EXISTS `sys_action_log`;
