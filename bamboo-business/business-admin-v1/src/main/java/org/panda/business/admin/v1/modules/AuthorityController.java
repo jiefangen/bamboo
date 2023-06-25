@@ -26,6 +26,14 @@ public class AuthorityController {
     public RestfulResult accessAnonymous() {
         return RestfulResult.success(true);
     }
+    /**
+     * 只要认证成功即可访问
+     */
+    @GetMapping("/accessAuthSucceed")
+    @ConfigPermission
+    public RestfulResult accessAuthSucceed() {
+        return RestfulResult.success(true);
+    }
 
     /**
      * 需要拥有manager用户类型才可以访问
@@ -58,14 +66,6 @@ public class AuthorityController {
         return RestfulResult.success(true);
     }
 
-    /**
-     * 只要认证成功即可访问
-     */
-    @GetMapping("/accessAuthSucceed")
-    @ConfigPermission
-    public RestfulResult accessAuthSucceed() {
-        return RestfulResult.success(true);
-    }
 
     /**
      * 需要同时拥有指定的所有权限才可以访问

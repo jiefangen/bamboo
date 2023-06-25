@@ -29,7 +29,7 @@ public class MybatisCodeGeneratorImpl extends MybatisGeneratorSupport implements
             throw new RequiredParamException();
         }
         String tableName = String.join(",", tableNames);
-        generate(tableName, false);
+        generate(tableName, true);
     }
 
     @Override

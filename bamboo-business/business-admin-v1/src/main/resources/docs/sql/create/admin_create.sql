@@ -80,12 +80,13 @@ CREATE TABLE sys_role_permission (
 DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission` (
                                 `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                `permission_name` VARCHAR(100) NOT NULL COMMENT '权限名称',
-                                `permission_code` VARCHAR(20) NOT NULL COMMENT '权限编码',
-                                `description` VARCHAR(200) COMMENT '描述',
+                                `permission_name` VARCHAR(200) NOT NULL COMMENT '权限名称',
+                                `permission_code` VARCHAR(100) NOT NULL COMMENT '权限编码',
+                                `description` VARCHAR(1000) COMMENT '描述',
                                 `resources_id` VARCHAR(1000) COMMENT '资源ID',
-                                `resources_type` VARCHAR(20) NOT NULL COMMENT '资源类型',
-                                `operation_scope` VARCHAR(20) COMMENT '操作范围',
+                                `resources_type` VARCHAR(50) NOT NULL COMMENT '资源类型',
+                                `source` VARCHAR(50) COMMENT '权限来源',
+                                `operation_scope` VARCHAR(400) COMMENT '操作范围',
                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
 

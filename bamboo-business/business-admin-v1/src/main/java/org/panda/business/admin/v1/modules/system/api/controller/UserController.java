@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.common.constant.AuthConstants;
+import org.panda.business.admin.v1.common.constant.Authority;
 import org.panda.business.admin.v1.modules.system.api.param.ResetPassParam;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
@@ -14,8 +15,10 @@ import org.panda.business.admin.v1.modules.system.service.entity.SysUser;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
-import org.panda.tech.security.config.annotation.ConfigAnonymous;
+import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
+import org.panda.tech.security.config.annotation.ConfigPermission;
+import org.panda.tech.security.config.annotation.ConfigPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,15 +37,8 @@ public class UserController {
     @Autowired
     private SysUserService userService;
 
-    @PostMapping("/page")
-    @ConfigAnonymous
-    public RestfulResult page(@RequestBody UserQueryParam queryParam){
-        QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);
-        return RestfulResult.success(userPage);
-    }
-
     @GetMapping("/info")
-    @ConfigAuthority
+    @ConfigPermission
     public RestfulResult info(HttpServletRequest request){
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserVO userInfo = userService.getUserByToken(token);
@@ -52,7 +48,23 @@ public class UserController {
         return RestfulResult.success(userInfo);
     }
 
+    @PostMapping("/page")
+    @ConfigPermissions({
+            @ConfigPermission(type = Authority.TYPE_MANAGER),
+            @ConfigPermission(type = Authority.TYPE_SYSTEM)
+    })
+    public RestfulResult page(@RequestBody UserQueryParam queryParam){
+        QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);
+        return RestfulResult.success(userPage);
+    }
+
     @PostMapping("/add")
+    @ConfigAuthorities({
+            @ConfigAuthority(permission = Authority.PER_ADMIN),
+            @ConfigAuthority(permission = Authority.PER_SYSTEM),
+            @ConfigAuthority(permission = Authority.PER_USER),
+            @ConfigAuthority(permission = "system/user/add")
+    })
     public RestfulResult add(@RequestBody SysUser user){
         String username = user.getUsername();
         String password = user.getPassword();
@@ -67,6 +79,12 @@ public class UserController {
     }
 
     @PutMapping("/edit")
+    @ConfigAuthorities({
+            @ConfigAuthority(permission = Authority.PER_ADMIN),
+            @ConfigAuthority(permission = Authority.PER_SYSTEM),
+            @ConfigAuthority(permission = Authority.PER_USER),
+            @ConfigAuthority(permission = "system/user/edit")
+    })
     public RestfulResult edit(@RequestBody SysUser user){
         // 重置参数
         user.setPassword(null);
@@ -78,6 +96,12 @@ public class UserController {
     }
 
     @PostMapping("/updatePassword")
+    @ConfigAuthorities({
+            @ConfigAuthority(permission = Authority.PER_ADMIN),
+            @ConfigAuthority(permission = Authority.PER_SYSTEM),
+            @ConfigAuthority(permission = Authority.PER_USER),
+            @ConfigAuthority(permission = "system/user/updatePassword")
+    })
     public RestfulResult resetPassword(@RequestBody ResetPassParam resetPassParam){
         String username = resetPassParam.getUsername();
         String oldPassword = resetPassParam.getOldPassword();
@@ -94,6 +118,12 @@ public class UserController {
     }
 
     @DeleteMapping("/del/{username}")
+    @ConfigAuthorities({
+            @ConfigAuthority(permission = Authority.PER_ADMIN),
+            @ConfigAuthority(permission = Authority.PER_SYSTEM),
+            @ConfigAuthority(permission = Authority.PER_USER),
+            @ConfigAuthority(permission = "system/user/del")
+    })
     public RestfulResult del(@PathVariable String username){
         try {
             boolean result = userService.deleteUser(username);
@@ -106,10 +136,16 @@ public class UserController {
         return RestfulResult.success();
     }
 
-
     @PostMapping("/updateUserRole")
+    @ConfigAuthorities({
+            @ConfigAuthority(permission = Authority.PER_ADMIN),
+            @ConfigAuthority(permission = Authority.PER_SYSTEM),
+            @ConfigAuthority(permission = Authority.PER_USER),
+            @ConfigAuthority(permission = "/system/user/updateUserRole")
+    })
     public RestfulResult updateUserRole(@RequestBody SysUserDto userDto){
         userService.updateUserRole(userDto);
         return RestfulResult.success();
     }
+
 }
