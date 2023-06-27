@@ -9,6 +9,7 @@ import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.WebMvcUtil;
 import org.panda.tech.security.config.annotation.*;
 import org.panda.tech.security.user.UserConfigAuthority;
+import org.panda.tech.security.web.AuthoritiesBizExecutor;
 import org.panda.tech.security.web.access.ConfigAuthorityResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -37,8 +38,18 @@ public class WebFilterInvocationSecurityMetadataSource
 
     private FilterInvocationSecurityMetadataSource origin;
 
+    private AuthoritiesBizExecutor authoritiesBizExecutor = new AuthoritiesBizExecutor() {
+    };
+
     public void setOrigin(FilterInvocationSecurityMetadataSource origin) {
         this.origin = origin;
+    }
+
+    public WebFilterInvocationSecurityMetadataSource() {
+    }
+
+    public WebFilterInvocationSecurityMetadataSource(AuthoritiesBizExecutor authoritiesBizExecutor) {
+        this.authoritiesBizExecutor = authoritiesBizExecutor;
     }
 
     @Override
@@ -86,12 +97,14 @@ public class WebFilterInvocationSecurityMetadataSource
         if (authorities.isEmpty()) { // 没有配置权限限定，则拒绝所有访问
             authorities.add(UserConfigAuthority.ofDenyAll());
         } else {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder authStr = new StringBuilder();
             authorities.forEach(authority -> {
-                sb.append(Strings.COMMA).append(authority.toString());
+                authStr.append(Strings.COMMA).append(authority.toString());
             });
-            sb.delete(0, 1);
-            LogUtil.info(getClass(), "Config authorities: {} => {}", url, sb.toString());
+            authStr.delete(0, 1);
+            LogUtil.info(getClass(), "Config authorities: {} => {}", url, authStr.toString());
+            // 权限集业务扩展操作
+            authoritiesBizExecutor.execute(url, authorities);
         }
         return authorities;
     }

@@ -1,4 +1,4 @@
-package org.panda.business.admin.v1.infrastructure.security.userdetails;
+package org.panda.business.admin.v1.infrastructure.security.bussiness;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;

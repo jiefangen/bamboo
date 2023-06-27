@@ -8,6 +8,7 @@ import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.SwaggerUtil;
 import org.panda.tech.security.access.UserAuthorityAccessDecisionManager;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
+import org.panda.tech.security.web.AuthoritiesBizExecutor;
 import org.panda.tech.security.web.SecurityUrlProvider;
 import org.panda.tech.security.web.access.AccessDeniedBusinessExceptionHandler;
 import org.panda.tech.security.web.access.TokenLogoutSuccessHandler;
@@ -53,6 +54,8 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     private WebSecurityProperties securityProperties;
     @Autowired
     private ApiMetaProperties apiMetaProperties;
+    @Autowired
+    private AuthoritiesBizExecutor authoritiesBizExecutor;
 
     protected SecurityUrlProvider urlProvider = new SecurityUrlProvider() {
         // 所有方法都有默认实现，默认实例无需提供
@@ -66,7 +69,7 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     // 获取访问资源需要具备的权限
     @Bean
     public WebFilterInvocationSecurityMetadataSource securityMetadataSource() {
-        return new WebFilterInvocationSecurityMetadataSource();
+        return new WebFilterInvocationSecurityMetadataSource(authoritiesBizExecutor);
     }
 
     // 登录用户访问资源的权限判断

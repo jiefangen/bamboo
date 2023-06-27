@@ -60,7 +60,6 @@ public class UserController {
 
     @PostMapping("/add")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_ADMIN),
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
             @ConfigAuthority(permission = "system/user/add")
@@ -80,7 +79,6 @@ public class UserController {
 
     @PutMapping("/edit")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_ADMIN),
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
             @ConfigAuthority(permission = "system/user/edit")
@@ -97,7 +95,6 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_ADMIN),
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
             @ConfigAuthority(permission = "system/user/updatePassword")
@@ -119,7 +116,6 @@ public class UserController {
 
     @DeleteMapping("/del/{username}")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_ADMIN),
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
             @ConfigAuthority(permission = "system/user/del")
@@ -138,10 +134,9 @@ public class UserController {
 
     @PostMapping("/updateUserRole")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_ADMIN),
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "/system/user/updateUserRole")
+            @ConfigAuthority(permission = "system/user/updateUserRole")
     })
     public RestfulResult updateUserRole(@RequestBody SysUserDto userDto){
         userService.updateUserRole(userDto);
