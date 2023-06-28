@@ -14,6 +14,7 @@ import org.panda.business.admin.v1.modules.system.service.repository.SysMenuMapp
 import org.panda.business.admin.v1.modules.system.service.repository.SysRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.List;
  * @since 2023-06-24
  */
 @Service
+@Transactional
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
     @Autowired

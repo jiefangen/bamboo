@@ -1,14 +1,15 @@
 package org.panda.business.admin.v1.modules.system.service.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -49,6 +50,10 @@ public class SysPermission implements Serializable {
     @ApiModelProperty(value = "资源类型")
     @TableField("resources_type")
     private String resourcesType;
+
+    @ApiModelProperty(value = "权限来源")
+    @TableField("source")
+    private String source;
 
     @ApiModelProperty(value = "操作范围")
     @TableField("operation_scope")

@@ -1,6 +1,6 @@
 package org.panda.business.admin.v1.common.constant.enums;
 
-import org.panda.tech.core.annotation.caption.Caption;
+import org.panda.bamboo.common.annotation.Caption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,5 +34,23 @@ public enum RoleCode {
         topRoles.add(SYSTEM.name());
         topRoles.add(ACTUATOR.name());
         return topRoles;
+    }
+
+    public static List<String> getSysRoles() {
+        List<String> roles = getTopRoles();
+        roles.add(USER.name());
+        roles.add(GENERAL.name());
+        roles.add(CUSTOMER.name());
+        return roles;
+    }
+
+    /**
+     * 是否是系统角色
+     *
+     * @param roleCode 角色Code
+     * @return true-是；false-否
+     */
+    public static boolean isSystemRole(String roleCode) {
+        return getSysRoles().contains(roleCode);
     }
 }

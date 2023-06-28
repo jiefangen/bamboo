@@ -1,6 +1,6 @@
 package org.panda.business.official.common.constant.enums;
 
-import org.panda.tech.core.annotation.caption.Caption;
+import org.panda.bamboo.common.annotation.Caption;
 
 /**
  * 系统全局角色Code

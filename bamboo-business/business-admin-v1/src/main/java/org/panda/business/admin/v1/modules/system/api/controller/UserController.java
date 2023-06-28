@@ -18,7 +18,6 @@ import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.panda.tech.security.config.annotation.ConfigPermission;
-import org.panda.tech.security.config.annotation.ConfigPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
  **/
 @Api(tags = "系统用户管理")
 @RestController
-@RequestMapping("/auth/system/user")
+@RequestMapping("/system/user")
 public class UserController {
 
     @Autowired
@@ -49,9 +48,10 @@ public class UserController {
     }
 
     @PostMapping("/page")
-    @ConfigPermissions({
-            @ConfigPermission(type = Authority.TYPE_MANAGER),
-            @ConfigPermission(type = Authority.TYPE_SYSTEM)
+    @ConfigAuthorities({
+            @ConfigAuthority(type = Authority.TYPE_SYSTEM, permission = Authority.PER_SYSTEM),
+            @ConfigAuthority(type = Authority.TYPE_GENERAL, permission = Authority.PER_USER),
+            @ConfigAuthority(permission = "system_user_page")
     })
     public RestfulResult page(@RequestBody UserQueryParam queryParam){
         QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);
@@ -62,7 +62,7 @@ public class UserController {
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system/user/add")
+            @ConfigAuthority(permission = "system_user_add")
     })
     public RestfulResult add(@RequestBody SysUser user){
         String username = user.getUsername();
@@ -81,7 +81,7 @@ public class UserController {
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system/user/edit")
+            @ConfigAuthority(permission = "system_user_edit")
     })
     public RestfulResult edit(@RequestBody SysUser user){
         // 重置参数
@@ -97,7 +97,7 @@ public class UserController {
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system/user/updatePassword")
+            @ConfigAuthority(permission = "system_user_updatePassword")
     })
     public RestfulResult resetPassword(@RequestBody ResetPassParam resetPassParam){
         String username = resetPassParam.getUsername();
@@ -118,7 +118,7 @@ public class UserController {
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system/user/del")
+            @ConfigAuthority(permission = "system_user_del")
     })
     public RestfulResult del(@PathVariable String username){
         try {
@@ -136,7 +136,7 @@ public class UserController {
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.PER_SYSTEM),
             @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system/user/updateUserRole")
+            @ConfigAuthority(permission = "system_user_updateUserRole")
     })
     public RestfulResult updateUserRole(@RequestBody SysUserDto userDto){
         userService.updateUserRole(userDto);

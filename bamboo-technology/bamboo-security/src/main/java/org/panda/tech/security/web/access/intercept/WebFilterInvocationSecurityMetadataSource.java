@@ -104,7 +104,7 @@ public class WebFilterInvocationSecurityMetadataSource
             authStr.delete(0, 1);
             LogUtil.info(getClass(), "Config authorities: {} => {}", url, authStr.toString());
             // 权限集业务扩展操作
-            authoritiesBizExecutor.execute(url, authorities);
+            authoritiesBizExecutor.setApiConfigAuthoritiesMapping(url, authorities);
         }
         return authorities;
     }

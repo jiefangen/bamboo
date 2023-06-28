@@ -2,7 +2,7 @@ package org.panda.tech.core.web.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.panda.tech.core.annotation.caption.Caption;
+import org.panda.bamboo.common.annotation.Caption;
 
 @Getter
 @AllArgsConstructor

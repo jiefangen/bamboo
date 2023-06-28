@@ -1,6 +1,6 @@
 package org.panda.tech.security.user;
 
-import org.panda.tech.core.annotation.caption.Caption;
+import org.panda.bamboo.common.annotation.Caption;
 
 /**
  * 已取得权限的性质

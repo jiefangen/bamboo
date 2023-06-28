@@ -1,6 +1,7 @@
-package org.panda.tech.core.annotation.caption;
+package org.panda.bamboo.common.annotation.helper;
 
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.annotation.Caption;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

@@ -1,4 +1,4 @@
-package org.panda.tech.core.annotation.caption;
+package org.panda.bamboo.common.annotation;
 
 import java.lang.annotation.*;
 
