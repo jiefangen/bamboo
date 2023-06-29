@@ -8,21 +8,18 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
 import org.panda.business.admin.v1.modules.system.service.SysPermissionService;
+import org.panda.business.admin.v1.modules.system.service.SysRolePermissionService;
 import org.panda.business.admin.v1.modules.system.service.SysRoleService;
 import org.panda.business.admin.v1.modules.system.service.entity.SysPermission;
 import org.panda.business.admin.v1.modules.system.service.entity.SysRole;
 import org.panda.business.admin.v1.modules.system.service.entity.SysRolePermission;
-import org.panda.business.admin.v1.modules.system.service.repository.SysRolePermissionMapper;
 import org.panda.tech.security.user.UserConfigAuthority;
 import org.panda.tech.security.web.AuthoritiesBizExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -37,7 +34,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
      */
     private final Map<String, Collection<UserConfigAuthority>> apiConfigAuthoritiesMapping = new HashMap<>();
     public static final String SOURCE_EVENT = "applicationEvent";
-    public static final String ASSOC_INTERNAL = "internal";
+    public static final String ASSOC_LOAD = "autoload";
 
     private AtomicCounter permissionCounter = new AtomicCounter();
     private AtomicCounter rolePerCounter = new AtomicCounter();
@@ -47,7 +44,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
     @Autowired
     private SysPermissionService permissionService;
     @Autowired
-    private SysRolePermissionMapper rolePermissionMapper;
+    private SysRolePermissionService rolePermissionService;
 
     @Override
     @Transactional
@@ -95,7 +92,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
             permission.setId(permissionCounter.getNextCount());
             permission.setPermissionName(systemPermission);
             permission.setPermissionCode(systemPermission.toUpperCase());
-            permission.setDescription("Application initialization loading");
+            permission.setDescription("Application initialization loading。。。。");
             permission.setResourcesId(JsonUtil.toJson(roleIds));
             permission.setResourcesType("api");
             permission.setSource(SOURCE_EVENT);
@@ -107,15 +104,17 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
                 perQueryWrapper.eq(SysPermission::getPermissionCode, systemPermission.toUpperCase());
                 SysPermission sysPermission = permissionService.getOne(perQueryWrapper);
                 Integer permissionId = sysPermission.getId();
+                // 更新角色权限关系表
+                List<SysRolePermission> rolePermissions = new ArrayList<>();
                 roleIds.forEach(roleId -> {
                     SysRolePermission rolePermission = new SysRolePermission();
                     rolePermission.setId(rolePerCounter.getNextCount());
                     rolePermission.setRoleId(roleId);
                     rolePermission.setPermissionId(permissionId);
-                    rolePermission.setAssociation(ASSOC_INTERNAL);
-                    // 更新角色权限关系表
-                    rolePermissionMapper.insert(rolePermission);
+                    rolePermission.setAssociation(ASSOC_LOAD);
+                    rolePermissions.add(rolePermission);
                 });
+                rolePermissionService.saveBatch(rolePermissions);
             }
         });
     }
@@ -125,9 +124,9 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
      */
     private void resetPermissions() {
         LambdaQueryWrapper<SysRolePermission> rolePermissionWrapper = new LambdaQueryWrapper<>();
-        rolePermissionWrapper.eq(SysRolePermission::getAssociation, ASSOC_INTERNAL);
+        rolePermissionWrapper.eq(SysRolePermission::getAssociation, ASSOC_LOAD);
         rolePermissionWrapper.between(SysRolePermission::getId, 1, 1000);
-        rolePermissionMapper.delete(rolePermissionWrapper);
+        rolePermissionService.remove(rolePermissionWrapper);
         LambdaQueryWrapper<SysPermission> permissionWrapper = new LambdaQueryWrapper<>();
         permissionWrapper.eq(SysPermission::getSource, SOURCE_EVENT);
         permissionWrapper.between(SysPermission::getId, 1, 1000);
