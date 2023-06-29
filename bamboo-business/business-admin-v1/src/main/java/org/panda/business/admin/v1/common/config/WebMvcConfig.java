@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerSupport {
-
     /**
      * web请求日志过滤器
      */

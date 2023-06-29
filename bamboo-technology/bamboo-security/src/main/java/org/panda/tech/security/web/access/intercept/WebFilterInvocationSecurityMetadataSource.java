@@ -4,6 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.WebMvcUtil;
@@ -104,7 +105,9 @@ public class WebFilterInvocationSecurityMetadataSource
             authStr.delete(0, 1);
             LogUtil.info(getClass(), "Config authorities: {} => {}", url, authStr.toString());
             // 权限集业务扩展操作
-            authoritiesBizExecutor.setApiConfigAuthoritiesMapping(url, authorities);
+            if (StringUtil.antPathMatchOneOf(url, authoritiesBizExecutor.getUrlPatterns())) {
+                authoritiesBizExecutor.setApiConfigAuthoritiesMapping(url, authorities);
+            }
         }
         return authorities;
     }

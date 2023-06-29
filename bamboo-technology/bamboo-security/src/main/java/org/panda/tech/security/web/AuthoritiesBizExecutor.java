@@ -21,4 +21,10 @@ public interface AuthoritiesBizExecutor {
      */
     default void setApiConfigAuthoritiesMapping(String api, Collection<UserConfigAuthority> authorities){
     }
+    /**
+     * 获取业务扩展拦截url规则
+     */
+    default String[] getUrlPatterns(){
+        return new String[]{"/**"};
+    }
 }

@@ -21,7 +21,7 @@ CREATE TABLE `sys_user` (
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE,
                           UNIQUE KEY `UQ_USERNAME` (`username`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统用户' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `sys_user_role`;
@@ -29,7 +29,7 @@ CREATE TABLE `sys_user_role` (
                                `user_id` INT unsigned NOT NULL COMMENT '用户表关联ID',
                                `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
                                PRIMARY KEY (`user_id`, `role_id`)
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户角色关系' ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统用户角色关系' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `sys_role`;
@@ -41,7 +41,7 @@ CREATE TABLE `sys_role` (
                           `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统角色' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `sys_role_menu`;
@@ -49,12 +49,12 @@ CREATE TABLE `sys_role_menu` (
                                `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
                                `menu_id` INT unsigned NOT NULL COMMENT '菜单表关联ID',
                                PRIMARY KEY (`role_id`, `menu_id`)
-) ENGINE=InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色菜单关系' ROW_FORMAT = Compact;
+) ENGINE=InnoDB CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统角色菜单关系' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
-                            `id` INT unsigned NOT NULL COMMENT '主键ID',
+                            `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
                             `parent_id` INT unsigned DEFAULT 0 NOT NULL COMMENT '父级ID（0代表根目录）',
                             `menu_path` VARCHAR(255) NOT NULL COMMENT '菜单路径',
                             `component` VARCHAR(50) NOT NULL COMMENT '菜单组件',
@@ -66,15 +66,17 @@ CREATE TABLE `sys_menu` (
                             `sort` INT default(0) COMMENT '排序',
                             PRIMARY KEY (`id`) USING BTREE,
                             KEY `IDX_PARENT_ID` (`parent_id`)
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统菜单' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统菜单' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE sys_role_permission (
+                                     `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
                                      `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
                                      `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
-                                     PRIMARY KEY (`role_id`, `permission_id`)
-) ENGINE=InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色权限关系' ROW_FORMAT=Compact;
+                                     `association` VARCHAR(50) COMMENT '关联方式：internal-内部关联',
+                                     PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统角色权限关系' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `sys_permission`;
@@ -88,7 +90,7 @@ CREATE TABLE `sys_permission` (
                                 `source` VARCHAR(50) COMMENT '权限来源',
                                 `operation_scope` VARCHAR(400) COMMENT '操作范围',
                                 PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='系统权限' ROW_FORMAT=Compact;
 
 
 ALTER TABLE `sys_user_role` ADD CONSTRAINT FK_USER_ROLE_USER_ID_USER FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`);

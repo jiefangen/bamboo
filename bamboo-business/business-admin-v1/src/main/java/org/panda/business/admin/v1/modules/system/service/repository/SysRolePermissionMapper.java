@@ -1,7 +1,7 @@
 package org.panda.business.admin.v1.modules.system.service.repository;
 
-import org.panda.business.admin.v1.modules.system.service.entity.SysRolePermission;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.panda.business.admin.v1.modules.system.service.entity.SysRolePermission;
 import org.springframework.stereotype.Repository;
 
 /**

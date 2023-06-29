@@ -3,6 +3,8 @@ package org.panda.business.admin.v1.infrastructure.security.bussiness;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.util.AtomicCounter;
+import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
 import org.panda.business.admin.v1.modules.system.service.SysPermissionService;
@@ -34,6 +36,11 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
      * 映射集：api路径-所需权限清单
      */
     private final Map<String, Collection<UserConfigAuthority>> apiConfigAuthoritiesMapping = new HashMap<>();
+    public static final String SOURCE_EVENT = "applicationEvent";
+    public static final String ASSOC_INTERNAL = "internal";
+
+    private AtomicCounter permissionCounter = new AtomicCounter();
+    private AtomicCounter rolePerCounter = new AtomicCounter();
 
     @Autowired
     private SysRoleService roleService;
@@ -48,8 +55,9 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
         if (this.apiConfigAuthoritiesMapping.isEmpty()) {
             return;
         }
+        // 重置系统自动生成的权限集
+        this.resetPermissions();
         for (Map.Entry<String, Collection<UserConfigAuthority>> authorityEntry : this.apiConfigAuthoritiesMapping.entrySet()) {
-            String apiUrl = authorityEntry.getKey();
             Collection<UserConfigAuthority> userConfigAuthorities = authorityEntry.getValue();
             // 系统权限限定标识集
             List<String> systemPermissionList = userConfigAuthorities.stream()
@@ -61,46 +69,69 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
                     .map(userConfigAuthority -> userConfigAuthority.getPermission())
                     .collect(Collectors.toList());
             if (CollectionUtils.isNotEmpty(systemPermissionList)) {
-                // 重置系统自动生成的权限集
-
+                String apiUrl = authorityEntry.getKey();
                 if (systemRolePerList.isEmpty()) { // 系统角色未配置即所有角色都拥有此权限
-                    systemPermissionList.forEach(systemPermission -> {
-
-                    });
+                    List<SysRole> roles = roleService.list();
+                    List<Integer> roleIds = roles.stream().map(role -> role.getId()).collect(Collectors.toList());
+                    this.savePerRelationship(systemPermissionList, roleIds, apiUrl);
                 } else { // 指定角色下的权限限定
                     LambdaQueryWrapper<SysRole> roleQueryWrapper = new LambdaQueryWrapper<>();
                     roleQueryWrapper.in(SysRole::getRoleCode, systemRolePerList);
                     List<SysRole> roles = roleService.list(roleQueryWrapper);
                     List<Integer> roleIds = roles.stream().map(role -> role.getId()).collect(Collectors.toList());
-
-                    systemPermissionList.forEach(systemPermission -> {
-                        SysPermission permission = new SysPermission();
-                        permission.setPermissionName(systemPermission);
-                        permission.setPermissionCode(systemPermission.toUpperCase());
-                        permission.setDescription("Application initialization loading.");
-                        permission.setResourcesId(JsonUtil.toJson(roleIds));
-                        permission.setResourcesType("api");
-                        permission.setSource("applicationEvent");
-                        permission.setOperationScope("role");
-                        boolean retBool = permissionService.save(permission);
-                        if (retBool) {
-                            LambdaQueryWrapper<SysPermission> perQueryWrapper = new LambdaQueryWrapper<>();
-                            perQueryWrapper.eq(SysPermission::getPermissionName, systemPermission);
-                            perQueryWrapper.eq(SysPermission::getPermissionCode, systemPermission.toUpperCase());
-                            SysPermission sysPermission = permissionService.getOne(perQueryWrapper);
-                            Integer permissionId = sysPermission.getId();
-                            roleIds.forEach(roleId -> {
-                                SysRolePermission rolePermission = new SysRolePermission();
-                                rolePermission.setRoleId(roleId);
-                                rolePermission.setPermissionId(permissionId);
-                                // 更新角色权限关系表
-                                rolePermissionMapper.insert(rolePermission);
-                            });
-                        }
-                    });
+                    this.savePerRelationship(systemPermissionList, roleIds, apiUrl);
                 }
             }
         }
+        LogUtil.info(getClass(), "System permission limit loading complete");
+    }
+
+    /**
+     * 保存系统权限关系
+     */
+    private void savePerRelationship(List<String> systemPermissionList, List<Integer> roleIds, String operationScope) {
+        systemPermissionList.forEach(systemPermission -> {
+            SysPermission permission = new SysPermission();
+            permission.setId(permissionCounter.getNextCount());
+            permission.setPermissionName(systemPermission);
+            permission.setPermissionCode(systemPermission.toUpperCase());
+            permission.setDescription("Application initialization loading");
+            permission.setResourcesId(JsonUtil.toJson(roleIds));
+            permission.setResourcesType("api");
+            permission.setSource(SOURCE_EVENT);
+            permission.setOperationScope(operationScope);
+            boolean retBool = permissionService.save(permission);
+            if (retBool) {
+                LambdaQueryWrapper<SysPermission> perQueryWrapper = new LambdaQueryWrapper<>();
+                perQueryWrapper.eq(SysPermission::getPermissionName, systemPermission);
+                perQueryWrapper.eq(SysPermission::getPermissionCode, systemPermission.toUpperCase());
+                SysPermission sysPermission = permissionService.getOne(perQueryWrapper);
+                Integer permissionId = sysPermission.getId();
+                roleIds.forEach(roleId -> {
+                    SysRolePermission rolePermission = new SysRolePermission();
+                    rolePermission.setId(rolePerCounter.getNextCount());
+                    rolePermission.setRoleId(roleId);
+                    rolePermission.setPermissionId(permissionId);
+                    rolePermission.setAssociation(ASSOC_INTERNAL);
+                    // 更新角色权限关系表
+                    rolePermissionMapper.insert(rolePermission);
+                });
+            }
+        });
+    }
+
+    /**
+     * 重置系统自动生成的权限集
+     */
+    private void resetPermissions() {
+        LambdaQueryWrapper<SysRolePermission> rolePermissionWrapper = new LambdaQueryWrapper<>();
+        rolePermissionWrapper.eq(SysRolePermission::getAssociation, ASSOC_INTERNAL);
+        rolePermissionWrapper.between(SysRolePermission::getId, 1, 1000);
+        rolePermissionMapper.delete(rolePermissionWrapper);
+        LambdaQueryWrapper<SysPermission> permissionWrapper = new LambdaQueryWrapper<>();
+        permissionWrapper.eq(SysPermission::getSource, SOURCE_EVENT);
+        permissionWrapper.between(SysPermission::getId, 1, 1000);
+        permissionService.remove(permissionWrapper);
     }
 
     @Override
@@ -108,5 +139,10 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
         if (StringUtils.isNotBlank(api)) {
             this.apiConfigAuthoritiesMapping.put(api, authorities);
         }
+    }
+
+    @Override
+    public String[] getUrlPatterns() {
+        return new String[]{"/system/**"};
     }
 }
