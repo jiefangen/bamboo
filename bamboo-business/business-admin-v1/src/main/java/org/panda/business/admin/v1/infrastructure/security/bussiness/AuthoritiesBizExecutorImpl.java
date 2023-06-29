@@ -73,6 +73,8 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
                     this.savePerRelationship(systemPermissionList, roleIds, apiUrl);
                 } else { // 指定角色下的权限限定
                     LambdaQueryWrapper<SysRole> roleQueryWrapper = new LambdaQueryWrapper<>();
+                    // admin角色默认拥有所有权限
+                    systemRolePerList.add(RoleCode.ADMIN.name());
                     roleQueryWrapper.in(SysRole::getRoleCode, systemRolePerList);
                     List<SysRole> roles = roleService.list(roleQueryWrapper);
                     List<Integer> roleIds = roles.stream().map(role -> role.getId()).collect(Collectors.toList());
@@ -92,7 +94,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
             permission.setId(permissionCounter.getNextCount());
             permission.setPermissionName(systemPermission);
             permission.setPermissionCode(systemPermission.toUpperCase());
-            permission.setDescription("Application initialization loading。。。。");
+            permission.setDescription("Application initialization loading");
             permission.setResourcesId(JsonUtil.toJson(roleIds));
             permission.setResourcesType("api");
             permission.setSource(SOURCE_EVENT);
@@ -125,11 +127,11 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
     private void resetPermissions() {
         LambdaQueryWrapper<SysRolePermission> rolePermissionWrapper = new LambdaQueryWrapper<>();
         rolePermissionWrapper.eq(SysRolePermission::getAssociation, ASSOC_LOAD);
-        rolePermissionWrapper.between(SysRolePermission::getId, 1, 1000);
+        rolePermissionWrapper.between(SysRolePermission::getId, 1, 999);
         rolePermissionService.remove(rolePermissionWrapper);
         LambdaQueryWrapper<SysPermission> permissionWrapper = new LambdaQueryWrapper<>();
         permissionWrapper.eq(SysPermission::getSource, SOURCE_EVENT);
-        permissionWrapper.between(SysPermission::getId, 1, 1000);
+        permissionWrapper.between(SysPermission::getId, 1, 999);
         permissionService.remove(permissionWrapper);
     }
 
