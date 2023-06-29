@@ -1,6 +1,6 @@
 package org.panda.business.admin.v1.infrastructure.security.authentication;
 
-import org.panda.business.admin.v1.common.constant.AuthConstants;
+import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.tech.security.authentication.*;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetailsService;
@@ -34,13 +34,13 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
         DefaultUserSpecificDetails userSpecificDetails = (DefaultUserSpecificDetails) userDetailsService.loadUserByUsername(username);
         if (authentication instanceof DefaultAuthenticationToken) { // 用户名密码令牌方式
             if (!userSpecificDetails.isEnabled()) { // 账户禁用状态拦截
-                throw new DisabledException(AuthConstants.USER_DISABLED);
+                throw new DisabledException(SystemConstants.USER_DISABLED);
             }
             if (!userSpecificDetails.isAccountNonLocked()) {
-                throw new LockedException(AuthConstants.USER_LOCKED);
+                throw new LockedException(SystemConstants.USER_LOCKED);
             }
             if (!passwordEncoder.matches(password, userSpecificDetails.getPassword())) {
-                throw new BadCredentialsException(AuthConstants.PWD_WRONG);
+                throw new BadCredentialsException(SystemConstants.PWD_WRONG);
             }
         }
         if (authentication instanceof SmsVerifyCodeAuthenticationToken) { // 短信令牌登录方式

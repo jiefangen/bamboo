@@ -1,9 +1,9 @@
 package org.panda.business.admin.v1.common.constant;
 
 /**
- * 认证鉴权规范常量
+ * 系统规范常量
  */
-public class AuthConstants {
+public class SystemConstants {
     /**
      * 用户账户不存在
      */

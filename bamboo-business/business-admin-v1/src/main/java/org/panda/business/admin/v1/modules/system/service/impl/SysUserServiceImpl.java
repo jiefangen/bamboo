@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.business.admin.v1.common.constant.AuthConstants;
+import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
 import org.panda.business.admin.v1.common.util.QueryPageUtil;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
@@ -193,13 +193,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             if (this.checkTopRoles()) {
                 sysUser = this.getUserInfo(username);
             } else {
-                return AuthConstants.ROLE_NOT_CHANGE_PASS;
+                return SystemConstants.ROLE_NOT_CHANGE_PASS;
             }
         }
 
         // 判断旧密码是否正确
         if (!passwordEncoder.matches(sysUser.getPassword(), userSpecificDetails.getPassword())) {
-            return AuthConstants.PWD_WRONG;
+            return SystemConstants.PWD_WRONG;
         }
 
         String newPasswordEncrypt = passwordEncoder.encode(newPassword);

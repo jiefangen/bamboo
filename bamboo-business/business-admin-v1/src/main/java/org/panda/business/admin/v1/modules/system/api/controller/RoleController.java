@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
-import org.panda.business.admin.v1.common.constant.AuthConstants;
+import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.Authority;
 import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.v1.modules.system.service.SysMenuService;
@@ -57,7 +57,7 @@ public class RoleController {
     public RestfulResult add(@RequestBody SysRole role) {
         String roleName = role.getRoleName();
         if(StringUtils.isEmpty(roleName)) {
-            return RestfulResult.failure(AuthConstants.PARAMETERS_INCOMPLETE);
+            return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
         String result = roleService.addRole(role);
         if (!Commons.RESULT_SUCCESS.equals(result)) {

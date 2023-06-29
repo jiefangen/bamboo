@@ -83,7 +83,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
                 }
             }
         }
-        LogUtil.info(getClass(), "System permission limit loading complete");
+        LogUtil.info(getClass(), "Admin system permissions loading complete");
     }
 
     /**

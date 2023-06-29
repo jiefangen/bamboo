@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
-import org.panda.business.admin.v1.common.constant.AuthConstants;
+import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.Authority;
 import org.panda.business.admin.v1.modules.system.api.param.ResetPassParam;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
@@ -42,7 +42,7 @@ public class UserController {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserVO userInfo = userService.getUserByToken(token);
         if (userInfo == null) {
-            return RestfulResult.failure(AuthConstants.USER_NOT_EXIST_CODE, AuthConstants.USERNAME_NOT_EXIST);
+            return RestfulResult.failure(SystemConstants.USER_NOT_EXIST_CODE, SystemConstants.USERNAME_NOT_EXIST);
         }
         return RestfulResult.success(userInfo);
     }
@@ -68,7 +68,7 @@ public class UserController {
         String username = user.getUsername();
         String password = user.getPassword();
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return RestfulResult.failure(AuthConstants.PARAMETERS_INCOMPLETE);
+            return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
         boolean result = userService.addUser(user);
         if (result) {
@@ -104,7 +104,7 @@ public class UserController {
         String oldPassword = resetPassParam.getOldPassword();
         String newPassword = resetPassParam.getNewPassword();
         if(StringUtils.isEmpty(username) || StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
-            return RestfulResult.failure(AuthConstants.PARAMETERS_INCOMPLETE);
+            return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
         String result = userService.resetPassword(username, oldPassword, newPassword);
         if (Commons.RESULT_SUCCESS.equals(result)) {
