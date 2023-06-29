@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.util.AtomicCounter;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
+import org.panda.business.admin.v1.common.constant.Authority;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
 import org.panda.business.admin.v1.modules.system.service.SysPermissionService;
 import org.panda.business.admin.v1.modules.system.service.SysRolePermissionService;
@@ -57,14 +58,14 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
         for (Map.Entry<String, Collection<UserConfigAuthority>> authorityEntry : this.apiConfigAuthoritiesMapping.entrySet()) {
             Collection<UserConfigAuthority> userConfigAuthorities = authorityEntry.getValue();
             // 系统权限限定标识集
-            List<String> systemPermissionList = userConfigAuthorities.stream()
+            Set<String> systemPermissionList = userConfigAuthorities.stream()
                     .filter(userConfigAuthority -> !RoleCode.isSystemRole(userConfigAuthority.getPermission()))
                     .map(userConfigAuthority -> userConfigAuthority.getPermission())
-                    .collect(Collectors.toList());
-            List<String> systemRolePerList = userConfigAuthorities.stream()
+                    .collect(Collectors.toSet());
+            Set<String> systemRolePerList = userConfigAuthorities.stream()
                     .filter(userConfigAuthority -> RoleCode.isSystemRole(userConfigAuthority.getPermission()))
                     .map(userConfigAuthority -> userConfigAuthority.getPermission())
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
             if (CollectionUtils.isNotEmpty(systemPermissionList)) {
                 String apiUrl = authorityEntry.getKey();
                 if (systemRolePerList.isEmpty()) { // 系统角色未配置即所有角色都拥有此权限
@@ -74,7 +75,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
                 } else { // 指定角色下的权限限定
                     LambdaQueryWrapper<SysRole> roleQueryWrapper = new LambdaQueryWrapper<>();
                     // admin角色默认拥有所有权限
-                    systemRolePerList.add(RoleCode.ADMIN.name());
+                    systemRolePerList.add(Authority.ROLE_ADMIN);
                     roleQueryWrapper.in(SysRole::getRoleCode, systemRolePerList);
                     List<SysRole> roles = roleService.list(roleQueryWrapper);
                     List<Integer> roleIds = roles.stream().map(role -> role.getId()).collect(Collectors.toList());
@@ -88,7 +89,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
     /**
      * 保存系统权限关系
      */
-    private void savePerRelationship(List<String> systemPermissionList, List<Integer> roleIds, String operationScope) {
+    private void savePerRelationship(Set<String> systemPermissionList, List<Integer> roleIds, String operationScope) {
         systemPermissionList.forEach(systemPermission -> {
             SysPermission permission = new SysPermission();
             permission.setId(permissionCounter.getNextCount());

@@ -10,7 +10,6 @@ public class Authority {
      * 用户类型
      */
     public static final String TYPE_MANAGER = "manager";
-    public static final String TYPE_SYSTEM = "system";
     public static final String TYPE_GENERAL = "general";
     public static final String TYPE_CUSTOMER = "customer";
 
@@ -25,11 +24,11 @@ public class Authority {
     /**
      * 角色权限
      */
-    public static final String PER_ADMIN = "ADMIN";
-    public static final String PER_SYSTEM = "SYSTEM";
-    public static final String PER_ACTUATOR = "ACTUATOR";
-    public static final String PER_USER = "USER";
-    public static final String PER_GENERAL = "GENERAL";
-    public static final String PER_CUSTOMER = "CUSTOMER";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_SYSTEM = "SYSTEM";
+    public static final String ROLE_ACTUATOR = "ACTUATOR";
+    public static final String ROLE_USER = "USER";
+    public static final String ROLE_GENERAL = "GENERAL";
+    public static final String ROLE_CUSTOMER = "CUSTOMER";
 
 }

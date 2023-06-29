@@ -49,9 +49,9 @@ public class UserController {
 
     @PostMapping("/page")
     @ConfigAuthorities({
-            @ConfigAuthority(type = Authority.TYPE_SYSTEM, permission = Authority.PER_SYSTEM),
-            @ConfigAuthority(type = Authority.TYPE_GENERAL, permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system_user_page")
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
+            @ConfigAuthority(permission = Authority.ROLE_USER),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_page")
     })
     public RestfulResult page(@RequestBody UserQueryParam queryParam){
         QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);
@@ -60,9 +60,9 @@ public class UserController {
 
     @PostMapping("/add")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_SYSTEM),
-            @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system_user_add")
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
+            @ConfigAuthority(permission = Authority.ROLE_USER),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_add")
     })
     public RestfulResult add(@RequestBody SysUser user){
         String username = user.getUsername();
@@ -79,9 +79,9 @@ public class UserController {
 
     @PutMapping("/edit")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_SYSTEM),
-            @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system_user_edit")
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
+            @ConfigAuthority(permission = Authority.ROLE_USER),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_edit")
     })
     public RestfulResult edit(@RequestBody SysUser user){
         // 重置参数
@@ -95,9 +95,9 @@ public class UserController {
 
     @PostMapping("/updatePassword")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_SYSTEM),
-            @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system_user_updatePassword")
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
+            @ConfigAuthority(permission = Authority.ROLE_USER),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updatePassword")
     })
     public RestfulResult resetPassword(@RequestBody ResetPassParam resetPassParam){
         String username = resetPassParam.getUsername();
@@ -116,9 +116,9 @@ public class UserController {
 
     @DeleteMapping("/del/{username}")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_SYSTEM),
-            @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system_user_del")
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
+            @ConfigAuthority(permission = Authority.ROLE_USER),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_del")
     })
     public RestfulResult del(@PathVariable String username){
         try {
@@ -134,9 +134,9 @@ public class UserController {
 
     @PostMapping("/updateUserRole")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_SYSTEM),
-            @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = "system_user_updateUserRole")
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
+            @ConfigAuthority(permission = Authority.ROLE_USER),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updateUserRole")
     })
     public RestfulResult updateUserRole(@RequestBody SysUserDto userDto){
         userService.updateUserRole(userDto);

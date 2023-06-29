@@ -58,9 +58,9 @@ public class AuthorityController {
      */
     @GetMapping("/accessSystemPer")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.PER_SYSTEM),
-            @ConfigAuthority(permission = Authority.PER_USER),
-            @ConfigAuthority(permission = Authority.PER_CUSTOMER)
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
+            @ConfigAuthority(permission = Authority.ROLE_USER),
+            @ConfigAuthority(permission = Authority.ROLE_CUSTOMER)
     })
     public RestfulResult accessSystemPer() {
         return RestfulResult.success(true);
@@ -71,7 +71,7 @@ public class AuthorityController {
      * 需要同时拥有指定的所有权限才可以访问
      */
     @GetMapping("/accessAllPermission")
-    @ConfigAuthority(type = Authority.TYPE_MANAGER, rank = Authority.RANK_0, permission = Authority.PER_ACTUATOR)
+    @ConfigAuthority(type = Authority.TYPE_MANAGER, rank = Authority.RANK_0, permission = Authority.ROLE_ACTUATOR)
     public RestfulResult accessAllPermission() {
         return RestfulResult.success(true);
     }
