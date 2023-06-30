@@ -1,9 +1,9 @@
 package org.panda.business.admin.v1.modules.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.panda.business.admin.v1.modules.system.service.SysActionLogService;
 import org.panda.business.admin.v1.modules.system.service.entity.SysActionLog;
 import org.panda.business.admin.v1.modules.system.service.repository.SysActionLogMapper;
-import org.panda.business.admin.v1.modules.system.service.SysActionLogService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,4 +17,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, SysActionLog> implements SysActionLogService {
 
+    @Override
+    public int removeLogByTime(int intervalDay) {
+        return this.baseMapper.deleteLogByTime(intervalDay);
+    }
 }

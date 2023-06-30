@@ -1,7 +1,8 @@
 package org.panda.business.admin.v1.modules.system.service.repository;
 
-import org.panda.business.admin.v1.modules.system.service.entity.SysActionLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.panda.business.admin.v1.modules.system.service.entity.SysActionLog;
 
 /**
  * <p>
@@ -13,4 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SysActionLogMapper extends BaseMapper<SysActionLog> {
 
+    void truncateLog();
+
+    int deleteLogByTime(@Param("intervalDay") int intervalDay);
 }
