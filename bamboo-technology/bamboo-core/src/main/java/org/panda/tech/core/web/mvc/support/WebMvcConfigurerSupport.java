@@ -8,7 +8,7 @@ import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.mvc.cors.CorsRegistryProperties;
 import org.panda.tech.core.web.mvc.cors.IgnoreNullConfigCorsProcessor;
 import org.panda.tech.core.web.mvc.cors.SingleCorsConfigurationSource;
-import org.panda.tech.core.web.util.SwaggerUtil;
+import org.panda.tech.core.web.mvc.util.SwaggerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

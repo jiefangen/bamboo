@@ -5,7 +5,7 @@ import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.tech.core.web.config.meta.ApiMetaProperties;
 import org.panda.tech.core.web.config.security.WebSecurityProperties;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
-import org.panda.tech.core.web.util.SwaggerUtil;
+import org.panda.tech.core.web.mvc.util.SwaggerUtil;
 import org.panda.tech.security.access.UserAuthorityAccessDecisionManager;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.web.AuthoritiesBizExecutor;

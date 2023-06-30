@@ -1,4 +1,4 @@
-package org.panda.tech.core.spec.jwt;
+package org.panda.tech.core.jwt;
 
 /**
  * 简单内部JWT配置

@@ -4,15 +4,17 @@ import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
-import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.Authority;
+import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.modules.system.api.param.ResetPassParam;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
 import org.panda.business.admin.v1.modules.system.service.SysUserService;
 import org.panda.business.admin.v1.modules.system.service.dto.SysUserDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysUser;
+import org.panda.tech.core.spec.enums.ActionType;
 import org.panda.tech.core.web.config.WebConstants;
+import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
@@ -53,7 +55,8 @@ public class UserController {
             @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_page")
     })
-    public RestfulResult page(@RequestBody UserQueryParam queryParam){
+    @WebOperationLog(actionType = ActionType.QUERY, intoStorage = true)
+    public RestfulResult page(@RequestBody UserQueryParam queryParam) {
         QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);
         return RestfulResult.success(userPage);
     }

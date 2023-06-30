@@ -1,4 +1,4 @@
-package org.panda.tech.core.spec.jwt;
+package org.panda.tech.core.jwt;
 
 import org.panda.bamboo.core.context.ApplicationContextBean;
 import org.panda.bamboo.common.constant.Profiles;

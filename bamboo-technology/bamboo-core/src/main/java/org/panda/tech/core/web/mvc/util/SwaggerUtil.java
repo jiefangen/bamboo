@@ -1,4 +1,4 @@
-package org.panda.tech.core.web.util;
+package org.panda.tech.core.web.mvc.util;
 
 import org.springframework.context.ApplicationContext;
 

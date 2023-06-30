@@ -1,4 +1,4 @@
-package org.panda.tech.core.spec.jwt;
+package org.panda.tech.core.jwt;
 
 import org.apache.commons.lang3.StringUtils;
 

@@ -10,7 +10,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JacksonUtil;
 import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
-import org.panda.tech.core.spec.jwt.InternalJwtConfiguration;
+import org.panda.tech.core.jwt.InternalJwtConfiguration;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Date;

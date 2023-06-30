@@ -7,7 +7,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
-import org.panda.tech.core.web.util.WebMvcUtil;
+import org.panda.tech.core.web.mvc.util.WebMvcUtil;
 import org.panda.tech.security.config.annotation.*;
 import org.panda.tech.security.user.UserConfigAuthority;
 import org.panda.tech.security.web.AuthoritiesBizExecutor;

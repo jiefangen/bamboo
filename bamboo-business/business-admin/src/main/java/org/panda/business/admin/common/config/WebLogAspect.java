@@ -52,7 +52,7 @@ public class WebLogAspect {
     @Pointcut("execution(* org.panda.business.admin.modules..*.*(..))")
     public void webLog() {}
 
-    @Before(value = "webLog()&&  @annotation(controllerWebLog)")
+    @Before(value = "webLog() && @annotation(controllerWebLog)")
     public void doBefore(JoinPoint joinPoint, ControllerWebLog controllerWebLog) {
         // 开始时间。
         long startTime = System.currentTimeMillis();

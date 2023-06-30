@@ -8,7 +8,7 @@ import org.panda.tech.core.web.config.meta.ApiMetaProperties;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
-import org.panda.tech.core.web.util.WebMvcUtil;
+import org.panda.tech.core.web.mvc.util.WebMvcUtil;
 import org.panda.tech.security.web.SecurityUrlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
