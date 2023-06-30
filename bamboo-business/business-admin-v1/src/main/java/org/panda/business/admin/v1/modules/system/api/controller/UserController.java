@@ -67,10 +67,9 @@ public class UserController {
             @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_add")
     })
+    @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
     public RestfulResult add(@RequestBody SysUser user){
-        String username = user.getUsername();
-        String password = user.getPassword();
-        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+        if(StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
             return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
         boolean result = userService.addUser(user);

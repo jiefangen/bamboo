@@ -8,6 +8,7 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.model.WebLogRange;
+import org.panda.tech.core.web.mvc.servlet.http.BodyRepeatableRequestWrapper;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.slf4j.Logger;
 
@@ -26,15 +27,16 @@ public abstract class WebLogSupport {
         threadInfo.setStartTimeMillis(System.currentTimeMillis());
         // 组装请求参数体中的内容
         HttpServletRequest request = SpringWebContext.getRequest();
-        threadInfo.setRemoteAddress(WebHttpUtil.getHost(request, true));
-        String actionTypeValue = EnumValueHelper.getValue(webOperationLog.actionType());
-        threadInfo.setActionType(actionTypeValue);
         if (StringUtils.isEmpty(webOperationLog.content())) {
             threadInfo.setContent(WebHttpUtil.getRelativeRequestUrl(request));
         } else {
             threadInfo.setContent(webOperationLog.content());
         }
+        request = new BodyRepeatableRequestWrapper(request);
+        threadInfo.setRemoteAddress(WebHttpUtil.getRemoteAddress(request));
         threadInfo.setIdentity(this.getIdentity(request));
+        String actionTypeValue = EnumValueHelper.getValue(webOperationLog.actionType());
+        threadInfo.setActionType(actionTypeValue);
         threadInfo.setBodyStr(WebHttpUtil.getRequestBodyString(request));
         threadLocal.set(threadInfo);
         LOGGER.debug("{} starts calling: requestData={}", threadInfo.getContent(), JsonUtil.toJson(threadInfo));

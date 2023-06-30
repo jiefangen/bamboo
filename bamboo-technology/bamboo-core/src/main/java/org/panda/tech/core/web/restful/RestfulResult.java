@@ -41,7 +41,7 @@ public class RestfulResult<T> implements Serializable {
         return transform(ResultEnum.FAILURE.getCode(), message, null);
     }
 
-    public static RestfulResult<?> failure(int code , String message){
+    public static RestfulResult<?> failure(int code, String message){
         return transform(code, message, null);
     }
     

@@ -15,6 +15,10 @@ public class Commons {
     public static final String RESULT_SUCCESS = "success";
     public static final String RESULT_FAILURE = "failure";
 
+    /** 未知异常错误 */
+    public static final int RESULT_UNKNOWN_CODE = 9999;
+    public static final String RESULT_UNKNOWN = "unknown";
+
     /**
      * 其它
      */

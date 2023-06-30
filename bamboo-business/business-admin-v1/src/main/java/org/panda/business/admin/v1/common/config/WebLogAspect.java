@@ -56,10 +56,9 @@ public class WebLogAspect extends WebLogSupport {
     @Override
     protected void storageLog(Object res) {
         WebLogRange threadInfo = super.threadLocal.get();
-        if (threadInfo instanceof WebLogData) {
-            WebLogData webLogData = (WebLogData) threadInfo;
-            // 异步写入数据库
-            logAsyncTask.intoLogDb(webLogData, res);
-        }
+        WebLogData webLogData = new WebLogData();
+        webLogData.transform(threadInfo);
+        // 异步写入数据库
+        logAsyncTask.intoLogDb(webLogData, res);
     }
 }

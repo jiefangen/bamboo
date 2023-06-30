@@ -103,10 +103,10 @@ ALTER TABLE `sys_role_menu` ADD CONSTRAINT FK_ROLE_MENU_MENU_ID_MENU FOREIGN KEY
 DROP TABLE IF EXISTS `sys_action_log`;
 CREATE TABLE `sys_action_log` (
                                 `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                                `identity` VARCHAR(100) COMMENT '身份标识',
                                 `action_type` VARCHAR(20) NOT NULL COMMENT '操作类型',
                                 `content` VARCHAR(500) COMMENT '操作内容',
                                 `remote_address` VARCHAR(50) COMMENT '远程地址',
-                                `identity` VARCHAR(100) COMMENT '身份标识',
                                 `operating_time` DATETIME COMMENT '操作时间',
                                 `elapsed_time` BIGINT COMMENT '耗时',
                                 `status_code` INT COMMENT '操作结果状态',

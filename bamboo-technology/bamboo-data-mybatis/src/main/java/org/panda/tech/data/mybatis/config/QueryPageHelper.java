@@ -1,4 +1,4 @@
-package org.panda.business.admin.v1.common.util;
+package org.panda.tech.data.mybatis.config;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.panda.tech.data.model.query.QueryResult;
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author fangen
  **/
-public class QueryPageUtil {
+public class QueryPageHelper {
     /**
      * mybatisPlus分页结果转自定义分页组件
      *

@@ -11,7 +11,7 @@ import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
-import org.panda.business.admin.v1.common.util.QueryPageUtil;
+import org.panda.tech.data.mybatis.config.QueryPageHelper;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
 import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
@@ -99,7 +99,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 userVOList.add(userVO);
             });
         }
-        QueryResult<UserVO> queryResult = QueryPageUtil.convertQueryResult(userVOList, userPage);
+        QueryResult<UserVO> queryResult = QueryPageHelper.convertQueryResult(userVOList, userPage);
         return queryResult;
     }
 
