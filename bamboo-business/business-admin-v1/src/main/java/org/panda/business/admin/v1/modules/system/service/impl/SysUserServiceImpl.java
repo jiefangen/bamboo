@@ -105,19 +105,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public UserVO getUserByToken(String token) {
-        UserSpecificDetails userSpecificDetails;
-        if (SecurityUtil.isAuthorized()) {
-            userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
-        } else {
-            userSpecificDetails = this.jwtResolver.parse(token, UserSpecificDetails.class);
-        }
+        UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
         String username = userSpecificDetails.getUsername();
         SysUserDto sysUserDto = this.getUserAndRoles(username);
 
         UserVO userVO = new UserVO();
         userVO.setUser(sysUserDto.getUser());
         userVO.setRoleCodes(sysUserDto.getRoleCodes());
-
         List<MenuVO> routes = menuService.getRoutes();
         userVO.setRoutes(routes);
         return userVO;
@@ -155,7 +149,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!this.checkTopRoles()) {
             return false;
         }
-
         UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
         // 删除操作排除自己
         String principalUsername = userSpecificDetails.getUsername();

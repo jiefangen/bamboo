@@ -10,46 +10,46 @@ import org.panda.bamboo.common.annotation.EnumValue;
  */
 public enum ActionType {
     @Caption("其它")
-    @EnumValue("0")
+    @EnumValue("other")
     OTHER,
 
     @Caption("新增")
-    @EnumValue("1")
+    @EnumValue("add")
     ADD,
 
     @Caption("删除")
-    @EnumValue("2")
+    @EnumValue("del")
     DEL,
 
     @Caption("查询")
-    @EnumValue("3")
+    @EnumValue("query")
     QUERY,
 
     @Caption("修改")
-    @EnumValue("4")
+    @EnumValue("update")
     UPDATE,
 
     @Caption("登录")
-    @EnumValue("5")
+    @EnumValue("login")
     LOGIN,
 
     @Caption("登出")
-    @EnumValue("6")
+    @EnumValue("quit")
     QUIT,
 
     @Caption("授权")
-    @EnumValue("7")
+    @EnumValue("auth")
     AUTH,
 
     @Caption("导出")
-    @EnumValue("8")
+    @EnumValue("export")
     EXPORT,
 
     @Caption("导入")
-    @EnumValue("9")
+    @EnumValue("import")
     IMPORT,
 
     @Caption("清空")
-    @EnumValue("10")
+    @EnumValue("empty")
     EMPTY
 }
