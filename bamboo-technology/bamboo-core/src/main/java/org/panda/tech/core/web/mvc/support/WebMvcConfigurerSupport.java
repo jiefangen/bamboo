@@ -8,6 +8,7 @@ import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.mvc.cors.CorsRegistryProperties;
 import org.panda.tech.core.web.mvc.cors.IgnoreNullConfigCorsProcessor;
 import org.panda.tech.core.web.mvc.cors.SingleCorsConfigurationSource;
+import org.panda.tech.core.web.mvc.http.converter.JacksonHttpMessageConverter;
 import org.panda.tech.core.web.mvc.util.SwaggerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -23,6 +24,7 @@ import java.util.*;
 
 /**
  * WEB MVC配置器支持，可选的控制层配置均在此配置支持体系中
+ * 自定义Json转换器{@link JacksonHttpMessageConverter}
  */
 public abstract class WebMvcConfigurerSupport implements WebMvcConfigurer {
     @Autowired

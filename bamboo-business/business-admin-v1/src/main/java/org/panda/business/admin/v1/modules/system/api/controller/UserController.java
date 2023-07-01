@@ -40,6 +40,7 @@ public class UserController {
 
     @GetMapping("/info")
     @ConfigPermission
+    @WebOperationLog(actionType = ActionType.QUERY, intoStorage = true)
     public RestfulResult info(HttpServletRequest request){
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserVO userInfo = userService.getUserByToken(token);
@@ -85,6 +86,7 @@ public class UserController {
             @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_edit")
     })
+    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
     public RestfulResult edit(@RequestBody SysUser user){
         // 重置参数
         user.setPassword(null);
@@ -101,6 +103,7 @@ public class UserController {
             @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updatePassword")
     })
+    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
     public RestfulResult resetPassword(@RequestBody ResetPassParam resetPassParam){
         String username = resetPassParam.getUsername();
         String oldPassword = resetPassParam.getOldPassword();
@@ -122,6 +125,7 @@ public class UserController {
             @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_del")
     })
+    @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
     public RestfulResult del(@PathVariable String username){
         try {
             boolean result = userService.deleteUser(username);
@@ -140,6 +144,7 @@ public class UserController {
             @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updateUserRole")
     })
+    @WebOperationLog(actionType = ActionType.AUTH, intoStorage = true)
     public RestfulResult updateUserRole(@RequestBody SysUserDto userDto){
         userService.updateUserRole(userDto);
         return RestfulResult.success();

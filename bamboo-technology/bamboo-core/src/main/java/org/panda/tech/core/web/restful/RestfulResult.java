@@ -1,7 +1,7 @@
 package org.panda.tech.core.web.restful;
 
 import lombok.Getter;
-import org.panda.bamboo.common.util.jackson.JsonUtil;
+import org.panda.bamboo.common.constant.basic.Strings;
 
 import java.io.Serializable;
 
@@ -19,33 +19,33 @@ public class RestfulResult<T> implements Serializable {
     private T data;
 
     // 保护返回结构不被破坏，禁止外部实例化
-    private RestfulResult(){}
+    private RestfulResult() {}
 
-    public static <T> RestfulResult<T> success(){
+    public static <T> RestfulResult<T> success() {
         return transform(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), null);
     }
 
-    public static <T> RestfulResult<T> success(T data){
+    public static <T> RestfulResult<T> success(T data) {
         return transform(ResultEnum.SUCCESS.getCode(), ResultEnum.SUCCESS.getMessage(), data);
     }
     
-    public static <T> RestfulResult<T> success(String message, T data){
+    public static <T> RestfulResult<T> success(String message, T data) {
         return transform(ResultEnum.SUCCESS.getCode(), message, data);
     }
 
-    public static RestfulResult<?> failure(){
+    public static RestfulResult<?> failure() {
         return transform(ResultEnum.FAILURE.getCode(), ResultEnum.FAILURE.getMessage(), null);
     }
 
-    public static RestfulResult<?> failure(String message){
+    public static RestfulResult<?> failure(String message) {
         return transform(ResultEnum.FAILURE.getCode(), message, null);
     }
 
-    public static RestfulResult<?> failure(int code, String message){
+    public static RestfulResult<?> failure(int code, String message) {
         return transform(code, message, null);
     }
     
-    public static RestfulResult<?> getFailure(Result failedResult){
+    public static RestfulResult<?> getFailure(Result failedResult) {
         return transform(failedResult.getCode(), failedResult.getMessage(), null);
     }
 
@@ -53,11 +53,12 @@ public class RestfulResult<T> implements Serializable {
         RestfulResult<T> result = new RestfulResult<>();
         result.code = code;
         result.message = message;
-        result.data = data;
-        // 序列化结果集,兼容规范返回属性
-        String resultJson = JsonUtil.toJson(result);
-        RestfulResult<T> restfulResult = JsonUtil.json2Bean(resultJson, RestfulResult.class);
-        return restfulResult;
+        if (data == null) { // 确保标准返回格式完整性
+            result.data = (T) Strings.EMPTY;
+        } else {
+            result.data = data;
+        }
+        return result;
     }
 
 }

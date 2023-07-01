@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "权限验证模版控制器")
 @RestController("/authority")
 public class AuthorityController {
-
     /**
      * 匿名即可访问
      */
@@ -78,5 +77,4 @@ public class AuthorityController {
     public RestfulResult accessDenyAll() {
         return RestfulResult.success(true);
     }
-
 }
