@@ -1,5 +1,5 @@
 # 服务相关配置
 server:
-  port: 10001
+  port: 11001
   servlet:
     context-path: /sms-service

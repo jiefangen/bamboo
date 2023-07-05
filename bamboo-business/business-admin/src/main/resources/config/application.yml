@@ -8,7 +8,7 @@ spring:
       # SpringBoot2.6.X版本兼容自动化文档knife4J
       matching-strategy: ant_path_matcher
 server:
-  port: 11001
+  port: 10001
   servlet:
     context-path: /business-admin
 

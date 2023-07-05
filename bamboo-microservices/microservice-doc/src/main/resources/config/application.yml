@@ -4,7 +4,7 @@ spring:
   profiles:
     active: local
 server:
-  port: 10002
+  port: 11002
   servlet:
     context-path: /doc-service
 
