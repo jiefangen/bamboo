@@ -13,4 +13,4 @@ mybatis:
 
 logging:
   level:
-    org.panda.business.admin.v1: debug
+    org.panda.business.admin.v1: info

@@ -12,14 +12,9 @@ import java.util.Set;
 
 @Setter
 @Getter
-public class UserVO implements Serializable {
+public class UserVO extends SysUser implements Serializable {
+    private static final long serialVersionUID = -6246035577943174581L;
 
-    private static final long serialVersionUID = -1905046718519934587L;
-
-    /**
-     * 用户信息
-     */
-    private SysUser user;
     /**
      * 拥有的角色集
      */
@@ -32,5 +27,22 @@ public class UserVO implements Serializable {
      * 路由菜单信息
      */
     private List<MenuVO> routes;
+
+    public UserVO(SysUser sysUser){
+        this.transform(sysUser);
+    }
+
+    public void transform(SysUser sysUser){
+        this.setId(sysUser.getId());
+        this.setUsername(sysUser.getUsername());
+        this.setPassword(sysUser.getPassword());
+        this.setNickname(sysUser.getNickname());
+        this.setSex(sysUser.getSex());
+        this.setPhone(sysUser.getPhone());
+        this.setEmail(sysUser.getEmail());
+        this.setEnabled(sysUser.getEnabled());
+        this.setCreateTime(sysUser.getCreateTime());
+        this.setUpdateTime(sysUser.getUpdateTime());
+    }
 
 }

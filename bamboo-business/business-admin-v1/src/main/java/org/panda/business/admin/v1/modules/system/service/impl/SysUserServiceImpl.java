@@ -88,8 +88,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (userPage.getTotal() > 0) {
             List<SysUser> users = userPage.getRecords();
             users.forEach(user -> {
-                UserVO userVO = new UserVO();
-                userVO.setUser(user);
+                UserVO userVO = new UserVO(user);
                 List<SysRole> roles = sysRoleMapper.findRolesByUserId(user.getId());
                 if(CollectionUtils.isNotEmpty(roles)) {
                     Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
@@ -109,8 +108,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String username = userSpecificDetails.getUsername();
         SysUserDto sysUserDto = this.getUserAndRoles(username);
 
-        UserVO userVO = new UserVO();
-        userVO.setUser(sysUserDto.getUser());
+        UserVO userVO = new UserVO(sysUserDto.getUser());
         userVO.setRoleCodes(sysUserDto.getRoleCodes());
         List<MenuVO> routes = menuService.getRoutes();
         userVO.setRoutes(routes);
@@ -141,6 +139,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public boolean updateUser(SysUser user) {
+        // 重置密码参量
+        user.setPassword(null);
         return this.updateById(user);
     }
 

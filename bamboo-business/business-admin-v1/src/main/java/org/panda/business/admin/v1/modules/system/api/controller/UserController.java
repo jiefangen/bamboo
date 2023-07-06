@@ -41,7 +41,7 @@ public class UserController {
     @GetMapping("/info")
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.QUERY, intoStorage = true)
-    public RestfulResult info(HttpServletRequest request){
+    public RestfulResult info(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserVO userInfo = userService.getUserByToken(token);
         if (userInfo == null) {
@@ -88,8 +88,6 @@ public class UserController {
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
     public RestfulResult edit(@RequestBody SysUser user){
-        // 重置参数
-        user.setPassword(null);
         boolean result = userService.updateUser(user);
         if (result) {
             return RestfulResult.failure();
