@@ -35,7 +35,8 @@ public class UserVO extends SysUser implements Serializable {
     public void transform(SysUser sysUser){
         this.setId(sysUser.getId());
         this.setUsername(sysUser.getUsername());
-        this.setPassword(sysUser.getPassword());
+        this.setUserType(sysUser.getUserType());
+        this.setUserRank(sysUser.getUserRank());
         this.setNickname(sysUser.getNickname());
         this.setSex(sysUser.getSex());
         this.setPhone(sysUser.getPhone());

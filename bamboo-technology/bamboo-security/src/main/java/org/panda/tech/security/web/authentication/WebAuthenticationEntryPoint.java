@@ -5,10 +5,10 @@ import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.exception.ExceptionEnum;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.meta.ApiMetaProperties;
+import org.panda.tech.core.web.mvc.util.WebMvcUtil;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
-import org.panda.tech.core.web.mvc.util.WebMvcUtil;
 import org.panda.tech.security.web.SecurityUrlProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -70,12 +70,6 @@ public class WebAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoin
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
-        if (WebMvcUtil.isInternalRpc(request)) { // 内部RPC调用直接返回401错误
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            Object obj = RestfulResult.failure(ExceptionEnum.ILLEGAL_TOKEN.getCode(), ExceptionEnum.ILLEGAL_TOKEN.getMessage());
-            WebHttpUtil.buildJsonResponse(response, obj);
-            return;
-        }
         if (WebHttpUtil.isAjaxRequest(request)) { // AJAX请求执行特殊的跳转
             String loginPageUrl = buildRedirectUrlToLoginPage(request, response, authException);
             // AJAX POST请求无法通过自动登录重新提交，或者默认登录页面地址是相对地址（在当前应用，无需转发试探），则直接跳转到登录页面
@@ -85,7 +79,14 @@ public class WebAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoin
             } else {
                 this.redirectStrategy.sendRedirect(request, response, loginPageUrl);
             }
+            Object obj = RestfulResult.failure(ExceptionEnum.ILLEGAL_TOKEN.getCode(), ExceptionEnum.ILLEGAL_TOKEN.getMessage());
+            WebHttpUtil.buildJsonResponse(response, obj);
+            return;
+        }
+        if (WebMvcUtil.isInternalRpc(request)) { // 内部RPC调用直接返回401错误
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            Object obj = RestfulResult.failure(ExceptionEnum.ILLEGAL_TOKEN.getCode(), ExceptionEnum.ILLEGAL_TOKEN.getMessage());
+            WebHttpUtil.buildJsonResponse(response, obj);
             return;
         }
         super.commence(request, response, authException);

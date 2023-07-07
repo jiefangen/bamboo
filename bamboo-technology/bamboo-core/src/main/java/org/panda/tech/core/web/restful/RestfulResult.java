@@ -1,7 +1,6 @@
 package org.panda.tech.core.web.restful;
 
 import lombok.Getter;
-import org.panda.bamboo.common.constant.basic.Strings;
 
 import java.io.Serializable;
 
@@ -53,11 +52,7 @@ public class RestfulResult<T> implements Serializable {
         RestfulResult<T> result = new RestfulResult<>();
         result.code = code;
         result.message = message;
-        if (data == null) { // 确保标准返回格式完整性
-            result.data = (T) Strings.EMPTY;
-        } else {
-            result.data = data;
-        }
+        result.data = data;
         return result;
     }
 

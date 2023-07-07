@@ -6,11 +6,12 @@ import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.common.constant.Authority;
 import org.panda.business.admin.v1.common.constant.SystemConstants;
+import org.panda.business.admin.v1.modules.system.api.param.AddUserParam;
 import org.panda.business.admin.v1.modules.system.api.param.ResetPassParam;
+import org.panda.business.admin.v1.modules.system.api.param.UpdateUserRoleParam;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
 import org.panda.business.admin.v1.modules.system.service.SysUserService;
-import org.panda.business.admin.v1.modules.system.service.dto.SysUserDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysUser;
 import org.panda.tech.core.spec.enums.ActionType;
 import org.panda.tech.core.web.config.WebConstants;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * 用户权限管理
@@ -69,15 +71,15 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_add")
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
-    public RestfulResult add(@RequestBody SysUser user){
-        if(StringUtils.isEmpty(user.getUsername()) || StringUtils.isEmpty(user.getPassword())) {
+    public RestfulResult add(@RequestBody @Valid AddUserParam userParam){
+        if(StringUtils.isEmpty(userParam.getUsername()) || StringUtils.isEmpty(userParam.getPassword())) {
             return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
-        boolean result = userService.addUser(user);
+        boolean result = userService.addUser(userParam);
         if (result) {
-            return RestfulResult.failure();
+            return RestfulResult.success();
         }
-        return RestfulResult.success();
+        return RestfulResult.failure();
     }
 
     @PutMapping("/edit")
@@ -90,9 +92,9 @@ public class UserController {
     public RestfulResult edit(@RequestBody SysUser user){
         boolean result = userService.updateUser(user);
         if (result) {
-            return RestfulResult.failure();
+            return RestfulResult.success();
         }
-        return RestfulResult.success();
+        return RestfulResult.failure();
     }
 
     @PostMapping("/updatePassword")
@@ -128,12 +130,12 @@ public class UserController {
         try {
             boolean result = userService.deleteUser(username);
             if (result) {
-                return RestfulResult.failure();
+                return RestfulResult.success();
             }
         }catch (BusinessException e){
             return RestfulResult.failure(e.getMessage());
         }
-        return RestfulResult.success();
+        return RestfulResult.failure();
     }
 
     @PostMapping("/updateUserRole")
@@ -143,8 +145,8 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updateUserRole")
     })
     @WebOperationLog(actionType = ActionType.AUTH, intoStorage = true)
-    public RestfulResult updateUserRole(@RequestBody SysUserDto userDto){
-        userService.updateUserRole(userDto);
+    public RestfulResult updateUserRole(@RequestBody @Valid UpdateUserRoleParam userRoleParam){
+        userService.updateUserRole(userRoleParam);
         return RestfulResult.success();
     }
 
