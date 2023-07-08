@@ -39,13 +39,8 @@
         SELECT
         id role_id,
         <include refid="roleColumns"/>
-        FROM sys_role WHERE role_name = #{roleName,jdbcType=VARCHAR}
+        FROM sys_role r WHERE role_name = #{roleName,jdbcType=VARCHAR}
     </select>
-
-    <insert id="insertRole">
-        insert into sys_role (<include refid="roleColumns"/>)
-        values(#{role.roleName}, #{role.roleCode}, #{role.description}, now(), now())
-    </insert>
 
     <update id="updateRole">
         update sys_role

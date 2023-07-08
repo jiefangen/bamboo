@@ -7,7 +7,6 @@ import org.panda.business.admin.v1.modules.system.service.dto.SysMenuDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysMenu;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param parentId 父级ID
      * @return 指定节点内的树
      */
-    List<SysMenuDto> findChildByParentId(@Param("parentId") BigInteger parentId);
+    List<SysMenuDto> findChildByParentId(@Param("parentId") Integer parentId);
 
     /**
      * 查询指定路由节点的所有子孙节点--不包含自身节点
@@ -34,7 +33,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param parentId 父级ID
      * @return 指定节点内的树
      */
-    List<MenuVO> findRouteByParentId(@Param("parentId") BigInteger parentId);
+    List<MenuVO> findRouteByParentId(@Param("parentId") Integer parentId);
 
     /**
      * 查询路由节点的角色集
@@ -42,7 +41,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param id 菜单ID
      * @return 指定节点的角色集
      */
-    List<String> findRoleByMenuId(@Param("id") BigInteger id);
+    List<String> findRoleByMenuId(@Param("id") Integer id);
 
     /**
      * 查询指定节点以及指定子孙节点--包含自身节点
@@ -50,7 +49,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param menuId 节点唯一ID
      * @return 指定节点树
      */
-    List<MenuVO> findSelfAndRouteById(@Param("menuId") BigInteger menuId);
+    List<MenuVO> findSelfAndRouteById(@Param("menuId") Integer menuId);
 
     /**
      * 查询该指定角色拥有的资源权限

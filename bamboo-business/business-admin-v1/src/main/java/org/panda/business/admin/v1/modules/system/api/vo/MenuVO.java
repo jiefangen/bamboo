@@ -29,6 +29,10 @@ public class MenuVO implements Serializable {
     private String name;
 
     private Boolean hidden;
+    /**
+     * 菜单树结构展示父级目录必须字段
+     */
+    private Boolean alwaysShow;
 
     private MenuMeta meta;
 

@@ -1,6 +1,7 @@
 package org.panda.business.admin.v1.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.v1.modules.system.service.SysMenuService;
@@ -10,7 +11,6 @@ import org.panda.business.admin.v1.modules.system.service.repository.SysMenuMapp
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,14 +26,22 @@ import java.util.List;
 @Transactional
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
+    private static final int ZERO = 0;
+
     @Override
     public List<SysMenuDto> getMenus() {
-        return this.baseMapper.findChildByParentId(BigInteger.ZERO);
+        return this.baseMapper.findChildByParentId(ZERO);
     }
 
     @Override
     public List<MenuVO> getRoutes() {
-        return this.baseMapper.findRouteByParentId(BigInteger.ZERO);
+        List<MenuVO> routes = this.baseMapper.findRouteByParentId(ZERO);
+        routes.forEach(route -> {
+            if (StringUtils.isNotBlank(route.getRedirect()) || route.getPath().startsWith("\\/")) {
+                route.setAlwaysShow(true);
+            }
+        });
+        return routes;
     }
 
     private List<Integer> getParentOfChild(List<Integer> childKeys, Integer menuId) {
@@ -53,6 +61,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public void addMenu(SysMenu menu) {
+        menu.setId(null); // 使用数据库自增主键ID
+        if (menu.getParentId() != null && menu.getParentId() == 0) { // 顶级菜单
+            menu.setComponent("layout");
+        }
         this.baseMapper.insertMenu(menu);
     }
 
