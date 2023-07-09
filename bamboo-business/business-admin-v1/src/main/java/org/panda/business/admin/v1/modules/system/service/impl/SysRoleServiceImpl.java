@@ -2,7 +2,6 @@ package org.panda.business.admin.v1.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
@@ -43,12 +42,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
             SysRoleDto roleDTO = new SysRoleDto(role);
             String idAndRoleId = "0,".concat(String.valueOf(role.getId()));
             List<MenuVO> roleRoutes = menuDao.findRouteByRoleId(idAndRoleId);
-            roleRoutes.forEach(route -> {
-                // 菜单目录勾选到树形结构
-                if (StringUtils.isNotBlank(route.getRedirect()) || route.getPath().startsWith("\\/")) {
-                    route.setAlwaysShow(true);
-                }
-            });
             roleDTO.setRoutes(roleRoutes);
             roleList.add(roleDTO);
         });

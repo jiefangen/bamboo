@@ -24,17 +24,17 @@ insert into `sys_user_role` (`user_id`, `role_id`) values
 (106, 106);
 
 insert into `sys_menu` (`id`, `parent_id`, `menu_path`, `redirect`, `menu_name`, `title`, `icon`, `component`, `hidden`, `sort`) values
-(102, 0, '/system', '/system/user', 'router-系统管理', 'systemManage', 'system', 'layout', 0, 0),
-(103, 102, 'user', null, 'router-用户管理', 'userManage', 'peoples', 'sys_user', 0, 0),
-(104, 102, 'role', null, 'router-角色管理', 'roleManage', 'role', 'sys_role', 0, 1),
-(105, 102, 'menu', null, 'router-菜单管理', 'menuManage', 'menu', 'sys_menu', 0, 2),
-(106, 0, '/monitor', '/monitor/log', 'router-系统监控', 'systemMonitor', 'monitor', 'layout', 0, 1),
-(107, 106, 'log', null, 'router-操作日志', 'operationLog', 'log', 'monitor_log', 0, 0),
-(108, 106, 'api', null, 'router-API文档', 'apiDoc', 'api', 'monitor_api', 0, 1),
-(109, 106, 'druid', null, 'router-Druid监控', 'DruidMonitor', 'druid', 'monitor_druid', 0, 2);
+(101, 0, '/system', '/system/user', 'SystemManage', 'systemManage', 'system', 'layout', 0, 0),
+(102, 101, 'user', null, 'UserManage', 'userManage', 'peoples', 'system_user', 0, 0),
+(103, 101, 'role', null, 'RoleManage', 'roleManage', 'role', 'system_role', 0, 1),
+(104, 101, 'menu', null, 'MenuManage', 'menuManage', 'menu', 'system_menu', 0, 2),
+(105, 0, '/monitor', '/monitor/log', 'SystemMonitor', 'systemMonitor', 'monitor', 'layout', 0, 1),
+(106, 105, 'log', null, 'OperationLog', 'operationLog', 'log', 'monitor_log', 0, 0),
+(107, 105, 'api', null, 'ApiDoc', 'apiDoc', 'api', 'monitor_api', 0, 1),
+(108, 105, 'druid', null, 'DruidMonitor', 'druidMonitor', 'druid', 'monitor_druid', 0, 2);
 
 insert into `sys_role_menu` (`role_id`, `menu_id`) values
-(101, 102),(101, 103),(101, 104),(101, 105),(101, 106),(101, 107),(101, 108),(101, 109),
-(102, 102),(102, 103),(102, 104),(102, 105),
-(103, 106),(103, 107),(103, 108),(103, 109),
-(104, 102),(104, 103);
+(101, 101),(101, 102),(101, 103),(101, 104),(101, 105),(101, 106),(101, 107),(101, 108),
+(102, 101),(102, 102),(102, 103),(102, 104),
+(103, 105),(103, 106),(103, 107),(103, 108),
+(104, 101),(104, 102);

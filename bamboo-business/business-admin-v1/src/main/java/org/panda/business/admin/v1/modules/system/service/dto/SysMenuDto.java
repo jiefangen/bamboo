@@ -2,7 +2,7 @@ package org.panda.business.admin.v1.modules.system.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
+import org.panda.business.admin.v1.modules.system.service.entity.SysMenu;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -32,5 +32,5 @@ public class SysMenuDto implements Serializable {
 
     private Integer sort;
 
-    private LinkedList<MenuVO> children;
+    private LinkedList<SysMenu> children;
 }

@@ -4,7 +4,7 @@
     <sql id="menuColumns"> id, parent_id, menu_path, redirect, menu_name, title, icon, component, hidden, sort </sql>
 
     <resultMap id="baseMenuMap" type="org.panda.business.admin.v1.modules.system.service.dto.SysMenuDto">
-        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
         <result column="menu_path" property="menuPath" jdbcType="VARCHAR"/>
         <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
@@ -22,7 +22,7 @@
     </select>
 
     <resultMap id="routeMap" type="org.panda.business.admin.v1.modules.system.api.vo.MenuVO">
-        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="menu_path" property="path" jdbcType="VARCHAR"/>
         <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
         <result column="menu_name" property="name" jdbcType="VARCHAR"/>
@@ -55,7 +55,7 @@
     </select>
 
     <resultMap id="roleRouteMap" type="org.panda.business.admin.v1.modules.system.api.vo.MenuVO">
-        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="menu_path" property="path" jdbcType="VARCHAR"/>
         <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
         <result column="menu_name" property="name" jdbcType="VARCHAR"/>
@@ -95,7 +95,7 @@
         insert into sys_menu (<include refid="menuColumns"/>)
         values(#{menu.id}, #{menu.parentId},
         #{menu.menuPath}, #{menu.redirect},
-        CONCAT('router-', #{menu.title}), #{menu.title},
+        #{menu.menuName}, #{menu.title},
         #{menu.icon}, #{menu.component},
         0, (select IFNULL(sort, 0) from
         (select (max(distinct sort) + 1) as sort from sys_menu where parent_id = #{menu.parentId}) as t

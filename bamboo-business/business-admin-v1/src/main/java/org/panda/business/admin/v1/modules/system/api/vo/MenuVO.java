@@ -3,6 +3,7 @@ package org.panda.business.admin.v1.modules.system.api.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -37,4 +38,12 @@ public class MenuVO implements Serializable {
     private MenuMeta meta;
 
     LinkedList<MenuVO> children;
+
+    public Boolean getAlwaysShow() {
+        // 菜单结构中只有目录菜单才需要跳转路径
+        if (StringUtils.isNotBlank(this.redirect)) {
+            return Boolean.TRUE;
+        }
+        return alwaysShow;
+    }
 }

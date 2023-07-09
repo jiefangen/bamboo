@@ -1,8 +1,8 @@
 package org.panda.business.admin.v1.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.v1.modules.system.service.SysMenuService;
 import org.panda.business.admin.v1.modules.system.service.dto.SysMenuDto;
@@ -36,11 +36,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<MenuVO> getRoutes() {
         List<MenuVO> routes = this.baseMapper.findRouteByParentId(ZERO);
-        routes.forEach(route -> {
-            if (StringUtils.isNotBlank(route.getRedirect()) || route.getPath().startsWith("\\/")) {
-                route.setAlwaysShow(true);
-            }
-        });
         return routes;
     }
 
@@ -65,6 +60,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         if (menu.getParentId() != null && menu.getParentId() == 0) { // 顶级菜单
             menu.setComponent("layout");
         }
+        String menuName = menu.getTitle();
+        menu.setMenuName(StringUtil.firstToUpperCase(menuName));
         this.baseMapper.insertMenu(menu);
     }
 

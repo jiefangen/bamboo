@@ -50,4 +50,10 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
         return super.isValid();
     }
 
+    @Override
+    public int getExpiredIntervalSeconds() {
+        int halfDay = 12 * 60 * 60 * 1; // 12小时
+        return halfDay;
+    }
+
 }
