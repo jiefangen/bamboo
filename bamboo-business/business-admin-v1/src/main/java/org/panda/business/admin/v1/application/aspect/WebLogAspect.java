@@ -1,4 +1,4 @@
-package org.panda.business.admin.v1.common.config;
+package org.panda.business.admin.v1.application.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
