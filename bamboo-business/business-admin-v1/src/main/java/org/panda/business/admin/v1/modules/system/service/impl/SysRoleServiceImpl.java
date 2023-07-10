@@ -62,7 +62,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
-    public void updateRole(Integer roleId, SysRoleDto roleDTO) {
+    public void updateRoleMenu(Integer roleId, SysRoleDto roleDTO) {
         // 更新角色信息
         this.baseMapper.updateRole(roleId, roleDTO);
         // 更新角色权限

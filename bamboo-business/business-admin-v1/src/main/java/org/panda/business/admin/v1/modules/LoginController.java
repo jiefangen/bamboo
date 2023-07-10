@@ -2,7 +2,6 @@ package org.panda.business.admin.v1.modules;
 
 import io.swagger.annotations.Api;
 import org.panda.tech.core.web.restful.RestfulResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,7 +23,7 @@ public class LoginController {
         return RestfulResult.success(username + password + loginMode);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     public RestfulResult logout() {
         // 用于登出流程引导，无需处理任何逻辑
         return RestfulResult.success();

@@ -21,7 +21,7 @@ public interface SysRoleService extends IService<SysRole> {
 
     String addRole(SysRole role);
 
-    void updateRole(Integer roleId, SysRoleDto roleDto);
+    void updateRoleMenu(Integer roleId, SysRoleDto roleDto);
 
     int deleteRole(Integer roleId) throws BusinessException;
 }

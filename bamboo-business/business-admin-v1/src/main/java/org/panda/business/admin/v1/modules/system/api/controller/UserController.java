@@ -58,7 +58,7 @@ public class UserController {
             @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_page")
     })
-    @WebOperationLog(actionType = ActionType.QUERY, intoStorage = true)
+    @WebOperationLog(actionType = ActionType.QUERY)
     public RestfulResult page(@RequestBody UserQueryParam queryParam) {
         QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);
         return RestfulResult.success(userPage);

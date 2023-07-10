@@ -1,8 +1,8 @@
-package org.panda.business.admin.v1.modules.system.service.repository;
+package org.panda.business.admin.v1.modules.monitor.service.repository;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import org.panda.business.admin.v1.modules.system.service.entity.SysActionLog;
+import org.panda.business.admin.v1.modules.monitor.service.entity.SysActionLog;
 
 /**
  * <p>

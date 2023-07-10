@@ -2,6 +2,8 @@ package org.panda.tech.security.web.access;
 
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.jwt.InternalJwtResolver;
+import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
@@ -25,6 +27,9 @@ public class TokenLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
         String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         if (jwtResolver.verify(jwt)) {
             // 登出成功token失效处理，例如将JWT令牌添加到黑名单中
+            // 处理完成返回登出成功
+            WebHttpUtil.buildJsonResponse(response, RestfulResult.success());
+            return;
         }
         super.handle(request, response, authentication);
     }

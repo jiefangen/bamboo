@@ -2,7 +2,7 @@ package org.panda.business.admin.v1.application.scheduler;
 
 import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.business.admin.v1.modules.system.service.SysActionLogService;
+import org.panda.business.admin.v1.modules.monitor.service.SysActionLogService;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

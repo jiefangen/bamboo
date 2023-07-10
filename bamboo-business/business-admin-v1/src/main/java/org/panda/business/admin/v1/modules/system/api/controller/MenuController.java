@@ -6,6 +6,8 @@ import org.panda.business.admin.v1.common.constant.Authority;
 import org.panda.business.admin.v1.modules.system.service.SysMenuService;
 import org.panda.business.admin.v1.modules.system.service.dto.SysMenuDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysMenu;
+import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
@@ -49,6 +51,7 @@ public class MenuController {
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_menu_add")
     })
+    @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
     public RestfulResult add(@RequestBody SysMenu menu){
         menuService.addMenu(menu);
         return RestfulResult.success();
@@ -59,6 +62,7 @@ public class MenuController {
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_menu_update")
     })
+    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
     public RestfulResult update(@RequestBody SysMenu menu){
         menuService.updateMenu(menu);
         return RestfulResult.success();
@@ -69,6 +73,7 @@ public class MenuController {
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_menu_del")
     })
+    @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
     public RestfulResult del(@PathVariable Integer menuId){
         try {
             int result = menuService.deleteMenu(menuId);

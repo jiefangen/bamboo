@@ -11,6 +11,8 @@ import org.panda.business.admin.v1.modules.system.service.SysMenuService;
 import org.panda.business.admin.v1.modules.system.service.SysRoleService;
 import org.panda.business.admin.v1.modules.system.service.dto.SysRoleDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysRole;
+import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
@@ -54,6 +56,7 @@ public class RoleController {
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_role_add")
     })
+    @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
     public RestfulResult add(@RequestBody SysRole role) {
         String roleName = role.getRoleName();
         if(StringUtils.isEmpty(roleName)) {
@@ -66,13 +69,14 @@ public class RoleController {
         return RestfulResult.success();
     }
 
-    @PutMapping("/update/{roleId}")
+    @PutMapping("/updateRoleMenu/{roleId}")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_role_update")
     })
-    public RestfulResult update(@PathVariable Integer roleId, @RequestBody SysRoleDto roleDTO) {
-        roleService.updateRole(roleId, roleDTO);
+    @WebOperationLog(actionType = ActionType.AUTH, intoStorage = true)
+    public RestfulResult updateRoleMenu(@PathVariable Integer roleId, @RequestBody SysRoleDto roleDTO) {
+        roleService.updateRoleMenu(roleId, roleDTO);
         return RestfulResult.success();
     }
 
@@ -81,6 +85,7 @@ public class RoleController {
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_role_del")
     })
+    @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
     public RestfulResult del(@PathVariable Integer roleId) {
         try {
             int result = roleService.deleteRole(roleId);

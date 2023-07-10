@@ -145,6 +145,6 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
 
     @Override
     public String[] getUrlPatterns() {
-        return new String[]{"/system/**"};
+        return new String[]{"/system/**", "/monitor/**"};
     }
 }

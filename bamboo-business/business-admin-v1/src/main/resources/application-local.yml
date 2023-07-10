@@ -50,7 +50,7 @@ spring:
         allow: 127.0.0.1                                                       #IP白名单没有配置或者为空，则允许所有访问
         deny:                                                                  #IP黑名单若白名单也存在，则优先使用
       # Spring监控AOP切入点,配置多个英文逗号分隔
-      aop-patterns: org.panda.business.admin.modules.*.dao
+      aop-patterns: org.panda.business.admin.v1.modules.*.service.repository
       # 对配置已开启的filters即stat(sql监控) wall（防火墙）
       filter:
         stat:                                                                  #配置StatFilter (SQL监控配置)
