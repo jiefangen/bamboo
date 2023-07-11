@@ -3,6 +3,7 @@ package org.panda.business.admin.v1.modules.system.api.controller;
 import io.swagger.annotations.Api;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.common.constant.Authority;
+import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.v1.modules.system.service.SysMenuService;
 import org.panda.business.admin.v1.modules.system.service.dto.SysMenuDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysMenu;
@@ -30,6 +31,13 @@ public class MenuController {
 
     @Autowired
     private SysMenuService menuService;
+
+    @GetMapping("/getRoutes")
+    @ConfigPermission
+    public RestfulResult getRoutes() {
+        List<MenuVO> routes = menuService.getRoutes();
+        return RestfulResult.success(routes);
+    }
 
     @GetMapping("/getMenus")
     @ConfigPermission

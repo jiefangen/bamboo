@@ -1,7 +1,9 @@
 package org.panda.business.admin.v1.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.panda.business.admin.v1.modules.system.api.param.PermissionQueryParam;
 import org.panda.business.admin.v1.modules.system.service.entity.SysPermission;
+import org.panda.tech.data.model.query.QueryResult;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ import java.util.List;
 public interface SysPermissionService extends IService<SysPermission> {
 
     List<SysPermission> getPermissions(Integer roleId);
+
+    QueryResult<SysPermission> getPermissionsByPage(PermissionQueryParam queryParam);
 }

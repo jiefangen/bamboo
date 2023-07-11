@@ -4,10 +4,8 @@ import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
-import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.Authority;
-import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
-import org.panda.business.admin.v1.modules.system.service.SysMenuService;
+import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.modules.system.service.SysRoleService;
 import org.panda.business.admin.v1.modules.system.service.dto.SysRoleDto;
 import org.panda.business.admin.v1.modules.system.service.entity.SysRole;
@@ -34,15 +32,6 @@ public class RoleController {
 
     @Autowired
     private SysRoleService roleService;
-    @Autowired
-    private SysMenuService menuService;
-
-    @GetMapping("/getRoutes")
-    @ConfigPermission
-    public RestfulResult getRoutes() {
-        List<MenuVO> routes = menuService.getRoutes();
-        return RestfulResult.success(routes);
-    }
 
     @GetMapping("/getRoles")
     @ConfigPermission
