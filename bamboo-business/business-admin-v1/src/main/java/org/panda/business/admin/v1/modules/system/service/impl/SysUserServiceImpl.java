@@ -12,6 +12,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
 import org.panda.business.admin.v1.modules.system.api.param.AddUserParam;
+import org.panda.business.admin.v1.modules.system.api.param.UpdatePassParam;
 import org.panda.business.admin.v1.modules.system.api.param.UpdateUserRoleParam;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
 import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
@@ -205,6 +206,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String newPasswordEncrypt = passwordEncoder.encode(newPassword);
         sysUser.setPassword(newPasswordEncrypt);
         this.updateUser(sysUser);
+        return Commons.RESULT_SUCCESS;
+    }
+
+    @Override
+    public String updatePassword(UpdatePassParam updatePassParam) {
+        UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
+        String principalUsername = userSpecificDetails.getUsername();
+        Integer id = updatePassParam.getId();
+        SysUser sysUser = this.getById(id);
+        // 用户本人才可以修改自己的密码
+        if (!principalUsername.equals(sysUser.getUsername())) {
+            return SystemConstants.ROLE_NOT_CHANGE_PASS;
+        }
+        // 判断旧密码是否正确
+        if (!passwordEncoder.matches(updatePassParam.getOldPassword(), sysUser.getPassword())) {
+            return SystemConstants.PWD_WRONG;
+        }
+        // 校验通过更新密码
+        SysUser updateUser = new SysUser();
+        String newPasswordEncrypt = passwordEncoder.encode(updatePassParam.getNewPassword());
+        updateUser.setId(id);
+        updateUser.setPassword(newPasswordEncrypt);
+        this.updateById(updateUser);
         return Commons.RESULT_SUCCESS;
     }
 

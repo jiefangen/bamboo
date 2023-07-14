@@ -3,6 +3,7 @@ package org.panda.business.admin.v1.modules.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.modules.system.api.param.AddUserParam;
+import org.panda.business.admin.v1.modules.system.api.param.UpdatePassParam;
 import org.panda.business.admin.v1.modules.system.api.param.UpdateUserRoleParam;
 import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
@@ -37,4 +38,6 @@ public interface SysUserService extends IService<SysUser> {
     void updateUserRole(UpdateUserRoleParam userRoleParam);
 
     String resetPassword(String username, String oldPassword, String newPassword);
+
+    String updatePassword(UpdatePassParam updatePassParam);
 }

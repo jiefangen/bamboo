@@ -6,10 +6,7 @@ import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.v1.common.constant.Authority;
 import org.panda.business.admin.v1.common.constant.SystemConstants;
-import org.panda.business.admin.v1.modules.system.api.param.AddUserParam;
-import org.panda.business.admin.v1.modules.system.api.param.ResetPassParam;
-import org.panda.business.admin.v1.modules.system.api.param.UpdateUserRoleParam;
-import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
+import org.panda.business.admin.v1.modules.system.api.param.*;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
 import org.panda.business.admin.v1.modules.system.service.SysUserService;
 import org.panda.business.admin.v1.modules.system.service.entity.SysUser;
@@ -98,10 +95,22 @@ public class UserController {
     }
 
     @PostMapping("/updatePassword")
+    @ConfigPermission
+    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
+    public RestfulResult updatePassword(@RequestBody @Valid UpdatePassParam updatePassParam){
+        String result = userService.updatePassword(updatePassParam);
+        if (Commons.RESULT_SUCCESS.equals(result)) {
+            return RestfulResult.success();
+        } else {
+            return RestfulResult.failure(result);
+        }
+    }
+
+    @PostMapping("/resetPassword")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
             @ConfigAuthority(permission = Authority.ROLE_USER),
-            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updatePassword")
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_resetPassword")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
     public RestfulResult resetPassword(@RequestBody ResetPassParam resetPassParam){
