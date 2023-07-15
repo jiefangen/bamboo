@@ -113,14 +113,8 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_resetPassword")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult resetPassword(@RequestBody ResetPassParam resetPassParam){
-        String username = resetPassParam.getUsername();
-        String oldPassword = resetPassParam.getOldPassword();
-        String newPassword = resetPassParam.getNewPassword();
-        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(oldPassword) || StringUtils.isEmpty(newPassword)) {
-            return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
-        }
-        String result = userService.resetPassword(username, oldPassword, newPassword);
+    public RestfulResult resetPassword(@RequestBody @Valid ResetPassParam resetPassParam){
+        String result = userService.resetPassword(resetPassParam);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
         } else {

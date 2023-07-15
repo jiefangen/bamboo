@@ -11,10 +11,7 @@ import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.v1.common.constant.SystemConstants;
 import org.panda.business.admin.v1.common.constant.enums.RoleCode;
-import org.panda.business.admin.v1.modules.system.api.param.AddUserParam;
-import org.panda.business.admin.v1.modules.system.api.param.UpdatePassParam;
-import org.panda.business.admin.v1.modules.system.api.param.UpdateUserRoleParam;
-import org.panda.business.admin.v1.modules.system.api.param.UserQueryParam;
+import org.panda.business.admin.v1.modules.system.api.param.*;
 import org.panda.business.admin.v1.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.v1.modules.system.api.vo.UserVO;
 import org.panda.business.admin.v1.modules.system.service.SysMenuService;
@@ -182,31 +179,31 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public String resetPassword(String username, String oldPassword, String newPassword) {
+    public String resetPassword(ResetPassParam resetPassParam) {
+        Integer userId = resetPassParam.getUserId();
         UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
         String principalUsername = userSpecificDetails.getUsername();
-        SysUser sysUser = null;
+        SysUser sysUser = this.getById(userId);
         // 具有相应角色权限的管理员才可以重置, 本人可以重置自己的密码,无需验证
-        if (!username.equals(principalUsername)) {
-            // 判断具有相应角色角色才可以更新
-            if (this.checkTopRoles()) {
-                sysUser = this.getUserInfo(username);
-                if (sysUser == null) {
-                    return SystemConstants.USERNAME_NOT_EXIST;
-                }
-            } else {
+        if (!sysUser.getUsername().equals(principalUsername)) {
+            // 顶级用户角色才可以更新
+            if (!this.checkTopRoles()) {
                 return SystemConstants.ROLE_NOT_CHANGE_PASS;
             }
         }
-
-        // 判断旧密码是否正确
-        if (!passwordEncoder.matches(oldPassword, sysUser.getPassword())) {
-            return SystemConstants.PWD_WRONG;
+        if (StringUtils.isEmpty(resetPassParam.getNewPassword())) {
+            // 新密码为空，自动重置默认密码，后续考虑配置到参数配置表中去取
+            resetPassParam.setNewPassword("123456");
         }
-        String newPasswordEncrypt = passwordEncoder.encode(newPassword);
-        sysUser.setPassword(newPasswordEncrypt);
-        this.updateUser(sysUser);
-        return Commons.RESULT_SUCCESS;
+        String newPasswordEncrypt = passwordEncoder.encode(resetPassParam.getNewPassword());
+        SysUser userParam = new SysUser();
+        userParam.setId(userId);
+        userParam.setPassword(newPasswordEncrypt);
+        if (this.updateById(userParam)) {
+            return Commons.RESULT_SUCCESS;
+        } else {
+            return null;
+        }
     }
 
     @Override
