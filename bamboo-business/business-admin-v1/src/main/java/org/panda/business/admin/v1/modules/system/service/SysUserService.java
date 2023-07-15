@@ -30,6 +30,8 @@ public interface SysUserService extends IService<SysUser> {
 
     boolean updateUser(SysUser user);
 
+    boolean updateAccount(UpdateAccountParam updateAccountParam);
+
     boolean deleteUser(String username) throws BusinessException;
 
     void updateUserRole(UpdateUserRoleParam userRoleParam);

@@ -6,24 +6,32 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 
 /**
- * 重置密码参数
+ * 修改账户信息参数
  *
  * @author fangen
  **/
 @Setter
 @Getter
-public class ResetPassParam {
+public class UpdateAccountParam {
     /**
-     * 用户ID
+     * 用户唯一ID
      */
     @NotNull
     private Integer id;
     /**
-     * 用户名
+     * 用户昵称
      */
-    private String username;
+    private String nickname;
     /**
-     * 新密码
+     * 手机号
      */
-    private String newPassword;
+    private String phone;
+    /**
+     * 邮箱
+     */
+    private String email;
+    /**
+     * 性别
+     */
+    private String sex;
 }

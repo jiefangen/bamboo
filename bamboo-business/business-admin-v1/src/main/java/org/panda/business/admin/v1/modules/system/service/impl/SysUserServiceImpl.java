@@ -150,6 +150,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    public boolean updateAccount(UpdateAccountParam updateAccountParam) {
+        UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
+        String principalUsername = userSpecificDetails.getUsername();
+        Integer id = updateAccountParam.getId();
+        SysUser sysUser = this.getById(id);
+        // 用户本人才可以修改自己的账户信息
+        if (principalUsername.equals(sysUser.getUsername())) {
+            SysUser updateUser = new SysUser();
+            updateUser.setId(id);
+            updateUser.setNickname(updateAccountParam.getNickname());
+            updateUser.setPhone(updateAccountParam.getPhone());
+            updateUser.setEmail(updateAccountParam.getEmail());
+            updateUser.setSex(updateAccountParam.getSex());
+            return this.updateById(updateUser);
+        }
+        return false;
+    }
+
+    @Override
     public boolean deleteUser(String username) throws BusinessException {
         if (!this.checkTopRoles()) {
             return false;
@@ -180,10 +199,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public String resetPassword(ResetPassParam resetPassParam) {
-        Integer userId = resetPassParam.getUserId();
+        Integer id = resetPassParam.getId();
         UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
         String principalUsername = userSpecificDetails.getUsername();
-        SysUser sysUser = this.getById(userId);
+        SysUser sysUser = this.getById(id);
         // 具有相应角色权限的管理员才可以重置, 本人可以重置自己的密码,无需验证
         if (!sysUser.getUsername().equals(principalUsername)) {
             // 顶级用户角色才可以更新
@@ -196,10 +215,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             resetPassParam.setNewPassword("123456");
         }
         String newPasswordEncrypt = passwordEncoder.encode(resetPassParam.getNewPassword());
-        SysUser userParam = new SysUser();
-        userParam.setId(userId);
-        userParam.setPassword(newPasswordEncrypt);
-        if (this.updateById(userParam)) {
+        SysUser updateUser = new SysUser();
+        updateUser.setId(id);
+        updateUser.setPassword(newPasswordEncrypt);
+        if (this.updateById(updateUser)) {
             return Commons.RESULT_SUCCESS;
         } else {
             return null;
