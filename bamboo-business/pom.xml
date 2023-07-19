@@ -9,12 +9,10 @@
     <packaging>pom</packaging>
     <description>具体业务架构应用层</description>
     <modules>
-        <!-- 后台管理系统（初始版本）-->
+        <!-- 后台管理系统 -->
         <module>business-admin</module>
         <!-- 官网平台系统 -->
         <module>business-official</module>
-        <!-- 后台管理系统（v1版本）-->
-        <module>business-admin-v1</module>
     </modules>
 
     <properties>

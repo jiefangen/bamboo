@@ -1,0 +1,24 @@
+package org.panda.business.admin.modules.system.service.dto;
+
+import lombok.Getter;
+import lombok.Setter;
+import org.panda.business.admin.modules.system.service.entity.SysRole;
+import org.panda.business.admin.modules.system.service.entity.SysUser;
+
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Setter
+@Getter
+public class SysUserDto implements Serializable {
+
+    private static final long serialVersionUID = -7043489636732221609L;
+
+    private Integer userId;
+    private SysUser user;
+    private List<SysRole> roles;
+    private Set<String> roleCodes = new HashSet<>();
+
+}

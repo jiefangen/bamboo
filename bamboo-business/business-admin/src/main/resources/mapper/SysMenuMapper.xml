@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.panda.business.admin.modules.system.service.repository.SysMenuMapper">
+    <sql id="menuColumns"> id, parent_id, menu_path, redirect, menu_name, title, icon, component, hidden, sort </sql>
+
+    <resultMap id="baseMenuMap" type="org.panda.business.admin.modules.system.service.dto.SysMenuDto">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="menu_path" property="menuPath" jdbcType="VARCHAR"/>
+        <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="hidden" property="hidden" jdbcType="BOOLEAN"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <collection property="children" ofType="org.panda.business.admin.modules.system.service.entity.SysMenu"
+                    select="findChildByParentId" column="id"/>
+    </resultMap>
+    <select id="findChildByParentId" resultMap="baseMenuMap">
+        select <include refid="menuColumns"/> from sys_menu where parent_id = #{parentId} order by sort asc
+    </select>
+
+    <resultMap id="routeMap" type="org.panda.business.admin.modules.system.api.vo.MenuVO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="menu_path" property="path" jdbcType="VARCHAR"/>
+        <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
+        <result column="menu_name" property="name" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="hidden" property="hidden" jdbcType="BOOLEAN"/>
+        <association property="meta" javaType="org.panda.business.admin.modules.system.api.vo.MenuMeta">
+            <result column="title" property="title" jdbcType="VARCHAR"/>
+            <result column="icon" property="icon" jdbcType="VARCHAR"/>
+            <collection property="roles" ofType="string" select="findRoleByMenuId" column="id"/>
+        </association>
+        <collection property="children" ofType="org.panda.business.admin.modules.system.api.vo.MenuVO"
+                    select="findRouteByParentId" column="id"/>
+    </resultMap>
+    <select id="findRouteByParentId" resultMap="routeMap">
+        select
+        <include refid="menuColumns"/>
+        from sys_menu m where parent_id = #{parentId} order by sort asc
+    </select>
+
+    <select id="findRoleByMenuId" resultType="string">
+        select
+            role_code roleCode
+        from sys_role t
+        left join sys_role_menu t1 on t.id = t1.role_id
+            where t1.menu_id = #{id}
+    </select>
+
+    <select id="findSelfAndRouteById" resultMap="routeMap">
+        select <include refid="menuColumns"/> from sys_menu where id = #{menuId}
+    </select>
+
+    <resultMap id="roleRouteMap" type="org.panda.business.admin.modules.system.api.vo.MenuVO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="menu_path" property="path" jdbcType="VARCHAR"/>
+        <result column="redirect" property="redirect" jdbcType="VARCHAR"/>
+        <result column="menu_name" property="name" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="hidden" property="hidden" jdbcType="BOOLEAN"/>
+        <association property="meta" javaType="org.panda.business.admin.modules.system.api.vo.MenuMeta">
+            <result column="title" property="title" jdbcType="VARCHAR"/>
+            <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        </association>
+        <collection property="children" ofType="org.panda.business.admin.modules.system.api.vo.MenuVO"
+                    select="findRouteByRoleId" column="idAndRoleId"/>
+    </resultMap>
+    <select id="findRouteByRoleId" resultMap="roleRouteMap">
+        select CONCAT_WS(',', id, SUBSTRING_INDEX(#{idAndRoleId},',',-1)) idAndRoleId,
+        <include refid="menuColumns"/> from sys_menu
+        where parent_id = SUBSTRING_INDEX(#{idAndRoleId},',',1)
+        and id in (select menu_id from SYS_ROLE_MENU where role_id = SUBSTRING_INDEX(#{idAndRoleId},',',-1))
+        order by sort asc
+    </select>
+
+    <select id="findParentById" resultType="integer">
+        select parent_id from sys_menu where id = #{id}
+    </select>
+
+    <update id="updateRoleRoutes">
+        delete from sys_role_menu where role_id = #{roleId};
+
+        <if test="menuIds != null and menuIds.size() > 0 ">
+            insert into sys_role_menu (role_id, menu_id) values
+            <foreach item="menuId" index="index" collection="menuIds" separator="," close=";">
+                (#{roleId}, #{menuId})
+            </foreach>
+        </if>
+    </update>
+
+    <insert id="insertMenu">
+        insert into sys_menu (<include refid="menuColumns"/>)
+        values(#{menu.id}, #{menu.parentId},
+        #{menu.menuPath}, #{menu.redirect},
+        #{menu.menuName}, #{menu.title},
+        #{menu.icon}, #{menu.component},
+        0, (select IFNULL(sort, 0) from
+        (select (max(distinct sort) + 1) as sort from sys_menu where parent_id = #{menu.parentId}) as t
+        )
+        )
+    </insert>
+
+    <delete id="deleteMenu">
+        delete from sys_menu where id = #{menuId}
+    </delete>
+
+    <select id="delMenuVerify" resultType="java.lang.Boolean">
+        SELECT
+            sum(sum1)
+        FROM
+            ( SELECT count(1) AS sum1 FROM sys_menu WHERE parent_id = #{menuId}
+              UNION ALL
+              SELECT count(1) AS sum1 FROM sys_role_menu WHERE menu_id = #{menuId} ) AS total
+    </select>
+
+    <update id="updateMenu">
+        update sys_menu
+        <set>
+<!--            <if test="menu.title != null">title=#{menu.title}, menu_name=CONCAT('router-', #{menu.title}),</if>-->
+            <if test="menu.menuPath != null">menu_path=#{menu.menuPath},</if>
+            <if test="menu.redirect != null">redirect=#{menu.redirect},</if>
+            <if test="menu.component != null">component=#{menu.component},</if>
+            <if test="menu.icon != null">icon=#{menu.icon},</if>
+            <if test="menu.hidden != null">hidden=#{menu.hidden},</if>
+            <if test="menu.sort != null">sort=#{menu.sort},</if>
+        </set>
+        where id = #{menu.id}
+    </update>
+</mapper>

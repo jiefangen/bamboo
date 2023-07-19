@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.panda.business.admin.modules.system.service.repository.SysRoleMapper">
+    <resultMap id="baseRoleMap" type="org.panda.business.admin.modules.system.service.entity.SysRole">
+        <id column="role_id" property="id" jdbcType="INTEGER"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="roleColumns"> r.role_name, r.role_code, r.description, r.create_time, r.update_time </sql>
+
+    <select id="findRolesByUserId" resultMap="baseRoleMap">
+        SELECT
+            r.id role_id, <include refid="roleColumns"/>
+        FROM sys_role r
+            inner join sys_user_role ur on r.id = ur.role_id
+        WHERE ur.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+
+    <select id="findByUserId" resultMap="baseRoleMap">
+        SELECT
+            r.id role_id, r.role_name, r.role_code, r.description, r.create_time, r.update_time
+        FROM sys_role r, sys_user_role ur
+        WHERE r.id = ur.role_id
+          and ur.user_id = #{userId}
+    </select>
+
+    <select id="findRoles" resultMap="baseRoleMap">
+        SELECT
+            r.id role_id, r.role_name, r.role_code, r.description, r.create_time, r.update_time
+        FROM sys_role r
+    </select>
+
+    <select id="findByRoleName" resultMap="baseRoleMap">
+        SELECT
+        id role_id,
+        <include refid="roleColumns"/>
+        FROM sys_role r WHERE role_name = #{roleName,jdbcType=VARCHAR}
+    </select>
+
+    <update id="updateRole">
+        update sys_role
+        set description = #{role.description},
+            update_time = #{role.updateTime}
+        where id = #{roleId}
+    </update>
+
+    <delete id="deleteRole">
+        delete from sys_role where id = #{roleId}
+    </delete>
+
+    <select id="delRoleVerify" resultType="java.lang.Boolean">
+        SELECT
+            sum(sum1)
+        FROM
+            ( SELECT count(1) AS sum1 FROM sys_user_role WHERE role_id = #{roleId}
+              UNION ALL
+              SELECT count(1) AS sum1 FROM sys_role_menu WHERE role_id = #{roleId} ) AS total
+    </select>
+</mapper>

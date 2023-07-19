@@ -1,27 +1,16 @@
 spring:
   application:
-    name: business-admin
+    name: admin
   profiles:
-    active: local
-  mvc:
-    path-match:
-      # SpringBoot2.6.X版本兼容自动化文档knife4J
-      matching-strategy: ant_path_matcher
+    active: dev
 server:
-  port: 10001
+  port: 10002
   servlet:
-    context-path: /business-admin
+      context-path: /biz-admin
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
-# 分页插件mysql
-page helper:
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=count-sql
-
 logging:
   level:
-    org.panda.business.admin: debug
+    org.panda.business.admin.v1: info

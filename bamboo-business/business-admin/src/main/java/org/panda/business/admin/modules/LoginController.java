@@ -1,92 +1,32 @@
 package org.panda.business.admin.modules;
 
-import com.alibaba.fastjson2.JSONObject;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import io.swagger.annotations.Api;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AccountException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
-import org.panda.business.admin.common.constant.SystemConstants;
-import org.panda.business.admin.common.constant.annotation.ControllerWebLog;
-import org.panda.business.admin.common.constant.enums.ActionType;
-import org.panda.business.admin.common.model.ResultVO;
-import org.panda.business.admin.common.utils.TokenUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
- * 系统登录接口
+ * 后台管理系统登录控制器
  *
- * @author jiefangen
- * @since JDK 1.8  2020/5/13
+ * @author fangen
+ * @since 2023-05-27
  **/
-@Api(tags = "系统用户登录")
+@Api(tags = "系统登录控制器")
 @RestController
 public class LoginController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    @PostMapping("/doLogin")
-    @ControllerWebLog(content = "/doLogin", actionType= ActionType.LOGIN, intoDb = true)
-    public ResultVO doLogin(@RequestBody JSONObject jsonObject){
-        String username = jsonObject.getString("username");
-        String password = jsonObject.getString("password");
-        if(StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ResultVO.getFailure(SystemConstants.PARAMETERS_INCOMPLETE);
-        }
-
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
-        try {
-            subject.login(usernamePasswordToken);
-            // 登录成功，生成用户toke返回，用于前后端交互凭证
-            String token= TokenUtil.sign(username);
-            JSONObject json = new JSONObject();
-            json.put("name", username);
-            json.put("token", token);
-            return ResultVO.getSuccess(json);
-        } catch (UnknownAccountException e) {
-            return ResultVO.getFailure(SystemConstants.USER_INFO_ERROR, e.getMessage());
-        } catch (IncorrectCredentialsException e) {
-            LOGGER.warn(SystemConstants.PWD_WRONG);
-            return ResultVO.getFailure(SystemConstants.USER_INFO_ERROR, SystemConstants.PWD_WRONG);
-        } catch (AccountException e) {
-            return ResultVO.getFailure(SystemConstants.USER_INFO_ERROR, e.getMessage());
-        }
+    @PostMapping("/login")
+    public RestfulResult login(@RequestParam String username, @RequestParam String password,
+                               @RequestParam(required = false) String loginMode) {
+        // 用于安全认证登录引导，无需处理任何逻辑
+        return RestfulResult.success(username + password + loginMode);
     }
 
-    @GetMapping("/doLogin")
-    public ResultVO doLogin(HttpServletRequest request){
-        String token = request.getHeader(SystemConstants.AUTH_HEADER);
-        if (StringUtils.isNotEmpty(token)) {
-            try {
-                TokenUtil.verify(token);
-            } catch (Exception e) {
-                if (e instanceof TokenExpiredException) {
-                    LOGGER.warn(e.getMessage());
-                    return ResultVO.getFailure(SystemConstants.TOKEN_EXPIRED, e.getMessage());
-                }
-            }
-        }
-        return ResultVO.getFailure(SystemConstants.LOGGED_OUT, SystemConstants.LOGGED_OUT_REASON);
+    @PostMapping("/logout")
+    public RestfulResult logout() {
+        // 用于登出流程引导，无需处理任何逻辑
+        return RestfulResult.success();
     }
 
-    @GetMapping("/logout")
-    @ControllerWebLog(content = "/logout", actionType= ActionType.QUIT, intoDb = true)
-    public ResultVO logout(){
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-        }
-        return ResultVO.getSuccess();
-    }
 }

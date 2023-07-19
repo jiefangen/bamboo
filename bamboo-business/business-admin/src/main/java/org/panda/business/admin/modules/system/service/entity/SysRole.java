@@ -17,7 +17,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author bamboo-code-generator
- * @since 2023-04-25
+ * @since 2023-06-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
