@@ -124,24 +124,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public boolean addUser(AddUserParam userParam) {
+    public String addUser(AddUserParam userParam) {
         // 校验username不能重复
         String username = userParam.getUsername();
         SysUser userPO = this.getUserInfo(username);
         if (userPO != null) {
             String msg = "The username is already taken!";
             LogUtil.error(getClass(), msg);
-            return false;
+            return msg;
         }
         String encodePassword = passwordEncoder.encode(userParam.getPassword());
         SysUser user = new SysUser();
+        if (StringUtils.isEmpty(userParam.getUserType())) {
+            userParam.setUserType("customer");
+        }
+        user.setUserType(userParam.getUserType());
         user.setPassword(encodePassword);
         user.setUsername(userParam.getUsername());
         user.setPhone(userParam.getPhone());
         user.setNickname(userParam.getNickname());
         user.setEmail(userParam.getEmail());
         user.setSex(userParam.getSex());
-        return this.save(user);
+        if (this.save(user)) {
+            return Commons.RESULT_SUCCESS;
+        } else {
+            return Commons.RESULT_FAILURE;
+        }
     }
 
     @Override

@@ -72,11 +72,11 @@ public class UserController {
         if(StringUtils.isEmpty(userParam.getUsername()) || StringUtils.isEmpty(userParam.getPassword())) {
             return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
         }
-        boolean result = userService.addUser(userParam);
-        if (result) {
+        String result = userService.addUser(userParam);
+        if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
         }
-        return RestfulResult.failure();
+        return RestfulResult.failure(result);
     }
 
     @PutMapping("/edit")

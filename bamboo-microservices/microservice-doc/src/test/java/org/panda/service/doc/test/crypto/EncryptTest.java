@@ -16,7 +16,7 @@ public class EncryptTest {
     @Test
     void shaEncryptorTest() {
         ShaEncryptor encryptor = new ShaEncryptor();
-        System.out.println(encryptor.encrypt("Hello World!"));
+        System.out.println(encryptor.encrypt("admin-vue"));
     }
 
     @Test

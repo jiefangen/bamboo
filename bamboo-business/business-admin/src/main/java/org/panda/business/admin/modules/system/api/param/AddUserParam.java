@@ -24,6 +24,8 @@ public class AddUserParam {
 
     private String nickname;
 
+    private String userType;
+
     private String email;
 
     private String sex;

@@ -26,7 +26,7 @@ public interface SysUserService extends IService<SysUser> {
 
     SysUser getUserInfo(String username);
 
-    boolean addUser(AddUserParam userParam);
+    String addUser(AddUserParam userParam);
 
     boolean updateUser(SysUser user);
 

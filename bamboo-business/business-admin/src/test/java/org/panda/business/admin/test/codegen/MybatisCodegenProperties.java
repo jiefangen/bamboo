@@ -1,4 +1,4 @@
-package org.panda.business.admin.v1.test.codegen;
+package org.panda.business.admin.test.codegen;
 
 import lombok.Setter;
 import org.panda.tech.data.codegen.ClassBasePackage;
