@@ -24,6 +24,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
@@ -187,7 +188,9 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
         // 默认均开启cors，是否允许所有请求，由具体的cors配置决定
         http.cors();
         if (!this.securityProperties.isCsrfEnabled()) {
-            http.csrf().disable();
+            http.csrf().disable() // 禁用CSRF，因为无状态认证不依赖于会话
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS); // 禁用会话
         }
         // 默认允许同源站点内嵌访问
         http.headers().frameOptions().sameOrigin();
