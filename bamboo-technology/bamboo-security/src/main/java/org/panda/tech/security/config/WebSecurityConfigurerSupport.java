@@ -11,7 +11,6 @@ import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.web.AuthoritiesBizExecutor;
 import org.panda.tech.security.web.SecurityUrlProvider;
 import org.panda.tech.security.web.access.AccessDeniedBusinessExceptionHandler;
-import org.panda.tech.security.web.access.TokenLogoutSuccessHandler;
 import org.panda.tech.security.web.access.intercept.WebFilterInvocationSecurityMetadataSource;
 import org.panda.tech.security.web.authentication.JwtAuthenticationFilter;
 import org.panda.tech.security.web.authentication.WebAuthenticationEntryPoint;
@@ -94,7 +93,13 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     // 登出成功后的处理
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        SimpleUrlLogoutSuccessHandler handler = new TokenLogoutSuccessHandler();
+        SimpleUrlLogoutSuccessHandler handler;
+        // 先查询获取自定义登出处理器bean
+        if (getApplicationContext().containsBean("simpleUrlLogoutSuccessHandler")) {
+            handler = getApplicationContext().getBean(SimpleUrlLogoutSuccessHandler.class);
+        } else {
+            handler = new SimpleUrlLogoutSuccessHandler();
+        }
         handler.setRedirectStrategy(this.redirectStrategy);
         String logoutSuccessUrl = this.urlProvider.getLogoutSuccessUrl();
         if (logoutSuccessUrl != null) {

@@ -1,5 +1,8 @@
 package org.panda.tech.core.web.util;
 
+import cn.hutool.http.HttpUtil;
+import cn.hutool.http.useragent.UserAgent;
+import cn.hutool.http.useragent.UserAgentUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -13,6 +16,7 @@ import org.panda.bamboo.common.util.lang.CollectionUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.model.HttpHeaderRange;
+import org.panda.tech.core.web.model.IPAddress;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -604,6 +608,26 @@ public class WebHttpUtil {
     }
 
     /**
+     * 获取IP归属地信息
+     *
+     * @param ip 请求IP
+     * @return ip归属地
+     */
+    public static IPAddress getIPAddress(String ip, String locale) {
+        if (StringUtils.isNotBlank(ip)) {
+            String language = Strings.EMPTY;
+            if (Strings.LOCALE_SC.equals(locale)) {
+                language = "?lang=zh-CN";
+            }
+            String apiUrl = "http://ip-api.com/json/" + ip + language;
+            String response = HttpUtil.get(apiUrl);
+            IPAddress ipAddress = JsonUtil.json2Bean(response, IPAddress.class);
+            return ipAddress;
+        }
+        return null;
+    }
+
+    /**
      * 将request中的所有参数都复制到属性集中
      *
      * @param request 请求
@@ -624,6 +648,20 @@ public class WebHttpUtil {
             filename = new String(filename.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
         }
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename);
+    }
+
+    /**
+     * 获取客户端信息
+     *
+     * @param request 请求
+     * @return 客户端信息
+     */
+    public static UserAgent getUserAgent(HttpServletRequest request) {
+        String userAgent = request.getHeader(HttpHeaders.USER_AGENT);
+        if (userAgent != null) {
+            return UserAgentUtil.parse(userAgent);
+        }
+        return null;
     }
 
     /**

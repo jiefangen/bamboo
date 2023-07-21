@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("/info")
     @ConfigPermission
-    @WebOperationLog(actionType = ActionType.QUERY, intoStorage = true)
+    @WebOperationLog(actionType = ActionType.QUERY, intoStorage = false)
     public RestfulResult info(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserVO userInfo = userService.getUserByToken(token);

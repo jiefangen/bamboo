@@ -209,6 +209,18 @@ public class TemporalUtil {
         return toInstant(toLocalDateTime(instant).plusDays(days));
     }
 
+    public static LocalDateTime addHours(LocalDateTime localDateTime, int hours) {
+        return localDateTime.plusHours(hours);
+    }
+
+    public static LocalDateTime addMinutes(LocalDateTime localDateTime, int minutes) {
+        return localDateTime.plusMinutes(minutes);
+    }
+
+    public static LocalDateTime addSeconds(LocalDateTime localDateTime, int seconds) {
+        return localDateTime.plusSeconds(seconds);
+    }
+
     /**
      * 为指定时间点设置时分秒纳秒，返回新日期
      *
