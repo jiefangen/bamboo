@@ -14,7 +14,7 @@ public class IPAddress {
     /**
      * 省/州
      */
-    private String region;
+    private String regionName;
     /**
      * 城市
      */
@@ -34,5 +34,5 @@ public class IPAddress {
     /**
      * 地区code
      */
-    private String regionCode;
+    private String region;
 }

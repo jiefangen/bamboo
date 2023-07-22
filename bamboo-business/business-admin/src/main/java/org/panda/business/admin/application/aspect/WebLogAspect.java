@@ -2,8 +2,8 @@ package org.panda.business.admin.application.aspect;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.panda.business.admin.application.task.LogAsyncTask;
 import org.panda.business.admin.common.model.WebLogData;
+import org.panda.business.admin.modules.monitor.service.SysActionLogService;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.model.WebLogRange;
 import org.panda.tech.core.web.support.WebLogSupport;
@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 public class WebLogAspect extends WebLogSupport {
 
     @Autowired
-    private LogAsyncTask logAsyncTask;
+    private SysActionLogService actionLogService;
 
     @Pointcut("execution(* org.panda.business.admin.modules..*.*(..))")
     public void pointcut() {}
@@ -59,6 +59,6 @@ public class WebLogAspect extends WebLogSupport {
         WebLogData webLogData = new WebLogData();
         webLogData.transform(threadInfo);
         // 异步写入数据库
-        logAsyncTask.intoLogDb(webLogData, res);
+        actionLogService.intoLogDb(webLogData, res);
     }
 }

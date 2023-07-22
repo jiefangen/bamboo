@@ -40,9 +40,21 @@ public class SysActionLog implements Serializable {
     @TableField("content")
     private String content;
 
-    @ApiModelProperty(value = "远程地址")
-    @TableField("remote_address")
-    private String remoteAddress;
+    @ApiModelProperty(value = "主机地址")
+    @TableField("host")
+    private String host;
+
+    @ApiModelProperty(value = "IP归属地址")
+    @TableField("ip_address")
+    private String ipAddress;
+
+    @ApiModelProperty(value = "终端设备")
+    @TableField("terminal_device")
+    private String terminalDevice;
+
+    @ApiModelProperty(value = "终端操作系统")
+    @TableField("terminal_os")
+    private String terminalOs;
 
     @ApiModelProperty(value = "身份标识")
     @TableField("identity")

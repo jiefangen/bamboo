@@ -10,16 +10,20 @@ import java.io.Serializable;
 @Data
 public class WebLogRange implements Serializable {
 
-    private static final long serialVersionUID = 3550898549684720410L;
+    private static final long serialVersionUID = 2808451047698815202L;
 
     /**
      * 记录开始时间戳
      */
     private Long startTimeMillis;
     /**
-     * 远程地址
+     * 主机地址
      */
-    private String remoteAddress;
+    private String host;
+    /**
+     * IP归属地址
+     */
+    private String ipAddress;
     /**
      * 操作类型
      */

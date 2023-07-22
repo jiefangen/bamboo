@@ -118,10 +118,13 @@ CREATE TABLE `sys_user_token` (
 DROP TABLE IF EXISTS `sys_action_log`;
 CREATE TABLE `sys_action_log` (
                                 `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                `identity` VARCHAR(100) COMMENT '身份标识',
+                                `identity` VARCHAR(100) NOT NULL COMMENT '身份标识',
                                 `action_type` VARCHAR(20) NOT NULL COMMENT '操作类型',
                                 `content` VARCHAR(500) COMMENT '操作内容',
-                                `remote_address` VARCHAR(50) COMMENT '远程地址',
+                                `host` VARCHAR(50) COMMENT '主机地址',
+                                `ip_address` VARCHAR(100) COMMENT 'IP归属地址',
+                                `terminal_device` VARCHAR(100) COMMENT '终端设备',
+                                `terminal_os` VARCHAR(100) COMMENT '终端操作系统',
                                 `operating_time` DATETIME COMMENT '操作时间',
                                 `elapsed_time` BIGINT COMMENT '耗时',
                                 `status_code` INT COMMENT '操作结果状态',

@@ -14,7 +14,8 @@ public class WebLogData extends WebLogRange {
 
     public void transform(WebLogRange webLogRange) {
         super.setStartTimeMillis(webLogRange.getStartTimeMillis());
-        super.setRemoteAddress(webLogRange.getRemoteAddress());
+        super.setHost(webLogRange.getHost());
+        super.setIpAddress(webLogRange.getIpAddress());
         super.setActionType(webLogRange.getActionType());
         super.setContent(webLogRange.getContent());
         super.setIdentity(webLogRange.getIdentity());

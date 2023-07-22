@@ -653,6 +653,19 @@ public class WebHttpUtil {
     /**
      * 获取客户端信息
      *
+     * @param userAgentHeader userAgent请求头
+     * @return 客户端信息
+     */
+    public static UserAgent getUserAgent(String userAgentHeader) {
+        if (StringUtils.isNotBlank(userAgentHeader)) {
+            return UserAgentUtil.parse(userAgentHeader);
+        }
+        return null;
+    }
+
+    /**
+     * 获取客户端信息
+     *
      * @param request 请求
      * @return 客户端信息
      */
