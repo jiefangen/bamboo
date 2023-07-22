@@ -34,11 +34,11 @@ public class SystemConstants {
      */
     public static final String ROLE_NOT_CHANGE_PASS = "You have no role to change someone else's password.";
     /**
-     * 掉线
+     * 登出
      */
     public static final int LOGGED_OUT = 5006;
     /**
-     * 掉线原因
+     * 登出原因
      */
     public static final String LOGGED_OUT_REASON = "Maybe the server restarted or some other reasons.";
 

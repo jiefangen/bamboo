@@ -1,7 +1,7 @@
 package org.panda.business.admin.infrastructure.security.authentication;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.apache.commons.collections4.CollectionUtils;
+import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.tech.core.spec.user.DefaultUserIdentity;
@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 配置登出成功处理器
@@ -37,8 +36,14 @@ public class LogoutAuthenticationSuccessHandler extends SimpleUrlLogoutSuccessHa
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
-        if (jwtResolver.verify(jwt)) {
-            // 登出成功token失效处理，例如将JWT令牌添加到黑名单中
+        boolean jwtVerify = false;
+        try {
+            jwtVerify = jwtResolver.verify(jwt);
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+        }
+        if (jwtVerify) {
+            // 登出成功token失效处理
             LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
             DefaultUserSpecificDetails userSpecificDetails = jwtResolver.parse(jwt, DefaultUserSpecificDetails.class);
             DefaultUserIdentity userIdentity = userSpecificDetails.getIdentity();
@@ -46,15 +51,12 @@ public class LogoutAuthenticationSuccessHandler extends SimpleUrlLogoutSuccessHa
             queryWrapper.eq(SysUserToken::getIdentity, userSpecificDetails.getUsername());
             queryWrapper.eq(SysUserToken::getToken, jwt);
             queryWrapper.eq(SysUserToken::getStatus, 1);
-            List<SysUserToken> userTokens = sysUserTokenService.list(queryWrapper);
-            if (CollectionUtils.isNotEmpty(userTokens)) {
-                userTokens.forEach(userToken -> {
-                    userToken.setStatus(4); // 登出状态
-                    userToken.setLogoutTime(LocalDateTime.now());
-                    sysUserTokenService.updateById(userToken);
-                });
+            SysUserToken userToken = sysUserTokenService.getOne(queryWrapper, false);
+            if (userToken != null) {
+                userToken.setStatus(4); // 登出状态
+                userToken.setLogoutTime(LocalDateTime.now());
+                sysUserTokenService.updateById(userToken);
             }
-
             // 处理完成返回登出成功
             WebHttpUtil.buildJsonResponse(response, RestfulResult.success());
             return;

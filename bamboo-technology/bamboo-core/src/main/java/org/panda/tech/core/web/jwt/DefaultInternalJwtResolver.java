@@ -116,14 +116,10 @@ public class DefaultInternalJwtResolver implements InternalJwtResolver, ContextI
             int index = jwt.indexOf(Strings.SLASH);
             if (index > 0 && index < jwt.length() - 1) {
                 String appName = jwt.substring(JWT_PREFIX.length(), index);
-                try {
-                    JWTVerifier verifier = getVerifier(appName);
-                    String token = jwt.substring(index + 1);
-                    verifier.verify(token);
-                    return true;
-                } catch (Exception e) { // 出现任何错误均只打印日志，视为验证失败
-                    LogUtil.error(getClass(), e);
-                }
+                JWTVerifier verifier = getVerifier(appName);
+                String token = jwt.substring(index + 1);
+                verifier.verify(token);
+                return true;
             }
         }
         return false;

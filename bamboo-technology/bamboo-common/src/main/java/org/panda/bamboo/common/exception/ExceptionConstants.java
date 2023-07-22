@@ -29,9 +29,9 @@ class ExceptionConstants {
     protected static final int FORBIDDEN_CODE = 4030;
     protected static final String FORBIDDEN = "No operation authority exception!";
 
-    protected static final int TOKEN_EXPIRED_CODE = 4014;
-    protected static final String TOKEN_EXPIRED = "Token expired!";
-    protected static final int ILLEGAL_TOKEN_CODE = 4018;
+    protected static final int ILLEGAL_TOKEN_CODE = 4014;
     protected static final String ILLEGAL_TOKEN = "Token verify failure!";
+    protected static final int TOKEN_EXPIRED_CODE = 4018;
+    protected static final String TOKEN_EXPIRED = "Token expired!";
 
 }

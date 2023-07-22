@@ -25,13 +25,13 @@ public enum ExceptionEnum {
      */
     UNAUTHORIZED(ExceptionConstants.UNAUTHORIZED_CODE, ExceptionConstants.UNAUTHORIZED),
     /**
-     * Token失效
-     */
-    TOKEN_EXPIRED(ExceptionConstants.TOKEN_EXPIRED_CODE, ExceptionConstants.TOKEN_EXPIRED),
-    /**
      * Token认证校验异常
      */
     ILLEGAL_TOKEN(ExceptionConstants.ILLEGAL_TOKEN_CODE, ExceptionConstants.ILLEGAL_TOKEN),
+    /**
+     * Token过期失效
+     */
+    TOKEN_EXPIRED(ExceptionConstants.TOKEN_EXPIRED_CODE, ExceptionConstants.TOKEN_EXPIRED),
     /**
      * 没有操作权限异常
      */
