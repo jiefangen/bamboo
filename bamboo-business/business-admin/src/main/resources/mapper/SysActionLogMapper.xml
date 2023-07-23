@@ -5,7 +5,8 @@
         <id column="log_id" property="id" jdbcType="BIGINT"/>
         <result column="action_type" property="actionType" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
-        <result column="remote_address" property="remoteAddress" jdbcType="VARCHAR"/>
+        <result column="host" property="host" jdbcType="VARCHAR"/>
+        <result column="ip_address" property="ipAddress" jdbcType="VARCHAR"/>
         <result column="identity" property="identity" jdbcType="VARCHAR"/>
         <result column="operating_time" property="operatingTime" jdbcType="TIMESTAMP"/>
         <result column="elapsed_time" property="elapsedTime" jdbcType="INTEGER"/>
@@ -13,7 +14,7 @@
         <result column="exception_info" property="exceptionInfo" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <sql id="logColumns"> action_type, content, remote_address, `identity`, operating_time, elapsed_time, status_code, exception_info </sql>
+    <sql id="logColumns"> action_type, content, `host`, `ip_address`, `identity`, operating_time, elapsed_time, status_code, exception_info </sql>
 
     <delete id="truncateLog">
         truncate table sys_action_log

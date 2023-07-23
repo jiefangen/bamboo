@@ -52,8 +52,8 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
 
     @Override
     public int getExpiredIntervalSeconds() {
-        int halfDay = 12 * 60 * 60 * 1; // 12小时
-        return halfDay;
+        int oneHour = 3600; // 一个小时
+        return oneHour;
     }
 
 }

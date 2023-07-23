@@ -28,11 +28,11 @@ public abstract class AbstractInternalJwtConfiguration implements InternalJwtCon
         switch (profile) {
             case Profiles.LOCAL:
             case Profiles.DEV:
-                return 1000;
+                return 3600;
             case Profiles.TEST:
-                return 100;
+                return 1800;
             default:
-                return 10;
+                return 60;
         }
     }
 

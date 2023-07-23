@@ -123,11 +123,12 @@ CREATE TABLE `sys_action_log` (
                                 `content` VARCHAR(500) COMMENT '操作内容',
                                 `host` VARCHAR(50) COMMENT '主机地址',
                                 `ip_address` VARCHAR(100) COMMENT 'IP归属地址',
-                                `terminal_device` VARCHAR(100) COMMENT '终端设备',
-                                `terminal_os` VARCHAR(100) COMMENT '终端操作系统',
                                 `operating_time` DATETIME COMMENT '操作时间',
                                 `elapsed_time` BIGINT COMMENT '耗时',
                                 `status_code` INT COMMENT '操作结果状态',
+                                `source_id` VARCHAR(100) COMMENT '来源ID',
+                                `terminal_device` VARCHAR(100) COMMENT '终端设备',
+                                `terminal_os` VARCHAR(100) COMMENT '终端操作系统',
                                 `exception_info` VARCHAR(4000) COMMENT '异常信息',
                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统操作日志' ROW_FORMAT=Compact;

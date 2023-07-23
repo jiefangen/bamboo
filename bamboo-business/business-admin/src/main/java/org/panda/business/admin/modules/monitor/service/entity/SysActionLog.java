@@ -36,6 +36,10 @@ public class SysActionLog implements Serializable {
     @TableField("action_type")
     private String actionType;
 
+    @ApiModelProperty(value = "来源ID")
+    @TableField("source_id")
+    private String sourceId;
+
     @ApiModelProperty(value = "操作内容")
     @TableField("content")
     private String content;

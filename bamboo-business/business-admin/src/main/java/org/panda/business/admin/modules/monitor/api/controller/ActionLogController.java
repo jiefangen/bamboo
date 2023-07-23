@@ -3,7 +3,10 @@ package org.panda.business.admin.modules.monitor.api.controller;
 import io.swagger.annotations.Api;
 import org.panda.business.admin.common.constant.Authority;
 import org.panda.business.admin.modules.monitor.api.param.LogQueryParam;
+import org.panda.business.admin.modules.monitor.api.param.OnlineQueryParam;
+import org.panda.business.admin.modules.monitor.api.vo.OnlineVO;
 import org.panda.business.admin.modules.monitor.service.SysActionLogService;
+import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
 import org.panda.tech.core.spec.enums.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
@@ -26,15 +29,26 @@ public class ActionLogController {
 
     @Autowired
     private SysActionLogService actionLogService;
+    @Autowired
+    private SysUserTokenService userTokenService;
 
     @PostMapping("/page")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_ACTUATOR),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "monitor_log_page")
     })
-    @WebOperationLog(actionType= ActionType.QUERY)
     public RestfulResult page(@RequestBody LogQueryParam queryParam) {
         QueryResult<SysActionLog> actionLogPage = actionLogService.getLogByPage(queryParam);
+        return RestfulResult.success(actionLogPage);
+    }
+
+    @PostMapping("/online")
+    @ConfigAuthorities({
+            @ConfigAuthority(permission = Authority.ROLE_ACTUATOR),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "monitor_log_online")
+    })
+    public RestfulResult online(@RequestBody OnlineQueryParam queryParam) {
+        QueryResult<OnlineVO> actionLogPage = userTokenService.getOnlineByPage(queryParam);
         return RestfulResult.success(actionLogPage);
     }
 

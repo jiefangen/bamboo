@@ -1,5 +1,6 @@
 package org.panda.business.admin.infrastructure.security.authentication;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.business.admin.modules.monitor.service.SysActionLogService;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
@@ -55,15 +56,19 @@ public class LoginAuthenticationSuccessHandler extends AjaxAuthenticationSuccess
             String identity = userSpecificDetails.getUsername();
             userToken.setIdentity(identity);
             userToken.setToken(token);
-            Integer expiredInterval = jwtConfiguration.getExpiredIntervalSeconds();
+            // 自定义token有效状态先于jwt10秒失效
+            Integer expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
             userToken.setExpiredInterval(expiredInterval);
             LocalDateTime currentDate = LocalDateTime.now();
             userToken.setCreateTime(currentDate);
             userToken.setExpirationTime(TemporalUtil.addSeconds(currentDate, expiredInterval));
             sysUserTokenService.save(userToken);
 
+            LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(SysUserToken::getToken, token);
+            SysUserToken sysUserToken = sysUserTokenService.getOne(queryWrapper, false);
             // 登录日志记录
-            actionLogService.intoLoginLog(request, identity);
+            actionLogService.intoLoginLog(request, sysUserToken);
             return RestfulResult.success(token);
         }
         return RestfulResult.failure();

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.business.admin.common.model.WebLogData;
 import org.panda.business.admin.modules.monitor.api.param.LogQueryParam;
 import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
+import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.tech.data.model.query.QueryResult;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ public interface SysActionLogService extends IService<SysActionLog> {
 
     void intoLogDb(WebLogData webLogData, Object res);
 
-    void intoLoginLog(HttpServletRequest request, String identity);
+    void intoLoginLog(HttpServletRequest request, SysUserToken userToken);
 
     QueryResult<SysActionLog> getLogByPage(LogQueryParam queryParam);
 

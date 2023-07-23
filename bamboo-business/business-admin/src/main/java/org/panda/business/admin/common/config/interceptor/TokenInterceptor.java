@@ -2,10 +2,12 @@ package org.panda.business.admin.common.config.interceptor;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.panda.bamboo.common.exception.ExceptionEnum;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.tech.core.web.config.WebConstants;
+import org.panda.tech.core.web.config.security.WebSecurityProperties;
 import org.panda.tech.core.web.jwt.InternalJwtResolver;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
@@ -16,6 +18,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Token拦截器
@@ -29,6 +33,8 @@ public class TokenInterceptor implements HandlerInterceptor {
     private InternalJwtResolver jwtResolver;
     @Autowired
     private SysUserTokenService sysUserTokenService;
+    @Autowired
+    private WebSecurityProperties securityProperties;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -36,6 +42,18 @@ public class TokenInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return true;
         }
+        if (this.securityProperties != null) {
+            List<String> ignoringPatterns = this.securityProperties.getIgnoringPatterns();
+            if (ignoringPatterns != null) {
+                String url = WebHttpUtil.getRelativeRequestUrl(request);
+                for (String ignoringPattern : ignoringPatterns) {
+                    if (StringUtil.antPathMatchOneOf(url, ignoringPattern)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         boolean jwtVerify;
         try {
@@ -45,26 +63,27 @@ public class TokenInterceptor implements HandlerInterceptor {
             WebHttpUtil.buildJsonResponse(response, obj);
             return false;
         }
-
         boolean interceptPass = false; // 拦截器通过状态标识
         Object failureResult = RestfulResult.failure();
         if (jwtVerify) {
             LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysUserToken::getToken, jwt);
             SysUserToken userToken = sysUserTokenService.getOne(queryWrapper, false);
-            if (userToken != null && userToken.getStatus() != null) {
+            if (userToken != null && userToken.getStatus() != null) { // 失效
                 Integer status = userToken.getStatus();
-                if (status == 1) { // 在线有效
-                    interceptPass = true;
-                } else if (status == 2) { // 离线
-                    userToken.setStatus(1);
-                    sysUserTokenService.updateById(userToken);
-                    interceptPass = true;
-                } else if (status == 3) { // 失效
+                if (status == 3 || LocalDateTime.now().isAfter(userToken.getExpirationTime())) {
                     failureResult = RestfulResult.failure(ExceptionEnum.TOKEN_EXPIRED.getCode(),
                             ExceptionEnum.TOKEN_EXPIRED.getMessage());
-                } else if (status == 4) { // 登出
-                    failureResult = RestfulResult.failure(SystemConstants.LOGGED_OUT, SystemConstants.LOGGED_OUT_REASON);
+                } else {
+                    if (status == 1) { // 在线有效
+                        interceptPass = true;
+                    } else if (status == 2) { // 离线
+                        userToken.setStatus(1);
+                        sysUserTokenService.updateById(userToken);
+                        interceptPass = true;
+                    } else if (status == 4) { // 登出
+                        failureResult = RestfulResult.failure(SystemConstants.LOGGED_OUT, SystemConstants.LOGGED_OUT_REASON);
+                    }
                 }
             }
         }

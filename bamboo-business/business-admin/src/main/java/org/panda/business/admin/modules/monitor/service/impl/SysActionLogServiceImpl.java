@@ -15,6 +15,7 @@ import org.panda.business.admin.common.model.WebLogData;
 import org.panda.business.admin.modules.monitor.api.param.LogQueryParam;
 import org.panda.business.admin.modules.monitor.service.SysActionLogService;
 import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
+import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.business.admin.modules.monitor.service.repository.SysActionLogMapper;
 import org.panda.tech.core.spec.enums.ActionType;
 import org.panda.tech.core.web.model.IPAddress;
@@ -81,13 +82,15 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     }
 
     @Override
-    public void intoLoginLog(HttpServletRequest request, String identity) {
+    public void intoLoginLog(HttpServletRequest request, SysUserToken userToken) {
         SysActionLog actionLog = new SysActionLog();
-        actionLog.setIdentity(identity);
         String actionTypeValue = EnumValueHelper.getValue(ActionType.LOGIN);
         actionLog.setActionType(actionTypeValue);
         actionLog.setContent("/login");
-
+        if (userToken != null) {
+            actionLog.setIdentity(userToken.getIdentity());
+            actionLog.setSourceId(String.valueOf(userToken.getId()));
+        }
         String userAgentHeader = request.getHeader(HttpHeaders.USER_AGENT);
         String remoteAddress = WebHttpUtil.getRemoteAddress(request);
         actionLog.setHost(remoteAddress);
@@ -98,6 +101,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
             actionLog.setTerminalOs(userAgent.getOs().getName());
         }
         actionLog.setOperatingTime(LocalDateTime.now());
+        actionLog.setElapsedTime(0L);
         actionLog.setStatusCode(Commons.RESULT_SUCCESS_CODE);
         this.save(actionLog);
     }

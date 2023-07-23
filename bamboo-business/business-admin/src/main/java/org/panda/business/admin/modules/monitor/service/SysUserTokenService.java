@@ -1,7 +1,10 @@
 package org.panda.business.admin.modules.monitor.service;
 
+import org.panda.business.admin.modules.monitor.api.param.OnlineQueryParam;
+import org.panda.business.admin.modules.monitor.api.vo.OnlineVO;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.panda.tech.data.model.query.QueryResult;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysUserTokenService extends IService<SysUserToken> {
 
+    QueryResult<OnlineVO> getOnlineByPage(OnlineQueryParam queryParam);
 }
