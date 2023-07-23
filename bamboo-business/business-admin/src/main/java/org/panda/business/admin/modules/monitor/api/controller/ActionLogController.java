@@ -9,6 +9,7 @@ import org.panda.business.admin.modules.monitor.service.SysActionLogService;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
 import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
@@ -16,6 +17,8 @@ import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 操作日志
@@ -50,6 +53,21 @@ public class ActionLogController {
     public RestfulResult online(@RequestBody OnlineQueryParam queryParam) {
         QueryResult<OnlineVO> actionLogPage = userTokenService.getOnlineByPage(queryParam);
         return RestfulResult.success(actionLogPage);
+    }
+
+    @PutMapping("/onlineQuit/{tokenId}")
+    @ConfigAuthorities({
+            @ConfigAuthority(permission = Authority.ROLE_ACTUATOR),
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "monitor_log_onlineQuit")
+    })
+    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
+    public RestfulResult onlineQuit(HttpServletRequest request, @PathVariable Long tokenId){
+        String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
+        if (userTokenService.quitOnlineUser(tokenId, token)) {
+            return RestfulResult.success();
+        } else {
+            return RestfulResult.failure();
+        }
     }
 
     @DeleteMapping("/empty")

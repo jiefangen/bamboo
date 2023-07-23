@@ -50,17 +50,27 @@ public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenMapper, Sys
         if (CollectionUtils.isNotEmpty(tokenList)) {
             for (int i = 0; i < tokenList.size(); i++) {
                 SysUserToken userToken = tokenList.get(i);
-                OnlineVO onlineVO = new OnlineVO();
-                onlineVO.setUserToken(userToken);
                 LambdaQueryWrapper<SysActionLog> logWrapper = new LambdaQueryWrapper<>();
                 logWrapper.eq(SysActionLog::getIdentity, userToken.getIdentity());
                 logWrapper.eq(SysActionLog::getSourceId, userToken.getId());
                 SysActionLog actionLog = actionLogService.getOne(logWrapper, false);
-                onlineVO.setActionLog(actionLog);
+
+                OnlineVO onlineVO = new OnlineVO();
+                onlineVO.transform(userToken, actionLog);
                 onlineVOList.add(onlineVO);
             }
         }
         QueryResult<OnlineVO> queryResult = QueryPageHelper.convertQueryResult(onlineVOList, userTokenPage);
         return queryResult;
+    }
+
+    @Override
+    public boolean quitOnlineUser(Long tokenId, String token) {
+        SysUserToken userToken = this.getById(tokenId);
+        if (token.equals(userToken.getToken())) {
+            return false;
+        }
+        userToken.setStatus(4);
+        return this.updateById(userToken);
     }
 }

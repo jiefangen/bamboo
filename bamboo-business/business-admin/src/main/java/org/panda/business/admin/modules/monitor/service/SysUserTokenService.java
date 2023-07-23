@@ -17,4 +17,6 @@ import org.panda.tech.data.model.query.QueryResult;
 public interface SysUserTokenService extends IService<SysUserToken> {
 
     QueryResult<OnlineVO> getOnlineByPage(OnlineQueryParam queryParam);
+
+    boolean quitOnlineUser(Long tokenId, String token);
 }

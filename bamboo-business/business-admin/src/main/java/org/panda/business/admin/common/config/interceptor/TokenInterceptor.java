@@ -42,6 +42,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return true;
         }
+        // 忽略资源直接放行
         if (this.securityProperties != null) {
             List<String> ignoringPatterns = this.securityProperties.getIgnoringPatterns();
             if (ignoringPatterns != null) {
@@ -54,6 +55,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             }
         }
 
+        // token结构规则校验
         String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         boolean jwtVerify;
         try {
@@ -63,6 +65,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             WebHttpUtil.buildJsonResponse(response, obj);
             return false;
         }
+        // token状态信息校验
         boolean interceptPass = false; // 拦截器通过状态标识
         Object failureResult = RestfulResult.failure();
         if (jwtVerify) {
@@ -88,6 +91,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             }
         }
 
+        // token拦截器校验结果组装返回
         if (!interceptPass) {
             WebHttpUtil.buildJsonResponse(response, failureResult);
         }
