@@ -61,6 +61,7 @@ public class LoginAuthenticationSuccessHandler extends AjaxAuthenticationSuccess
             userToken.setExpiredInterval(expiredInterval);
             LocalDateTime currentDate = LocalDateTime.now();
             userToken.setCreateTime(currentDate);
+            userToken.setUpdateTime(currentDate);
             userToken.setExpirationTime(TemporalUtil.addSeconds(currentDate, expiredInterval));
             sysUserTokenService.save(userToken);
 

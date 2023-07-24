@@ -82,11 +82,14 @@ public class TokenInterceptor implements HandlerInterceptor {
                         interceptPass = true;
                     } else if (status == 2) { // 离线
                         userToken.setStatus(1);
-                        sysUserTokenService.updateById(userToken);
                         interceptPass = true;
                     } else if (status == 4) { // 登出
                         failureResult = RestfulResult.failure(SystemConstants.LOGGED_OUT, SystemConstants.LOGGED_OUT_REASON);
                     }
+                }
+                if (interceptPass) { // 实时刷新用户token在线时间
+                    userToken.setUpdateTime(LocalDateTime.now());
+                    sysUserTokenService.updateById(userToken);
                 }
             }
         }

@@ -19,4 +19,8 @@ public interface SysUserTokenService extends IService<SysUserToken> {
     QueryResult<OnlineVO> getOnlineByPage(OnlineQueryParam queryParam);
 
     boolean quitOnlineUser(Long tokenId, String token);
+
+    void refreshTokenStatus();
+
+    void cleanObsoleteToken();
 }

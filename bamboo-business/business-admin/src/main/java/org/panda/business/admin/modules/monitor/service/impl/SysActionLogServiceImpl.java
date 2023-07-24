@@ -28,6 +28,7 @@ import org.panda.tech.data.mybatis.config.QueryPageHelper;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,6 +44,7 @@ import java.time.LocalDateTime;
  * @since 2023-06-30
  */
 @Service
+@Transactional
 public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, SysActionLog> implements SysActionLogService {
 
     @Override
@@ -97,8 +99,8 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         actionLog.setIpAddress(this.getIpAttribution(remoteAddress));
         UserAgent userAgent = WebHttpUtil.getUserAgent(userAgentHeader);
         if (userAgent != null) {
-            actionLog.setTerminalDevice(userAgent.getBrowser().getName());
-            actionLog.setTerminalOs(userAgent.getOs().getName());
+            actionLog.setTerminalDevice(userAgent.getBrowser().getName() + Strings.SPACE + userAgent.getVersion());
+            actionLog.setTerminalOs(userAgent.getOs().getName() + Strings.SPACE + userAgent.getOsVersion());
         }
         actionLog.setOperatingTime(LocalDateTime.now());
         actionLog.setElapsedTime(0L);
@@ -137,7 +139,8 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     }
 
     @Override
-    public int removeLogByTime(int intervalDay) {
+    public int cleanObsoleteLog() {
+        int intervalDay = 15;
         return this.baseMapper.deleteLogByTime(intervalDay);
     }
 }

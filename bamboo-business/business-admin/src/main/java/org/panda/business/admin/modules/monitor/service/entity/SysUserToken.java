@@ -1,15 +1,16 @@
 package org.panda.business.admin.modules.monitor.service.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -55,13 +56,17 @@ public class SysUserToken implements Serializable {
     @TableField("expiration_time")
     private LocalDateTime expirationTime;
 
+    @ApiModelProperty(value = "登出时间")
+    @TableField("logout_time")
+    private LocalDateTime logoutTime;
+
     @ApiModelProperty(value = "创建/登录时间")
     @TableField("create_time")
     private LocalDateTime createTime;
 
-    @ApiModelProperty(value = "登出时间")
-    @TableField("logout_time")
-    private LocalDateTime logoutTime;
+    @ApiModelProperty(value = "更新时间")
+    @TableField("update_time")
+    private LocalDateTime updateTime;
 
 
 }

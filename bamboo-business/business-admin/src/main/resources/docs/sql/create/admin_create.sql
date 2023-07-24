@@ -109,8 +109,9 @@ CREATE TABLE `sys_user_token` (
                                   `status` INT DEFAULT 1 NOT NULL COMMENT '状态：1-在线；2-离线；3-失效；4-登出',
                                   `expired_interval` INT COMMENT '失效时间间隔（单位秒）',
                                   `expiration_time` DATETIME COMMENT '失效时间',
-                                  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建/登录时间',
                                   `logout_time` DATETIME COMMENT '登出时间',
+                                  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建/登录时间',
+                                  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统用户token' ROW_FORMAT=Compact;
 
