@@ -31,17 +31,19 @@ public class SystemScheduler {
     @Scheduled(fixedDelay = 7*Times.MS_ONE_DAY, initialDelay = Times.MS_ONE_SECOND)
     public void cleanObsoleteLog() {
         LOGGER.debug("CleanActionLog scheduler start...");
+        // 日志记录保存14～21天
         actionLogService.cleanObsoleteLog();
+        // 记录保存时长7～14天
         userTokenService.cleanObsoleteToken();
         LOGGER.debug("CleanActionLog scheduler end.");
     }
 
     /**
      * 在线用户token状态刷新
-     * 间隔一分钟
+     * 间隔30秒
      */
     @Async("scheduledExecutor")
-    @Scheduled(fixedDelay = Times.MS_ONE_MINUTE, initialDelay = Times.MS_ONE_SECOND)
+    @Scheduled(fixedDelay = 30*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
     public void refreshToken() {
         LOGGER.debug("RefreshToken scheduler start...");
         userTokenService.refreshTokenStatus();

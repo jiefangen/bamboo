@@ -27,5 +27,5 @@ public interface SysActionLogService extends IService<SysActionLog> {
 
     void deleteAllLog();
 
-    int cleanObsoleteLog();
+    void cleanObsoleteLog();
 }

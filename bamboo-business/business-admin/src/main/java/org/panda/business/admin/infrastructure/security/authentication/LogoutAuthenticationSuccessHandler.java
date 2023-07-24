@@ -50,7 +50,6 @@ public class LogoutAuthenticationSuccessHandler extends SimpleUrlLogoutSuccessHa
             queryWrapper.eq(SysUserToken::getUserId, userIdentity.getId());
             queryWrapper.eq(SysUserToken::getIdentity, userSpecificDetails.getUsername());
             queryWrapper.eq(SysUserToken::getToken, jwt);
-            queryWrapper.eq(SysUserToken::getStatus, 1);
             SysUserToken userToken = sysUserTokenService.getOne(queryWrapper, false);
             if (userToken != null) {
                 userToken.setStatus(4); // 登出状态

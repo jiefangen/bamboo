@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.Commons;
@@ -34,6 +35,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -139,8 +142,17 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     }
 
     @Override
-    public int cleanObsoleteLog() {
-        int intervalDay = 15;
-        return this.baseMapper.deleteLogByTime(intervalDay);
+    public void cleanObsoleteLog() {
+        long obsoleteInterval = 14 * 24 * 60 * 60L; // 14天/单位秒
+        LocalDateTime obsoleteTime = LocalDateTime.now().minusSeconds(obsoleteInterval);
+        LambdaQueryWrapper<SysActionLog> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.lt(SysActionLog::getOperatingTime, obsoleteTime);
+        List<SysActionLog> obsoleteLogs = this.list(queryWrapper);
+        if (CollectionUtils.isNotEmpty(obsoleteLogs)) {
+            List<Long> idList = obsoleteLogs.stream()
+                    .map(log -> log.getId())
+                    .collect(Collectors.toList());
+            this.removeByIds(idList);
+        }
     }
 }

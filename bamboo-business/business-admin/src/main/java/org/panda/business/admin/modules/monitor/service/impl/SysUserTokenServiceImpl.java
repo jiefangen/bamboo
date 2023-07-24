@@ -79,35 +79,55 @@ public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenMapper, Sys
     }
 
     @Override
+    public void kickOutOnlineUsers(Integer userId, String username) {
+        LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserToken::getUserId, userId);
+        queryWrapper.eq(SysUserToken::getIdentity, username);
+        queryWrapper.in(SysUserToken::getStatus, 1, 2);
+        List<SysUserToken> userTokens = this.list(queryWrapper);
+        if (CollectionUtils.isNotEmpty(userTokens)) {
+            List<SysUserToken> kickOutUserTokens = userTokens.stream()
+                    .map(userToken -> {
+                        userToken.setStatus(4);
+                        return userToken;
+                    })
+                    .collect(Collectors.toList());
+            this.updateBatchById(kickOutUserTokens);
+        }
+    }
+
+    @Override
     public void refreshTokenStatus() {
         LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUserToken::getStatus, 1);
-        List<SysUserToken> userTokens = this.list(queryWrapper);
-
-        LocalDateTime currentDateTime = LocalDateTime.now();
         // 超过离线时间间隔未操作的token刷新至离线状态
+        LocalDateTime currentDateTime = LocalDateTime.now();
         long offlineInterval = 3 * 60L; // 3分钟
         LocalDateTime offlineTime = currentDateTime.minusSeconds(offlineInterval);
-        List<SysUserToken> offlineUserTokens = userTokens.stream()
-                .filter(userToken -> offlineTime.isAfter(userToken.getUpdateTime()))
-                .map(userToken -> {
-                    userToken.setStatus(2);
-                    return userToken;
-                })
-                .collect(Collectors.toList());
-        if (CollectionUtils.isNotEmpty(offlineUserTokens)) {
+        queryWrapper.eq(SysUserToken::getStatus, 1);
+        queryWrapper.lt(SysUserToken::getUpdateTime, offlineTime);
+        List<SysUserToken> userTokens = this.list(queryWrapper);
+        if (CollectionUtils.isNotEmpty(userTokens)) {
+            List<SysUserToken> offlineUserTokens = userTokens.stream()
+                    .map(userToken -> {
+                        userToken.setStatus(2);
+                        return userToken;
+                    })
+                    .collect(Collectors.toList());
             this.updateBatchById(offlineUserTokens);
         }
 
+        LambdaQueryWrapper<SysUserToken> tokenQueryWrapper = new LambdaQueryWrapper<>();
+        tokenQueryWrapper.in(SysUserToken::getStatus, 1, 2);
+        tokenQueryWrapper.lt(SysUserToken::getExpirationTime, currentDateTime);
+        List<SysUserToken> sysUserTokens = this.list(tokenQueryWrapper);
         // 刷新token令牌失效状态
-        List<SysUserToken> expirationUserTokens = userTokens.stream()
-                .filter(userToken -> currentDateTime.isAfter(userToken.getExpirationTime()))
-                .map(userToken -> {
-                    userToken.setStatus(3);
-                    return userToken;
-                })
-                .collect(Collectors.toList());
-        if (CollectionUtils.isNotEmpty(expirationUserTokens)) {
+        if (CollectionUtils.isNotEmpty(sysUserTokens)) {
+            List<SysUserToken> expirationUserTokens = sysUserTokens.stream()
+                    .map(userToken -> {
+                        userToken.setStatus(3);
+                        return userToken;
+                    })
+                    .collect(Collectors.toList());
             this.updateBatchById(expirationUserTokens);
         }
     }

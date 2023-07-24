@@ -11,6 +11,7 @@ import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.common.constant.enums.RoleCode;
+import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.system.api.param.*;
 import org.panda.business.admin.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.modules.system.api.vo.UserVO;
@@ -53,6 +54,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysMenuService menuService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private SysUserTokenService userTokenService;
 
     @Override
     public SysUserDto getUserAndRoles(String username) {
@@ -227,10 +230,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         updateUser.setId(id);
         updateUser.setPassword(newPasswordEncrypt);
         if (this.updateById(updateUser)) {
+            userTokenService.kickOutOnlineUsers(id, sysUser.getUsername());
             return Commons.RESULT_SUCCESS;
-        } else {
-            return null;
         }
+        return null;
     }
 
     @Override
@@ -252,8 +255,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String newPasswordEncrypt = passwordEncoder.encode(updatePassParam.getNewPassword());
         updateUser.setId(id);
         updateUser.setPassword(newPasswordEncrypt);
-        this.updateById(updateUser);
-        return Commons.RESULT_SUCCESS;
+        if (this.updateById(updateUser)) {
+            // 踢出已在线的用户
+            userTokenService.kickOutOnlineUsers(id, sysUser.getUsername());
+            return Commons.RESULT_SUCCESS;
+        }
+        return null;
     }
 
     public boolean checkTopRoles() {

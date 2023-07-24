@@ -1,6 +1,10 @@
 package org.panda.business.admin.infrastructure.security.authentication;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.apache.commons.collections4.CollectionUtils;
 import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
+import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.tech.security.authentication.*;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetailsService;
@@ -15,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 支持登录服务端认证提供者
  */
@@ -26,6 +32,9 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
 
     @Autowired
     private UserSpecificDetailsService userDetailsService;
+
+    @Autowired
+    private SysUserTokenService userTokenService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -49,7 +58,30 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
         String remoteAddress = webAuthenticationDetails.getRemoteAddress();
         UserSpecificDetailsAuthenticationToken authenticationToken = new UserSpecificDetailsAuthenticationToken(userSpecificDetails);
         authenticationToken.setIp(remoteAddress);
+        // 在线用户登录限制
+        this.onlineUserLimit(username);
         return authenticationToken;
+    }
+
+    /**
+     * 在线用户登录限制
+     * 同时在线用户/离线也算半在线用户
+     */
+    private void onlineUserLimit(String username) {
+        LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUserToken::getIdentity, username);
+        queryWrapper.in(SysUserToken::getStatus, 1, 2);
+        queryWrapper.orderByAsc(SysUserToken::getCreateTime);
+        List<SysUserToken> userTokens = userTokenService.list(queryWrapper);
+        int userLimit = 3; // 之后放到系统参数设置中
+        if (CollectionUtils.isNotEmpty(userTokens)) {
+            if (userTokens.size() >= userLimit) {
+                // 踢出登录时间最早的那个用户
+                SysUserToken firstUserToken = userTokens.get(0);
+                firstUserToken.setStatus(4);
+                userTokenService.updateById(firstUserToken);
+            }
+        }
     }
 
     @Override

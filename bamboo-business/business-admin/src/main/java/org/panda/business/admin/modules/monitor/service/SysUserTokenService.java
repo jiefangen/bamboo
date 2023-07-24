@@ -20,6 +20,8 @@ public interface SysUserTokenService extends IService<SysUserToken> {
 
     boolean quitOnlineUser(Long tokenId, String token);
 
+    void kickOutOnlineUsers(Integer userId, String username);
+
     void refreshTokenStatus();
 
     void cleanObsoleteToken();
