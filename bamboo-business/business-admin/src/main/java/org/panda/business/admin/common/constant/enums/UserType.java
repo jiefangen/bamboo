@@ -10,9 +10,6 @@ public enum UserType {
     @Caption("管理员")
     MANAGER,
 
-    @Caption("系统用户")
-    SYSTEM,
-
     @Caption("普通用户")
     GENERAL,
 

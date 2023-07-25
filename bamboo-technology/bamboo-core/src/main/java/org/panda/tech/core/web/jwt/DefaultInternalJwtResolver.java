@@ -103,7 +103,7 @@ public class DefaultInternalJwtResolver implements InternalJwtResolver, ContextI
                         return JacksonUtil.CLASSED_MAPPER.readValue(audienceJson, type);
                     }
                 } catch (Exception e) { // 出现任何错误均只打印日志，视为没有授权
-                    LogUtil.error(getClass(), e);
+                    LogUtil.error(getClass(), e.getMessage());
                 }
             }
         }
