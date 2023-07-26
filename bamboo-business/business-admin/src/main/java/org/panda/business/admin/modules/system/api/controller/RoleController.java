@@ -1,11 +1,9 @@
 package org.panda.business.admin.modules.system.api.controller;
 
 import io.swagger.annotations.Api;
-import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
-import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.modules.system.service.SysRoleService;
 import org.panda.business.admin.modules.system.service.dto.SysRoleDto;
 import org.panda.business.admin.modules.system.service.entity.SysRole;
@@ -47,15 +45,11 @@ public class RoleController {
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
     public RestfulResult add(@RequestBody SysRole role) {
-        String roleName = role.getRoleName();
-        if(StringUtils.isEmpty(roleName)) {
-            return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
-        }
         String result = roleService.addRole(role);
-        if (!Commons.RESULT_SUCCESS.equals(result)) {
-            return RestfulResult.failure(result);
+        if (Commons.RESULT_SUCCESS.equals(result)) {
+            return RestfulResult.success();
         }
-        return RestfulResult.success();
+        return RestfulResult.failure(result);
     }
 
     @PutMapping("/updateRoleMenu/{roleId}")

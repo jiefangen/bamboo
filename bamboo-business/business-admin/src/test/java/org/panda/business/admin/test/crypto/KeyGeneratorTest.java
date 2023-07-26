@@ -1,7 +1,7 @@
 package org.panda.business.admin.test.crypto;
 
 import org.junit.jupiter.api.Test;
-import org.panda.bamboo.common.util.lang.MathUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.admin.test.AdminApplicationTest;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
@@ -24,7 +24,7 @@ public class KeyGeneratorTest extends AdminApplicationTest {
 
     @Test
     void fixedKeyGenerator() {
-        String key = Long.toString(MathUtil.randomLong(10000000, 99999999));
+        String key = StringUtil.randomNormalMixeds(11);
         System.out.println("key: " + key);
         AesEncryptor aesEncryptor = new AesEncryptor();
         String encryptedText = aesEncryptor.encrypt(appName, key);

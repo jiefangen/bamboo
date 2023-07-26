@@ -34,10 +34,9 @@ insert into `sys_menu` (`id`, `parent_id`, `menu_path`, `redirect`, `menu_name`,
 (108, 106, 'log', null, 'OperationLog', 'operationLog', 'log', 'monitor_log', 0, 1),
 (109, 106, 'api', null, 'ApiDoc', 'apiDoc', 'api', 'monitor_api', 0, 2),
 (110, 106, 'druid', null, 'DruidMonitor', 'druidMonitor', 'druid', 'monitor_druid', 0, 3),
-
 (111, 0, '/settings', '/settings/parameter', 'SystemSettings', 'systemSettings', 'settings', 'layout', 0, 2),
 (112, 111, 'parameter', null, 'ParamSettings', 'paramSettings', 'parameter', 'settings_parameter', 0, 0),
-(113, 111, 'dictionary', null, 'DicSettings', 'dicSettings', 'dictionary', 'settings_dictionary', 0, 1);
+(113, 111, 'dictionary', null, 'DictSettings', 'dictSettings', 'dictionary', 'settings_dictionary', 0, 1);
 
 insert into `sys_role_menu` (`role_id`, `menu_id`) values
 (101, 101),(101, 102),(101, 103),(101, 104),(101, 105),(101, 106),(101, 107),(101, 108),(101, 109),(101, 110),
@@ -45,3 +44,11 @@ insert into `sys_role_menu` (`role_id`, `menu_id`) values
 (102, 101),(102, 102),(102, 103),(102, 104),(102, 105),(102, 111),(102, 112),(102, 113),
 (103, 106),(103, 107),(103, 108),(103, 109),(103, 110),
 (104, 101),(104, 102);
+
+/* 系统参数初始化 */
+insert into `sys_parameter` (`parameter_name`, `parameter_key`, `parameter_value`, `parameter_type`, `app_range`, `remark`, `creator`) values
+('admin系统-生成token签名密钥key', 'admin:app:tokenKey', 'FBQ8x8pMuvX' ,'internal', 'admin', '随机生成字符串，可定期更换', 'systemInit'),
+('admin系统-token失效时间间隔', 'admin:app:tokenInterval', '3600' ,'internal', 'admin', '时间间隔，单位秒', 'systemInit'),
+('admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**' ,'internal', 'admin', '匹配模式数组格式存储', 'systemInit'),
+('admin系统-同时在线用户限制', 'admin:user:onlineLimit', '3' ,'internal', 'admin', '统计限制在线和离线用户', 'systemInit'),
+('用户管理-账号初始化密码', 'admin:user:initPassword', '123456' ,'internal', 'admin', '默认用户密码', 'systemInit');

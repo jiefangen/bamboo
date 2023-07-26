@@ -8,15 +8,19 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.business.admin.common.constant.Authority;
 import org.panda.business.admin.common.constant.enums.RoleCode;
+import org.panda.business.admin.modules.settings.common.ParamKeys;
+import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.business.admin.modules.system.service.SysPermissionService;
 import org.panda.business.admin.modules.system.service.SysRolePermissionService;
 import org.panda.business.admin.modules.system.service.SysRoleService;
 import org.panda.business.admin.modules.system.service.entity.SysPermission;
 import org.panda.business.admin.modules.system.service.entity.SysRole;
 import org.panda.business.admin.modules.system.service.entity.SysRolePermission;
+import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.security.user.UserConfigAuthority;
 import org.panda.tech.security.web.AuthoritiesBizExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,12 +44,17 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
     private AtomicCounter permissionCounter = new AtomicCounter();
     private AtomicCounter rolePerCounter = new AtomicCounter();
 
+    @Value(AppConstants.EL_SPRING_APP_NAME)
+    private String appName;
+
     @Autowired
     private SysRoleService roleService;
     @Autowired
     private SysPermissionService permissionService;
     @Autowired
     private SysRolePermissionService rolePermissionService;
+    @Autowired
+    private SysParameterService parameterService;
 
     @Override
     @Transactional
@@ -145,6 +154,12 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
 
     @Override
     public String[] getUrlPatterns() {
-        return new String[]{"/system/**", "/monitor/**"};
+        Optional<String> authUrlPatternsOptional = parameterService.getParamValueByKey(ParamKeys.AUTH_URL_PATTERNS, appName);
+        String[] urlPatterns = new String[]{"/system/**"};
+        if (authUrlPatternsOptional.isPresent()) {
+            String authUrlPatterns = authUrlPatternsOptional.get();
+            urlPatterns = authUrlPatterns.split("\\,");
+        }
+        return urlPatterns;
     }
 }

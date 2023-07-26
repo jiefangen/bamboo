@@ -5,6 +5,8 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
+import org.panda.business.admin.modules.settings.common.ParamKeys;
+import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.tech.security.authentication.*;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetailsService;
@@ -20,6 +22,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 支持登录服务端认证提供者
@@ -29,12 +32,12 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private UserSpecificDetailsService userDetailsService;
-
     @Autowired
     private SysUserTokenService userTokenService;
+    @Autowired
+    private SysParameterService parameterService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -73,7 +76,11 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
         queryWrapper.in(SysUserToken::getStatus, 1, 2);
         queryWrapper.orderByAsc(SysUserToken::getCreateTime);
         List<SysUserToken> userTokens = userTokenService.list(queryWrapper);
-        int userLimit = 3; // 之后放到系统参数设置中
+        int userLimit = 1;
+        Optional<String> userLimitOptional = parameterService.getParamValueByKey(ParamKeys.ONLINE_LIMIT);
+        if (userLimitOptional.isPresent()) {
+            userLimit = Integer.parseInt(userLimitOptional.get());
+        }
         if (CollectionUtils.isNotEmpty(userTokens)) {
             if (userTokens.size() >= userLimit) {
                 // 踢出登录时间最早的那个用户

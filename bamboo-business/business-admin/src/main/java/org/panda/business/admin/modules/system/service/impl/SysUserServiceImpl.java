@@ -12,6 +12,8 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.common.constant.enums.RoleCode;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
+import org.panda.business.admin.modules.settings.common.ParamKeys;
+import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.business.admin.modules.system.api.param.*;
 import org.panda.business.admin.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.modules.system.api.vo.UserVO;
@@ -33,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -56,6 +59,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private PasswordEncoder passwordEncoder;
     @Autowired
     private SysUserTokenService userTokenService;
+    @Autowired
+    private SysParameterService parameterService;
 
     @Override
     public SysUserDto getUserAndRoles(String username) {
@@ -136,7 +141,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             LogUtil.error(getClass(), msg);
             return msg;
         }
-        String encodePassword = passwordEncoder.encode(userParam.getPassword());
+        String password = userParam.getPassword();
+        if (StringUtils.isEmpty(password)) {
+            Optional<String> initPassword = parameterService.getParamValueByKey(ParamKeys.INIT_PWD);
+            if (initPassword.isPresent()) {
+                password = initPassword.get();
+            } else {
+                return ParamKeys.INIT_PWD + " not configured";
+            }
+        }
+        String encodePassword = passwordEncoder.encode(password);
         SysUser user = new SysUser();
         if (StringUtils.isEmpty(userParam.getUserType())) {
             userParam.setUserType("customer");
@@ -222,8 +236,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
         }
         if (StringUtils.isEmpty(resetPassParam.getNewPassword())) {
-            // 新密码为空，自动重置默认密码，后续考虑配置到参数配置表中去取
-            resetPassParam.setNewPassword("123456");
+            // 新密码为空，自动重置默认密码
+            Optional<String> initPassword = parameterService.getParamValueByKey(ParamKeys.INIT_PWD);
+            if (initPassword.isPresent()) {
+                resetPassParam.setNewPassword(initPassword.get());
+            } else {
+                return ParamKeys.INIT_PWD + " not configured";
+            }
         }
         String newPasswordEncrypt = passwordEncoder.encode(resetPassParam.getNewPassword());
         SysUser updateUser = new SysUser();

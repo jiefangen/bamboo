@@ -1,7 +1,6 @@
 package org.panda.business.admin.modules.system.api.controller;
 
 import io.swagger.annotations.Api;
-import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
@@ -69,9 +68,6 @@ public class UserController {
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
     public RestfulResult add(@RequestBody @Valid AddUserParam userParam) {
-        if(StringUtils.isEmpty(userParam.getUsername()) || StringUtils.isEmpty(userParam.getPassword())) {
-            return RestfulResult.failure(SystemConstants.PARAMETERS_INCOMPLETE);
-        }
         String result = userService.addUser(userParam);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();

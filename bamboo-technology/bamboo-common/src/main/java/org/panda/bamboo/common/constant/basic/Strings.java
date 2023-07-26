@@ -28,6 +28,10 @@ public class Strings {
      * 空格
      */
     public static final String SPACE = " ";
+    /**
+     * 空对象
+     */
+    public static final String EMPTY_OBJ = null;
 
     /**
      * 星号

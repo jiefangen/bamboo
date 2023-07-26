@@ -1,11 +1,16 @@
 package org.panda.business.admin.infrastructure.security;
 
-import org.panda.bamboo.common.util.lang.MathUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.business.admin.modules.settings.common.ParamKeys;
+import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.jwt.AbstractInternalJwtConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Optional;
 
 /**
  * WebJwt配置器
@@ -17,10 +22,13 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
     /**
      * 随机生成的key，每次启动都会有不同的密钥产生
      */
-    private static final String KEY;
+    private static String TOKEN_KEY;
 
     @Value(AppConstants.EL_SPRING_APP_NAME)
     private String appName;
+
+    @Autowired
+    private SysParameterService parameterService;
 
     /**
      * 静态代码块>构造代码块>构造函数>普通代码块
@@ -30,7 +38,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
      * 4.普通代码块的执行顺序和书写顺序一致
      */
     static { // 服务每次重启都会更新密钥key，提高系统安全性
-        KEY = Long.toString(MathUtil.randomLong(10000000, 99999999));
+        TOKEN_KEY = StringUtil.randomNormalMixeds(11);
     }
 
     @Override
@@ -40,8 +48,15 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
 
     @Override
     public String getSecretKey() {
+        Optional<String> tokenKeyOptional = parameterService.getParamValueByKey(ParamKeys.TOKEN_KEY, appName);
+        String tokenKey;
+        if (tokenKeyOptional.isPresent()) { // 优先使用系统配置参数
+            tokenKey = tokenKeyOptional.get();
+        } else {
+            tokenKey = TOKEN_KEY;
+        }
         AesEncryptor aesEncryptor = new AesEncryptor();
-        String secretKey = aesEncryptor.encrypt(appName, KEY);
+        String secretKey = aesEncryptor.encrypt(appName, tokenKey);
         return secretKey;
     }
 
@@ -52,8 +67,13 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
 
     @Override
     public int getExpiredIntervalSeconds() {
-        int oneHour = 3600; // 一个小时
-        return oneHour;
+        Optional<String> tokenInterval = parameterService.getParamValueByKey(ParamKeys.TOKEN_INTERVAL, appName);
+        if (tokenInterval.isPresent()) {
+            int interval = Integer.parseInt(tokenInterval.get());
+            return interval;
+        } else {
+            return super.getExpiredIntervalSeconds();
+        }
     }
 
 }

@@ -133,3 +133,22 @@ CREATE TABLE `sys_action_log` (
                                 `exception_info` VARCHAR(4000) COMMENT '异常信息',
                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统操作日志' ROW_FORMAT=Compact;
+
+
+DROP TABLE IF EXISTS `sys_parameter`;
+CREATE TABLE `sys_parameter` (
+                                  `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                                  `parameter_name` VARCHAR(500) NOT NULL COMMENT '参数名称',
+                                  `parameter_key` VARCHAR(100) NOT NULL COMMENT '参数键',
+                                  `parameter_value` VARCHAR(4000) NOT NULL COMMENT '参数值',
+                                  `parameter_type` VARCHAR(50) COMMENT '参数类型：internal-内置；external-外置；',
+                                  `status` INT DEFAULT 1 NOT NULL COMMENT '状态：0-关闭；1-开启；',
+                                  `app_range` VARCHAR(100) COMMENT '应用范围',
+                                  `remark` VARCHAR(1000) COMMENT '备注',
+                                  `creator` VARCHAR(100) COMMENT '创建者',
+                                  `updater` VARCHAR(100) COMMENT '更新者',
+                                  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                  PRIMARY KEY (`id`) USING BTREE,
+                                  UNIQUE KEY `UQ_PARAMETER_KEY` (`parameter_key`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统参数' ROW_FORMAT=Compact;

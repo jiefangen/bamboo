@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author fangen
  */
-@Api(tags = "监控操作日志")
+@Api(tags = "系统监控管理")
 @RestController
 @RequestMapping("/monitor/log")
 public class ActionLogController {
