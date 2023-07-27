@@ -12,6 +12,8 @@ import org.panda.tech.data.model.query.QueryParam;
 @Setter
 @Getter
 public class ParameterQueryParam extends QueryParam {
+    private static final long serialVersionUID = 8039909336847637521L;
+
     /**
      * 参数名称
      */

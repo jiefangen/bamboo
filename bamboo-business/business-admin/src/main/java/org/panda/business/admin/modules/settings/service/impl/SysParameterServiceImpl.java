@@ -5,13 +5,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.business.admin.modules.settings.api.param.ParameterParam;
 import org.panda.business.admin.modules.settings.api.param.ParameterQueryParam;
 import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.business.admin.modules.settings.service.entity.SysParameter;
 import org.panda.business.admin.modules.settings.service.repository.SysParameterMapper;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.config.QueryPageHelper;
+import org.panda.tech.security.user.UserSpecificDetails;
+import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -52,6 +57,56 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         IPage<SysParameter> paramPage = this.page(page, queryWrapper);
         QueryResult<SysParameter> queryResult = QueryPageHelper.convertQueryResult(paramPage);
         return queryResult;
+    }
+
+    @Override
+    public String addParameter(ParameterParam parameterParam) {
+        // 参数key重复性校验
+        String parameterKey = parameterParam.getParameterKey();
+        LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysParameter::getParameterKey, parameterKey);
+        if (this.count(queryWrapper) > 0) {
+            return "The parameterKey is already taken!";
+        }
+        SysParameter parameter = new SysParameter();
+        parameterParam.transform(parameter);
+        UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
+        String principalUsername = userSpecificDetails.getUsername();
+        parameter.setCreator(principalUsername);
+        if (this.save(parameter)) {
+            return Commons.RESULT_SUCCESS;
+        } else {
+            return Commons.RESULT_FAILURE;
+        }
+    }
+
+    @Override
+    public boolean updateParameter(ParameterParam parameterParam) {
+        if (parameterParam.getId() == null) {
+            return false;
+        }
+        SysParameter parameter = new SysParameter();
+        parameterParam.transform(parameter);
+        UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
+        String principalUsername = userSpecificDetails.getUsername();
+        parameter.setUpdater(principalUsername);
+        return this.updateById(parameter);
+    }
+
+    @Override
+    public boolean deleteParameter(Integer id) throws BusinessException {
+        if (id != null) {
+            SysParameter parameter = this.getById(id);
+            if (parameter != null && parameter.getStatus() == 0) { // 关闭的状态才可以删除
+                if ("systemInit".equals(parameter.getCreator())) { // 系统初始化的重要参数不可删除
+                    throw new BusinessException("System initialization parameter cannot be deleted.");
+                }
+                return this.removeById(id);
+            } else {
+                throw new BusinessException("Please close the parameter first.");
+            }
+        }
+        return false;
     }
 
     private Optional<String> getParamValue(String paramKey, String appRange) {

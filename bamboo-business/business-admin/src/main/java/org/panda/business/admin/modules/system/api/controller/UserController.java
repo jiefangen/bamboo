@@ -142,7 +142,7 @@ public class UserController {
             if (result) {
                 return RestfulResult.success();
             }
-        }catch (BusinessException e){
+        } catch (BusinessException e){
             return RestfulResult.failure(e.getMessage());
         }
         return RestfulResult.failure();
