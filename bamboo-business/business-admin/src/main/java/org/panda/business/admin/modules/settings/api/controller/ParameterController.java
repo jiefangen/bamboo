@@ -24,7 +24,7 @@ import javax.validation.Valid;
  *
  * @author fangen
  **/
-@Api(tags = "系统配置管理")
+@Api(tags = "系统参数设置")
 @RestController
 @RequestMapping("/settings/parameter")
 public class ParameterController {
