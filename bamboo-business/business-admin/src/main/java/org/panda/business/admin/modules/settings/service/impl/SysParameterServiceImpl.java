@@ -46,10 +46,10 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     public QueryResult<SysParameter> getParamByPage(ParameterQueryParam queryParam) {
         Page<SysParameter> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
         LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
-        String parameterName = queryParam.getParameterName();
-        queryWrapper.like(StringUtils.isNotBlank(parameterName), SysParameter::getParameterName, parameterName);
-        String parameterKey = queryParam.getParameterKey();
-        queryWrapper.like(StringUtils.isNotBlank(parameterKey), SysParameter::getParameterKey, parameterKey);
+        String getParamName = queryParam.getParamName();
+        queryWrapper.like(StringUtils.isNotBlank(getParamName), SysParameter::getParamName, getParamName);
+        String getParamKey = queryParam.getParamKey();
+        queryWrapper.like(StringUtils.isNotBlank(getParamKey), SysParameter::getParamKey, getParamKey);
         if (StringUtils.isNotBlank(queryParam.getStartDate()) && StringUtils.isNotBlank(queryParam.getEndDate())) {
             queryWrapper.between(SysParameter::getCreateTime, queryParam.getStartDate(), queryParam.getEndDate());
         }
@@ -62,9 +62,9 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     @Override
     public String addParameter(ParameterParam parameterParam) {
         // 参数key重复性校验
-        String parameterKey = parameterParam.getParameterKey();
+        String parameterKey = parameterParam.getParamKey();
         LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysParameter::getParameterKey, parameterKey);
+        queryWrapper.eq(SysParameter::getParamKey, parameterKey);
         if (this.count(queryWrapper) > 0) {
             return "The parameterKey is already taken!";
         }
@@ -111,14 +111,14 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
 
     private Optional<String> getParamValue(String paramKey, String appRange) {
         LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysParameter::getParameterKey, paramKey);
+        queryWrapper.eq(SysParameter::getParamKey, paramKey);
         if (StringUtils.isNotEmpty(appRange)) {
             queryWrapper.eq(SysParameter::getAppRange, appRange);
         }
         queryWrapper.eq(SysParameter::getStatus, 1);
         SysParameter parameter = this.getOne(queryWrapper, false);
         if (parameter != null) {
-            return Optional.ofNullable(parameter.getParameterValue());
+            return Optional.ofNullable(parameter.getParamValue());
         }
         return Optional.empty();
     }

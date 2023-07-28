@@ -17,11 +17,11 @@ public class ParameterQueryParam extends QueryParam {
     /**
      * 参数名称
      */
-    private String parameterName;
+    private String paramName;
     /**
      * 参数键名
      */
-    private String parameterKey;
+    private String paramKey;
     /**
      * 筛选开始时间
      */

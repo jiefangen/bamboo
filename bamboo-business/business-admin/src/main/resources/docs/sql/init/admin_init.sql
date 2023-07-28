@@ -46,7 +46,7 @@ insert into `sys_role_menu` (`role_id`, `menu_id`) values
 (104, 101),(104, 102);
 
 /* 系统参数初始化 */
-insert into `sys_parameter` (`parameter_name`, `parameter_key`, `parameter_value`, `parameter_type`, `app_range`, `remark`, `creator`) values
+insert into `sys_parameter` (`param_name`, `param_key`, `param_value`, `param_type`, `app_range`, `remark`, `creator`) values
 ('admin系统-生成token签名密钥key', 'admin:app:tokenKey', 'FBQ8x8pMuvX' ,'internal', 'admin', '随机生成字符串，可定期更换', 'systemInit'),
 ('admin系统-token失效时间间隔', 'admin:app:tokenInterval', '3600' ,'internal', 'admin', '时间间隔，单位秒', 'systemInit'),
 ('admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**' ,'internal', 'admin', '匹配模式数组格式存储', 'systemInit'),

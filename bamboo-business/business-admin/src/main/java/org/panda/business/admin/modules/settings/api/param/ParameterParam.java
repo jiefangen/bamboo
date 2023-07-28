@@ -18,15 +18,15 @@ public class ParameterParam {
     private Integer id;
 
     @NotBlank
-    private String parameterName;
+    private String paramName;
 
     @NotBlank
-    private String parameterKey;
+    private String paramKey;
 
     @NotBlank
-    private String parameterValue;
+    private String paramValue;
 
-    private String parameterType;
+    private String paramType;
 
     private Integer status;
 
@@ -36,10 +36,10 @@ public class ParameterParam {
 
     public void transform(SysParameter parameter) {
         parameter.setId(this.getId());
-        parameter.setParameterName(this.getParameterName());
-        parameter.setParameterKey(this.getParameterKey());
-        parameter.setParameterValue(this.getParameterValue());
-        parameter.setParameterType(this.getParameterType());
+        parameter.setParamName(this.getParamName());
+        parameter.setParamKey(this.getParamKey());
+        parameter.setParamValue(this.getParamValue());
+        parameter.setParamType(this.getParamType());
         parameter.setStatus(this.getStatus());
         parameter.setAppRange(this.getAppRange());
         parameter.setRemark(this.getRemark());
