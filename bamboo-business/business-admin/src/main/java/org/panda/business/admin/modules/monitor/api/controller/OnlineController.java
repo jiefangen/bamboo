@@ -45,7 +45,7 @@ public class OnlineController {
             @ConfigAuthority(permission = Authority.ROLE_ACTUATOR),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "monitor_online_quit")
     })
-    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
+    @WebOperationLog(actionType = ActionType.QUIT, intoStorage = true)
     public RestfulResult quit(HttpServletRequest request, @PathVariable Long tokenId){
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         if (userTokenService.quitOnlineUser(tokenId, token)) {

@@ -9,10 +9,6 @@ import org.panda.bamboo.common.annotation.EnumValue;
  * @author fangen
  */
 public enum ActionType {
-    @Caption("其它")
-    @EnumValue("other")
-    OTHER,
-
     @Caption("新增")
     @EnumValue("add")
     ADD,
@@ -51,5 +47,9 @@ public enum ActionType {
 
     @Caption("清空")
     @EnumValue("empty")
-    EMPTY
+    EMPTY,
+
+    @Caption("其它")
+    @EnumValue("other")
+    OTHER,
 }

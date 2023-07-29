@@ -46,9 +46,58 @@ insert into `sys_role_menu` (`role_id`, `menu_id`) values
 (104, 101),(104, 102);
 
 /* 系统参数初始化 */
-insert into `sys_parameter` (`param_name`, `param_key`, `param_value`, `param_type`, `app_range`, `remark`, `creator`) values
-('admin系统-生成token签名密钥key', 'admin:app:tokenKey', 'FBQ8x8pMuvX' ,'internal', 'admin', '随机生成字符串，可定期更换', 'systemInit'),
-('admin系统-token失效时间间隔', 'admin:app:tokenInterval', '3600' ,'internal', 'admin', '时间间隔，单位秒', 'systemInit'),
-('admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**' ,'internal', 'admin', '匹配模式数组格式存储', 'systemInit'),
-('admin系统-同时在线用户限制', 'admin:user:onlineLimit', '3' ,'internal', 'admin', '统计限制在线和离线用户', 'systemInit'),
-('用户管理-账号初始化密码', 'admin:user:initPassword', '123456' ,'internal', 'admin', '默认用户密码', 'systemInit');
+insert into `sys_parameter` (`id`, `param_name`, `param_key`, `param_value`, `param_type`, `app_range`, `remark`, `creator`) values
+(101, 'admin系统-生成token签名密钥key', 'admin:app:tokenKey', 'FBQ8x8pMuvX' ,'internal', 'admin', '随机生成字符串，可定期更换', 'systemInit'),
+(102, 'admin系统-token失效时间间隔', 'admin:app:tokenInterval', '3600' ,'internal', 'admin', '时间间隔，单位秒', 'systemInit'),
+(103, 'admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**' ,'internal', 'admin', '匹配模式数组格式存储', 'systemInit'),
+(104, 'admin系统-同时在线用户限制', 'admin:user:onlineLimit', '3' ,'internal', 'admin', '统计限制在线和离线用户', 'systemInit'),
+(105, '用户管理-账号初始化密码', 'admin:user:initPassword', '123456' ,'internal', 'admin', '默认用户密码', 'systemInit');
+
+/* 系统字典初始化 */
+insert into `sys_dictionary` (`id`, `dict_name`, `dict_key`, `dict_type`, `app_range`, `remark`, `creator`) values
+(101, '用户类型', 'sys_user_type', 'userType' ,'admin', '用户类型列表', 'systemInit'),
+(102, '用户级别', 'sys_user_rank', 'userRank' ,'admin', '用户级别列表', 'systemInit'),
+(103, '系统角色', 'sys_role_code', 'roleCode' ,'admin', '系统角色列表', 'systemInit'),
+(104, '系统api返回状态', 'sys_api_status', 'apiStatus' ,'admin', '接口请求状态枚举', 'systemInit'),
+(105, '日志操作类型', 'sys_operator_type', 'operatorType' ,'admin', '日志操作类型枚举', 'systemInit');
+
+/* 系统字典初始化 */
+insert into `sys_dictionary_data` (`id`, `dict_id`, `dict_code`, `dict_label`, `dict_value`, `is_default`, `remark`, `sort`, `creator`) values
+(101, 101, '1', '管理员' ,'manager', 'Y', '系统用户top类型', 0, 'systemInit'),
+(102, 101, '2', '普通用户' ,'general', 'N', '系统一般用户类型', 1, 'systemInit'),
+(103, 101, '3', '访客/游客' ,'customer', 'N', '系统默认用户类型', 2, 'systemInit'),
+
+(104, 102, '1', '等级' ,'0', 'Y', '管理员专用级别', 0, 'systemInit'),
+(105, 102, '2', '等级1' ,'1', 'N', '1～n-其它类型级别', 1, 'systemInit'),
+(106, 102, '3', '等级2' ,'2', 'N', '1～n-其它类型级别', 2, 'systemInit'),
+(107, 102, '4', '等级3' ,'3', 'N', '1～n-其它类型级别', 3, 'systemInit'),
+
+(108, 103, '1', '顶级管理员' ,'ADMIN', 'Y', '有权查看本平台所有页面', 0, 'systemInit'),
+(109, 103, '2', '系统管理员' ,'SYSTEM', 'N', '有权查看系统管理相关页面', 1, 'systemInit'),
+(110, 103, '3', '监控管理员' ,'ACTUATOR', 'N', '有权查看系统监控相关页面', 2, 'systemInit'),
+(111, 103, '4', '一般用户' ,'USER', 'N', '有权查看一般用户特定授权页面', 3, 'systemInit'),
+(112, 103, '5', '普通用户' ,'GENERAL', 'N', '有权查看特定授权页面', 4, 'systemInit'),
+(113, 103, '6', '访客' ,'CUSTOMER', 'N', '只能查看无权限管控页面', 5, 'systemInit'),
+
+(114, 104, '1', '成功' ,'2000', 'Y', '正常返回', 0, 'systemInit'),
+(115, 104, '2', '失败' ,'5000', 'N', '执行失败', 1, 'systemInit'),
+(116, 104, '3', '未知错误' ,'9999', 'N', '系统运行异常', 2, 'systemInit'),
+(117, 104, '4', '认证失败' ,'4010', 'N', '认证鉴权异常', 3, 'systemInit'),
+(118, 104, '5', '授权失败' ,'4030', 'N', '认证鉴权异常', 4, 'systemInit'),
+(119, 104, '6', 'token验证失败' ,'4014', 'N', 'token校验失败拦截', 5, 'systemInit'),
+(120, 104, '7', 'token失效' ,'4018', 'N', 'token校验失败拦截', 6, 'systemInit'),
+(121, 104, '8', '业务异常' ,'5100', 'N', '通用业务异常', 7, 'systemInit'),
+(122, 104, '9', '参数异常' ,'5110', 'N', '接口传参异常拦截', 8, 'systemInit'),
+(123, 104, '10', '必传参数异常' ,'5111', 'N', '接口必传参数异常拦截', 9, 'systemInit'),
+
+(124, 105, '1', '新增' ,'add', 'Y', '新增操作', 0, 'systemInit'),
+(125, 105, '2', '删除' ,'del', 'N', '删除操作', 1, 'systemInit'),
+(126, 105, '3', '查询' ,'query', 'N', '查询操作', 2, 'systemInit'),
+(127, 105, '4', '更新' ,'update', 'N', '更新操作', 3, 'systemInit'),
+(128, 105, '5', '登录' ,'login', 'N', '登录操作', 4, 'systemInit'),
+(129, 105, '6', '登出' ,'quit', 'N', '登出操作', 5, 'systemInit'),
+(130, 105, '7', '授权' ,'auth', 'N', '授权擦操作', 6, 'systemInit'),
+(131, 105, '8', '导出' ,'export', 'N', '导出操作', 7, 'systemInit'),
+(132, 105, '9', '导入' ,'import', 'N', '导入操作', 8, 'systemInit'),
+(133, 105, '10', '清空' ,'empty', 'N', '清空操作', 9, 'systemInit'),
+(134, 105, '11', '其他' ,'other', 'N', '其他操作', 10, 'systemInit');
