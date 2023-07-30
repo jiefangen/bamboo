@@ -12,6 +12,7 @@ import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
+import org.panda.tech.security.config.annotation.ConfigPermission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,10 +32,7 @@ public class OnlineController {
     private SysUserTokenService userTokenService;
 
     @PostMapping("/page")
-    @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.ROLE_ACTUATOR),
-            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "monitor_online_page")
-    })
+    @ConfigPermission
     public RestfulResult online(@RequestBody OnlineQueryParam queryParam) {
         QueryResult<OnlineVO> actionLogPage = userTokenService.getOnlineByPage(queryParam);
         return RestfulResult.success(actionLogPage);

@@ -8,7 +8,7 @@ public class MybatisCodeGenTest extends AdminApplicationTest {
     @Test
     void codeGen() {
         MybatisCodeGen mybatisCodeGen = new MybatisCodeGen();
-//        mybatisCodeGen.codeGenerator("sys_user", "sys_role");
-        mybatisCodeGen.codeGenerator("sys_parameter", true);
+        mybatisCodeGen.codeGenerator("sys_dictionary", "sys_dictionary_data");
+//        mybatisCodeGen.codeGenerator("sys_parameter", true);
     }
 }

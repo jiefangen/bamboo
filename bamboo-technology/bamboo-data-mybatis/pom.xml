@@ -15,7 +15,7 @@
     <properties>
         <druid-spring.version>1.2.16</druid-spring.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
-        <mybatis-generator.version>3.4.0</mybatis-generator.version>
+        <mybatis-generator.version>3.4.1</mybatis-generator.version>
     </properties>
 
     <dependencies>

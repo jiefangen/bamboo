@@ -4,10 +4,10 @@ import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
-import org.panda.business.admin.modules.settings.api.param.ParameterParam;
-import org.panda.business.admin.modules.settings.api.param.ParameterQueryParam;
-import org.panda.business.admin.modules.settings.service.SysParameterService;
-import org.panda.business.admin.modules.settings.service.entity.SysParameter;
+import org.panda.business.admin.modules.settings.api.param.DictionaryParam;
+import org.panda.business.admin.modules.settings.api.param.DictionaryQueryParam;
+import org.panda.business.admin.modules.settings.service.SysDictionaryService;
+import org.panda.business.admin.modules.settings.service.entity.SysDictionary;
 import org.panda.tech.core.spec.enums.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -21,33 +21,33 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * 系统参数
+ * 系统字典
  *
  * @author fangen
  **/
-@Api(tags = "系统参数设置")
+@Api(tags = "系统字典管理")
 @RestController
-@RequestMapping("/settings/parameter")
-public class ParameterController {
+@RequestMapping("/settings/dictionary")
+public class DictionaryController {
 
     @Autowired
-    private SysParameterService parameterService;
+    private SysDictionaryService dictionaryService;
 
     @PostMapping("/page")
     @ConfigPermission
-    public RestfulResult page(@RequestBody ParameterQueryParam queryParam) {
-        QueryResult<SysParameter> actionLogPage = parameterService.getParamByPage(queryParam);
-        return RestfulResult.success(actionLogPage);
+    public RestfulResult page(@RequestBody DictionaryQueryParam queryParam) {
+        QueryResult<SysDictionary> dictionaryPage = dictionaryService.getDictByPage(queryParam);
+        return RestfulResult.success(dictionaryPage);
     }
 
     @PostMapping("/add")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_param_add")
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_dict_add")
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
-    public RestfulResult add(@RequestBody @Valid ParameterParam parameterParam) {
-        String result = parameterService.addParameter(parameterParam);
+    public RestfulResult add(@RequestBody @Valid DictionaryParam dictionaryParam) {
+        String result = dictionaryService.addDictionary(dictionaryParam);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
         }
@@ -57,11 +57,11 @@ public class ParameterController {
     @PutMapping("/edit")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_param_edit")
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_dict_edit")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult edit(@RequestBody @Valid ParameterParam parameterParam) {
-        if (parameterService.updateParameter(parameterParam)) {
+    public RestfulResult edit(@RequestBody @Valid DictionaryParam dictionaryParam) {
+        if (dictionaryService.updateDictionary(dictionaryParam)) {
             return RestfulResult.success();
         }
         return RestfulResult.failure();
@@ -70,12 +70,12 @@ public class ParameterController {
     @DeleteMapping("/del/{id}")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_param_del")
+            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_dict_del")
     })
     @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
     public RestfulResult del(@PathVariable Integer id) {
         try {
-            if (parameterService.deleteParameter(id)) {
+            if (dictionaryService.deleteDictionary(id)) {
                 return RestfulResult.success();
             }
         } catch (BusinessException e){

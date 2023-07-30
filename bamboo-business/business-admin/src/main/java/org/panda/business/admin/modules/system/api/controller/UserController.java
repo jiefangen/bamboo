@@ -49,11 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/page")
-    @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER),
-            @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_page")
-    })
+    @ConfigPermission
     @WebOperationLog(actionType = ActionType.QUERY)
     public RestfulResult page(@RequestBody UserQueryParam queryParam) {
         QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);

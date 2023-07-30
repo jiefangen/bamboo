@@ -46,10 +46,10 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
     public QueryResult<SysParameter> getParamByPage(ParameterQueryParam queryParam) {
         Page<SysParameter> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
         LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
-        String getParamName = queryParam.getParamName();
-        queryWrapper.like(StringUtils.isNotBlank(getParamName), SysParameter::getParamName, getParamName);
-        String getParamKey = queryParam.getParamKey();
-        queryWrapper.like(StringUtils.isNotBlank(getParamKey), SysParameter::getParamKey, getParamKey);
+        String paramName = queryParam.getParamName();
+        queryWrapper.like(StringUtils.isNotBlank(paramName), SysParameter::getParamName, paramName);
+        String paramKey = queryParam.getParamKey();
+        queryWrapper.like(StringUtils.isNotBlank(paramKey), SysParameter::getParamKey, paramKey);
         if (StringUtils.isNotBlank(queryParam.getStartDate()) && StringUtils.isNotBlank(queryParam.getEndDate())) {
             queryWrapper.between(SysParameter::getCreateTime, queryParam.getStartDate(), queryParam.getEndDate());
         }
@@ -66,7 +66,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysParameter::getParamKey, parameterKey);
         if (this.count(queryWrapper) > 0) {
-            return "The parameterKey is already taken!";
+            return "The paramKey is already taken!";
         }
         SysParameter parameter = new SysParameter();
         parameterParam.transform(parameter);

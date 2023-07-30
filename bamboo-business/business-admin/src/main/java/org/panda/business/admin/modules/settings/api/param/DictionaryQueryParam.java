@@ -5,23 +5,27 @@ import lombok.Setter;
 import org.panda.tech.data.model.query.QueryParam;
 
 /**
- * 系统参数查询参数
+ * 系统字典分页查询参数
  *
  * @author jiefangen
  **/
 @Setter
 @Getter
-public class ParameterQueryParam extends QueryParam {
+public class DictionaryQueryParam extends QueryParam {
     private static final long serialVersionUID = 8039909336847637521L;
 
     /**
-     * 参数名称
+     * 字典名称
      */
-    private String paramName;
+    private String dictName;
     /**
-     * 参数键名
+     * 字典键名
      */
-    private String paramKey;
+    private String dictKey;
+    /**
+     * 状态
+     */
+    private Integer status;
     /**
      * 筛选开始时间
      */
