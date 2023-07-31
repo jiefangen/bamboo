@@ -1,15 +1,16 @@
 package org.panda.business.admin.modules.settings.service.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -35,10 +36,6 @@ public class SysDictionaryData implements Serializable {
     @TableField("dict_id")
     private Integer dictId;
 
-    @ApiModelProperty(value = "字典数据编码")
-    @TableField("dict_code")
-    private String dictCode;
-
     @ApiModelProperty(value = "字典数据标签")
     @TableField("dict_label")
     private String dictLabel;
@@ -62,6 +59,14 @@ public class SysDictionaryData implements Serializable {
     @ApiModelProperty(value = "排序")
     @TableField("sort")
     private Integer sort;
+
+    @ApiModelProperty(value = "数据回显样式")
+    @TableField("echo_class")
+    private String echoClass;
+
+    @ApiModelProperty(value = "数据样式属性")
+    @TableField("style_attribute")
+    private String styleAttribute;
 
     @ApiModelProperty(value = "创建者")
     @TableField("creator")

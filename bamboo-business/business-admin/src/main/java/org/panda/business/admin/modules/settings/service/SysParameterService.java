@@ -30,5 +30,4 @@ public interface SysParameterService extends IService<SysParameter> {
     boolean updateParameter(ParameterParam parameterParam);
 
     boolean deleteParameter(Integer id) throws BusinessException;
-
 }

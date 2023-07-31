@@ -1,7 +1,11 @@
 package org.panda.business.admin.modules.settings.service;
 
-import org.panda.business.admin.modules.settings.service.entity.SysDictionaryData;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.business.admin.modules.settings.api.param.DictDataParam;
+import org.panda.business.admin.modules.settings.api.param.DictDataQueryParam;
+import org.panda.business.admin.modules.settings.service.entity.SysDictionaryData;
+import org.panda.tech.data.model.query.QueryResult;
 
 /**
  * <p>
@@ -13,4 +17,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface SysDictionaryDataService extends IService<SysDictionaryData> {
 
+    QueryResult<SysDictionaryData> getDictDataByPage(DictDataQueryParam queryParam);
+
+    String addDictData(DictDataParam dictDataParam);
+
+    boolean updateDictData(DictDataParam dictDataParam);
+
+    boolean deleteDictData(Integer id) throws BusinessException;
 }

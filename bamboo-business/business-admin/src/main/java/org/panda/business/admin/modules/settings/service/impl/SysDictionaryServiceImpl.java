@@ -48,7 +48,7 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         if (StringUtils.isNotBlank(queryParam.getStartDate()) && StringUtils.isNotBlank(queryParam.getEndDate())) {
             queryWrapper.between(SysDictionary::getCreateTime, queryParam.getStartDate(), queryParam.getEndDate());
         }
-        queryWrapper.orderByDesc(SysDictionary::getCreateTime);
+        queryWrapper.orderByAsc(SysDictionary::getCreateTime);
         IPage<SysDictionary> paramPage = this.page(page, queryWrapper);
         QueryResult<SysDictionary> queryResult = QueryPageHelper.convertQueryResult(paramPage);
         return queryResult;
@@ -93,13 +93,13 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         if (id != null) {
             SysDictionary dictionary = this.getById(id);
             if (dictionary != null && dictionary.getStatus() == 0) { // 停用的状态才可以删除
-                if ("systemInit".equals(dictionary.getCreator())) { // 系统初始化的重要参数不可删除
-                    throw new BusinessException("System initialization dictionary cannot be deleted.");
-                }
                 LambdaQueryWrapper<SysDictionaryData> queryWrapper = new LambdaQueryWrapper<>();
                 queryWrapper.eq(SysDictionaryData::getDictId, id);
                 if (dictionaryDataService.count(queryWrapper) > 0) {
                     throw new BusinessException("Please unbind the dictionary data first.");
+                }
+                if ("systemInit".equals(dictionary.getCreator())) { // 系统初始化的重要参数不可删除
+                    throw new BusinessException("System initialization dictionary cannot be deleted.");
                 }
                 return this.removeById(id);
             } else {
