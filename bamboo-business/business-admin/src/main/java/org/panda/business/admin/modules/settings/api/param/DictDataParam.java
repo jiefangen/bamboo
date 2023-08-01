@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionaryData;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  * 字典数据参数
@@ -18,8 +17,10 @@ public class DictDataParam {
 
     private Integer id;
 
-    @NotNull
     private Integer dictId;
+
+    @NotBlank
+    private String dictKey;
 
     @NotBlank
     private String dictLabel;

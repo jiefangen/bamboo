@@ -21,6 +21,8 @@ import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 系统字典 服务实现类
@@ -52,6 +54,12 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         IPage<SysDictionary> paramPage = this.page(page, queryWrapper);
         QueryResult<SysDictionary> queryResult = QueryPageHelper.convertQueryResult(paramPage);
         return queryResult;
+    }
+
+    @Override
+    public List<SysDictionary> getAllDict() {
+        LambdaQueryWrapper<SysDictionary> queryWrapper = new LambdaQueryWrapper<>();
+        return this.list(queryWrapper);
     }
 
     @Override

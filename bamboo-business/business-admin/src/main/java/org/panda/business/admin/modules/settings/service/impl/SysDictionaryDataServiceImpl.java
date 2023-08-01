@@ -35,7 +35,7 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
         LambdaQueryWrapper<SysDictionaryData> queryWrapper = new LambdaQueryWrapper<>();
         // 查询必须以字典主表类型为条件
         Integer dictId = queryParam.getDictId();
-        queryWrapper.like(SysDictionaryData::getDictId, dictId);
+        queryWrapper.eq(SysDictionaryData::getDictId, dictId);
         String dictLabel = queryParam.getDictLabel();
         queryWrapper.like(StringUtils.isNotBlank(dictLabel), SysDictionaryData::getDictLabel, dictLabel);
         Integer status = queryParam.getStatus();
@@ -49,8 +49,11 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
     @Override
     public String addDictData(DictDataParam dictDataParam) {
         // 字典数据值重复性校验
-        String dictValue = dictDataParam.getDictValue();
         Integer dictId = dictDataParam.getDictId();
+        if (dictId == null) {
+            return "The dictionary is not exist.";
+        }
+        String dictValue = dictDataParam.getDictValue();
         LambdaQueryWrapper<SysDictionaryData> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDictionaryData::getDictId, dictId);
         queryWrapper.eq(SysDictionaryData::getDictValue, dictValue);
@@ -59,6 +62,10 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
         }
         SysDictionaryData dictionaryData = new SysDictionaryData();
         dictDataParam.transform(dictionaryData);
+        dictionaryData.setIsDefault("N");
+        LambdaQueryWrapper<SysDictionaryData> dictQueryWrapper = new LambdaQueryWrapper<>();
+        dictQueryWrapper.eq(SysDictionaryData::getDictId, dictId);
+        dictionaryData.setSort(this.count(dictQueryWrapper));
         UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
         String principalUsername = userSpecificDetails.getUsername();
         dictionaryData.setCreator(principalUsername);
@@ -88,11 +95,11 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
             SysDictionaryData dictionaryData = this.getById(id);
             if (dictionaryData != null && dictionaryData.getStatus() == 0) { // 停用的状态才可以删除
                 if ("systemInit".equals(dictionaryData.getCreator())) { // 系统初始化的重要参数不可删除
-                    throw new BusinessException("System initialization dictionary cannot be deleted.");
+                    throw new BusinessException("System initialization dictionary data cannot be deleted.");
                 }
                 return this.removeById(id);
             } else {
-                throw new BusinessException("Please close the dictionary first.");
+                throw new BusinessException("Please close the dictionary data first.");
             }
         }
         return false;

@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 系统字典
@@ -38,6 +39,13 @@ public class DictionaryController {
     public RestfulResult page(@RequestBody DictionaryQueryParam queryParam) {
         QueryResult<SysDictionary> dictionaryPage = dictionaryService.getDictByPage(queryParam);
         return RestfulResult.success(dictionaryPage);
+    }
+
+    @GetMapping("/getAllDict")
+    @ConfigPermission
+    public RestfulResult getAllDict() {
+        List<SysDictionary> dictionaryList = dictionaryService.getAllDict();
+        return RestfulResult.success(dictionaryList);
     }
 
     @PostMapping("/add")

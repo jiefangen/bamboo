@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.panda.tech.data.model.query.QueryParam;
 
-import javax.validation.constraints.NotNull;
-
 /**
  * 系统字典数据分页查询参数
  *
@@ -16,12 +14,11 @@ import javax.validation.constraints.NotNull;
 public class DictDataQueryParam extends QueryParam {
     private static final long serialVersionUID = -8421654406241390747L;
 
-    @NotNull
     private Integer dictId;
     /**
-     * 字典名称
+     * 字典键
      */
-    private String dictName;
+    private String dictKey;
     /**
      * 字典数据标签
      */
