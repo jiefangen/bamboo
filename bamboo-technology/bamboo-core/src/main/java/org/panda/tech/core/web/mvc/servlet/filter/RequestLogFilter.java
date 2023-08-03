@@ -35,6 +35,7 @@ public class RequestLogFilter implements Filter {
                 request = new BodyRepeatableRequestWrapper(request);
                 this.logger.info("====== request from {} ======", WebHttpUtil.getRemoteAddress(request));
                 this.logger.info("{} {}", request.getMethod(), url);
+                this.logger.info("language: {}", WebHttpUtil.getCookieValue(request, "language"));
                 this.logger.info("headers: {}", JsonUtil.toJson(WebHttpUtil.getHeaders(request)));
                 this.logger.info("parameters: {}", JsonUtil.toJson(WebHttpUtil.getRequestParameterMap(request)));
                 this.logger.info("body: {}", WebHttpUtil.getRequestBodyString(request));

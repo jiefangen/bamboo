@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.modules.settings.api.param.DictDataParam;
 import org.panda.business.admin.modules.settings.api.param.DictDataQueryParam;
 import org.panda.business.admin.modules.settings.service.SysDictionaryDataService;
@@ -17,6 +18,10 @@ import org.panda.tech.data.mybatis.config.QueryPageHelper;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -27,6 +32,7 @@ import org.springframework.stereotype.Service;
  * @since 2023-07-29
  */
 @Service
+@Transactional
 public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataMapper, SysDictionaryData> implements SysDictionaryDataService {
 
     @Override
@@ -62,7 +68,9 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
         }
         SysDictionaryData dictionaryData = new SysDictionaryData();
         dictDataParam.transform(dictionaryData);
-        dictionaryData.setIsDefault("N");
+        if (StringUtils.isEmpty(dictionaryData.getIsDefault())) {
+            dictionaryData.setIsDefault(SystemConstants.NO_DEFAULT);
+        }
         LambdaQueryWrapper<SysDictionaryData> dictQueryWrapper = new LambdaQueryWrapper<>();
         dictQueryWrapper.eq(SysDictionaryData::getDictId, dictId);
         dictionaryData.setSort(this.count(dictQueryWrapper));
@@ -81,6 +89,21 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
         if (dictDataParam.getId() == null) {
             return false;
         }
+        SysDictionaryData sysDictData = this.getById(dictDataParam.getId());
+        if (!SystemConstants.IS_DEFAULT.equals(sysDictData.getIsDefault())
+                && SystemConstants.IS_DEFAULT.equals(dictDataParam.getIsDefault())) { // 更新其它标签为非默认
+            LambdaQueryWrapper<SysDictionaryData> dictUpdateWrapper = new LambdaQueryWrapper<>();
+            dictUpdateWrapper.eq(SysDictionaryData::getDictId, dictDataParam.getDictId());
+            List<SysDictionaryData> dictUpdateData = this.list(dictUpdateWrapper);
+            List<SysDictionaryData> sysDictUpdateData = dictUpdateData.stream()
+                    .map(dictData -> {
+                        dictData.setIsDefault(SystemConstants.NO_DEFAULT);
+                        return dictData;
+                        }).collect(Collectors.toList());
+            dictUpdateWrapper.eq(SysDictionaryData::getIsDefault, SystemConstants.NO_DEFAULT);
+            this.updateBatchById(sysDictUpdateData);
+        }
+
         SysDictionaryData dictionaryData = new SysDictionaryData();
         dictDataParam.transform(dictionaryData);
         UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();

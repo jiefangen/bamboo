@@ -58,7 +58,7 @@ insert into `sys_dictionary` (`id`, `dict_name`, `dict_key`, `dict_type`, `app_r
 (101, '用户类型', 'sys_user_type', 'userType' ,'admin', '用户类型列表', 'systemInit'),
 (102, '用户级别', 'sys_user_rank', 'userRank' ,'admin', '用户级别列表', 'systemInit'),
 (103, '系统角色', 'sys_role_code', 'roleCode' ,'admin', '系统角色列表', 'systemInit'),
-(104, '系统api返回状态', 'sys_api_status', 'apiStatus' ,'admin', '接口请求状态枚举', 'systemInit'),
+(104, '系统api状态', 'sys_api_status', 'apiStatus' ,'admin', '接口请求返回状态枚举', 'systemInit'),
 (105, '日志操作类型', 'sys_operator_type', 'operatorType' ,'admin', '日志操作类型枚举', 'systemInit');
 
 /* 系统字典初始化 */

@@ -18,6 +18,7 @@ import org.panda.tech.data.mybatis.config.QueryPageHelper;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -30,6 +31,7 @@ import java.util.Optional;
  * @since 2023-07-26
  */
 @Service
+@Transactional
 public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, SysParameter> implements SysParameterService {
 
     @Override

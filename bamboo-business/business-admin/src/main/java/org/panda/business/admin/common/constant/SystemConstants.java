@@ -38,4 +38,12 @@ public class SystemConstants {
      */
     public static final String LOGGED_OUT_REASON = "Maybe the server restarted or some other reasons.";
 
+    /**
+     * 是默认值
+     */
+    public static final String IS_DEFAULT = "Y";
+    /**
+     * 不是默认值
+     */
+    public static final String NO_DEFAULT = "N";
 }
