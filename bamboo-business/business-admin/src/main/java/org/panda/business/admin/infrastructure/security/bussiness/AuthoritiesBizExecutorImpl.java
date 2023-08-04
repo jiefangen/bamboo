@@ -8,7 +8,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.business.admin.common.constant.Authority;
 import org.panda.business.admin.common.constant.enums.RoleCode;
-import org.panda.business.admin.modules.manager.CommonSettingsService;
+import org.panda.business.admin.modules.manager.SettingsManager;
 import org.panda.business.admin.modules.manager.config.SettingsKeys;
 import org.panda.business.admin.modules.system.service.SysPermissionService;
 import org.panda.business.admin.modules.system.service.SysRolePermissionService;
@@ -54,7 +54,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
     @Autowired
     private SysRolePermissionService rolePermissionService;
     @Autowired
-    private CommonSettingsService commonSettingsService;
+    private SettingsManager settingsManager;
 
     @Override
     @Transactional
@@ -154,7 +154,7 @@ public class AuthoritiesBizExecutorImpl implements AuthoritiesBizExecutor {
 
     @Override
     public String[] getUrlPatterns() {
-        Optional<String> authUrlPatternsOptional = commonSettingsService.getParamValue(SettingsKeys.AUTH_URL_PATTERNS, appName);
+        Optional<String> authUrlPatternsOptional = settingsManager.getParamValue(SettingsKeys.AUTH_URL_PATTERNS, appName);
         String[] urlPatterns = new String[]{"/system/**"};
         if (authUrlPatternsOptional.isPresent()) {
             String authUrlPatterns = authUrlPatternsOptional.get();

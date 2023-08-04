@@ -13,7 +13,7 @@ import org.panda.business.admin.modules.settings.service.entity.SysDictionary;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionaryData;
 import org.panda.business.admin.modules.settings.service.entity.SysParameter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +21,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * 通用系统配置服务
+ * 系统配置组件服务
  *
  * @author fangen
  **/
-@Service
-public class CommonSettingsService {
+@Component
+public class SettingsManager {
 
     @Autowired
     private SysParameterService parameterService;
