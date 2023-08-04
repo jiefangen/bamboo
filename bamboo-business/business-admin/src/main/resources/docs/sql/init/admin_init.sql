@@ -59,7 +59,10 @@ insert into `sys_dictionary` (`id`, `dict_name`, `dict_key`, `dict_type`, `app_r
 (102, '用户级别', 'sys_user_rank', 'userRank' ,'admin', '用户级别列表', 'systemInit'),
 (103, '系统角色', 'sys_role_code', 'roleCode' ,'admin', '系统角色列表', 'systemInit'),
 (104, '系统api状态', 'sys_api_status', 'apiStatus' ,'admin', '接口请求返回状态枚举', 'systemInit'),
-(105, '日志操作类型', 'sys_operator_type', 'operatorType' ,'admin', '日志操作类型枚举', 'systemInit');
+(105, '日志操作类型', 'sys_operator_type', 'operatorType' ,'admin', '日志操作类型枚举', 'systemInit'),
+(106, '数据标签', 'sys_echo_class', 'echoClass' ,'admin', '数据标签回显样式', 'systemInit'),
+(107, '通用文案（中文）', 'common_language_zh', 'i18n' ,'admin', 'admin管理后台通用文案（中文）', 'systemInit'),
+(108, '通用文案（英文）', 'common_language_en', 'i18n' ,'admin', 'admin管理后台通用文案（英文）', 'systemInit');
 
 /* 系统字典初始化 */
 insert into `sys_dictionary_data` (`id`, `dict_id`, `dict_label`, `dict_value`, `is_default`, `remark`, `sort`, `creator`) values
@@ -100,4 +103,29 @@ insert into `sys_dictionary_data` (`id`, `dict_id`, `dict_label`, `dict_value`, 
 (131, 105, '导出' ,'export', 'N', '导出操作', 7, 'systemInit'),
 (132, 105, '导入' ,'import', 'N', '导入操作', 8, 'systemInit'),
 (133, 105, '清空' ,'empty', 'N', '清空操作', 9, 'systemInit'),
-(134, 105, '其他' ,'other', 'N', '其他操作', 10, 'systemInit');
+(134, 105, '其他' ,'other', 'N', '其他操作', 10, 'systemInit'),
+
+(135, 106, '默认' ,'default', 'Y', '标签默认回显样式', 0, 'systemInit'),
+(136, 106, '主要' ,'primary', 'N', '标签主要回显样式', 1, 'systemInit'),
+(137, 106, '成功' ,'success', 'N', '标签成功回显样式', 2, 'systemInit'),
+(138, 106, '信息' ,'info', 'N', '标签信息回显样式', 3, 'systemInit'),
+(139, 106, '警告' ,'warning', 'N', '标签警告回显样式', 4, 'systemInit'),
+(140, 106, '危险' ,'danger', 'N', '标签危险回显样式', 5, 'systemInit'),
+
+(141, 107, '用户类型' ,'sys_user_type', 'Y', '国际化标签', 0, 'systemInit'),
+(142, 107, '用户级别' ,'sys_user_rank', 'N', '国际化标签', 1, 'systemInit'),
+(143, 107, '系统角色' ,'sys_role_code', 'N', '国际化标签', 2, 'systemInit'),
+(144, 107, '系统api状态' ,'sys_api_status', 'N', '国际化标签', 3, 'systemInit'),
+(145, 107, '日志操作类型' ,'sys_operator_type', 'N', '国际化标签', 4, 'systemInit'),
+(146, 107, '数据标签' ,'sys_echo_class', 'N', '国际化标签', 5, 'systemInit'),
+(147, 107, '通用文案（中文）' ,'common_language_zh', 'N', '国际化标签', 6, 'systemInit'),
+(148, 107, '通用文案（英文）' ,'common_language_en', 'N', '国际化标签', 7, 'systemInit'),
+
+(149, 108, 'UserType' ,'sys_user_type', 'Y', '国际化标签', 0, 'systemInit'),
+(150, 108, 'UserRank' ,'sys_user_rank', 'N', '国际化标签', 1, 'systemInit'),
+(151, 108, 'RoleCode' ,'sys_role_code', 'N', '国际化标签', 2, 'systemInit'),
+(152, 108, 'ApiStatus' ,'sys_api_status', 'N', '国际化标签', 3, 'systemInit'),
+(153, 108, 'OperatorType' ,'sys_operator_type', 'N', '国际化标签', 4, 'systemInit'),
+(154, 108, 'EchoClass' ,'sys_echo_class', 'N', '国际化标签', 5, 'systemInit'),
+(155, 108, 'General(Chinese)' ,'common_language_zh', 'N', '国际化标签', 6, 'systemInit'),
+(156, 108, 'General(English)' ,'common_language_en', 'N', '国际化标签', 7, 'systemInit');
