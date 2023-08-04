@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.modules.settings.api.param.ParameterParam;
 import org.panda.business.admin.modules.settings.api.param.ParameterQueryParam;
@@ -20,8 +19,6 @@ import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 /**
  * <p>
  * 系统参数 服务实现类
@@ -33,16 +30,6 @@ import java.util.Optional;
 @Service
 @Transactional
 public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, SysParameter> implements SysParameterService {
-
-    @Override
-    public Optional<String> getParamValueByKey(String paramKey) {
-        return getParamValue(paramKey, Strings.EMPTY_OBJ);
-    }
-
-    @Override
-    public Optional<String> getParamValueByKey(String paramKey, String appRange) {
-        return getParamValue(paramKey, appRange);
-    }
 
     @Override
     public QueryResult<SysParameter> getParamByPage(ParameterQueryParam queryParam) {
@@ -109,20 +96,6 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
             }
         }
         return false;
-    }
-
-    private Optional<String> getParamValue(String paramKey, String appRange) {
-        LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysParameter::getParamKey, paramKey);
-        if (StringUtils.isNotEmpty(appRange)) {
-            queryWrapper.eq(SysParameter::getAppRange, appRange);
-        }
-        queryWrapper.eq(SysParameter::getStatus, 1);
-        SysParameter parameter = this.getOne(queryWrapper, false);
-        if (parameter != null) {
-            return Optional.ofNullable(parameter.getParamValue());
-        }
-        return Optional.empty();
     }
 
 }

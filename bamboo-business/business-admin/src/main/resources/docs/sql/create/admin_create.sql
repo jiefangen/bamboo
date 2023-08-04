@@ -168,7 +168,7 @@ CREATE TABLE `sys_dictionary` (
                                  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                  PRIMARY KEY (`id`) USING BTREE,
-                                 UNIQUE KEY `UQ_DICT_KEY` (`dict_key`)
+                                 KEY `IDX_DICT_KEY` (`dict_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统字典' ROW_FORMAT=Compact;
 
 

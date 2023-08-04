@@ -42,11 +42,6 @@ public class WebConstants {
     public static final String HEADER_ORIGINAL_REQUEST = "Original-Request";
 
     /**
-     * 头信息名：RPC JWT
-     */
-    public static final String HEADER_RPC_JWT = "Rpc-Jwt";
-
-    /**
      * 头信息名：鉴权认证
      */
     public static final String HEADER_AUTH_JWT = "Authorization";

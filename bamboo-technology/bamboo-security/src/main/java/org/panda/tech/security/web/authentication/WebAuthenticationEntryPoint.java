@@ -83,7 +83,7 @@ public class WebAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoin
             WebHttpUtil.buildJsonResponse(response, obj);
             return;
         }
-        if (WebMvcUtil.isInternalRpc(request)) { // 内部RPC调用直接返回401错误
+        if (WebMvcUtil.isInternalReq(request)) { // 内部RPC调用直接返回401错误
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             Object obj = RestfulResult.failure(ExceptionEnum.ILLEGAL_TOKEN.getCode(), ExceptionEnum.ILLEGAL_TOKEN.getMessage());
             WebHttpUtil.buildJsonResponse(response, obj);

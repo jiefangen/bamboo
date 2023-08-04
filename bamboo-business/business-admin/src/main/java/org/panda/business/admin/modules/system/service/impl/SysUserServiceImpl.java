@@ -11,9 +11,9 @@ import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.common.constant.enums.RoleCode;
+import org.panda.business.admin.modules.manager.CommonSettingsService;
+import org.panda.business.admin.modules.manager.config.SettingsKeys;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
-import org.panda.business.admin.modules.settings.common.ParamKeys;
-import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.business.admin.modules.system.api.param.*;
 import org.panda.business.admin.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.modules.system.api.vo.UserVO;
@@ -60,7 +60,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Autowired
     private SysUserTokenService userTokenService;
     @Autowired
-    private SysParameterService parameterService;
+    private CommonSettingsService commonSettingsService;
 
     @Override
     public SysUserDto getUserAndRoles(String username) {
@@ -143,11 +143,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         String password = userParam.getPassword();
         if (StringUtils.isEmpty(password)) {
-            Optional<String> initPassword = parameterService.getParamValueByKey(ParamKeys.INIT_PWD);
+            Optional<String> initPassword = commonSettingsService.getParamValueByKey(SettingsKeys.INIT_PWD);
             if (initPassword.isPresent()) {
                 password = initPassword.get();
             } else {
-                return ParamKeys.INIT_PWD + " not configured";
+                return SettingsKeys.INIT_PWD + " not configured";
             }
         }
         String encodePassword = passwordEncoder.encode(password);
@@ -237,11 +237,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         if (StringUtils.isEmpty(resetPassParam.getNewPassword())) {
             // 新密码为空，自动重置默认密码
-            Optional<String> initPassword = parameterService.getParamValueByKey(ParamKeys.INIT_PWD);
+            Optional<String> initPassword = commonSettingsService.getParamValueByKey(SettingsKeys.INIT_PWD);
             if (initPassword.isPresent()) {
                 resetPassParam.setNewPassword(initPassword.get());
             } else {
-                return ParamKeys.INIT_PWD + " not configured";
+                return SettingsKeys.INIT_PWD + " not configured";
             }
         }
         String newPasswordEncrypt = passwordEncoder.encode(resetPassParam.getNewPassword());

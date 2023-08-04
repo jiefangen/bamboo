@@ -3,10 +3,10 @@ package org.panda.business.admin.infrastructure.security.authentication;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.business.admin.modules.manager.CommonSettingsService;
+import org.panda.business.admin.modules.manager.config.SettingsKeys;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
-import org.panda.business.admin.modules.settings.common.ParamKeys;
-import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.tech.security.authentication.*;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetailsService;
@@ -37,7 +37,7 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
     @Autowired
     private SysUserTokenService userTokenService;
     @Autowired
-    private SysParameterService parameterService;
+    private CommonSettingsService commonSettingsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -77,7 +77,7 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
         queryWrapper.orderByAsc(SysUserToken::getCreateTime);
         List<SysUserToken> userTokens = userTokenService.list(queryWrapper);
         int userLimit = 1;
-        Optional<String> userLimitOptional = parameterService.getParamValueByKey(ParamKeys.ONLINE_LIMIT);
+        Optional<String> userLimitOptional = commonSettingsService.getParamValueByKey(SettingsKeys.ONLINE_LIMIT);
         if (userLimitOptional.isPresent()) {
             userLimit = Integer.parseInt(userLimitOptional.get());
         }

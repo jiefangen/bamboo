@@ -14,8 +14,6 @@ import org.panda.business.admin.modules.settings.service.SysDictionaryService;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionary;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionaryData;
 import org.panda.business.admin.modules.settings.service.repository.SysDictionaryMapper;
-import org.panda.tech.core.web.context.SpringWebContext;
-import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.config.QueryPageHelper;
 import org.panda.tech.security.user.UserSpecificDetails;
@@ -23,8 +21,6 @@ import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * <p>
@@ -58,14 +54,6 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         IPage<SysDictionary> paramPage = this.page(page, queryWrapper);
         QueryResult<SysDictionary> queryResult = QueryPageHelper.convertQueryResult(paramPage);
         return queryResult;
-    }
-
-    @Override
-    public List<SysDictionary> getAllDict() {
-        String language = WebHttpUtil.getLanguageValue(SpringWebContext.getRequest());
-
-        LambdaQueryWrapper<SysDictionary> queryWrapper = new LambdaQueryWrapper<>();
-        return this.list(queryWrapper);
     }
 
     @Override
@@ -122,4 +110,5 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         }
         return false;
     }
+
 }

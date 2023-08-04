@@ -409,10 +409,6 @@ public class WebHttpUtil {
         return cookie == null ? null : cookie.getValue();
     }
 
-    public static String getLanguageValue(HttpServletRequest request) {
-        return getCookieValue(request, "language");
-    }
-
     /**
      * 获取Map形式的Cookie集
      *

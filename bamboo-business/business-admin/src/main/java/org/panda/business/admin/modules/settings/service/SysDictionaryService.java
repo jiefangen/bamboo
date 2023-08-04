@@ -7,8 +7,6 @@ import org.panda.business.admin.modules.settings.api.param.DictionaryQueryParam;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionary;
 import org.panda.tech.data.model.query.QueryResult;
 
-import java.util.List;
-
 /**
  * <p>
  * 系统字典 服务类
@@ -20,8 +18,6 @@ import java.util.List;
 public interface SysDictionaryService extends IService<SysDictionary> {
 
     QueryResult<SysDictionary> getDictByPage(DictionaryQueryParam queryParam);
-
-    List<SysDictionary> getAllDict();
 
     String addDictionary(DictionaryParam dictionaryParam);
 

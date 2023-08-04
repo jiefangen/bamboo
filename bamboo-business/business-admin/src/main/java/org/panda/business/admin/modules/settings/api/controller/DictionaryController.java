@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
+import org.panda.business.admin.modules.manager.CommonSettingsService;
 import org.panda.business.admin.modules.settings.api.param.DictionaryParam;
 import org.panda.business.admin.modules.settings.api.param.DictionaryQueryParam;
 import org.panda.business.admin.modules.settings.service.SysDictionaryService;
@@ -33,6 +34,8 @@ public class DictionaryController {
 
     @Autowired
     private SysDictionaryService dictionaryService;
+    @Autowired
+    private CommonSettingsService commonSettingsService;
 
     @PostMapping("/page")
     @ConfigPermission
@@ -44,7 +47,7 @@ public class DictionaryController {
     @GetMapping("/getAllDict")
     @ConfigPermission
     public RestfulResult getAllDict() {
-        List<SysDictionary> dictionaryList = dictionaryService.getAllDict();
+        List<SysDictionary> dictionaryList = commonSettingsService.getAllDictionary();
         return RestfulResult.success(dictionaryList);
     }
 

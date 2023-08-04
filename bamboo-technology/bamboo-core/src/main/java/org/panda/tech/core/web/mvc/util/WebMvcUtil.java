@@ -92,7 +92,7 @@ public class WebMvcUtil {
         return requestMapping == null ? null : ArrayUtil.get(requestMapping.value(), 0);
     }
 
-    public static boolean isInternalRpc(HttpServletRequest request) {
+    public static boolean isInternalReq(HttpServletRequest request) {
         String internalJwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         if (internalJwt != null) {
             return true;

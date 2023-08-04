@@ -61,7 +61,7 @@ public class JacksonHttpMessageConverter extends MappingJackson2HttpMessageConve
             HandlerMethod handlerMethod = this.handlerMethodMapping.getHandlerMethod(request);
             if (handlerMethod != null) {
                 Method method = handlerMethod.getMethod();
-                boolean internal = WebMvcUtil.isInternalRpc(request);
+                boolean internal = WebMvcUtil.isInternalReq(request);
                 ObjectMapper mapper = getMapper(internal, method);
                 String json = mapper.writeValueAsString(object);
                 Charset charset = Objects.requireNonNullElse(getDefaultCharset(), StandardCharsets.UTF_8);

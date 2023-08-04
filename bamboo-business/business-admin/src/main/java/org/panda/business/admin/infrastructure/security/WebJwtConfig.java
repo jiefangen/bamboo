@@ -1,8 +1,8 @@
 package org.panda.business.admin.infrastructure.security;
 
 import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.business.admin.modules.settings.common.ParamKeys;
-import org.panda.business.admin.modules.settings.service.SysParameterService;
+import org.panda.business.admin.modules.manager.CommonSettingsService;
+import org.panda.business.admin.modules.manager.config.SettingsKeys;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.jwt.AbstractInternalJwtConfiguration;
@@ -28,7 +28,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
     private String appName;
 
     @Autowired
-    private SysParameterService parameterService;
+    private CommonSettingsService commonSettingsService;
 
     /**
      * 静态代码块>构造代码块>构造函数>普通代码块
@@ -48,7 +48,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
 
     @Override
     public String getSecretKey() {
-        Optional<String> tokenKeyOptional = parameterService.getParamValueByKey(ParamKeys.TOKEN_KEY, appName);
+        Optional<String> tokenKeyOptional = commonSettingsService.getParamValue(SettingsKeys.TOKEN_KEY, appName);
         String tokenKey;
         if (tokenKeyOptional.isPresent()) { // 优先使用系统配置参数
             tokenKey = tokenKeyOptional.get();
@@ -67,7 +67,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
 
     @Override
     public int getExpiredIntervalSeconds() {
-        Optional<String> tokenInterval = parameterService.getParamValueByKey(ParamKeys.TOKEN_INTERVAL, appName);
+        Optional<String> tokenInterval = commonSettingsService.getParamValue(SettingsKeys.TOKEN_INTERVAL, appName);
         if (tokenInterval.isPresent()) {
             int interval = Integer.parseInt(tokenInterval.get());
             return interval;
