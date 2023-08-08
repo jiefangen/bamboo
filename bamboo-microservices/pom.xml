@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.panda.service</groupId>
-    <artifactId>bamboo-microservice</artifactId>
+    <artifactId>bamboo-microservices</artifactId>
     <version>1.0.RELEASE</version>
     <packaging>pom</packaging>
     <description>微服务架构服务提供层</description>
