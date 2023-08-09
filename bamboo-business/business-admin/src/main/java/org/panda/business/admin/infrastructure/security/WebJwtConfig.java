@@ -1,8 +1,8 @@
 package org.panda.business.admin.infrastructure.security;
 
 import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.business.admin.modules.manager.SettingsManager;
-import org.panda.business.admin.modules.manager.config.SettingsKeys;
+import org.panda.business.admin.modules.common.manager.SettingsManager;
+import org.panda.business.admin.modules.common.config.SettingsKeys;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.jwt.AbstractInternalJwtConfiguration;

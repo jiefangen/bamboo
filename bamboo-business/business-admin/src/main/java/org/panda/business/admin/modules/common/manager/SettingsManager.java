@@ -1,11 +1,11 @@
-package org.panda.business.admin.modules.manager;
+package org.panda.business.admin.modules.common.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.business.admin.common.util.CommonUtil;
-import org.panda.business.admin.modules.manager.config.SettingsKeys;
+import org.panda.business.admin.modules.common.config.SettingsKeys;
 import org.panda.business.admin.modules.settings.service.SysDictionaryDataService;
 import org.panda.business.admin.modules.settings.service.SysDictionaryService;
 import org.panda.business.admin.modules.settings.service.SysParameterService;

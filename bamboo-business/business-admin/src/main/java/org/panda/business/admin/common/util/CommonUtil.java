@@ -5,6 +5,7 @@ import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.util.WebHttpUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 /**
  * 系统通用性工具类
@@ -13,9 +14,13 @@ import javax.servlet.http.HttpServletRequest;
  **/
 public class CommonUtil {
     /**
-     * 语言编码KEY
+     * 语言编码标识
      */
-    public static final String LANGUAGE_KEY = "language";
+    public static final String LANGUAGE = "language";
+    /**
+     * 语言编码标识
+     */
+    public static final String LANG = "lang";
     /**
      * 中文语言
      */
@@ -32,14 +37,21 @@ public class CommonUtil {
         HttpServletRequest request = SpringWebContext.getRequest();
         String language;
         if (WebHttpUtil.isAjaxRequest(request)) { // 从Cookie中获取终端语言
-            language = WebHttpUtil.getCookieValue(SpringWebContext.getRequest(), LANGUAGE_KEY);
+            language = WebHttpUtil.getCookieValue(SpringWebContext.getRequest(), LANGUAGE);
         } else { // 从Header中获取终端语言
-            language = WebHttpUtil.getHeader(SpringWebContext.getRequest(), LANGUAGE_KEY);
+            language = WebHttpUtil.getHeader(SpringWebContext.getRequest(), LANGUAGE);
+            if (StringUtils.isBlank(language)) { // 如果还是无法获取，尝试使用lang标识获取
+                language = WebHttpUtil.getHeader(SpringWebContext.getRequest(), LANG);
+            }
         }
-        if (StringUtils.isEmpty(language)) { // 默认语言编码
-            return LANGUAGE_CHINESE;
+        if (StringUtils.isBlank(language)) { // 默认语言编码
+            return LANGUAGE_ENGLISH;
         }
         return language;
+    }
+
+    public static Locale getLocaleLanguage() {
+        return Locale.forLanguageTag(getGlobalLanguage());
     }
 
 }

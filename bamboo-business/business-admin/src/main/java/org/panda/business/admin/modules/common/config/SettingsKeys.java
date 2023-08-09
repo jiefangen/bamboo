@@ -1,4 +1,4 @@
-package org.panda.business.admin.modules.manager.config;
+package org.panda.business.admin.modules.common.config;
 
 /**
  * 系统参数key

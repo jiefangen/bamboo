@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.modules.settings.api.param.ParameterParam;
 import org.panda.business.admin.modules.settings.api.param.ParameterQueryParam;
 import org.panda.business.admin.modules.settings.service.SysParameterService;
@@ -16,6 +17,7 @@ import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.config.QueryPageHelper;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, SysParameter> implements SysParameterService {
+
+    @Autowired
+    private MessageSourceResolver messageSourceResolver;
 
     @Override
     public QueryResult<SysParameter> getParamByPage(ParameterQueryParam queryParam) {
@@ -55,7 +60,7 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
         LambdaQueryWrapper<SysParameter> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysParameter::getParamKey, parameterKey);
         if (this.count(queryWrapper) > 0) {
-            return "The paramKey is already taken!";
+            return messageSourceResolver.findI18nMessage("admin.settings.parameter.error_add");
         }
         SysParameter parameter = new SysParameter();
         parameterParam.transform(parameter);
@@ -88,11 +93,13 @@ public class SysParameterServiceImpl extends ServiceImpl<SysParameterMapper, Sys
             SysParameter parameter = this.getById(id);
             if (parameter != null && parameter.getStatus() == 0) { // 关闭的状态才可以删除
                 if ("systemInit".equals(parameter.getCreator())) { // 系统初始化的重要参数不可删除
-                    throw new BusinessException("System initialization parameter cannot be deleted.");
+                    String errorMessage = messageSourceResolver.findI18nMessage("admin.settings.parameter.error_del");
+                    throw new BusinessException(errorMessage);
                 }
                 return this.removeById(id);
             } else {
-                throw new BusinessException("Please close the parameter first.");
+                String errorMessage = messageSourceResolver.findI18nMessage("admin.settings.parameter.error_del.1");
+                throw new BusinessException(errorMessage);
             }
         }
         return false;

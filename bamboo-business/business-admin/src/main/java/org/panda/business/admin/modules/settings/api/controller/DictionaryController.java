@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
-import org.panda.business.admin.modules.manager.SettingsManager;
+import org.panda.business.admin.modules.common.manager.SettingsManager;
 import org.panda.business.admin.modules.settings.api.param.DictionaryParam;
 import org.panda.business.admin.modules.settings.api.param.DictionaryQueryParam;
 import org.panda.business.admin.modules.settings.service.SysDictionaryService;

@@ -8,6 +8,7 @@ import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.panda.tech.security.config.annotation.ConfigPermission;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -16,7 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author fangen
  **/
 @Api(tags = "权限验证模版控制器")
-@RestController("/authority")
+@RestController
+@RequestMapping("/authority")
 public class AuthorityController {
     /**
      * 匿名即可访问
@@ -26,6 +28,7 @@ public class AuthorityController {
     public RestfulResult accessAnonymous() {
         return RestfulResult.success(true);
     }
+
     /**
      * 只要认证成功即可访问
      */
@@ -65,7 +68,6 @@ public class AuthorityController {
     public RestfulResult accessSystemPer() {
         return RestfulResult.success(true);
     }
-
 
     /**
      * 需要同时拥有指定的所有权限才可以访问
