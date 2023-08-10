@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.modules.settings.api.param.DictDataParam;
 import org.panda.business.admin.modules.settings.api.param.DictDataQueryParam;
@@ -17,6 +18,7 @@ import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.config.QueryPageHelper;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +36,9 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataMapper, SysDictionaryData> implements SysDictionaryDataService {
+
+    @Autowired
+    private MessageSourceResolver messageSourceResolver;
 
     @Override
     public QueryResult<SysDictionaryData> getDictDataByPage(DictDataQueryParam queryParam) {
@@ -57,14 +62,14 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
         // 字典数据值重复性校验
         Integer dictId = dictDataParam.getDictId();
         if (dictId == null) {
-            return "The dictionary is not exist.";
+            return messageSourceResolver.findI18nMessage("admin.settings.dictData.error_add");
         }
         String dictValue = dictDataParam.getDictValue();
         LambdaQueryWrapper<SysDictionaryData> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDictionaryData::getDictId, dictId);
         queryWrapper.eq(SysDictionaryData::getDictValue, dictValue);
         if (this.count(queryWrapper) > 0) {
-            return "The dictValue is already taken!";
+            return messageSourceResolver.findI18nMessage("admin.settings.dictData.error_add.1");
         }
         SysDictionaryData dictionaryData = new SysDictionaryData();
         dictDataParam.transform(dictionaryData);
@@ -118,11 +123,13 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
             SysDictionaryData dictionaryData = this.getById(id);
             if (dictionaryData != null && dictionaryData.getStatus() == 0) { // 停用的状态才可以删除
                 if ("systemInit".equals(dictionaryData.getCreator())) { // 系统初始化的重要参数不可删除
-                    throw new BusinessException("System initialization dictionary data cannot be deleted.");
+                    String errorMessage = messageSourceResolver.findI18nMessage("admin.settings.dictData.error_del");
+                    throw new BusinessException(errorMessage);
                 }
                 return this.removeById(id);
             } else {
-                throw new BusinessException("Please close the dictionary data first.");
+                String errorMessage = messageSourceResolver.findI18nMessage("admin.settings.dictData.error_del.1");
+                throw new BusinessException(errorMessage);
             }
         }
         return false;

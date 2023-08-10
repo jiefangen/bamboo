@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.common.constant.enums.RoleCode;
 import org.panda.business.admin.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.modules.system.service.SysRoleService;
@@ -31,6 +32,9 @@ import java.util.List;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
     @Autowired
+    private MessageSourceResolver messageSourceResolver;
+
+    @Autowired
     private SysMenuMapper menuDao;
 
     @Override
@@ -53,7 +57,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         String roleName = role.getRoleName();
         SysRole sysRole = this.baseMapper.findByRoleName(roleName);
         if (sysRole != null) {
-            return "The roleName is already taken!";
+            return messageSourceResolver.findI18nMessage("admin.system.role.error_add");
         }
         // 默认roleType
         role.setRoleCode(RoleCode.CUSTOMER.name());
@@ -84,7 +88,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public int deleteRole(Integer roleId) throws BusinessException {
         // 校验该角色是否绑定的有用户或菜单权限资源
         if (this.baseMapper.delRoleVerify(roleId)) {
-            throw new BusinessException("Please unbind the user or menu resource of this role first.");
+            String errorMessage = messageSourceResolver.findI18nMessage("admin.system.role.error_del");
+            throw new BusinessException(errorMessage);
         }
         return this.baseMapper.deleteRole(roleId);
     }

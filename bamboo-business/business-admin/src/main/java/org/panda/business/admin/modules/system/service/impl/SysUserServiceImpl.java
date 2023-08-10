@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
+import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.common.constant.SystemConstants;
 import org.panda.business.admin.common.constant.enums.RoleCode;
 import org.panda.business.admin.modules.common.manager.SettingsManager;
@@ -51,6 +52,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
+    @Autowired
+    private MessageSourceResolver messageSourceResolver;
     @Autowired
     private SysRoleMapper sysRoleMapper;
     @Autowired
@@ -137,9 +140,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String username = userParam.getUsername();
         SysUser userPO = this.getUserInfo(username);
         if (userPO != null) {
-            String msg = "The username is already taken!";
-            LogUtil.error(getClass(), msg);
-            return msg;
+            String errorMessage = messageSourceResolver.findI18nMessage("admin.system.user.error_add");
+            LogUtil.error(getClass(), errorMessage);
+            return errorMessage;
         }
         String password = userParam.getPassword();
         if (StringUtils.isEmpty(password)) {
@@ -147,7 +150,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             if (initPassword.isPresent()) {
                 password = initPassword.get();
             } else {
-                return SettingsKeys.INIT_PWD + " not configured";
+                return SettingsKeys.INIT_PWD + messageSourceResolver.findI18nMessage("admin.system.user.error_not_config");
             }
         }
         String encodePassword = passwordEncoder.encode(password);
@@ -202,14 +205,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 删除操作排除自己
         String principalUsername = userSpecificDetails.getUsername();
         if (username.equals(principalUsername)) {
-            throw new BusinessException("Can't delete yourself.");
+            String errorMessage = messageSourceResolver.findI18nMessage("admin.system.user.error_del");
+            throw new BusinessException(errorMessage);
         }
 
         // 校验是否绑定的有角色
         SysUserDto useDto = this.getUserAndRoles(username);
         List<SysRole> roles = useDto.getRoles();
         if (CollectionUtils.isNotEmpty(roles)) {
-            throw new BusinessException("Please unbind this user's role first.");
+            String errorMessage = messageSourceResolver.findI18nMessage("admin.system.user.error_del.1");
+            throw new BusinessException(errorMessage);
         }
 
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
@@ -241,7 +246,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             if (initPassword.isPresent()) {
                 resetPassParam.setNewPassword(initPassword.get());
             } else {
-                return SettingsKeys.INIT_PWD + " not configured";
+                return SettingsKeys.INIT_PWD + messageSourceResolver.findI18nMessage("admin.system.user.error_not_config");
             }
         }
         String newPasswordEncrypt = passwordEncoder.encode(resetPassParam.getNewPassword());

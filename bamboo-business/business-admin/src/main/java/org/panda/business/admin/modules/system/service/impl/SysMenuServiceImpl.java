@@ -3,11 +3,13 @@ package org.panda.business.admin.modules.system.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.modules.system.service.SysMenuService;
 import org.panda.business.admin.modules.system.service.dto.SysMenuDto;
 import org.panda.business.admin.modules.system.service.entity.SysMenu;
 import org.panda.business.admin.modules.system.service.repository.SysMenuMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,9 @@ import java.util.List;
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
     private static final int ZERO = 0;
+
+    @Autowired
+    private MessageSourceResolver messageSourceResolver;
 
     @Override
     public List<SysMenuDto> getMenus() {
@@ -74,7 +79,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public int deleteMenu(Integer menuId) throws BusinessException {
         // 校验该角色是否绑定的有用户或菜单权限资源
         if (this.baseMapper.delMenuVerify(menuId)) {
-            throw new BusinessException("Delete the submenu or unbind the menu role first.");
+            String errorMessage = messageSourceResolver.findI18nMessage("admin.system.menu.error_del");
+            throw new BusinessException(errorMessage);
         }
         return this.baseMapper.deleteMenu(menuId);
     }

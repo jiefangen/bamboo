@@ -3,7 +3,7 @@ package org.panda.business.admin.common.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import java.util.List;
 
@@ -21,9 +21,9 @@ public class MessageSourceConfig {
     private List<String> names;
 
     @Bean
-    public ReloadableResourceBundleMessageSource messageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        String basenamePrefix = "classpath:static/i18n/";
+    public ResourceBundleMessageSource messageSource() {
+        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+        String basenamePrefix = "static/i18n/";
         String basenameSuffix = "/messages";
         String[] baseNames = new String[names.size()];
         for (int i = 0; i < names.size(); i++) {

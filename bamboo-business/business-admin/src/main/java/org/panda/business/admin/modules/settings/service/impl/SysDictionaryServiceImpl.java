@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.modules.settings.api.param.DictionaryParam;
 import org.panda.business.admin.modules.settings.api.param.DictionaryQueryParam;
 import org.panda.business.admin.modules.settings.service.SysDictionaryDataService;
@@ -37,6 +38,9 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
     @Autowired
     private SysDictionaryDataService dictionaryDataService;
 
+    @Autowired
+    private MessageSourceResolver messageSourceResolver;
+
     @Override
     public QueryResult<SysDictionary> getDictByPage(DictionaryQueryParam queryParam) {
         Page<SysDictionary> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
@@ -63,7 +67,7 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
         LambdaQueryWrapper<SysDictionary> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(SysDictionary::getDictKey, dictKey);
         if (this.count(queryWrapper) > 0) {
-            return "The dictKey is already taken!";
+            return messageSourceResolver.findI18nMessage("admin.settings.dictionary.error_add");
         }
         SysDictionary dictionary = new SysDictionary();
         dictionaryParam.transform(dictionary);
@@ -98,14 +102,17 @@ public class SysDictionaryServiceImpl extends ServiceImpl<SysDictionaryMapper, S
                 LambdaQueryWrapper<SysDictionaryData> queryWrapper = new LambdaQueryWrapper<>();
                 queryWrapper.eq(SysDictionaryData::getDictId, id);
                 if (dictionaryDataService.count(queryWrapper) > 0) {
-                    throw new BusinessException("Please unbind the dictionary data first.");
+                    String errorMessage = messageSourceResolver.findI18nMessage("admin.settings.dictionary.error_del");
+                    throw new BusinessException(errorMessage);
                 }
                 if ("systemInit".equals(dictionary.getCreator())) { // 系统初始化的重要参数不可删除
-                    throw new BusinessException("System initialization dictionary cannot be deleted.");
+                    String errorMessage = messageSourceResolver.findI18nMessage("admin.settings.dictionary.error_del.1");
+                    throw new BusinessException(errorMessage);
                 }
                 return this.removeById(id);
             } else {
-                throw new BusinessException("Please close the dictionary first.");
+                String errorMessage = messageSourceResolver.findI18nMessage("admin.settings.dictionary.error_del.2");
+                throw new BusinessException(errorMessage);
             }
         }
         return false;

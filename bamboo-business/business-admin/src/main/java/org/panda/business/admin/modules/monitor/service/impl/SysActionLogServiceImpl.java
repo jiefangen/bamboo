@@ -12,6 +12,7 @@ import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.date.TemporalUtil;
+import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.common.model.WebLogData;
 import org.panda.business.admin.modules.monitor.api.param.LogQueryParam;
 import org.panda.business.admin.modules.monitor.service.SysActionLogService;
@@ -26,6 +27,7 @@ import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.config.QueryPageHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -49,6 +51,9 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, SysActionLog> implements SysActionLogService {
+
+    @Autowired
+    private MessageSourceResolver messageSourceResolver;
 
     @Override
     @Async("taskExecutor")
@@ -117,7 +122,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
             IPAddress ipAddress = WebHttpUtil.getIPAddress(remoteAddress, Strings.LOCALE_SC);
             ipAttribution = ipAddress.getRegionName() + Strings.SPACE + ipAddress.getCity();
         } else {
-            ipAttribution = "内网IP";
+            ipAttribution = messageSourceResolver.findI18nMessage("admin.monitor.actionLog.ipAttribution");
         }
         return ipAttribution;
     }

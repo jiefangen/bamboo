@@ -1,6 +1,7 @@
 package org.panda.business.admin.common.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.util.WebHttpUtil;
 
@@ -35,23 +36,27 @@ public class CommonUtil {
      */
     public static String getGlobalLanguage() {
         HttpServletRequest request = SpringWebContext.getRequest();
+        if (request == null) {
+            return Strings.EMPTY_OBJ;
+        }
         String language;
         if (WebHttpUtil.isAjaxRequest(request)) { // 从Cookie中获取终端语言
-            language = WebHttpUtil.getCookieValue(SpringWebContext.getRequest(), LANGUAGE);
+            language = WebHttpUtil.getCookieValue(request, LANGUAGE);
         } else { // 从Header中获取终端语言
-            language = WebHttpUtil.getHeader(SpringWebContext.getRequest(), LANGUAGE);
+            language = WebHttpUtil.getHeader(request, LANGUAGE);
             if (StringUtils.isBlank(language)) { // 如果还是无法获取，尝试使用lang标识获取
-                language = WebHttpUtil.getHeader(SpringWebContext.getRequest(), LANG);
+                language = WebHttpUtil.getHeader(request, LANG);
             }
-        }
-        if (StringUtils.isBlank(language)) { // 默认语言编码
-            return LANGUAGE_ENGLISH;
         }
         return language;
     }
 
     public static Locale getLocaleLanguage() {
-        return Locale.forLanguageTag(getGlobalLanguage());
+        String language = getGlobalLanguage();
+        if (StringUtils.isBlank(language)) {
+            return Locale.ROOT;
+        }
+        return Locale.forLanguageTag(language);
     }
 
 }
