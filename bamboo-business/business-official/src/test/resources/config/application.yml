@@ -1,16 +1,16 @@
 spring:
   application:
-    name: admin
+    name: official
   profiles:
-    active: junit
+    active: local
 server:
-  port: 10001
+  port: 10004
   servlet:
-      context-path: /biz-admin
+    context-path: /biz-official
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 logging:
   level:
-    org.panda.business.admin: debug
+    org.panda.business.official: debug

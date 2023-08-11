@@ -20,7 +20,7 @@ CREATE TABLE `auth_user` (
                           `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Compact;
+) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统用户' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `auth_user_role`;
@@ -28,7 +28,7 @@ CREATE TABLE `auth_user_role` (
                                `user_id` INT unsigned NOT NULL COMMENT '用户表关联ID',
                                `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
                                PRIMARY KEY (`user_id`, `role_id`)
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户角色关系' ROW_FORMAT = Compact;
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统用户角色关系' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `auth_role`;
@@ -40,7 +40,7 @@ CREATE TABLE `auth_role` (
                           `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Compact;
+) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统角色' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `auth_role_permission`;
@@ -48,7 +48,7 @@ CREATE TABLE auth_role_permission (
                                      `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
                                      `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
                                      PRIMARY KEY (`role_id`, `permission_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 CHECKSUM=1 DELAY_KEY_WRITE=1 COMMENT = '系统角色权限关系' ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统角色权限关系' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `auth_permission`;
@@ -61,7 +61,7 @@ CREATE TABLE auth_permission (
                                 `resources_type` VARCHAR(20) NOT NULL COMMENT '资源类型',
                                 `operation_scope` VARCHAR(20) COMMENT '操作范围',
                                 PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1000 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统权限' ROW_FORMAT = Compact;
+) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统权限' ROW_FORMAT=Compact;
 
 ALTER TABLE `auth_user_role` ADD CONSTRAINT fk_auth_user_role_user_id_user FOREIGN KEY (`user_id`) REFERENCES auth_user (`id`);
 ALTER TABLE `auth_user_role` ADD CONSTRAINT fk_auth_user_role_role_id_role FOREIGN KEY (`role_id`) REFERENCES auth_role (`id`);
