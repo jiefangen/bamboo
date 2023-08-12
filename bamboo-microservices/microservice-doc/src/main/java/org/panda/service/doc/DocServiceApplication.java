@@ -9,8 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author fangen
  */
 @SpringBootApplication
-public class DocApplication {
+public class DocServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(DocApplication.class, args);
+        SpringApplication.run(DocServiceApplication.class, args);
     }
 }

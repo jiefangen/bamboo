@@ -1,6 +1,5 @@
 /* 官网系统库创建脚本 */
 DROP DATABASE IF EXISTS `official_system`;
-
 CREATE DATABASE  IF NOT EXISTS `official_system` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `official_system`;
 

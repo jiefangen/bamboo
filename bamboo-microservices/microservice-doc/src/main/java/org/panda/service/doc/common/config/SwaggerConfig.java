@@ -1,4 +1,4 @@
-package org.panda.service.doc.config;
+package org.panda.service.doc.common.config;
 
 import lombok.Setter;
 import org.panda.bamboo.Framework;
@@ -20,14 +20,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @ConfigurationProperties(prefix = "swagger.config")
 @EnableSwagger2WebMvc
 public class SwaggerConfig implements WebMvcConfigurer {
-    /**
-     * Swagger扫描基础包位置
-     */
-    private String title;
-    /**
-     * Swagger扫描基础包位置
-     */
-    private String desc;
+    private static final String SWAGGER_TITLE = "Microservice Document API";
+    private static final String SWAGGER_DESC = "文档微服务，致力于传统Office套件文件解析、转换、存储等服务";
     /**
      * 自动化API文档控制开关
      */
@@ -50,8 +44,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(this.title)
-                .description(this.desc)
+                .title(SWAGGER_TITLE)
+                .description(SWAGGER_DESC)
                 .version("1.0.0")
                 .contact(new Contact(Framework.OWNER, "", Framework.EMAIL))
                 .license("Apache 2.0")

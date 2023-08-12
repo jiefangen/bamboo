@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2022/8/21
  */
 @SpringBootApplication
-public class SmsApplication {
+public class SmsServiceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SmsApplication.class, args);
+        SpringApplication.run(SmsServiceApplication.class, args);
     }
 }

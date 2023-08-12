@@ -88,7 +88,7 @@ public class ConfigSubDirEnvironmentPostProcessor implements EnvironmentPostProc
             int ordinal2 = getDirOrdinal(dirName2);
             int result = Integer.compare(ordinal1, ordinal2);
             if (result == 0) {
-                // 子目录序号相同，则比较子目录名称，由于core,model,repo,service,web的层级名称符合自然排序，所以此处只需简单比较名称即可
+                // 子目录序号相同，则比较子目录名称，由于core,model,repo,service的层级名称符合自然排序，所以此处只需简单比较名称即可
                 result = dirName1.compareTo(dirName2);
             }
             return result;
