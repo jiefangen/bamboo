@@ -1,4 +1,4 @@
 package org.panda.service.sms.core;
 
-public interface Sms {
+public interface SmsSupport {
 }

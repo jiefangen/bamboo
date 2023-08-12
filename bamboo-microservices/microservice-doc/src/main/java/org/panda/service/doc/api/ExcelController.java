@@ -1,4 +1,4 @@
-package org.panda.service.doc.controller;
+package org.panda.service.doc.api;
 
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.UUIDUtil;
@@ -6,7 +6,7 @@ import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.util.DocUtil;
 import org.panda.service.doc.common.util.WebUtil;
-import org.panda.service.doc.domain.model.ExcelModel;
+import org.panda.service.doc.core.domain.model.ExcelModel;
 import org.panda.service.doc.service.ExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -13,5 +13,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2023-06-07
  */
 public interface ISysUserRoleService extends IService<SysUserRole> {
+
     SysUserDto getUserAndRoles(String username);
 }

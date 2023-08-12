@@ -1,4 +1,6 @@
 /* 官网系统库创建脚本 */
+DROP DATABASE IF EXISTS `official_system`;
+
 CREATE DATABASE  IF NOT EXISTS `official_system` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `official_system`;
 
@@ -63,11 +65,11 @@ CREATE TABLE sys_permission (
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统权限' ROW_FORMAT=Compact;
 
 
-ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (`user_id`) REFERENCES sys_user (`id`);
-ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (`role_id`) REFERENCES sys_role (`id`);
+-- ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_user_id_user FOREIGN KEY (`user_id`) REFERENCES sys_user (`id`);
+-- ALTER TABLE `sys_user_role` ADD CONSTRAINT fk_sys_user_role_role_id_role FOREIGN KEY (`role_id`) REFERENCES sys_role (`id`);
 
-ALTER TABLE `sys_role_permission` ADD CONSTRAINT fk_sys_role_permission_permission_id_permission FOREIGN KEY (`permission_id`) REFERENCES sys_permission (`id`);
-ALTER TABLE `sys_role_permission` ADD CONSTRAINT fk_sys_role_permission_role_id_role FOREIGN KEY (`role_id`) REFERENCES sys_role (`id`);
+-- ALTER TABLE `sys_role_permission` ADD CONSTRAINT fk_sys_role_permission_permission_id_permission FOREIGN KEY (`permission_id`) REFERENCES sys_permission (`id`);
+-- ALTER TABLE `sys_role_permission` ADD CONSTRAINT fk_sys_role_permission_role_id_role FOREIGN KEY (`role_id`) REFERENCES sys_role (`id`);
 
 
 DROP TABLE IF EXISTS `sys_action_log`;

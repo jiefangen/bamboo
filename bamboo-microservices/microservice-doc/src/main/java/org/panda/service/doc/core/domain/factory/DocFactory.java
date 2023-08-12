@@ -1,9 +1,9 @@
-package org.panda.service.doc.domain.factory;
+package org.panda.service.doc.core.domain.factory;
 
 import org.panda.service.doc.common.DocConstants;
-import org.panda.service.doc.domain.factory.excel.ExcelDoc;
-import org.panda.service.doc.domain.factory.ppt.PptDoc;
-import org.panda.service.doc.domain.factory.word.WordDoc;
+import org.panda.service.doc.core.domain.factory.ppt.PptDoc;
+import org.panda.service.doc.core.domain.factory.excel.ExcelDoc;
+import org.panda.service.doc.core.domain.factory.word.WordDoc;
 
 /**
  * 操作文档工厂

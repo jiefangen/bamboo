@@ -6,6 +6,7 @@ package org.panda.tech.data.datasource;
  * @author fangen
  **/
 public class DynamicDataSourceContextHolder {
+
     private static final ThreadLocal<String> dataSourceHolder = new ThreadLocal<>();
 
     public static void setDataSourceKey(String key) {

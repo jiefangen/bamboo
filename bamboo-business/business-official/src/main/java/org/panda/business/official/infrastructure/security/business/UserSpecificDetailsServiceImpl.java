@@ -1,16 +1,12 @@
-package org.panda.business.admin.infrastructure.security.bussiness;
+package org.panda.business.official.infrastructure.security.business;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.exception.business.param.RequiredParamException;
-import org.panda.business.admin.common.constant.SystemConstants;
-import org.panda.business.admin.modules.system.service.SysPermissionService;
-import org.panda.business.admin.modules.system.service.SysUserService;
-import org.panda.business.admin.modules.system.service.dto.SysUserDto;
-import org.panda.business.admin.modules.system.service.entity.SysPermission;
-import org.panda.business.admin.modules.system.service.entity.SysRole;
-import org.panda.business.admin.modules.system.service.entity.SysUser;
+import org.panda.business.official.common.constant.AuthConstants;
+import org.panda.business.official.modules.system.service.ISysUserRoleService;
+import org.panda.business.official.modules.system.service.dto.SysUserDto;
+import org.panda.business.official.modules.system.service.entity.SysUser;
 import org.panda.tech.core.spec.user.DefaultUserIdentity;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserGrantedAuthority;
@@ -22,10 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 用户特性细节服务组件
@@ -36,9 +29,7 @@ import java.util.stream.Collectors;
 public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsService {
 
     @Autowired
-    private SysUserService userService;
-    @Autowired
-    private SysPermissionService permissionService;
+    private ISysUserRoleService userRoleService;
 
     @Override
     public UserSpecificDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -46,9 +37,9 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
             throw new RequiredParamException();
         }
         // 用户信息查询判断拦截
-        SysUserDto sysUserDto = userService.getUserAndRoles(username);
+        SysUserDto sysUserDto = userRoleService.getUserAndRoles(username);
         if (sysUserDto == null || sysUserDto.getUser() == null) {
-            throw new UsernameNotFoundException(SystemConstants.USERNAME_NOT_EXIST);
+            throw new UsernameNotFoundException(AuthConstants.USERNAME_NOT_EXIST);
         }
         SysUser sysUser = sysUserDto.getUser();
         // 组装用户特性细节
@@ -66,7 +57,7 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         grantedAuthority.setType(sysUser.getUserType());
         grantedAuthority.setRank(sysUser.getUserRank());
         grantedAuthority.setApp(Strings.ASTERISK); // 通配符'*'
-        grantedAuthority.setPermissions(this.buildPermissions(sysUserDto.getRoles()));
+        grantedAuthority.setPermissions(sysUserDto.getRoleCodes());
         authorities.add(grantedAuthority);
         userSpecificDetails.setAuthorities(authorities);
 
@@ -78,22 +69,4 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         return userSpecificDetails;
     }
 
-    /**
-     * 通过角色集构建权限限定集
-     *
-     * @param roles 角色集
-     * @return 权限限定集
-     */
-    private Set<String> buildPermissions(List<SysRole> roles) {
-        Set<String> permissions = new HashSet<>();
-        if (CollectionUtils.isNotEmpty(roles)) {
-            List<SysPermission> sysPermissions = new ArrayList<>();
-            roles.forEach(role -> {
-                List<SysPermission> permission = permissionService.getPermissions(role.getId());
-                sysPermissions.addAll(permission);
-            });
-            permissions = sysPermissions.stream().map(permission -> permission.getPermissionCode()).collect(Collectors.toSet());
-        }
-        return permissions;
-    }
 }

@@ -6,6 +6,7 @@ import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @author fangen
  **/
 @Api(tags = "权限验证模版控制器")
-@RestController("/authority")
+@RestController
+@RequestMapping("/authority")
 public class AuthorityController {
     /**
      * 匿名即可访问

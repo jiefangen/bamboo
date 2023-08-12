@@ -6,7 +6,7 @@ spring:
 server:
   port: 11002
   servlet:
-    context-path: /doc-service
+    context-path: /service-document
 
 # 日志组件配置
 logging:

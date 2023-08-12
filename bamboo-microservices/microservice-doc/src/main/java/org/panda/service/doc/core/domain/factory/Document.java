@@ -1,6 +1,6 @@
-package org.panda.service.doc.domain.factory;
+package org.panda.service.doc.core.domain.factory;
 
-import org.panda.service.doc.domain.model.DocModel;
+import org.panda.service.doc.core.domain.model.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.InputStream;

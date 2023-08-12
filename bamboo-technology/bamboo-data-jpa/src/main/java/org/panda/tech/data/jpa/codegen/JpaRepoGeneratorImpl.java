@@ -33,7 +33,7 @@ public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRe
         generate(this.modelBasePackage, (module, entityClass) -> {
             if (this.ignoredEntityClasses == null || !ArrayUtils.contains(this.ignoredEntityClasses, entityClass)) {
                 try {
-                    generateRepo(module, entityClass, true);
+                    generateRepo(module, entityClass, false);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -54,7 +54,7 @@ public class JpaRepoGeneratorImpl extends ClassGeneratorSupport implements JpaRe
         params.put("keyClassSimpleName", keyFieldType.getSimpleName());
         generateRepo(module, entityClass, params, this.baseTemplateLocation, Strings.EMPTY);
         if (withRepox) { // 生成数据库访问仓库扩展类
-//            generate(module, entityClass, params, this.extTemplateLocation, "x");
+            generateRepo(module, entityClass, params, this.extTemplateLocation, "x");
         }
     }
 

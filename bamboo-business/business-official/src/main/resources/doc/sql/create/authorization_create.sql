@@ -1,4 +1,4 @@
-# 权限认证库创建脚本
+/* 权限认证库创建脚本 */
 CREATE DATABASE  IF NOT EXISTS `authorization` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `authorization`;
 

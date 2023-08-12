@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 @Component
 public class DataSourceSwitchAspect {
 
-    @Pointcut("@annotation(org.panda.*)")
+    @Pointcut("@annotation(org.panda.tech.data.annotation.DataSourceSwitch)")
     public void dataSourcePointCut() {
     }
 

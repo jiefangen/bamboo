@@ -1,6 +1,6 @@
-# document文档服务表创建脚本
-CREATE DATABASE IF NOT EXISTS `document` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `document`;
+/* service_document文档服务表创建脚本 */
+CREATE DATABASE IF NOT EXISTS `service_document` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `service_document`;
 
 SET NAMES utf8mb4;
 SET GLOBAL FOREIGN_KEY_CHECKS = 0;
@@ -18,7 +18,7 @@ CREATE TABLE `doc_file` (
                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                             `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文档文件表' ROW_FORMAT = Compact;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档文件表' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `doc_excel`;
@@ -30,4 +30,4 @@ CREATE TABLE `doc_excel` (
                             `column_index` INT(11) NOT NULL COMMENT '单元格列索引',
                             `cell_value` TEXT NOT NULL COMMENT '单元格值',
                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文档EXCEL表' ROW_FORMAT = Compact;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档EXCEL表' ROW_FORMAT=Compact;

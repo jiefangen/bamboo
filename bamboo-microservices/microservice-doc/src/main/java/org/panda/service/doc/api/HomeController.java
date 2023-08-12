@@ -1,4 +1,4 @@
-package org.panda.service.doc.controller;
+package org.panda.service.doc.api;
 
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package org.panda.service.doc.domain.model;
+package org.panda.service.doc.core.domain.model;
 
 import lombok.Data;
 import org.panda.bamboo.common.model.DomainModel;

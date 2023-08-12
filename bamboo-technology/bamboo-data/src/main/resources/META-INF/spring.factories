@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   org.panda.tech.data.support.DataAccessTemplateFactoryImpl,\
-  org.panda.tech.data.support.RepoFactoryImpl
+  org.panda.tech.data.support.RepoFactoryImpl,\
+  org.panda.tech.data.datasource.DataSourceSwitchAspect
