@@ -2,7 +2,7 @@ spring:
   application:
     name: admin
   profiles:
-    active: dev
+    active: demo
 server:
   port: 10002
   servlet:
