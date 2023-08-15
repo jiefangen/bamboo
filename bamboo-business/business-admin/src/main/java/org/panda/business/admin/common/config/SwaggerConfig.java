@@ -83,6 +83,7 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
+        title += "【" + env + "】";
         return new ApiInfoBuilder()
                 .title(title)
                 .description(SWAGGER_DESC)
