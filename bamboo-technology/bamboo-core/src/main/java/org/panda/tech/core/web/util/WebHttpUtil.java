@@ -612,6 +612,11 @@ public class WebHttpUtil {
             Inet4Address inet4Address = NetUtil.getInet4Address(remoteAddress);
             if (inet4Address != null) { // 优先使用IPv4
                 return remoteAddress;
+            } else {
+                String remoteAddr = request.getRemoteAddr();
+                if (StringUtils.isBlank(remoteAddr) || HEADER_UNKNOWN.equalsIgnoreCase(remoteAddr)) {
+                    return remoteAddress;
+                }
             }
         }
         return request.getRemoteAddr();
