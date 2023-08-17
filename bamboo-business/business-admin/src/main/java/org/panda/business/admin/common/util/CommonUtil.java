@@ -22,14 +22,6 @@ public class CommonUtil {
      * 语言编码标识
      */
     public static final String LANG = "lang";
-    /**
-     * 中文语言
-     */
-    public static final String LANGUAGE_CHINESE = "zh";
-    /**
-     * 英文语言
-     */
-    public static final String LANGUAGE_ENGLISH = "en";
 
     /**
      * 获取终端全局语言编码

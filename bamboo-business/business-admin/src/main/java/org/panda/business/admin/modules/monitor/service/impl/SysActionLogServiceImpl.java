@@ -14,6 +14,7 @@ import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.common.model.WebLogData;
+import org.panda.business.admin.common.util.CommonUtil;
 import org.panda.business.admin.modules.monitor.api.param.LogQueryParam;
 import org.panda.business.admin.modules.monitor.service.SysActionLogService;
 import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
@@ -119,8 +120,15 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     private String getIpAttribution(String remoteAddress) {
         String ipAttribution;
         if (!NetUtil.isIntranetIp(remoteAddress)) {
-            IPAddress ipAddress = WebHttpUtil.getIPAddress(remoteAddress, Strings.LOCALE_SC);
-            ipAttribution = ipAddress.getRegionName() + Strings.SPACE + ipAddress.getCity();
+            String locale = CommonUtil.getGlobalLanguage();
+            IPAddress ipAddress = WebHttpUtil.getIPAddress(remoteAddress, locale);
+            String regionName = ipAddress.getRegionName();
+            String city = ipAddress.getCity();
+            if (StringUtils.isBlank(regionName) && StringUtils.isBlank(city)) {
+                ipAttribution = messageSourceResolver.findI18nMessage("admin.monitor.actionLog.ipInvalid");
+            } else {
+                ipAttribution = regionName + Strings.SPACE + city;
+            }
         } else {
             ipAttribution = messageSourceResolver.findI18nMessage("admin.monitor.actionLog.ipAttribution");
         }

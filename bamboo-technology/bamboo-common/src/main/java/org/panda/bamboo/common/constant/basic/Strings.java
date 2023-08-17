@@ -149,6 +149,10 @@ public class Strings {
     public static final String ENCODING_GBK = "GBK";
 
     /**
+     * 简体中文-默认
+     */
+    public static final String LOCALE_ZH = "zh";
+    /**
      * 简体中文
      */
     public static final String LOCALE_SC = "zh_CN";

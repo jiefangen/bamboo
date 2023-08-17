@@ -37,6 +37,7 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.Inet4Address;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -590,18 +591,27 @@ public class WebHttpUtil {
      * @return 访问者ip地址
      */
     public static String getRemoteAddress(HttpServletRequest request) {
+        String remoteAddress = Strings.EMPTY_OBJ;
         String ip = request.getHeader("X-Real-IP");
         if (StringUtils.isNotBlank(ip) && !HEADER_UNKNOWN.equalsIgnoreCase(ip)) {
-            return ip;
+            remoteAddress = ip;
+        } else {
+            ip = request.getHeader("X-Forwarded-For");
+            if (StringUtils.isNotBlank(ip) && !HEADER_UNKNOWN.equalsIgnoreCase(ip)) {
+                // 多次反向代理后会有多个值，第一个为真实值。
+                int index = ip.indexOf(Strings.COMMA);
+                if (index >= 0) {
+                    remoteAddress = ip.substring(0, index);
+                } else {
+                    remoteAddress = ip;
+                }
+            }
         }
-        ip = request.getHeader("X-Forwarded-For");
-        if (StringUtils.isNotBlank(ip) && !HEADER_UNKNOWN.equalsIgnoreCase(ip)) {
-            // 多次反向代理后会有多个值，第一个为真实值。
-            int index = ip.indexOf(Strings.COMMA);
-            if (index >= 0) {
-                return ip.substring(0, index);
-            } else {
-                return ip;
+
+        if (StringUtils.isNotBlank(remoteAddress)) {
+            Inet4Address inet4Address = NetUtil.getInet4Address(remoteAddress);
+            if (inet4Address != null) { // 优先使用IPv4
+                return remoteAddress;
             }
         }
         return request.getRemoteAddr();
@@ -616,7 +626,7 @@ public class WebHttpUtil {
     public static IPAddress getIPAddress(String ip, String locale) {
         if (StringUtils.isNotBlank(ip)) {
             String language = Strings.EMPTY;
-            if (Strings.LOCALE_SC.equals(locale)) {
+            if (Strings.LOCALE_SC.equals(locale) || Strings.LOCALE_ZH.equals(locale)) {
                 language = "?lang=zh-CN";
             }
             String apiUrl = "http://ip-api.com/json/" + ip + language;
