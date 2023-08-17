@@ -72,7 +72,7 @@
         select CONCAT_WS(',', id, SUBSTRING_INDEX(#{idAndRoleId},',',-1)) idAndRoleId,
         <include refid="menuColumns"/> from sys_menu
         where parent_id = SUBSTRING_INDEX(#{idAndRoleId},',',1)
-        and id in (select menu_id from SYS_ROLE_MENU where role_id = SUBSTRING_INDEX(#{idAndRoleId},',',-1))
+        and id in (select menu_id from sys_role_menu where role_id = SUBSTRING_INDEX(#{idAndRoleId},',',-1))
         order by sort asc
     </select>
 
