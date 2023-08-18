@@ -76,3 +76,8 @@ management:
   endpoint:
     health:
       show-details: always
+
+# 日志相关配置
+logging:
+  level:
+    org.panda.business.admin: info
