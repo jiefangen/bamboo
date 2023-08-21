@@ -38,8 +38,7 @@
         <appender-ref ref="console" />
     </root>
 
-    <!-- level:日志级别（logger中的level会覆盖root中的，即以logger中为准，不管是否向上传递）
-         name:包名或类的全路径addtivity:日志信息是否向上（root）传递  -->
+    <!-- level:日志级别（logger中的level会覆盖root中的，即以logger中为准，不管是否向上传递）name:包名或类的全路径addtivity:日志信息是否向上（root）传递  -->
     <logger name="org.panda" />
     <!-- 生产环境可更换成info级别,减少日志内容的产生 -->
     <logger name="org.panda" level="info" additivity="false">
