@@ -4,7 +4,7 @@ spring:
   profiles:
     active: local
 server:
-  port: 10003
+  port: 10002
   servlet:
     context-path: /biz-official
 

@@ -1,16 +1,18 @@
 ## bamboo-microservices（微服务架构服务提供层）
 
 ### 一、微服务项目简介
-#### 1、microservices-doc（文档文件处理微服务）
+#### 1、microservices-doc（文档文件处理微服务）端口号：11001；单元测试：11101
     1.创建和编辑Excel文档，包括对单元格和公式的编辑、创建图表等。
     2.创建和编辑Word文档，包括对段落和文本样式的编辑、插入图片和表格等。
     3.创建和编辑PowerPoint幻灯片，包括对幻灯片、文本框和形状的编辑、插入图表和媒体文件等。
     4.读取和解析Excel、Word和PowerPoint文档，包括读取单元格数据、段落内容、幻灯片元素等。
-#### 2、microservices-sms（邮件路由微服务）
+#### 2、microservices-notice（通知路由微服务）端口号：11002；单元测试：11102
+    1.
+#### 3、microservices-payment（支付微服务）端口号：11003；单元测试：11103
     1.
 
 ### 二、微服务项目目录结构
-    `org.panda.service.{服务名}`: 微服务项目的根包名。
+    `org.panda.ms.{服务名}`: 微服务项目的根包名。
         domain - 存放服务设计领域层
             event - 领域事件
             factory - 领域工厂

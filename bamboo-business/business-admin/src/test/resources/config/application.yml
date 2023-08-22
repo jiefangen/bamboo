@@ -4,7 +4,7 @@ spring:
   profiles:
     active: junit
 server:
-  port: 10002
+  port: 10101
   servlet:
       context-path: /biz-admin
 

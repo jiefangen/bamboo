@@ -10,7 +10,8 @@
     <description>微服务架构服务提供层</description>
     <modules>
         <module>microservice-doc</module>
-        <module>microservice-sms</module>
+        <module>microservice-notice</module>
+        <module>microservice-payment</module>
     </modules>
 
     <properties>

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: notice
+  profiles:
+    active: local
+server:
+  port: 11002
+  servlet:
+    context-path: /service-notice
+
+logging:
+  level:
+    org.panda.service.doc: debug
