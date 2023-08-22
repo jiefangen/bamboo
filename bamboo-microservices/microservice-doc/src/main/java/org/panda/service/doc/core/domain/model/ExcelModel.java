@@ -8,7 +8,7 @@ import lombok.Data;
  * @author fangen
  **/
 @Data
-public class ExcelModel extends DocModel{
+public class ExcelModel extends DocModel {
 
     private String sheetName;
 

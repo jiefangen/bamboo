@@ -1,6 +1,7 @@
-package org.panda.service.doc.core.domain.factory;
+package org.panda.service.doc.core.domain;
 
 import org.panda.service.doc.common.DocConstants;
+import org.panda.service.doc.core.domain.factory.Document;
 import org.panda.service.doc.core.domain.factory.ppt.PptDoc;
 import org.panda.service.doc.core.domain.factory.excel.ExcelDoc;
 import org.panda.service.doc.core.domain.factory.word.WordDoc;
@@ -22,5 +23,4 @@ public class DocFactory {
         }
         return null;
     }
-
 }

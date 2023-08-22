@@ -32,6 +32,12 @@ public class DocFile extends BaseEntity {
     private String fileType;
 
     /**
+     * 文件md5值
+     */
+    @Column(name = "file_md5")
+    private String fileMd5;
+
+    /**
      * 文件大小
      */
     @Column(name = "file_size")
@@ -47,7 +53,7 @@ public class DocFile extends BaseEntity {
      * 可访问性
      */
     @Column(name = "accessibility")
-    private Byte accessibility;
+    private Boolean accessibility;
 
     /**
      * 标签

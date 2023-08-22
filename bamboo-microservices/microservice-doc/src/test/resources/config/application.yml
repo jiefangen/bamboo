@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: document
+  profiles:
+    active: junit
+server:
+  port: 11002
+  servlet:
+    context-path: /service-document
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+# 日志组件配置
+logging:
+  level:
+    org.panda.service.doc: debug
