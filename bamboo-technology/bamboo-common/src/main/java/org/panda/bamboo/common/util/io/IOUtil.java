@@ -381,6 +381,39 @@ public class IOUtil {
     }
 
     /**
+     * 克隆原生流
+     *
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
+    public static InputStream cloneInputStream(InputStream inputStream, Integer bufferSize) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        if (bufferSize == null || bufferSize <= 0) {
+            bufferSize = 1024;
+        }
+        // 将输入流的内容读取到字节数组缓存中
+        byte[] buffer = new byte[bufferSize];
+        int bytesRead;
+        while ((bytesRead = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, bytesRead);
+        }
+        // 从字节数组缓存创建新的输入流
+        return new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+    }
+
+    /**
+     * 克隆原生流
+     *
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
+    public static InputStream cloneInputStream(InputStream inputStream) throws IOException {
+        return cloneInputStream(inputStream, -1);
+    }
+
+    /**
      * 从指定输入流当前位置开始，偏移指定偏移量后，尽可能地复制指定期望长度的内容至指定输出流，即使中途因错中止，也返回实际已复制的长度
      *
      * @param in     输入流

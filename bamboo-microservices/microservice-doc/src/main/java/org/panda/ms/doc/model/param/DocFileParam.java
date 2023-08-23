@@ -10,7 +10,6 @@ import org.panda.ms.doc.core.domain.model.DocModel;
  **/
 @Data
 public class DocFileParam extends DocModel {
-
     /**
      * 文件base64
      */

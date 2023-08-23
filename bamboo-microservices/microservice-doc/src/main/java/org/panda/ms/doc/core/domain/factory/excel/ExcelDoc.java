@@ -6,9 +6,12 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.ms.doc.common.DocConstants;
+import org.panda.ms.doc.common.DocExceptionCodes;
+import org.panda.ms.doc.common.util.DocUtil;
 import org.panda.ms.doc.core.domain.model.DocModel;
 import org.panda.ms.doc.core.domain.model.ExcelModel;
 
@@ -46,6 +49,7 @@ public class ExcelDoc implements Excel {
             }
         } catch (IOException e) {
             LogUtil.error(getClass(), e);
+            throw new BusinessException(DocUtil.getError(DocExceptionCodes.CAN_NOT_LOAD));
         } finally {
             IOUtils.closeQuietly(inputStream);
         }

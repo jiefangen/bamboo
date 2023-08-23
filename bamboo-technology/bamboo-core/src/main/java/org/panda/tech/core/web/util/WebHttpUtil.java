@@ -833,4 +833,17 @@ public class WebHttpUtil {
         response.getWriter().print(JsonUtil.toJson(obj));
     }
 
+    /**
+     * 构建附件文件响应结果
+     *
+     * @param response 响应
+     * @param filename 文件名
+     */
+    public static void buildFileResponse(HttpServletResponse response, String filename) {
+        // 设置响应内容类型
+        response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        // 设置响应头，告诉浏览器将响应内容作为附件下载
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+    }
+
 }
