@@ -1,6 +1,5 @@
 package org.panda.ms.doc.service;
 
-import org.panda.ms.doc.core.domain.model.ExcelModel;
 import org.panda.ms.doc.model.entity.DocFile;
 
 import javax.servlet.ServletOutputStream;
@@ -14,7 +13,7 @@ import java.util.Map;
  **/
 public interface DocExcelService {
 
-    Map<String, Object> uploadExcel(InputStream inputStream, DocFile docFile);
+    Map<String, Object> uploadExcel(DocFile docFile, InputStream inputStream);
 
-    void excelExport(ExcelModel excelModel, ServletOutputStream outputStream);
+    void excelExport(DocFile docFile, ServletOutputStream outputStream);
 }

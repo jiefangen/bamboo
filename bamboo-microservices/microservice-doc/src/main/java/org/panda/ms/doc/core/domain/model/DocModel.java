@@ -10,9 +10,16 @@ import org.panda.bamboo.common.model.DomainModel;
  **/
 @Data
 public class DocModel implements DomainModel {
-
+    /**
+     * 文件名
+     */
     private String filename;
-
-    private Long size;
-
+    /**
+     * 文件类型
+     */
+    private String fileType;
+    /**
+     * 文件大小
+     */
+    private Long fileSize;
 }

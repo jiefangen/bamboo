@@ -6,6 +6,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.ms.doc.common.DocConstants;
 import org.panda.ms.doc.core.domain.model.DocModel;
 import org.panda.ms.doc.core.domain.model.ExcelModel;
@@ -13,7 +15,9 @@ import org.panda.ms.doc.core.domain.model.ExcelModel;
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,7 +45,7 @@ public class ExcelDoc implements Excel {
                 workbook.close();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error(getClass(), e);
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
@@ -53,7 +57,9 @@ public class ExcelDoc implements Excel {
         int rowCount = sheet.getLastRowNum() - sheet.getFirstRowNum() + 1;
         int columnCount = 0;
         for (int i = 0; i < rowCount; i++) {
-            columnCount = Math.max(columnCount, sheet.getRow(i).getLastCellNum());
+            if (sheet.getRow(i) != null) {
+                columnCount = Math.max(columnCount, sheet.getRow(i).getLastCellNum());
+            }
         }
         // 创建一个二维数组
         String[][] excelData = new String[rowCount][columnCount];
@@ -61,12 +67,14 @@ public class ExcelDoc implements Excel {
         // 读取工作表中的数据到二维数组中
         for (int i = 0; i < rowCount; i++) {
             Row row = sheet.getRow(i);
-            for (int j = 0; j < columnCount; j++) {
-                Cell cell = row.getCell(j);
-                if (cell != null) {
-                    excelData[i][j] = getCellValueAsString(cell);
-                } else {
-                    excelData[i][j] = Strings.EMPTY;
+            if (row != null) {
+                for (int j = 0; j < columnCount; j++) {
+                    Cell cell = row.getCell(j);
+                    if (cell != null) {
+                        excelData[i][j] = getCellValueAsString(cell);
+                    } else {
+                        excelData[i][j] = Strings.EMPTY_OBJ;
+                    }
                 }
             }
         }
@@ -78,13 +86,15 @@ public class ExcelDoc implements Excel {
             case STRING:
                 return cell.getStringCellValue();
             case NUMERIC:
-                return String.valueOf(cell.getNumericCellValue());
+                DecimalFormat decimalFormat = new DecimalFormat("#.########");
+                String formattedNumber = decimalFormat.format(cell.getNumericCellValue());
+                return formattedNumber;
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
             case FORMULA:
                 return cell.toString();
             default:
-                return Strings.EMPTY;
+                return Strings.EMPTY_OBJ;
         }
     }
 
@@ -92,31 +102,32 @@ public class ExcelDoc implements Excel {
     public void create(DocModel docModel, ServletOutputStream outputStream) {
         try {
             ExcelModel excelModel = (ExcelModel) docModel;
-            String sheetName = excelModel.getSheetName();
-            if (StringUtils.isEmpty(sheetName)) {
-                sheetName = DocConstants.DEFAULT_SHEET_NAME;
-            }
             Workbook workbook = WorkbookFactory.create(true);
-            Sheet sheet = workbook.createSheet(sheetName);
-
-            // 创建表头
-            Row headerRow = sheet.createRow(0);
-            headerRow.createCell(0).setCellValue("姓名");
-            headerRow.createCell(1).setCellValue("年龄");
-            headerRow.createCell(2).setCellValue("性别");
-
-            // 创建数据行
-            Row dataRow = sheet.createRow(1);
-            dataRow.createCell(0).setCellValue("张三");
-            dataRow.createCell(1).setCellValue(20);
-            dataRow.createCell(2).setCellValue("男");
-
+            String content = excelModel.getContent();
+            if (StringUtils.isNotBlank(content)) {
+                Map<String, Object> contentMap = JsonUtil.json2Map(content);
+                for (Map.Entry<String, Object> entry : contentMap.entrySet()) {
+                    Sheet sheet = workbook.createSheet(entry.getKey());
+                    Object value = entry.getValue();
+                    if (value instanceof List) {
+                        List<List<String>> valueList = (List<List<String>>) value;
+                        for (int i = 0; i < valueList.size(); i++) {
+                            List<String> rowList = valueList.get(i);
+                            Row dataRow = sheet.createRow(i);
+                            for (int j = 0; j < rowList.size(); j++) {
+                                dataRow.createCell(j).setCellValue(rowList.get(j));
+                            }
+                        }
+                    }
+                }
+            } else {
+                workbook.createSheet(DocConstants.DEFAULT_SHEET_NAME);
+            }
             workbook.write(outputStream);
             workbook.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.error(getClass(), e);
         }
-
     }
 
     @Override

@@ -12,4 +12,5 @@ public class ExcelModel extends DocModel {
 
     private String sheetName;
 
+    private String content;
 }

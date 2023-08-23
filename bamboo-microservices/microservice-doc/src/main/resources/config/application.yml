@@ -3,14 +3,14 @@ spring:
     name: document
   profiles:
     active: local
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
 server:
   port: 11001
   servlet:
     context-path: /service-document
-    encoding:
-      charset: UTF-8
-      force: true
-      enabled: true
 
 # 日志组件配置
 logging:
