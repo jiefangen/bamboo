@@ -6,16 +6,18 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.constant.file.FileExtensions;
 import org.panda.bamboo.common.exception.business.BusinessException;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.ms.doc.common.DocConstants;
 import org.panda.ms.doc.common.DocExceptionCodes;
 import org.panda.ms.doc.common.util.DocUtil;
+import org.panda.ms.doc.core.domain.factory.excel.helper.ExcelDocHelper;
+import org.panda.ms.doc.core.domain.factory.excel.helper.ExcelDocxHelper;
 import org.panda.ms.doc.core.domain.model.DocModel;
 import org.panda.ms.doc.core.domain.model.ExcelModel;
 
-import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -30,27 +32,28 @@ import java.util.Map;
 public class ExcelDoc implements Excel {
 
     @Override
-    public Map<String, Object> read(InputStream inputStream, String extension) {
+    public Object read(InputStream inputStream, String extension) {
         Map<String, Object> contentMap = new LinkedHashMap<>();
         try {
             if (DocConstants.EXCEL_XLS.equalsIgnoreCase(extension)) {
-                HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
+                ExcelDocHelper excelDocHelper = new ExcelDocHelper(inputStream);
+                HSSFWorkbook workbook = excelDocHelper.getOrigin();
                 for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                     Sheet sheet = workbook.getSheetAt(i);
                     contentHandle(contentMap, sheet);
                 }
-                workbook.close();
-            } else if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(extension)) {
-                XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+                excelDocHelper.close();
+            } else {
+                ExcelDocxHelper excelDocxHelper = new ExcelDocxHelper(inputStream);
+                XSSFWorkbook workbook = excelDocxHelper.getOrigin();
                 for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
                     Sheet sheet = workbook.getSheetAt(i);
                     contentHandle(contentMap, sheet);
                 }
-                workbook.close();
+                excelDocxHelper.close();
             }
-        } catch (IOException e) {
-            LogUtil.error(getClass(), e);
-            throw new BusinessException(DocUtil.getError(DocExceptionCodes.CAN_NOT_LOAD));
+        } catch (Exception e) {
+            throw new BusinessException(DocUtil.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.XLSX.toUpperCase());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
@@ -91,9 +94,13 @@ public class ExcelDoc implements Excel {
             case STRING:
                 return cell.getStringCellValue();
             case NUMERIC:
-                DecimalFormat decimalFormat = new DecimalFormat("#.########");
-                String formattedNumber = decimalFormat.format(cell.getNumericCellValue());
-                return formattedNumber;
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    return cell.getDateCellValue().toString();
+                } else {
+                    DecimalFormat decimalFormat = new DecimalFormat("#.########");
+                    String formattedNumber = decimalFormat.format(cell.getNumericCellValue());
+                    return formattedNumber;
+                }
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());
             case FORMULA:
@@ -104,7 +111,7 @@ public class ExcelDoc implements Excel {
     }
 
     @Override
-    public void create(DocModel docModel, ServletOutputStream outputStream) {
+    public void create(OutputStream outputStream, DocModel docModel) {
         try {
             ExcelModel excelModel = (ExcelModel) docModel;
             Workbook workbook = WorkbookFactory.create(true);
@@ -136,7 +143,7 @@ public class ExcelDoc implements Excel {
     }
 
     @Override
-    public void convert(OutputStream outputStream) {
+    public void convert(InputStream inputStream, OutputStream outputStream, String extension) {
 
     }
 

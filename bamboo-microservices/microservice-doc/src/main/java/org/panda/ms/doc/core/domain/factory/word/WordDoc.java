@@ -1,14 +1,15 @@
 package org.panda.ms.doc.core.domain.factory.word;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
-import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.util.LogUtil;
 import org.panda.ms.doc.common.DocConstants;
+import org.panda.ms.doc.core.domain.factory.word.helper.WordDocHelper;
+import org.panda.ms.doc.core.domain.factory.word.helper.WordDocxHelper;
 import org.panda.ms.doc.core.domain.model.DocModel;
 
-import javax.servlet.ServletOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Word文档
@@ -17,33 +18,46 @@ public class WordDoc implements Word {
 
     @Override
     public String read(InputStream inputStream, String extension) {
-        StringBuilder content = new StringBuilder();
+        String content = Strings.EMPTY;
         try {
             if (DocConstants.WORD_DOC.equalsIgnoreCase(extension)) {
-                // 使用HWPF API读取DOC格式的文档内容
-            } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(extension)) {
-                XWPFDocument document = new XWPFDocument(inputStream);
-                XWPFWordExtractor extractor = new XWPFWordExtractor(document);
-                content.append(extractor.getText());
-                extractor.close();
-                document.close();
+                WordDocHelper wordDocHelper = new WordDocHelper(inputStream);
+                content = wordDocHelper.getText();
+                wordDocHelper.close();
+            } else {
+                WordDocxHelper wordDocxHelper = new WordDocxHelper(inputStream);
+                content = wordDocxHelper.getText();
+                wordDocxHelper.close();
             }
-        } catch (IOException e) {
-            // do nothing
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
-        return content.toString();
+        return content;
     }
 
     @Override
-    public void create(DocModel docModel, ServletOutputStream outputStream) {
+    public void create(OutputStream outputStream, DocModel docModel) {
     }
 
     @Override
-    public void preview(ServletOutputStream outputStream) {
-
+    public void convert(InputStream inputStream, OutputStream outputStream, String extension) {
+        try {
+            if (DocConstants.WORD_DOC.equalsIgnoreCase(extension)) {
+                WordDocxHelper wordDocxHelper = new WordDocxHelper(inputStream);
+                wordDocxHelper.convertToHtml(outputStream);
+                wordDocxHelper.close();
+            } else {
+                WordDocHelper wordDocHelper = new WordDocHelper(inputStream);
+                wordDocHelper.convertToHtml(outputStream);
+                wordDocHelper.close();
+            }
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+        } finally {
+            IOUtils.closeQuietly(inputStream);
+        }
     }
-
 
 }

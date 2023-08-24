@@ -1,25 +1,25 @@
-package org.panda.ms.doc.core.domain.factory.ppt;
+package org.panda.ms.doc.core.domain.factory.pdf;
 
 import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.ms.doc.core.domain.factory.ppt.helper.PptDocHelper;
+import org.panda.ms.doc.core.domain.factory.pdf.helper.PdfDocHelper;
 import org.panda.ms.doc.core.domain.model.DocModel;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * PPT文档
+ * PDF文档
  */
-public class PptDoc implements Ppt {
+public class PdfDoc implements Pdf {
 
     @Override
     public String read(InputStream inputStream, String extension) {
         String content = Strings.EMPTY;
         try {
-            PptDocHelper pptDocHelper = new PptDocHelper(inputStream, extension);
-            content = pptDocHelper.getText();
-            pptDocHelper.close();
+            PdfDocHelper pdfDocHelper = new PdfDocHelper(inputStream);
+            content = pdfDocHelper.getText();
+            pdfDocHelper.close();
         } catch (Exception e) {
             // do nothing
         } finally {

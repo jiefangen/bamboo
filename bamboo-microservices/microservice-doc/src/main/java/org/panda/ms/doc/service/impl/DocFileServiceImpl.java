@@ -1,14 +1,15 @@
 package org.panda.ms.doc.service.impl;
 
-import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.ms.doc.common.DocConstants;
 import org.panda.ms.doc.common.DocExceptionCodes;
 import org.panda.ms.doc.common.util.DocUtil;
 import org.panda.ms.doc.core.DocumentSupport;
 import org.panda.ms.doc.core.domain.factory.excel.Excel;
+import org.panda.ms.doc.core.domain.factory.pdf.Pdf;
 import org.panda.ms.doc.core.domain.factory.ppt.Ppt;
 import org.panda.ms.doc.core.domain.factory.word.Word;
+import org.panda.ms.doc.core.domain.model.DocModel;
 import org.panda.ms.doc.core.domain.model.ExcelModel;
 import org.panda.ms.doc.model.entity.DocFile;
 import org.panda.ms.doc.repository.DocFileRepo;
@@ -31,6 +32,7 @@ public class DocFileServiceImpl extends DocumentSupport implements DocFileServic
     private final Excel excelDoc = super.getExcelDoc();
     private final Word wordDoc = super.getWordDoc();
     private final Ppt pptDoc = super.getPptDoc();
+    private final Pdf pdfDoc = super.getPdfDoc();
 
     @Autowired
     private DocFileRepo docFileRepo;
@@ -43,18 +45,21 @@ public class DocFileServiceImpl extends DocumentSupport implements DocFileServic
         }
         Md5Encryptor encryptor = new Md5Encryptor();
         docFile.setFileMd5(encryptor.encrypt(docFile));
-        Object excelContent = Strings.EMPTY;
+        Object content;
         if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
             docFile.setCategory(DocConstants.EXCEL);
-            excelContent = excelDoc.read(inputStream, docFile.getFileType());
+            content = excelDoc.read(inputStream, docFile.getFileType());
         } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
             docFile.setCategory(DocConstants.WORD);
-            excelContent = wordDoc.read(inputStream, docFile.getFileType());
+            content = wordDoc.read(inputStream, docFile.getFileType());
         } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(fileType) || DocConstants.PPT_PPT.equalsIgnoreCase(fileType)) {
             docFile.setCategory(DocConstants.PPT);
-            excelContent = pptDoc.read(inputStream, docFile.getFileType());
+            content = pptDoc.read(inputStream, docFile.getFileType());
+        } else {
+            docFile.setCategory(DocConstants.PDF);
+            content = pdfDoc.read(inputStream, docFile.getFileType());
         }
-        docFile.setContent(JsonUtil.toJson(excelContent));
+        docFile.setContent(JsonUtil.toJson(content));
         // 数据保存入库
         DocFile file = this.save(docFile);
         return file.getId();
@@ -74,18 +79,21 @@ public class DocFileServiceImpl extends DocumentSupport implements DocFileServic
         Optional<DocFile> docFileOptional = docFileRepo.findOne(example);
         if (docFileOptional.isPresent()) {
             DocFile file = docFileOptional.get();
-            ExcelModel excelModel = new ExcelModel();
+            DocModel docModel = new DocModel();
             String filename = file.getFilename();
-            excelModel.setFilename(filename);
+            docModel.setFilename(filename);
             String fileType = file.getFileType();
-            excelModel.setFileType(fileType);
-            excelModel.setContent(file.getContent());
+            docModel.setFileType(fileType);
             if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
-                excelDoc.create(excelModel, response.getOutputStream());
+                ExcelModel excelModel = (ExcelModel) docModel;
+                excelModel.setContent(file.getContent());
+                excelDoc.create(response.getOutputStream(), excelModel);
             } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
-                wordDoc.create(excelModel, response.getOutputStream());
+                wordDoc.create(response.getOutputStream(), docModel);
             } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(fileType) || DocConstants.PPT_PPT.equalsIgnoreCase(fileType)) {
-                pptDoc.create(excelModel, response.getOutputStream());
+                pptDoc.create(response.getOutputStream(), docModel);
+            } else {
+                pdfDoc.create(response.getOutputStream(), docModel);
             }
             WebHttpUtil.buildFileResponse(response, filename);
         }

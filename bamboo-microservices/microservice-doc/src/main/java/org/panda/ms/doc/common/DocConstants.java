@@ -19,6 +19,7 @@ public class DocConstants {
     public static final String EXCEL = "EXCEL";
     public static final String WORD = "WORD";
     public static final String PPT = "PPT";
+    public static final String PDF = "PDF";
 
     public static final String EXCEL_XLS = FileExtensions.XLS;
     public static final String EXCEL_XLSX = FileExtensions.XLSX;
@@ -26,9 +27,9 @@ public class DocConstants {
     public static final String WORD_DOCX = FileExtensions.DOCX;
     public static final String PPT_PPT = FileExtensions.PPT;
     public static final String PPT_PPTX = FileExtensions.PPTX;
+    public static final String PDF_PDF = FileExtensions.PDF;
 
     public static final String DEFAULT_SHEET_NAME = "Sheet1";
-
 
     /**
      * 检查文档文件类型
@@ -44,6 +45,7 @@ public class DocConstants {
         docFileExtensions.add(WORD_DOCX);
         docFileExtensions.add(PPT_PPT);
         docFileExtensions.add(PPT_PPTX);
+        docFileExtensions.add(PDF_PDF);
         if (StringUtils.isBlank(type)) {
             return false;
         }

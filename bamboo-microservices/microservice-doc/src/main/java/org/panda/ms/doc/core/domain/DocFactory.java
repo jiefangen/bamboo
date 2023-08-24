@@ -1,10 +1,11 @@
 package org.panda.ms.doc.core.domain;
 
+import org.panda.ms.doc.common.DocConstants;
 import org.panda.ms.doc.core.domain.factory.Document;
 import org.panda.ms.doc.core.domain.factory.excel.ExcelDoc;
+import org.panda.ms.doc.core.domain.factory.pdf.PdfDoc;
 import org.panda.ms.doc.core.domain.factory.ppt.PptDoc;
 import org.panda.ms.doc.core.domain.factory.word.WordDoc;
-import org.panda.ms.doc.common.DocConstants;
 
 /**
  * 操作文档工厂
@@ -20,6 +21,8 @@ public class DocFactory {
             return new WordDoc();
         } else if(DocConstants.PPT.equals(docType)){
             return new PptDoc();
+        } else if(DocConstants.PDF.equals(docType)){
+            return new PdfDoc();
         }
         return null;
     }
