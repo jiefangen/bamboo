@@ -4,6 +4,7 @@ import org.panda.ms.doc.core.domain.model.DocModel;
 
 import javax.servlet.ServletOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public interface Document {
 
@@ -25,9 +26,9 @@ public interface Document {
     void create(DocModel docModel, ServletOutputStream outputStream);
 
     /**
-     * 文档预览
+     * 文档转换
      *
-     * @param outputStream 输出响应文件流
+     * @param outputStream 输出响应流
      */
-    void preview(ServletOutputStream outputStream);
+    void convert(OutputStream outputStream);
 }

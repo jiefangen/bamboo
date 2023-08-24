@@ -2,7 +2,8 @@ package org.panda.ms.doc.service;
 
 import org.panda.ms.doc.model.entity.DocFile;
 
-import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -12,8 +13,7 @@ import java.io.InputStream;
  **/
 public interface DocFileService {
 
-    Object uploadExcel(DocFile docFile, InputStream inputStream);
+    Object importFle(DocFile docFile, InputStream inputStream);
 
-    void excelExport(DocFile docFile, ServletOutputStream outputStream);
-
+    void fileExport(DocFile docFile, HttpServletResponse response) throws IOException;
 }

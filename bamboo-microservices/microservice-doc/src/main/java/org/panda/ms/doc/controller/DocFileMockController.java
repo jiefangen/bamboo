@@ -23,16 +23,16 @@ public class DocFileMockController {
     @Autowired
     private DocFileService docFileService;
 
-    @PostMapping(value = "/excel/upload", consumes = "multipart/form-data")
-    public RestfulResult upload(@RequestPart("excelFile") MultipartFile excelFile) throws IOException {
-        String filename = excelFile.getOriginalFilename();
+    @PostMapping(value = "/upload/import", consumes = "multipart/form-data")
+    public RestfulResult uploadImport(@RequestPart("file") MultipartFile file) throws IOException {
+        String filename = file.getOriginalFilename();
         String fileExtension = DocUtil.getExtension(filename);
-        InputStream inputStream = excelFile.getInputStream();
+        InputStream inputStream = file.getInputStream();
         DocFile docFile = new DocFile();
         docFile.setFilename(filename);
         docFile.setFileType(fileExtension);
-        docFile.setFileSize(excelFile.getSize());
-        Object result = docFileService.uploadExcel(docFile, inputStream);
+        docFile.setFileSize(file.getSize());
+        Object result = docFileService.importFle(docFile, inputStream);
         if (result instanceof Long) {
             return RestfulResult.success(result);
         } else {

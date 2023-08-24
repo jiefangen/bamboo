@@ -18,6 +18,7 @@ import org.panda.ms.doc.core.domain.model.ExcelModel;
 import javax.servlet.ServletOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -135,7 +136,7 @@ public class ExcelDoc implements Excel {
     }
 
     @Override
-    public void preview(ServletOutputStream outputStream) {
+    public void convert(OutputStream outputStream) {
 
     }
 
