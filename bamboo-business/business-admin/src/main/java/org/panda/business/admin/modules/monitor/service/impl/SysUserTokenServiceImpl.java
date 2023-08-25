@@ -14,7 +14,7 @@ import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.business.admin.modules.monitor.service.repository.SysUserTokenMapper;
 import org.panda.tech.data.model.query.QueryResult;
-import org.panda.tech.data.mybatis.config.QueryPageHelper;
+import org.panda.tech.data.mybatis.support.QueryPageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

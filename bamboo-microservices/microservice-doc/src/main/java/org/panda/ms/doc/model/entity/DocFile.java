@@ -1,15 +1,15 @@
 package org.panda.ms.doc.model.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.panda.tech.data.model.entity.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
-@Getter
-@Setter
 @Table(name = "doc_file")
 public class DocFile extends BaseEntity {
 

@@ -6,7 +6,7 @@ import org.panda.ms.doc.model.entity.DocFile;
 import org.panda.ms.doc.model.param.DocFileQueryParam;
 import org.panda.ms.doc.repository.DocFileRepo;
 import org.panda.ms.doc.service.DocFileService;
-import org.panda.tech.data.jpa.config.QueryPageHelper;
+import org.panda.tech.data.jpa.support.QueryPageHelper;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

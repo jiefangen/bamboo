@@ -1,7 +1,7 @@
 package ${packageName};
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.panda.tech.data.model.entity.BaseEntity;
 
 import javax.persistence.*;
@@ -9,11 +9,14 @@ import javax.persistence.*;
 import ${importJavaType};
 </#list>
 
+@Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
-@Getter
-@Setter
 @Table(name = "${tableName}")
 public class ${entityName} extends BaseEntity {
+
+    private static final long serialVersionUID = 1L;
+
 <#list fieldMetaDataList as fieldMetaData>
     <#if fieldMetaData.remarks?? && fieldMetaData.remarks?length != 0>
     /**

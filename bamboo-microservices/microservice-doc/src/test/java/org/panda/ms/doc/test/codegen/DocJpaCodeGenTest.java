@@ -9,7 +9,7 @@ public class DocJpaCodeGenTest extends DocApplicationTest {
 
     @Test
     void jpaEntityGen() {
-        jpaCodeGenerator.docEntityGenerator("doc_file", "doc_excel");
+        jpaCodeGenerator.docEntityGenerator("doc_excel");
     }
 
     @Test
