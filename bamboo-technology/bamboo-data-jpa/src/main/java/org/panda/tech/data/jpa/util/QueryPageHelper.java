@@ -1,4 +1,4 @@
-package org.panda.tech.data.jpa.support;
+package org.panda.tech.data.jpa.util;
 
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.data.domain.Page;

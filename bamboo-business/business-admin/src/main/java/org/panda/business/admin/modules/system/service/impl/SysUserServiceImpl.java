@@ -26,7 +26,7 @@ import org.panda.business.admin.modules.system.service.entity.SysUser;
 import org.panda.business.admin.modules.system.service.repository.SysRoleMapper;
 import org.panda.business.admin.modules.system.service.repository.SysUserMapper;
 import org.panda.tech.data.model.query.QueryResult;
-import org.panda.tech.data.mybatis.support.QueryPageHelper;
+import org.panda.tech.data.mybatis.util.QueryPageHelper;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -12,43 +12,48 @@ import java.util.function.Function;
 public class QueryResult<T> implements Iterable<T> {
 
     private List<T> records;
-    private PagedResult paged;
+    private Paged paged;
 
     protected QueryResult() {
     }
 
-    public QueryResult(List<T> records, PagedResult paged) {
+    public QueryResult(List<T> records, Paged paged) {
         this.records = Objects.requireNonNullElse(records, Collections.emptyList());
         this.paged = paged;
     }
 
     public static <T> QueryResult<T> of(List<T> records, int pageSize, int pageNo, Long total) {
+        return of(records, pageSize, pageNo, total, new ArrayList<>());
+    }
+
+    public static <T> QueryResult<T> of(List<T> records, int pageSize, int pageNo, Long total, List<FieldOrder> orders) {
         if (pageSize <= 0) {
             pageSize = records.size();
             pageNo = 1;
         }
-        PagedResult paged;
+        Paged paged;
         if (total != null) {
-            paged = new PagedResult(pageSize, pageNo, total);
+            paged = new Paged(pageSize, pageNo, total);
         } else {
             boolean morePage = records.size() > pageSize;
             while (records.size() > pageSize) { // 确保结果数据数目不大于页大小
                 records.remove(records.size() - 1);
             }
-            paged = new PagedResult(pageSize, pageNo, morePage);
+            paged = new Paged(pageSize, pageNo, morePage);
         }
+        paged.setOrders(orders);
         return new QueryResult<>(records, paged);
     }
 
     public static <T> QueryResult<T> empty(Pagination pagination) {
-        return new QueryResult<>(null, PagedResult.of(pagination, 0));
+        return new QueryResult<>(null, Paged.of(pagination, 0));
     }
 
     public List<T> getRecords() {
         return this.records;
     }
 
-    public PagedResult getPaged() {
+    public Paged getPaged() {
         return this.paged;
     }
 

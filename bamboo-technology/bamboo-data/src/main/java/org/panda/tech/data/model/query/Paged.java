@@ -5,33 +5,33 @@ package org.panda.tech.data.model.query;
  *
  * @author fangen
  */
-public class PagedResult extends Pagination {
+public class Paged extends Pagination {
     private static final long serialVersionUID = 8986543678997992553L;
 
     private Long total;
     private boolean morePage;
 
-    protected PagedResult() {
+    protected Paged() {
     }
 
-    public PagedResult(int pageSize, int pageNo, long total) {
+    public Paged(int pageSize, int pageNo, long total) {
         super(pageSize, pageNo);
         this.total = total;
         this.morePage = ((long) pageSize * pageNo) < total;
     }
 
-    protected PagedResult(int pageSize, int pageNo, boolean morePage) {
+    public Paged(int pageSize, int pageNo, boolean morePage) {
         super(pageSize, pageNo);
         this.morePage = morePage;
     }
 
-    public static PagedResult of(Pagination pagination, long totalPages) {
-        PagedResult pagedResult = new PagedResult(pagination.getPageSize(), pagination.getPageNo(), totalPages);
+    public static Paged of(Pagination pagination, long totalPages) {
+        Paged pagedResult = new Paged(pagination.getPageSize(), pagination.getPageNo(), totalPages);
         return pagedResult;
     }
 
-    public static PagedResult of(Pagination pagination, boolean morePage) {
-        PagedResult pagedResult = new PagedResult(pagination.getPageSize(), pagination.getPageNo(), morePage);
+    public static Paged of(Pagination pagination, boolean morePage) {
+        Paged pagedResult = new Paged(pagination.getPageSize(), pagination.getPageNo(), morePage);
         return pagedResult;
     }
 

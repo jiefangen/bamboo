@@ -1,4 +1,4 @@
-package org.panda.tech.data.mybatis.support;
+package org.panda.tech.data.mybatis.util;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.panda.tech.data.model.query.QueryResult;

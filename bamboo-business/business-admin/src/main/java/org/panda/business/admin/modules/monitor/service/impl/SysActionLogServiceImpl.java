@@ -27,7 +27,7 @@ import org.panda.tech.core.web.restful.ResultEnum;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.data.model.query.QueryResult;
-import org.panda.tech.data.mybatis.support.QueryPageHelper;
+import org.panda.tech.data.mybatis.util.QueryPageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;

@@ -5,8 +5,9 @@ import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.ms.doc.model.entity.DocFile;
 import org.panda.ms.doc.model.param.DocFileQueryParam;
 import org.panda.ms.doc.repository.DocFileRepo;
+import org.panda.ms.doc.repository.DocFileRepox;
 import org.panda.ms.doc.service.DocFileService;
-import org.panda.tech.data.jpa.support.QueryPageHelper;
+import org.panda.tech.data.jpa.util.QueryPageHelper;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,8 @@ public class DocFileServiceImpl implements DocFileService {
 
     @Autowired
     private DocFileRepo docFileRepo;
+    @Autowired
+    private DocFileRepox docFileRepox;
 
     @Override
     public QueryResult<DocFile> getDocFileByPage(DocFileQueryParam queryParam) {
