@@ -6,7 +6,7 @@ import org.panda.tech.data.model.query.QueryResult;
 import java.util.List;
 
 /**
- * 查询分页工具类
+ * 查询分页结果助手
  *
  * @author fangen
  **/

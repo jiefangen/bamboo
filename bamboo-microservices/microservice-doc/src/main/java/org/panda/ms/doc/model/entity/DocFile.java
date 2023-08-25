@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @Setter
 @Table(name = "doc_file")
 public class DocFile extends BaseEntity {
+
+    private static final long serialVersionUID = 1L;
+
     /**
      * 主键ID
      */
