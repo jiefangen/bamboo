@@ -1,101 +1,47 @@
 package org.panda.ms.doc.service.impl;
 
-import org.panda.bamboo.common.util.jackson.JsonUtil;
-import org.panda.ms.doc.common.DocConstants;
-import org.panda.ms.doc.common.DocExceptionCodes;
-import org.panda.ms.doc.common.util.DocUtil;
-import org.panda.ms.doc.core.DocumentSupport;
-import org.panda.ms.doc.core.domain.factory.excel.Excel;
-import org.panda.ms.doc.core.domain.factory.pdf.Pdf;
-import org.panda.ms.doc.core.domain.factory.ppt.Ppt;
-import org.panda.ms.doc.core.domain.factory.word.Word;
-import org.panda.ms.doc.core.domain.model.DocModel;
-import org.panda.ms.doc.core.domain.model.ExcelModel;
+import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.ms.doc.model.entity.DocFile;
+import org.panda.ms.doc.model.param.DocFileQueryParam;
 import org.panda.ms.doc.repository.DocFileRepo;
 import org.panda.ms.doc.service.DocFileService;
-import org.panda.tech.core.crypto.md5.Md5Encryptor;
-import org.panda.tech.core.web.util.WebHttpUtil;
+import org.panda.tech.data.jpa.config.QueryPageHelper;
+import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import javax.persistence.criteria.Predicate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
-public class DocFileServiceImpl extends DocumentSupport implements DocFileService {
-
-    private final Excel excelDoc = super.getExcelDoc();
-    private final Word wordDoc = super.getWordDoc();
-    private final Ppt pptDoc = super.getPptDoc();
-    private final Pdf pdfDoc = super.getPdfDoc();
+public class DocFileServiceImpl implements DocFileService {
 
     @Autowired
     private DocFileRepo docFileRepo;
 
     @Override
-    public Object importFle(DocFile docFile, InputStream inputStream) {
-        String fileType = docFile.getFileType();
-        if (!DocConstants.checkFileType(fileType)) {
-            return DocUtil.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
-        }
-        Md5Encryptor encryptor = new Md5Encryptor();
-        docFile.setFileMd5(encryptor.encrypt(docFile));
-        Object content;
-        if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
-            docFile.setCategory(DocConstants.EXCEL);
-            content = excelDoc.read(inputStream, docFile.getFileType());
-        } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
-            docFile.setCategory(DocConstants.WORD);
-            content = wordDoc.read(inputStream, docFile.getFileType());
-        } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(fileType) || DocConstants.PPT_PPT.equalsIgnoreCase(fileType)) {
-            docFile.setCategory(DocConstants.PPT);
-            content = pptDoc.read(inputStream, docFile.getFileType());
-        } else {
-            docFile.setCategory(DocConstants.PDF);
-            content = pdfDoc.read(inputStream, docFile.getFileType());
-        }
-        docFile.setContent(JsonUtil.toJson(content));
-        // 数据保存入库
-        DocFile file = this.save(docFile);
-        return file.getId();
-    }
+    public QueryResult<DocFile> getDocFileByPage(DocFileQueryParam queryParam) {
+        Pageable pageable = PageRequest.of(queryParam.getPageNo(), queryParam.getPageSize(),
+                Sort.by("createTime").descending());
 
-    private DocFile save(DocFile docFile) {
-        docFile.setAccessibility(true);
-        LocalDateTime currentTime = LocalDateTime.now();
-        docFile.setCreateTime(currentTime);
-        docFile.setUpdateTime(currentTime);
-        return docFileRepo.save(docFile);
-    }
-
-    @Override
-    public void fileExport(DocFile docFile, HttpServletResponse response) throws IOException {
-        Example<DocFile> example = Example.of(docFile);
-        Optional<DocFile> docFileOptional = docFileRepo.findOne(example);
-        if (docFileOptional.isPresent()) {
-            DocFile file = docFileOptional.get();
-            DocModel docModel = new DocModel();
-            String filename = file.getFilename();
-            docModel.setFilename(filename);
-            String fileType = file.getFileType();
-            docModel.setFileType(fileType);
-            if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
-                ExcelModel excelModel = (ExcelModel) docModel;
-                excelModel.setContent(file.getContent());
-                excelDoc.create(response.getOutputStream(), excelModel);
-            } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
-                wordDoc.create(response.getOutputStream(), docModel);
-            } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(fileType) || DocConstants.PPT_PPT.equalsIgnoreCase(fileType)) {
-                pptDoc.create(response.getOutputStream(), docModel);
-            } else {
-                pdfDoc.create(response.getOutputStream(), docModel);
+        // 构建查询条件
+        Specification<DocFile> spec = (root, query, criteriaBuilder) -> {
+            List<Predicate> predicateList = new ArrayList<>();
+            if (StringUtils.isNotBlank(queryParam.getKeyword())) {
+                predicateList.add(criteriaBuilder.like(root.get("filename").as(String.class),
+                        Strings.PERCENT + queryParam.getKeyword() + Strings.PERCENT));
             }
-            WebHttpUtil.buildFileResponse(response, filename);
-        }
+            return query.where(predicateList.toArray(new Predicate[predicateList.size()])).getRestriction();
+        };
+        Page<DocFile> docFilePage = docFileRepo.findAll(spec, pageable);
+        QueryResult<DocFile> queryResult = QueryPageHelper.convertQueryResult(docFilePage);
+        return queryResult;
     }
 }
