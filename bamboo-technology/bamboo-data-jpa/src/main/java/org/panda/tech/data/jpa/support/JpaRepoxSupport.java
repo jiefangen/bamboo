@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.mapping.Column;
 import org.hibernate.mapping.PersistentClass;
 import org.hibernate.mapping.Property;
-import org.panda.tech.data.jpa.JpaRepox;
 import org.panda.tech.data.jpa.util.OqlUtil;
 import org.panda.tech.data.model.entity.Entity;
 import org.panda.tech.data.model.query.FieldOrder;
@@ -25,7 +24,7 @@ import java.util.Map;
 public abstract class JpaRepoxSupport<T extends Entity> extends RepoxSupport<T> implements JpaRepox<T> {
 
     @Override
-    protected JpaAccessTemplate getAccessTemplate() {
+    public JpaAccessTemplate getAccessTemplate() {
         return (JpaAccessTemplate) super.getAccessTemplate();
     }
 
@@ -98,14 +97,14 @@ public abstract class JpaRepoxSupport<T extends Entity> extends RepoxSupport<T> 
         return query(ql, totalQl, params, pageSize, pageNo, orders);
     }
 
-    protected <E> QueryResult<E> query(CharSequence ql, Map<String, Object> params, Paging paging) {
+    public <E> QueryResult<E> query(CharSequence ql, Map<String, Object> params, Paging paging) {
         if (paging == null) {
             return query(ql, params, 0, 1, null, null);
         }
         return query(ql, params, paging.getPageSize(), paging.getPageNo(), paging.getOrders(), paging.getIgnoring());
     }
 
-    protected <E> QueryResult<E> query(CharSequence ql, Map<String, Object> params, int pageSize, int pageNo,
+    public <E> QueryResult<E> query(CharSequence ql, Map<String, Object> params, int pageSize, int pageNo,
                                        FieldOrder... orders) {
         return query(ql, params, pageSize, pageNo, Arrays.asList(orders), null);
     }

@@ -274,7 +274,7 @@ public class JpaAccessTemplate implements DataAccessTemplate {
         return update(ul, (Map<String, ?>) null);
     }
 
-    public void applyParamsToQuery(Query query, Map<String, ?> params) {
+    private void applyParamsToQuery(Query query, Map<String, ?> params) {
         if (params != null) {
             for (Entry<String, ?> entry : params.entrySet()) {
                 applyParamToQuery(query, entry.getKey(), entry.getValue());
@@ -282,7 +282,7 @@ public class JpaAccessTemplate implements DataAccessTemplate {
         }
     }
 
-    public void applyParamToQuery(Query query, String name, Object value) {
+    private void applyParamToQuery(Query query, String name, Object value) {
         if (value instanceof Calendar) {
             query.setParameter(name, (Calendar) value, TemporalType.TIMESTAMP);
         } else if (value instanceof Date) {
@@ -292,7 +292,7 @@ public class JpaAccessTemplate implements DataAccessTemplate {
         }
     }
 
-    public void applyParamsToQuery(Query query, List<?> params) {
+    private void applyParamsToQuery(Query query, List<?> params) {
         if (params != null) {
             for (int i = 0; i < params.size(); i++) {
                 applyParamToQuery(query, i + 1, params.get(i));
@@ -307,7 +307,7 @@ public class JpaAccessTemplate implements DataAccessTemplate {
      * @param position 参数位置，从1开始计数
      * @param value    参数值
      */
-    public void applyParamToQuery(Query query, int position, Object value) {
+    private void applyParamToQuery(Query query, int position, Object value) {
         if (value instanceof Calendar) {
             query.setParameter(position, (Calendar) value, TemporalType.TIMESTAMP);
         } else if (value instanceof Date) {
@@ -317,7 +317,7 @@ public class JpaAccessTemplate implements DataAccessTemplate {
         }
     }
 
-    public void applyPagingToQuery(Query query, int pageSize, int pageNo, boolean oneMore) {
+    private void applyPagingToQuery(Query query, int pageSize, int pageNo, boolean oneMore) {
         if (pageSize > 0) { // 用页大小判断是否分页查询
             if (pageSize > this.maxPageSize) {
                 pageSize = this.maxPageSize;

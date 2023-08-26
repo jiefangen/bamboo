@@ -19,7 +19,9 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DocFileServiceImpl implements DocFileService {
@@ -46,5 +48,15 @@ public class DocFileServiceImpl implements DocFileService {
         Page<DocFile> docFilePage = docFileRepo.findAll(spec, pageable);
         QueryResult<DocFile> queryResult = QueryPageHelper.convertQueryResult(docFilePage);
         return queryResult;
+    }
+
+    @Override
+    public QueryResult<DocFile> getDocument(DocFileQueryParam queryParam) {
+        String entityName = docFileRepox.getEntityName();
+        StringBuilder ql = new StringBuilder("from ").append(entityName).append(" t where t.")
+                .append("filename").append("=:filename");
+        Map<String, Object> params = new HashMap<>();
+        params.put("filename", queryParam.getKeyword());
+        return docFileRepox.query(ql, params, queryParam);
     }
 }

@@ -13,4 +13,5 @@ public interface DocFileService {
 
     QueryResult<DocFile> getDocFileByPage(DocFileQueryParam queryParam);
 
+    QueryResult<DocFile> getDocument(DocFileQueryParam queryParam);
 }

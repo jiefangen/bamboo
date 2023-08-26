@@ -1,4 +1,4 @@
-package org.panda.tech.data.jpa;
+package org.panda.tech.data.jpa.support;
 
 import org.panda.tech.data.Repox;
 import org.panda.tech.data.model.entity.Entity;

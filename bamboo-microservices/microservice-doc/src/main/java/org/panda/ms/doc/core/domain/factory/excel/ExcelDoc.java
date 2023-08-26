@@ -16,7 +16,6 @@ import org.panda.ms.doc.common.util.DocUtil;
 import org.panda.ms.doc.core.domain.factory.excel.helper.ExcelDocHelper;
 import org.panda.ms.doc.core.domain.factory.excel.helper.ExcelDocxHelper;
 import org.panda.ms.doc.core.domain.model.DocModel;
-import org.panda.ms.doc.core.domain.model.ExcelModel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -113,9 +112,8 @@ public class ExcelDoc implements Excel {
     @Override
     public void create(OutputStream outputStream, DocModel docModel) {
         try {
-            ExcelModel excelModel = (ExcelModel) docModel;
             Workbook workbook = WorkbookFactory.create(true);
-            String content = excelModel.getContent();
+            String content = docModel.getContent();
             if (StringUtils.isNotBlank(content)) {
                 Map<String, Object> contentMap = JsonUtil.json2Map(content);
                 for (Map.Entry<String, Object> entry : contentMap.entrySet()) {

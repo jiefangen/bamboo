@@ -839,11 +839,13 @@ public class WebHttpUtil {
      * @param response 响应
      * @param filename 文件名
      */
-    public static void buildFileResponse(HttpServletResponse response, String filename) {
+    public static void buildFileResponse(HttpServletResponse response, String filename) throws UnsupportedEncodingException {
         // 设置响应内容类型
         response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
+        response.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        String encodedFilename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
         // 设置响应头，告诉浏览器将响应内容作为附件下载
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + encodedFilename + "\"");
     }
 
 }

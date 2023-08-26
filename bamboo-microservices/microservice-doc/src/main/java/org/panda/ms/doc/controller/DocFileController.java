@@ -26,4 +26,10 @@ public class DocFileController {
         return RestfulResult.success(docFilePage);
     }
 
+    @PostMapping(value = "/getDocument")
+    public RestfulResult getDocFile(@RequestBody DocFileQueryParam queryParam) {
+        QueryResult<DocFile> docFilePage = docFileService.getDocument(queryParam);
+        return RestfulResult.success(docFilePage);
+    }
+
 }

@@ -22,4 +22,8 @@ public class DocModel implements DomainModel {
      * 文件大小
      */
     private Long fileSize;
+    /**
+     * 文件内容
+     */
+    private String content;
 }

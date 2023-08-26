@@ -10,7 +10,6 @@ import org.panda.ms.doc.core.domain.factory.pdf.Pdf;
 import org.panda.ms.doc.core.domain.factory.ppt.Ppt;
 import org.panda.ms.doc.core.domain.factory.word.Word;
 import org.panda.ms.doc.core.domain.model.DocModel;
-import org.panda.ms.doc.core.domain.model.ExcelModel;
 import org.panda.ms.doc.model.entity.DocFile;
 import org.panda.ms.doc.repository.DocFileRepo;
 import org.panda.ms.doc.service.FileProcessService;
@@ -84,10 +83,10 @@ public class FileProcessServiceImpl extends DocumentSupport implements FileProce
             docModel.setFilename(filename);
             String fileType = file.getFileType();
             docModel.setFileType(fileType);
+            docModel.setContent(file.getContent());
+            WebHttpUtil.buildFileResponse(response, filename);
             if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
-                ExcelModel excelModel = (ExcelModel) docModel;
-                excelModel.setContent(file.getContent());
-                excelDoc.create(response.getOutputStream(), excelModel);
+                excelDoc.create(response.getOutputStream(), docModel);
             } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
                 wordDoc.create(response.getOutputStream(), docModel);
             } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(fileType) || DocConstants.PPT_PPT.equalsIgnoreCase(fileType)) {
@@ -95,7 +94,6 @@ public class FileProcessServiceImpl extends DocumentSupport implements FileProce
             } else {
                 pdfDoc.create(response.getOutputStream(), docModel);
             }
-            WebHttpUtil.buildFileResponse(response, filename);
         }
     }
 }
