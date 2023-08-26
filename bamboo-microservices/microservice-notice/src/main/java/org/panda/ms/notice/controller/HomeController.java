@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
     @GetMapping
     public RestfulResult<String> home() {
-        return RestfulResult.success("The sms microservice");
+        return RestfulResult.success("The notice microservice");
     }
 }

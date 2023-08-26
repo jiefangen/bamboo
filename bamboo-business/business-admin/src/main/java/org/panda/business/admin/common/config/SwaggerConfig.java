@@ -83,9 +83,9 @@ public class SwaggerConfig {
     }
 
     private ApiInfo apiInfo() {
-        title += "【" + env + "】";
+        this.title += "【" + env + "】";
         return new ApiInfoBuilder()
-                .title(title)
+                .title(this.title)
                 .description(SWAGGER_DESC)
                 .version(this.version)
                 .contact(new Contact(Framework.OWNER, "", Framework.EMAIL))

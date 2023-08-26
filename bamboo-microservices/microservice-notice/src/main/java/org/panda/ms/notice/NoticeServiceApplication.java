@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Import;
  * 通知微服务启动项
  *
  * @author fangen
- * @since 2022/8/21
  */
 @SpringBootApplication
 @Import({CoreModule.class})

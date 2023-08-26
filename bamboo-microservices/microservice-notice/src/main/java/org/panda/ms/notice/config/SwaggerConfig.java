@@ -1,4 +1,4 @@
-package org.panda.ms.doc.config;
+package org.panda.ms.notice.config;
 
 import lombok.Setter;
 import org.panda.bamboo.Framework;
@@ -24,7 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @Configuration
 public class SwaggerConfig implements WebMvcConfigurer {
 
-    private static final String SWAGGER_DESC = "文档微服务，致力于传统Office套件文件解析、转换、存储等服务";
+    private static final String SWAGGER_DESC = "通知路由微服务，致力于提供短信、邮件以及消息推送等服务";
 
     private boolean enabled;
     private String version;
