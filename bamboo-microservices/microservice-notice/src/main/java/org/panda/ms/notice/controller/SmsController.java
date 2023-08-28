@@ -1,6 +1,6 @@
 package org.panda.ms.notice.controller;
 
-import org.panda.ms.notice.model.SmsParam;
+import org.panda.ms.notice.model.param.SmsParam;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

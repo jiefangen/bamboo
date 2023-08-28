@@ -15,7 +15,7 @@ import org.panda.ms.doc.common.DocExceptionCodes;
 import org.panda.ms.doc.common.util.DocUtil;
 import org.panda.ms.doc.core.domain.factory.excel.helper.ExcelDocHelper;
 import org.panda.ms.doc.core.domain.factory.excel.helper.ExcelDocxHelper;
-import org.panda.ms.doc.core.domain.model.DocModel;
+import org.panda.ms.doc.core.domain.document.DocModel;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package org.panda.ms.notice.model;
+package org.panda.ms.notice.model.param;
 
 import lombok.Data;
 

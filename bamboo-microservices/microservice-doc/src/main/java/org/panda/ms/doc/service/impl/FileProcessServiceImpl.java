@@ -9,7 +9,7 @@ import org.panda.ms.doc.core.domain.factory.excel.Excel;
 import org.panda.ms.doc.core.domain.factory.pdf.Pdf;
 import org.panda.ms.doc.core.domain.factory.ppt.Ppt;
 import org.panda.ms.doc.core.domain.factory.word.Word;
-import org.panda.ms.doc.core.domain.model.DocModel;
+import org.panda.ms.doc.core.domain.document.DocModel;
 import org.panda.ms.doc.model.entity.DocFile;
 import org.panda.ms.doc.repository.DocFileRepo;
 import org.panda.ms.doc.service.FileProcessService;

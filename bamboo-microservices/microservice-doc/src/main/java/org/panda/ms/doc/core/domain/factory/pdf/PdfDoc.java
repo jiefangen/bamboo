@@ -3,7 +3,7 @@ package org.panda.ms.doc.core.domain.factory.pdf;
 import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.ms.doc.core.domain.factory.pdf.helper.PdfDocHelper;
-import org.panda.ms.doc.core.domain.model.DocModel;
+import org.panda.ms.doc.core.domain.document.DocModel;
 
 import java.io.InputStream;
 import java.io.OutputStream;

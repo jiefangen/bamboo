@@ -6,7 +6,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.ms.doc.common.DocConstants;
 import org.panda.ms.doc.core.domain.factory.word.helper.WordDocHelper;
 import org.panda.ms.doc.core.domain.factory.word.helper.WordDocxHelper;
-import org.panda.ms.doc.core.domain.model.DocModel;
+import org.panda.ms.doc.core.domain.document.DocModel;
 
 import java.io.InputStream;
 import java.io.OutputStream;

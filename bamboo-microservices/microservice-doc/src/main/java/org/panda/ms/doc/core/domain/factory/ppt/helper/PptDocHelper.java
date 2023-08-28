@@ -22,7 +22,7 @@ import org.panda.bamboo.common.util.clazz.BeanUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.ms.doc.common.DocExceptionCodes;
 import org.panda.ms.doc.common.util.DocUtil;
-import org.panda.ms.doc.core.domain.model.DocOutline;
+import org.panda.ms.doc.core.domain.document.DocOutline;
 import org.springframework.util.Assert;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

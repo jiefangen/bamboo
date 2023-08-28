@@ -1,6 +1,6 @@
 package org.panda.ms.doc.core.domain.factory;
 
-import org.panda.ms.doc.core.domain.model.DocModel;
+import org.panda.ms.doc.core.domain.document.DocModel;
 
 import java.io.InputStream;
 import java.io.OutputStream;

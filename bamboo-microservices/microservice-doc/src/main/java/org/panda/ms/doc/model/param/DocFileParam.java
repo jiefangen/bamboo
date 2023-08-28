@@ -1,7 +1,7 @@
 package org.panda.ms.doc.model.param;
 
 import lombok.Data;
-import org.panda.ms.doc.core.domain.model.DocModel;
+import org.panda.ms.doc.core.domain.document.DocModel;
 
 /**
  * 文档文件上传参数

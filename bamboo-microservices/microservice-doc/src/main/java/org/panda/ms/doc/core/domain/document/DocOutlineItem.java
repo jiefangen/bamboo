@@ -1,4 +1,4 @@
-package org.panda.ms.doc.core.domain.model;
+package org.panda.ms.doc.core.domain.document;
 
 import java.util.ArrayList;
 import java.util.List;
