@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: notice
+  profiles:
+    active: junit
+server:
+  port: 11102
+  servlet:
+    context-path: /service-notice
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+logging:
+  level:
+    org.panda.service.doc: debug

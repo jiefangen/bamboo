@@ -1,14 +1,12 @@
 package org.panda.ms.notice.core.domain.single.sms;
 
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
 import org.panda.ms.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.ms.notice.core.domain.single.sms.content.SmsContentProvider;
 import org.panda.ms.notice.core.domain.single.sms.content.SmsContentSender;
 import org.panda.tech.core.util.message.MessageResolver;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -32,7 +30,6 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
     private MessageResolver messageResolver;
     @Autowired
     private ExecutorService executorService;
-    private Logger logger = LogUtil.getLogger(getClass());
 
     @Override
     public void afterInitialized(ApplicationContext context) throws Exception {
