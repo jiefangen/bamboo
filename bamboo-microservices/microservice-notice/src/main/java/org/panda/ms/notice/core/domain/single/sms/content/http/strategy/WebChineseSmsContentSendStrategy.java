@@ -1,4 +1,4 @@
-package org.panda.ms.notice.core.domain.single.sms.content.http.impl;
+package org.panda.ms.notice.core.domain.single.sms.content.http.strategy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
@@ -10,13 +10,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 巨象科技的短信发送策略
+ * 中国网建的短信发送策略
  */
-public class HechinaSmsContentSendStrategy extends AbstractHttpSmsContentSendStrategy {
-
-    public HechinaSmsContentSendStrategy() {
-        setEncoding("gb2312");
-    }
+public class WebChineseSmsContentSendStrategy extends AbstractHttpSmsContentSendStrategy {
 
     @Override
     public boolean isBatchable() {
@@ -30,7 +26,7 @@ public class HechinaSmsContentSendStrategy extends AbstractHttpSmsContentSendStr
 
     @Override
     public Map<String, Object> getParams(List<String> contents, int index, Set<String> cellphones) {
-        Map<String, Object> params = this.defaultParams;
+        Map<String, Object> params = super.defaultParams;
         if (params == null) {
             params = new HashMap<>();
         }
@@ -44,10 +40,10 @@ public class HechinaSmsContentSendStrategy extends AbstractHttpSmsContentSendStr
             String content = contents.get(index);
             contentString.append(content);
         }
-        params.put("msg", contentString.toString());
+        params.put("smsText", contentString.toString());
 
         // smsMob
-        params.put("dst", StringUtils.join(cellphones, Strings.COMMA));
+        params.put("smsMob", StringUtils.join(cellphones, Strings.COMMA));
         return params;
     }
 

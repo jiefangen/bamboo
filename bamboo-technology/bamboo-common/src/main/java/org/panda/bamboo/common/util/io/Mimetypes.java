@@ -12,8 +12,6 @@ import java.util.Properties;
 
 /**
  * 媒体类型支持
- *
- * @author fangen
  */
 public class Mimetypes {
 

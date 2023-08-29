@@ -1,4 +1,4 @@
-package org.panda.ms.notice.core.domain.single.sms.content.http.impl;
+package org.panda.ms.notice.core.domain.single.sms.content.http.strategy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
@@ -10,9 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 中国网建的短信发送策略
+ * 巨象科技的短信发送策略
  */
-public class WebChineseSmsContentSendStrategy extends AbstractHttpSmsContentSendStrategy {
+public class HechinaSmsContentSendStrategy extends AbstractHttpSmsContentSendStrategy {
+
+    public HechinaSmsContentSendStrategy() {
+        setEncoding("gb2312");
+    }
 
     @Override
     public boolean isBatchable() {
@@ -40,10 +44,10 @@ public class WebChineseSmsContentSendStrategy extends AbstractHttpSmsContentSend
             String content = contents.get(index);
             contentString.append(content);
         }
-        params.put("smsText", contentString.toString());
+        params.put("msg", contentString.toString());
 
         // smsMob
-        params.put("smsMob", StringUtils.join(cellphones, Strings.COMMA));
+        params.put("dst", StringUtils.join(cellphones, Strings.COMMA));
         return params;
     }
 

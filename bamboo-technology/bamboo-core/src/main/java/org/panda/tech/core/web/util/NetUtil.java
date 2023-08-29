@@ -329,6 +329,15 @@ public class NetUtil {
         }
     }
 
+    private static URLConnection getURLConnection(String url) throws IOException {
+        URLConnection connection = new URL(url).openConnection();
+        connection.setDoInput(true);
+        connection.setDoOutput(true);
+        connection.setConnectTimeout(6000);
+        connection.setReadTimeout(15000);
+        return connection;
+    }
+
     /**
      * 从后台向指定URL地址发送GET方式请求，获取响应结果
      *
@@ -345,8 +354,8 @@ public class NetUtil {
         String result = Strings.EMPTY;
         InputStream in = null;
         try {
-            URL urlObj = new URL(url);
-            in = urlObj.openStream();
+            URLConnection connection = getURLConnection(url);
+            in = connection.getInputStream();
             result = IOUtils.toString(in, encoding);
         } catch (IOException e) {
             LogUtil.error(NetUtil.class, e);
@@ -365,11 +374,9 @@ public class NetUtil {
     public static String requestByPost(String url, Map<String, Object> params, String encoding) {
         InputStream in = null;
         PrintWriter out = null;
-        String response = "";
+        String response = Strings.EMPTY;
         try {
-            URLConnection connection = new URL(url).openConnection();
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
+            URLConnection connection = getURLConnection(url);
             if (StringUtils.isBlank(encoding)) {
                 encoding = Strings.ENCODING_UTF8;
             }

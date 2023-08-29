@@ -10,18 +10,18 @@ import java.util.List;
  */
 public abstract class SplitableSmsContentSender extends AbstractSmsContentSender {
 
-    private SmsContentSplitter spliter = new DefaultSmsContentSplitter();
+    private SmsContentSplitter splitter = new DefaultSmsContentSplitter();
 
     /**
-     * @param spliter 短信内容分割器
+     * @param splitter 短信内容分割器
      */
-    public void setSpliter(SmsContentSplitter spliter) {
-        this.spliter = spliter;
+    public void setSplitter(SmsContentSplitter splitter) {
+        this.splitter = splitter;
     }
 
     @Override
     public SmsNotifyResult send(String signName, String content, int maxCount, String... cellphones) {
-        List<String> contents = this.spliter.split(content, maxCount);
+        List<String> contents = this.splitter.split(content, maxCount);
         return send(signName, contents, cellphones);
     }
 

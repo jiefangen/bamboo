@@ -1,4 +1,4 @@
-package org.panda.ms.notice.core.domain.single.sms.content.http.impl;
+package org.panda.ms.notice.core.domain.single.sms.content.http.strategy;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;

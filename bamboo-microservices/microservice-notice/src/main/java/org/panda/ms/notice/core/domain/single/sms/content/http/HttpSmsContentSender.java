@@ -1,6 +1,7 @@
 package org.panda.ms.notice.core.domain.single.sms.content.http;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.http.HttpStatus;
 import org.panda.bamboo.common.model.tuple.Binate;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.ms.notice.core.domain.model.sms.SmsModel;
@@ -74,7 +75,7 @@ public class HttpSmsContentSender extends SplitableSmsContentSender {
         }
         Binate<Integer, String> binate = HttpClientUtil.request(method, this.strategy.getUrl(), params, null,
                 this.strategy.getEncoding());
-        if (binate != null) {
+        if (binate != null && binate.getLeft() != HttpStatus.SC_OK) {
             return this.strategy.getFailures(binate.getLeft(), binate.getRight());
         }
         return null;
