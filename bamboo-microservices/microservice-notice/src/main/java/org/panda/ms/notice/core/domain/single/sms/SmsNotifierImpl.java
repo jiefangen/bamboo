@@ -1,18 +1,16 @@
 package org.panda.ms.notice.core.domain.single.sms;
 
-import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
+import org.panda.ms.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.ms.notice.core.domain.single.sms.content.SmsContentProvider;
 import org.panda.ms.notice.core.domain.single.sms.content.SmsContentSender;
-import org.panda.ms.notice.core.domain.model.sms.SmsNotifyResult;
+import org.panda.tech.core.util.message.MessageResolver;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -31,11 +29,9 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
     private Map<String, SmsContentSender> contentSenders = new HashMap<>();
     private Map<String, Instant> sendableInstants = new HashMap<>(); // 可发送的时刻映射集
     @Autowired
-    private MessageSource messageSource;
+    private MessageResolver messageResolver;
     @Autowired
     private ExecutorService executorService;
-    @Value("${bamboo.notice.sms.disabled}")
-    private boolean disabled;
     private Logger logger = LogUtil.getLogger(getClass());
 
     @Override
@@ -113,25 +109,20 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
 
                     String signName = contentProvider.getSignName(locale);
                     int maxCount = contentProvider.getMaxCount();
-                    SmsNotifyResult result = contentSender.send(signName, content, maxCount,
-                            this.disabled ? new String[0] : cellphones);
-                    if (this.disabled) {
-                        this.logger.debug("====== Sms has been sent to {}: [{}]{}",
-                                StringUtils.join(cellphones, Strings.COMMA), signName, content);
-                    }
+                    SmsNotifyResult result = contentSender.send(signName, content, maxCount, cellphones);
                     putSendableInstants(contentSender, cellphones);
                     // 添加不是手机号码的错误
                     notCellphones.forEach(cellphone -> {
                         Object[] args = { cellphone };
-                        String errorMessage = this.messageSource
-                                .getMessage("error.notice.sms.invalid_cellphone", args, locale);
+                        String errorMessage = this.messageResolver
+                                .resolveMessage("error.notice.sms.invalid_cellphone", args, locale);
                         result.addFailures(errorMessage, cellphone);
                     });
                     // 添加因时限不能发送的错误
                     unsendableCellphones.forEach(cellphone -> {
                         Object[] args = { getRemainingSeconds(contentSender, cellphone) };
-                        String errorMessage = this.messageSource
-                                .getMessage("error.notice.sms.interval_limited", args, locale);
+                        String errorMessage = this.messageResolver
+                                .resolveMessage("error.notice.sms.interval_limited", args, locale);
                         result.addFailures(errorMessage, cellphone);
                     });
                     return result;

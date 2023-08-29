@@ -22,17 +22,17 @@
 
     <dependencies>
         <!-- 技术框架jpa扩展支持 -->
-<!--        <dependency>-->
-<!--            <groupId>org.panda.tech</groupId>-->
-<!--            <artifactId>bamboo-data-jpa</artifactId>-->
-<!--            <version>${technology.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-data-jpa</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
         <!-- MySQL连接驱动 -->
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

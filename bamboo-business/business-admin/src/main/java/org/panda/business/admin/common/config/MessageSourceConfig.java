@@ -1,5 +1,6 @@
 package org.panda.business.admin.common.config;
 
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,7 @@ public class MessageSourceConfig {
             baseNames[i] = basenamePrefix + names.get(i) + basenameSuffix;
         }
         messageSource.setBasenames(baseNames);
-        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setDefaultEncoding(Strings.ENCODING_UTF8);
         messageSource.setCacheSeconds(-1); // 禁用缓存
         return messageSource;
     }

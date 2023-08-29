@@ -2,8 +2,8 @@ package org.panda.ms.notice.core.domain.single.email.provider;
 
 import org.panda.bamboo.common.parser.FreeMarkerTemplateParser;
 import org.panda.bamboo.common.parser.TemplateParser;
+import org.panda.tech.core.util.message.MessageResolver;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 
 import java.util.Locale;
 import java.util.Map;
@@ -14,7 +14,7 @@ import java.util.Map;
 public class MessageEmailProvider extends AbstractEmailProvider {
 
     @Autowired
-    private MessageSource messageSource;
+    private MessageResolver messageResolver;
     private TemplateParser parser = new FreeMarkerTemplateParser();
     private String content;
 
@@ -24,13 +24,13 @@ public class MessageEmailProvider extends AbstractEmailProvider {
 
     @Override
     public String getTitle(Map<String, Object> params, Locale locale) {
-        this.messageSource.getMessage(this.title, null, locale);
+        String title = this.messageResolver.resolveMessage(this.title, locale);
         return this.parser.parse(title, params, locale);
     }
 
     @Override
     public String getContent(Map<String, Object> params, Locale locale) {
-        this.messageSource.getMessage(this.title, null, locale);
+        String content = this.messageResolver.resolveMessage(this.content, locale);
         return this.parser.parse(content, params, locale);
     }
 

@@ -3,6 +3,8 @@ spring:
     name: notice
   profiles:
     active: local
+  messages:
+    basename: message/notice-message,message/notice-error
 server:
   port: 11002
   servlet:
