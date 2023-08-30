@@ -10,7 +10,7 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-public class FieldMetaData extends ColumnMetaData{
+public class FieldMetaData extends ColumnMetaData {
 
     private String fieldType;
     private String fieldName;

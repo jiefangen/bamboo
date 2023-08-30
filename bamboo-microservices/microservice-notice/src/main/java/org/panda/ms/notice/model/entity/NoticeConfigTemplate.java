@@ -55,6 +55,6 @@ public class NoticeConfigTemplate extends BaseEntity {
      * 是否激活
      */
     @Column(name = "is_active")
-    private Byte isActive;
+    private Boolean isActive;
 
 }

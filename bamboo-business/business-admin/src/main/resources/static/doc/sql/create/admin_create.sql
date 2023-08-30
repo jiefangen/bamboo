@@ -16,7 +16,7 @@ CREATE TABLE `sys_user` (
                           `nickname` VARCHAR(200) COMMENT '昵称',
                           `email` VARCHAR(50) COMMENT '邮箱',
                           `sex` CHAR(1) COMMENT '性别',
-                          `enabled` TINYINT DEFAULT 1 NOT NULL COMMENT '启用',
+                          `enabled` BIT(1) DEFAULT 1 NOT NULL COMMENT '启用',
                           `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                           PRIMARY KEY (`id`) USING BTREE,
@@ -62,7 +62,7 @@ CREATE TABLE `sys_menu` (
                             `redirect` VARCHAR(255) COMMENT '跳转路径',
                             `title` VARCHAR(100) COMMENT '标题',
                             `icon` VARCHAR(100) COMMENT '图标',
-                            `hidden` TINYINT(1) default(0) COMMENT '隐藏',
+                            `hidden` BIT(1) default(0) COMMENT '隐藏',
                             `sort` INT default(0) COMMENT '排序',
                             PRIMARY KEY (`id`) USING BTREE,
                             KEY `IDX_PARENT_ID` (`parent_id`)

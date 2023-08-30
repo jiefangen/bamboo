@@ -14,7 +14,7 @@ CREATE TABLE `notice_config_template` (
                                     `template_content` TEXT NOT NULL COMMENT '模版内容',
                                     `notice_mode` CHAR(1) NOT NULL COMMENT '通知方式',
                                     `category` varchar(50) DEFAULT NULL COMMENT '类别',
-                                    `is_active` TINYINT DEFAULT 1 NOT NULL COMMENT '是否激活',
+                                    `is_active` BIT(1) DEFAULT b'1' NOT NULL COMMENT '是否激活',
                                      PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='通知配置模版' ROW_FORMAT=Compact;
 
@@ -32,4 +32,3 @@ CREATE TABLE `notice_send_record` (
                                     `receive_time` datetime COMMENT '接收时间',
                                      PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='通知发送记录表' ROW_FORMAT=Compact;
-

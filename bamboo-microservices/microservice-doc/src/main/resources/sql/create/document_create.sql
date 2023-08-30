@@ -14,7 +14,7 @@ CREATE TABLE `doc_file` (
                             `file_md5` varchar(180) NOT NULL COMMENT '文件md5值',
                             `file_size` BIGINT unsigned NULL COMMENT '文件大小',
                             `content` longtext DEFAULT NULL COMMENT '文本内容',
-                            `accessibility` TINYINT(1) default(1) COMMENT '可访问性',
+                            `accessibility` BIT(1) default(1) COMMENT '可访问性',
                             `category` varchar(50) DEFAULT NULL COMMENT '类别',
                             `tags` varchar(300) DEFAULT NULL COMMENT '标签',
                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
