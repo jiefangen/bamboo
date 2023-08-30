@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 /**
  * 短信服务接口
  *
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/sms")
 public class SmsController {
     @PostMapping("/send")
-    public RestfulResult send(@RequestBody SmsParam smsParam) {
+    public RestfulResult send(@RequestBody @Valid SmsParam smsParam) {
         return RestfulResult.success(smsParam);
     }
 }

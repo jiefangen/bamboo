@@ -1,11 +1,11 @@
 package org.panda.ms.doc.test.codegen;
 
 import org.junit.jupiter.api.Test;
-import org.panda.ms.doc.test.DocApplicationTest;
+import org.panda.ms.doc.test.ApplicationTest;
 
-public class DocJpaCodeGenTest extends DocApplicationTest {
+public class JpaCodeGenTest extends ApplicationTest {
 
-    private DocJpaCodeGen jpaCodeGenerator = new DocJpaCodeGen();
+    private JpaCodeGen jpaCodeGenerator = new JpaCodeGen();
 
     @Test
     void jpaEntityGen() {

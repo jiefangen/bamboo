@@ -19,9 +19,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Configuration
 public class ThreadPoolConfig {
     /**
-     * 声明固定线程池执行服务
+     * 声明固定线程池
      */
-    @Bean
+    @Bean("fixedThreadPool")
     public ExecutorService fixedThreadPool() {
         return Executors.newFixedThreadPool(10);
     }
@@ -29,7 +29,7 @@ public class ThreadPoolConfig {
     /**
      * 声明异步执行线程池(并指定线程池的名字)
      */
-    @Bean
+    @Bean("taskExecutor")
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         // 核心线程数10：线程池创建时候初始化的线程数

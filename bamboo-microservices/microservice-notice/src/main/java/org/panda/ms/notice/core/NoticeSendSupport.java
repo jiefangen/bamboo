@@ -7,7 +7,6 @@ import org.panda.ms.notice.core.domain.single.email.send.EmailSendProgress;
 import org.panda.ms.notice.core.domain.single.email.send.EmailSender;
 import org.panda.ms.notice.core.domain.single.sms.SmsNotifier;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 import java.util.Locale;
@@ -39,7 +38,6 @@ public abstract class NoticeSendSupport {
      * @param noticeTargets 通知目标集
      * @return 通知结果
      */
-    @Bean
     protected Object send(String type, Map<String, Object> params, Locale locale, String[] noticeTargets) {
         if (noticeTargets == null || noticeTargets.length < 1) {
             return Commons.RESULT_FAILURE;

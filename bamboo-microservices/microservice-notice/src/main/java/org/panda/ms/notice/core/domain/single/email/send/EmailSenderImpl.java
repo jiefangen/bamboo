@@ -8,6 +8,7 @@ import org.panda.ms.notice.core.domain.single.email.provider.EmailProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.Executor;
@@ -15,25 +16,31 @@ import java.util.concurrent.Executor;
 /**
  * 邮件发送器默认实现
  */
+@Component
 public class EmailSenderImpl implements EmailSender, ContextInitializedBean {
 
-    /**
-     * Java邮件发送器
-     */
     @Autowired
     private JavaMailSender sender;
     @Autowired
     private EmailSource source;
+    /**
+     * 线程执行器
+     */
+    private Executor taskExecutor;
 
     private int interval = 1000;
     /**
      * 邮件实体映射集
      */
     private Map<String, EmailProvider> providers = new HashMap<>();
+
     /**
-     * 线程执行器
+     * @param taskExecutor 线程执行器，未配置时不采用多线程的方式执行
      */
-    private Executor executor;
+    @Autowired
+    public void setExecutor(Executor taskExecutor) {
+        this.taskExecutor = taskExecutor;
+    }
 
     @Override
     public void afterInitialized(ApplicationContext context) throws Exception {
@@ -44,13 +51,6 @@ public class EmailSenderImpl implements EmailSender, ContextInitializedBean {
                 this.providers.put(type, provider);
             }
         }
-    }
-
-    /**
-     * @param executor 线程执行器，未配置时不采用多线程的方式执行
-     */
-    public void setExecutor(Executor executor) {
-        this.executor = executor;
     }
 
     @Override
@@ -72,10 +72,10 @@ public class EmailSenderImpl implements EmailSender, ContextInitializedBean {
                 }
             }
             EmailSendCommand command = new EmailSendCommand(this.sender, this.source, messages, this.interval, progress);
-            if (this.executor == null) {
+            if (this.taskExecutor == null) {
                 command.run();
             } else {
-                this.executor.execute(command);
+                this.taskExecutor.execute(command);
             }
         }
     }

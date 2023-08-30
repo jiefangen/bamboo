@@ -1,10 +1,12 @@
 package org.panda.ms.notice.core.domain.model.email;
 
+import lombok.Setter;
 import org.panda.bamboo.common.constant.basic.Strings;
 
 /**
  * 邮件源
  */
+@Setter
 public class EmailSource {
     /**
      * 发件人地址
@@ -18,6 +20,9 @@ public class EmailSource {
      * 邮件字符编码
      */
     private String encoding = Strings.ENCODING_UTF8;
+
+    public EmailSource() {
+    }
 
     /**
      * 用默认的字符编码（{@link Strings#ENCODING_UTF8}）构建邮件源

@@ -8,11 +8,11 @@ import java.util.Locale;
 import java.util.Map;
 
 @Data
-public class SmsParam {
+public class EmailParam {
     /**
-     * 短信类型
+     * 邮件类型
      */
-    private String type;
+    private String emailType;
     /**
      * 区域
      */
@@ -22,8 +22,8 @@ public class SmsParam {
      */
     private Map<String, Object> params;
     /**
-     * 手机号清单
+     * 收件人地址
      */
     @NotNull
-    private List<String> mobilePhones;
+    private List<String> addressees;
 }

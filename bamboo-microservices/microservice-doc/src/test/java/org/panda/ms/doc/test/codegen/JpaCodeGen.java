@@ -7,7 +7,7 @@ import org.panda.tech.data.jpa.codegen.JpaCodeGenConfigSupport;
 import org.panda.tech.data.jpa.codegen.JpaEntityGenerator;
 import org.panda.tech.data.jpa.codegen.JpaRepoGenerator;
 
-public class DocJpaCodeGen extends JpaCodeGenConfigSupport {
+public class JpaCodeGen extends JpaCodeGenConfigSupport {
 
     private JpaCodegenProperties jpaCodegenProperties;
 
