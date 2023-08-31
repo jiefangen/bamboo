@@ -41,7 +41,7 @@ public class EmailController {
     }
 
     /**
-     * 使用固定模版发送邮件
+     * 使用自定义内容发送邮件
      */
     @PostMapping("/custom/send")
     public RestfulResult customSend(@RequestBody @Valid CustomEmailParam emailParam) {

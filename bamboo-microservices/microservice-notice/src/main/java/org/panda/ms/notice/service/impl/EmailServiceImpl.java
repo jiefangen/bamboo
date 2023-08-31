@@ -38,7 +38,7 @@ public class EmailServiceImpl extends NoticeSendSupport implements EmailService 
         String type = emailParam.getEmailType();
 
         EmailProvider emailProvider = super.getEmailSender().getProvider(type);
-        if (emailProvider != null) {
+        if (emailProvider == null) {
             return Commons.RESULT_FAILURE;
         }
         Map<String, Object> params = emailParam.getParams();

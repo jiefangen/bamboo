@@ -12,4 +12,6 @@ public class NoticeConstants {
 
     public static final String NOTICE_CUSTOM = "customize";
 
+    public static final String TYPE_VERIFY_CODE = "verificationCode";
+
 }
