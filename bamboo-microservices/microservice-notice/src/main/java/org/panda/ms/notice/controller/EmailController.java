@@ -25,8 +25,11 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
-    @PostMapping("/send")
-    public RestfulResult send(@RequestBody @Valid EmailParam emailParam) {
+    /**
+     * 使用固定模版发送邮件
+     */
+    @PostMapping("/template/send")
+    public RestfulResult templateSend(@RequestBody @Valid EmailParam emailParam) {
         Object result = emailService.sendEmail(emailParam);
         return RestfulResult.success(result);
     }

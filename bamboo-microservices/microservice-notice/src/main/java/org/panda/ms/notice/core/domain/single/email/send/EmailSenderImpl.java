@@ -79,4 +79,22 @@ public class EmailSenderImpl implements EmailSender, ContextInitializedBean {
             }
         }
     }
+
+    @Override
+    public void sendCustom(Iterable<String> addressees, String title, String content, EmailSendProgress progress) {
+        if (addressees.iterator().hasNext()) {
+            List<EmailMessage> messages = new ArrayList<>();
+            for (String addressee : addressees) {
+                if (StringUtil.isEmail(addressee)) {
+                    messages.add(new EmailMessage(addressee, title, content));
+                }
+            }
+            EmailSendCommand command = new EmailSendCommand(this.sender, this.source, messages, this.interval, progress);
+            if (this.taskExecutor == null) {
+                command.run();
+            } else {
+                this.taskExecutor.execute(command);
+            }
+        }
+    }
 }

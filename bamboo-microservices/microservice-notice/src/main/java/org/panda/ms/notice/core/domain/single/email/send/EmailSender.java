@@ -30,4 +30,14 @@ public interface EmailSender {
     void send(String type, Iterable<String> addressees, Map<String, Object> params, Locale locale,
             EmailSendProgress progress);
 
+    /**
+     * 自定义发送内容
+     *
+     * @param addressees 收件人地址
+     * @param title 标题
+     * @param content 内容
+     * @param progress 发送进度
+     */
+    void sendCustom(Iterable<String> addressees, String title, String content, EmailSendProgress progress);
+
 }

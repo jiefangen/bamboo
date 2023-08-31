@@ -22,6 +22,17 @@ public interface SmsNotifier {
     SmsNotifyResult notify(String type, Map<String, Object> params, Locale locale, String... cellphones);
 
     /**
+     * 同步通知自定义内容的短信
+     *
+     * @param type     标题
+     * @param content     内容
+     * @param cellphones 手机号码清单
+     * @return 通知结果
+     */
+    SmsNotifyResult notifyCustom(String type, String content, String signName, int maxCount,
+                                 Locale locale, String... cellphones);
+
+    /**
      * 异步通知指定类型的短信
      *
      * @param type       业务类型

@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 @Data
@@ -12,11 +11,7 @@ public class SmsParam {
     /**
      * 短信类型
      */
-    private String type;
-    /**
-     * 区域
-     */
-    private Locale locale;
+    private String smsType;
     /**
      * 参数映射集
      */

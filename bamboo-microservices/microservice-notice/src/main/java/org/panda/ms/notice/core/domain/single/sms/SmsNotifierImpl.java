@@ -73,57 +73,64 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
         SmsContentProvider contentProvider = getContentProvider(type);
         if (contentProvider != null) {
             String content = contentProvider.getContent(params, locale);
-            if (content != null) {
-                SmsContentSender contentSender = getContentSender(type);
-                if (contentSender != null) {
-                    // 检查获取因时限不可发送的手机号码
-                    List<String> notCellphones = new ArrayList<>();
-                    List<String> unsendableCellphones = new ArrayList<>();
-                    if (cellphones.length == 1) { // 只有一个手机号码的，快速处理
-                        String cellphone = cellphones[0];
+            String signName = contentProvider.getSignName(locale);
+            int maxCount = contentProvider.getMaxCount();
+            this.notifyCustom(type, content, signName, maxCount, locale, cellphones);
+        }
+        return null;
+    }
+
+    @Override
+    public SmsNotifyResult notifyCustom(String type, String content, String signName, int maxCount,
+                                        Locale locale, String... cellphones) {
+        if (content != null) {
+            SmsContentSender contentSender = getContentSender(type);
+            if (contentSender != null) {
+                // 检查获取因时限不可发送的手机号码
+                List<String> notCellphones = new ArrayList<>();
+                List<String> unsendableCellphones = new ArrayList<>();
+                if (cellphones.length == 1) { // 只有一个手机号码的，快速处理
+                    String cellphone = cellphones[0];
+                    if (!StringUtil.isCellphone(cellphone)) {
+                        notCellphones.add(cellphone);
+                        cellphones = new String[0];
+                    } else if (getRemainingSeconds(contentSender, cellphone) > 0) {
+                        unsendableCellphones.add(cellphone);
+                        cellphones = new String[0];
+                    }
+                } else { // 多个手机号码的，循环处理
+                    List<String> sendableCellphones = new ArrayList<>();
+                    for (String cellphone : cellphones) {
                         if (!StringUtil.isCellphone(cellphone)) {
                             notCellphones.add(cellphone);
-                            cellphones = new String[0];
                         } else if (getRemainingSeconds(contentSender, cellphone) > 0) {
                             unsendableCellphones.add(cellphone);
-                            cellphones = new String[0];
-                        }
-                    } else { // 多个手机号码的，循环处理
-                        List<String> sendableCellphones = new ArrayList<>();
-                        for (String cellphone : cellphones) {
-                            if (!StringUtil.isCellphone(cellphone)) {
-                                notCellphones.add(cellphone);
-                            } else if (getRemainingSeconds(contentSender, cellphone) > 0) {
-                                unsendableCellphones.add(cellphone);
-                            } else {
-                                sendableCellphones.add(cellphone);
-                            }
-                        }
-                        if (notCellphones.size() + unsendableCellphones.size() > 0) {
-                            cellphones = sendableCellphones.toArray(new String[0]);
+                        } else {
+                            sendableCellphones.add(cellphone);
                         }
                     }
-
-                    String signName = contentProvider.getSignName(locale);
-                    int maxCount = contentProvider.getMaxCount();
-                    SmsNotifyResult result = contentSender.send(signName, content, maxCount, cellphones);
-                    putSendableInstants(contentSender, cellphones);
-                    // 添加不是手机号码的错误
-                    notCellphones.forEach(cellphone -> {
-                        Object[] args = { cellphone };
-                        String errorMessage = this.messageResolver
-                                .resolveMessage("error.notice.sms.invalid_cellphone", args, locale);
-                        result.addFailures(errorMessage, cellphone);
-                    });
-                    // 添加因时限不能发送的错误
-                    unsendableCellphones.forEach(cellphone -> {
-                        Object[] args = { getRemainingSeconds(contentSender, cellphone) };
-                        String errorMessage = this.messageResolver
-                                .resolveMessage("error.notice.sms.interval_limited", args, locale);
-                        result.addFailures(errorMessage, cellphone);
-                    });
-                    return result;
+                    if (notCellphones.size() + unsendableCellphones.size() > 0) {
+                        cellphones = sendableCellphones.toArray(new String[0]);
+                    }
                 }
+
+                SmsNotifyResult result = contentSender.send(signName, content, maxCount, cellphones);
+                putSendableInstants(contentSender, cellphones);
+                // 添加不是手机号码的错误
+                notCellphones.forEach(cellphone -> {
+                    Object[] args = { cellphone };
+                    String errorMessage = this.messageResolver
+                            .resolveMessage("error.notice.sms.invalid_cellphone", args, locale);
+                    result.addFailures(errorMessage, cellphone);
+                });
+                // 添加因时限不能发送的错误
+                unsendableCellphones.forEach(cellphone -> {
+                    Object[] args = { getRemainingSeconds(contentSender, cellphone) };
+                    String errorMessage = this.messageResolver
+                            .resolveMessage("error.notice.sms.interval_limited", args, locale);
+                    result.addFailures(errorMessage, cellphone);
+                });
+                return result;
             }
         }
         return null;
