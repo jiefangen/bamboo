@@ -23,16 +23,28 @@ public class NoticeSendRecord extends BaseEntity {
     private Long id;
 
     /**
-     * 通知模版ID
-     */
-    @Column(name = "template_id")
-    private Integer templateId;
-
-    /**
      * 通知方式
      */
     @Column(name = "notice_mode")
     private String noticeMode;
+
+    /**
+     * 通知类型
+     */
+    @Column(name = "type")
+    private String type;
+
+    /**
+     * 标题
+     */
+    @Column(name = "title")
+    private String title;
+
+    /**
+     * 内容
+     */
+    @Column(name = "content")
+    private String content;
 
     /**
      * 通知发送目标

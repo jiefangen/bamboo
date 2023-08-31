@@ -23,6 +23,14 @@ public abstract class NoticeSendSupport {
     @Autowired
     private EmailSender emailSender;
 
+    protected SmsNotifier getSmsNotifier() {
+        return smsNotifier;
+    }
+
+    protected EmailSender getEmailSender() {
+        return emailSender;
+    }
+
     /**
      * 获取使用消息通知的方式
      *
