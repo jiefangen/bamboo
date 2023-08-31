@@ -1,17 +1,19 @@
 package org.panda.ms.notice.service.impl;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.Commons;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.ms.notice.common.NoticeConstants;
 import org.panda.ms.notice.core.NoticeSendSupport;
 import org.panda.ms.notice.core.domain.model.NoticeMode;
-import org.panda.ms.notice.core.domain.single.email.provider.EmailProvider;
+import org.panda.ms.notice.core.domain.single.sms.content.SmsContentProvider;
 import org.panda.ms.notice.model.entity.NoticeSendRecord;
-import org.panda.ms.notice.model.param.CustomEmailParam;
-import org.panda.ms.notice.model.param.EmailParam;
+import org.panda.ms.notice.model.param.CustomSmsParam;
+import org.panda.ms.notice.model.param.SmsParam;
 import org.panda.ms.notice.repository.NoticeSendRecordRepo;
-import org.panda.ms.notice.service.EmailService;
+import org.panda.ms.notice.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,55 +23,52 @@ import java.util.Locale;
 import java.util.Map;
 
 @Service
-public class EmailServiceImpl extends NoticeSendSupport implements EmailService {
+public class SmsServiceImpl extends NoticeSendSupport implements SmsService {
 
     @Autowired
     private NoticeSendRecordRepo noticeSendRecordRepo;
 
     @Override
     protected NoticeMode getNoticeMode() {
-        return NoticeMode.EMAIL;
+        return NoticeMode.SMS;
     }
 
     @Override
-    public Object sendEmail(EmailParam emailParam) {
-        List<String> addressees = emailParam.getAddressees();
-        String[] noticeTargets = addressees.toArray(new String[0]);
-        String type = emailParam.getEmailType();
-
-        EmailProvider emailProvider = super.getEmailSender().getProvider(type);
-        if (emailProvider == null) {
+    public Object sendSms(SmsParam smsParam) {
+        List<String> mobilePhones = smsParam.getMobilePhones();
+        String type = smsParam.getSmsType();
+        SmsContentProvider contentProvider = super.getSmsNotifier().getContentProvider(type);
+        if (contentProvider == null || CollectionUtils.isEmpty(mobilePhones)) {
             return Commons.RESULT_FAILURE;
         }
-        Map<String, Object> params = emailParam.getParams();
+        String[] noticeTargets = mobilePhones.toArray(new String[0]);
+        Map<String, Object> params = smsParam.getParams();
         Object sendResult = super.send(type, params, Locale.ROOT, noticeTargets);
 
-        String title = emailProvider.getTitle(params, Locale.getDefault());
-        String content = emailProvider.getContent(params, Locale.getDefault());
-        this.saveSendRecord(JsonUtil.toJson(sendResult), addressees.toString(), type, title, content);
+        String content = contentProvider.getContent(params, Locale.getDefault());
+        this.saveSendRecord(JsonUtil.toJson(sendResult), JsonUtil.toJson(mobilePhones), type,  content);
         return sendResult;
     }
 
     @Override
-    public Object sendCustomEmail(CustomEmailParam emailParam) {
-        List<String> addressees = emailParam.getAddressees();
-        String[] noticeTargets = addressees.toArray(new String[0]);
-        String title = emailParam.getTitle();
-        String content = emailParam.getContent();
-        Object sendResult = super.sendCustom(title, content, noticeTargets);
+    public Object sendCustomSms(CustomSmsParam smsParam) {
+        List<String> mobilePhones = smsParam.getMobilePhones();
+        String[] noticeTargets = mobilePhones.toArray(new String[0]);
+        String content = smsParam.getContent();
+        Object sendResult = super.sendCustom(Strings.EMPTY_OBJ, content, noticeTargets);
 
-        this.saveSendRecord(JsonUtil.toJson(sendResult), addressees.toString(), NoticeConstants.NOTICE_CUSTOM, title, content);
+        this.saveSendRecord(JsonUtil.toJson(sendResult), JsonUtil.toJson(mobilePhones), NoticeConstants.NOTICE_CUSTOM,
+                content);
         return sendResult;
     }
 
-    private void saveSendRecord(String sendResult, String addressees, String type, String title, String content) {
+    private void saveSendRecord(String sendResult, String mobilePhones, String type, String content) {
         NoticeSendRecord sendRecord = new NoticeSendRecord();
         NoticeMode noticeMode = getNoticeMode();
         sendRecord.setNoticeMode(EnumValueHelper.getValue(noticeMode));
         sendRecord.setType(type);
-        sendRecord.setTitle(title);
         sendRecord.setContent(content);
-        sendRecord.setNoticeTargets(addressees);
+        sendRecord.setNoticeTargets(mobilePhones);
         String sendResultStr = String.valueOf(sendResult);
         if (Commons.RESULT_FAILURE.equals(sendResultStr)) {
             sendRecord.setNoticeStatus(0);

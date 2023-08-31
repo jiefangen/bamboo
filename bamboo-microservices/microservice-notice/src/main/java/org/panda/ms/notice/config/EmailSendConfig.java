@@ -63,7 +63,7 @@ public class EmailSendConfig {
     public MessageEmailProvider verificationCodeMessageEmail() {
         NoticeConfigTemplate configTemplateParam = new NoticeConfigTemplate();
         configTemplateParam.setNoticeMode(EnumValueHelper.getValue(NoticeMode.EMAIL));
-        configTemplateParam.setTemplateName(NoticeConstants.TYPE_VERIFY_CODE);
+        configTemplateParam.setTemplateName(NoticeConstants.TYPE_EMAIL_VERIFY_CODE);
         configTemplateParam.setIsActive(true);
         Optional<NoticeConfigTemplate> configTemplate = configTemplateRepo.findOne(Example.of(configTemplateParam));
         if (configTemplate.isPresent()) {

@@ -52,7 +52,8 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
         });
     }
 
-    private SmsContentProvider getContentProvider(String type) {
+    @Override
+    public SmsContentProvider getContentProvider(String type) {
         SmsContentProvider contentSender = this.contentProviders.get(type);
         if (contentSender == null) {
             contentSender = this.contentProviders.get(Strings.ASTERISK); // 默认内容提供者

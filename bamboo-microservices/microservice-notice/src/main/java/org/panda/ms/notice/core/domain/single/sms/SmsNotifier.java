@@ -1,6 +1,7 @@
 package org.panda.ms.notice.core.domain.single.sms;
 
 import org.panda.ms.notice.core.domain.model.sms.SmsNotifyResult;
+import org.panda.ms.notice.core.domain.single.sms.content.SmsContentProvider;
 
 import java.util.Locale;
 import java.util.Map;
@@ -10,6 +11,13 @@ import java.util.function.Consumer;
  * 短信通知器
  */
 public interface SmsNotifier {
+    /**
+     * 获取指定类型的短信提供者
+     *
+     * @param type 短信
+     * @return 指定类型的短信提供者
+     */
+    SmsContentProvider getContentProvider(String type);
     /**
      * 同步通知指定类型的短信
      *

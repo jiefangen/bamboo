@@ -24,7 +24,7 @@ public class TemplateSmsContentProvider extends AbstractSmsContentProvider imple
 
     @Override
     public String getContent(Map<String, Object> params, Locale locale) {
-        String templateContent = this.messageSource.getMessage(this.code, null, locale);
+        String templateContent = this.messageSource.getMessage(this.code, null, this.code, locale);
         return this.parser.parse(templateContent, params, locale);
     }
 
