@@ -10,8 +10,8 @@ import org.panda.ms.notice.model.param.SmsParam;
  **/
 public interface SmsService {
 
-    Object sendSms(SmsParam smsParam);
+    String sendSms(SmsParam smsParam);
 
-    Object sendCustomSms(CustomSmsParam smsParam);
+    String sendCustomSms(CustomSmsParam smsParam);
 
 }

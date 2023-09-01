@@ -3,6 +3,7 @@ package org.panda.ms.notice.core.domain.single.sms.content.http;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.tech.core.spec.HttpRequestMethod;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,6 +45,13 @@ public abstract class AbstractHttpSmsContentSendStrategy implements HttpSmsConte
 
     public void setDefaultParams(Map<String, Object> defaultParams) {
         this.defaultParams = defaultParams;
+    }
+
+    @Override
+    public Map<String, String> getFailures(int statusCode, String content) {
+        Map<String, String> failures = new HashMap<>();
+        failures.put(String.valueOf(statusCode), content);
+        return failures;
     }
 
 }

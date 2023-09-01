@@ -34,7 +34,7 @@ public class SmsServiceImpl extends NoticeSendSupport implements SmsService {
     }
 
     @Override
-    public Object sendSms(SmsParam smsParam) {
+    public String sendSms(SmsParam smsParam) {
         List<String> mobilePhones = smsParam.getMobilePhones();
         String type = smsParam.getSmsType();
         SmsContentProvider contentProvider = super.getSmsNotifier().getContentProvider(type);
@@ -46,20 +46,22 @@ public class SmsServiceImpl extends NoticeSendSupport implements SmsService {
         Object sendResult = super.send(type, params, Locale.ROOT, noticeTargets);
 
         String content = contentProvider.getContent(params, Locale.getDefault());
-        this.saveSendRecord(JsonUtil.toJson(sendResult), JsonUtil.toJson(mobilePhones), type,  content);
-        return sendResult;
+        String sendJson = JsonUtil.toJson(sendResult);
+        this.saveSendRecord(sendJson, JsonUtil.toJson(mobilePhones), type,  content);
+        return sendJson;
     }
 
     @Override
-    public Object sendCustomSms(CustomSmsParam smsParam) {
+    public String sendCustomSms(CustomSmsParam smsParam) {
         List<String> mobilePhones = smsParam.getMobilePhones();
         String[] noticeTargets = mobilePhones.toArray(new String[0]);
         String content = smsParam.getContent();
         Object sendResult = super.sendCustom(Strings.EMPTY_OBJ, content, noticeTargets);
 
-        this.saveSendRecord(JsonUtil.toJson(sendResult), JsonUtil.toJson(mobilePhones), NoticeConstants.NOTICE_CUSTOM,
+        String sendJson = JsonUtil.toJson(sendResult);
+        this.saveSendRecord(sendJson, JsonUtil.toJson(mobilePhones), NoticeConstants.NOTICE_CUSTOM,
                 content);
-        return sendResult;
+        return sendJson;
     }
 
     private void saveSendRecord(String sendResult, String mobilePhones, String type, String content) {

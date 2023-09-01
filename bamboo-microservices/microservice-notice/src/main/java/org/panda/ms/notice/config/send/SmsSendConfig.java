@@ -1,9 +1,10 @@
-package org.panda.ms.notice.config;
+package org.panda.ms.notice.config.send;
 
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.ms.notice.common.NoticeConstants;
 import org.panda.ms.notice.core.domain.model.NoticeMode;
 import org.panda.ms.notice.core.domain.single.sms.content.TemplateSmsContentProvider;
+import org.panda.ms.notice.core.domain.single.sms.content.sdk.YunpianSmsContentSender;
 import org.panda.ms.notice.model.entity.NoticeConfigTemplate;
 import org.panda.ms.notice.repository.NoticeConfigTemplateRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,15 @@ public class SmsSendConfig {
 
     @Autowired
     private NoticeConfigTemplateRepo configTemplateRepo;
+
+    /**
+     * 云片短信发送器
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "sms.send.sender")
+    public YunpianSmsContentSender yunpianSmsContentSender() {
+        return new YunpianSmsContentSender();
+    }
 
     /**
      * 默认邮件发送内容提供

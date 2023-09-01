@@ -70,9 +70,6 @@ public class HttpSmsContentSender extends SplitableSmsContentSender {
         }
         Map<String, Object> params = this.strategy.getParams(contents, index, cellphoneSet);
         HttpRequestMethod method = this.strategy.getRequestMethod();
-        if (method == null) {
-            method = HttpRequestMethod.POST;
-        }
         Binate<Integer, String> binate = HttpClientUtil.request(method, this.strategy.getUrl(), params, null,
                 this.strategy.getEncoding());
         if (binate != null && binate.getLeft() != HttpStatus.SC_OK) {

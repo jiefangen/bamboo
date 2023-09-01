@@ -18,6 +18,10 @@ public class YunpianSmsContentSender extends AbstractSmsContentSender {
 
     private String apiKey;
 
+    public void setApiKey(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
     @Override
     public SmsNotifyResult send(String signName, String content, int maxCount, String... cellphones) {
         SmsModel sms = new SmsModel();

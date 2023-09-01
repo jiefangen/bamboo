@@ -1,7 +1,9 @@
 package org.panda.ms.notice.controller;
 
+import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
+import org.panda.ms.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.ms.notice.model.param.CustomSmsParam;
 import org.panda.ms.notice.model.param.SmsParam;
 import org.panda.ms.notice.service.SmsService;
@@ -29,12 +31,12 @@ public class SmsController {
 
     @PostMapping("/template/send")
     public RestfulResult templateSend(@RequestBody @Valid SmsParam smsParam) {
-        Object result = smsService.sendSms(smsParam);
-        String resultStr = String.valueOf(result);
-        if (!Commons.RESULT_SUCCESS.equals(resultStr)) {
-            return RestfulResult.failure(resultStr);
+        String result = smsService.sendSms(smsParam);
+        if (Commons.RESULT_FAILURE.equals(result)) {
+            return RestfulResult.failure();
         }
-        return RestfulResult.success(result);
+        SmsNotifyResult smsNotifyResult = JSONObject.parseObject(result, SmsNotifyResult.class);
+        return RestfulResult.success(smsNotifyResult);
     }
 
     /**
@@ -42,12 +44,12 @@ public class SmsController {
      */
     @PostMapping("/custom/send")
     public RestfulResult customSend(@RequestBody @Valid CustomSmsParam smsParam) {
-        Object result = smsService.sendCustomSms(smsParam);
-        String resultStr = String.valueOf(result);
-        if (!Commons.RESULT_SUCCESS.equals(resultStr)) {
-            return RestfulResult.failure(resultStr);
+        String result = smsService.sendCustomSms(smsParam);
+        if (Commons.RESULT_FAILURE.equals(result)) {
+            return RestfulResult.failure();
         }
-        return RestfulResult.success(result);
+        SmsNotifyResult smsNotifyResult = JSONObject.parseObject(result, SmsNotifyResult.class);
+        return RestfulResult.success(smsNotifyResult);
     }
 
 }

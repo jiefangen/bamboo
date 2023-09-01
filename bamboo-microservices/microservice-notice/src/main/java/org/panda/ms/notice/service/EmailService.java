@@ -10,8 +10,8 @@ import org.panda.ms.notice.model.param.EmailParam;
  **/
 public interface EmailService {
 
-    Object sendEmail(EmailParam emailParam);
+    String sendEmail(EmailParam emailParam);
 
-    Object sendCustomEmail(CustomEmailParam emailParam);
+    String sendCustomEmail(CustomEmailParam emailParam);
 
 }

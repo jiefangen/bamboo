@@ -1,4 +1,4 @@
-package org.panda.ms.notice.config;
+package org.panda.ms.notice.config.send;
 
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.ms.notice.common.NoticeConstants;
@@ -29,7 +29,7 @@ public class EmailSendConfig {
     private NoticeConfigTemplateRepo configTemplateRepo;
 
     /**
-     * 邮件发送器实现
+     * 默认邮件发送器
      */
     @Bean
     public JavaMailSender javaMailSender() {

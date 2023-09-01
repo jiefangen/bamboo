@@ -32,10 +32,9 @@ public class EmailController {
      */
     @PostMapping("/template/send")
     public RestfulResult templateSend(@RequestBody @Valid EmailParam emailParam) {
-        Object result = emailService.sendEmail(emailParam);
-        String resultStr = String.valueOf(result);
-        if (!Commons.RESULT_SUCCESS.equals(resultStr)) {
-            return RestfulResult.failure(resultStr);
+        String result = emailService.sendEmail(emailParam);
+        if (Commons.RESULT_FAILURE.equals(result)) {
+            return RestfulResult.failure();
         }
         return RestfulResult.success();
     }
@@ -45,10 +44,9 @@ public class EmailController {
      */
     @PostMapping("/custom/send")
     public RestfulResult customSend(@RequestBody @Valid CustomEmailParam emailParam) {
-        Object result = emailService.sendCustomEmail(emailParam);
-        String resultStr = String.valueOf(result);
-        if (!Commons.RESULT_SUCCESS.equals(resultStr)) {
-            return RestfulResult.failure(resultStr);
+        String result = emailService.sendCustomEmail(emailParam);
+        if (Commons.RESULT_FAILURE.equals(result)) {
+            return RestfulResult.failure();
         }
         return RestfulResult.success();
     }

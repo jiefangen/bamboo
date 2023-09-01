@@ -32,7 +32,7 @@ public class EmailServiceImpl extends NoticeSendSupport implements EmailService 
     }
 
     @Override
-    public Object sendEmail(EmailParam emailParam) {
+    public String sendEmail(EmailParam emailParam) {
         List<String> addressees = emailParam.getAddressees();
         String[] noticeTargets = addressees.toArray(new String[0]);
         String type = emailParam.getEmailType();
@@ -46,20 +46,22 @@ public class EmailServiceImpl extends NoticeSendSupport implements EmailService 
 
         String title = emailProvider.getTitle(params, Locale.getDefault());
         String content = emailProvider.getContent(params, Locale.getDefault());
-        this.saveSendRecord(JsonUtil.toJson(sendResult), addressees.toString(), type, title, content);
-        return sendResult;
+        String sendJson = JsonUtil.toJson(sendResult);
+        this.saveSendRecord(sendJson, addressees.toString(), type, title, content);
+        return sendJson;
     }
 
     @Override
-    public Object sendCustomEmail(CustomEmailParam emailParam) {
+    public String sendCustomEmail(CustomEmailParam emailParam) {
         List<String> addressees = emailParam.getAddressees();
         String[] noticeTargets = addressees.toArray(new String[0]);
         String title = emailParam.getTitle();
         String content = emailParam.getContent();
         Object sendResult = super.sendCustom(title, content, noticeTargets);
 
-        this.saveSendRecord(JsonUtil.toJson(sendResult), addressees.toString(), NoticeConstants.NOTICE_CUSTOM, title, content);
-        return sendResult;
+        String sendJson = JsonUtil.toJson(sendResult);
+        this.saveSendRecord(sendJson, addressees.toString(), NoticeConstants.NOTICE_CUSTOM, title, content);
+        return sendJson;
     }
 
     private void saveSendRecord(String sendResult, String addressees, String type, String title, String content) {

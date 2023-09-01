@@ -76,7 +76,7 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
             String content = contentProvider.getContent(params, locale);
             String signName = contentProvider.getSignName(locale);
             int maxCount = contentProvider.getMaxCount();
-            this.notifyCustom(type, content, signName, maxCount, locale, cellphones);
+            return this.notifyCustom(type, content, signName, maxCount, locale, cellphones);
         }
         return null;
     }
@@ -121,14 +121,14 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
                 notCellphones.forEach(cellphone -> {
                     Object[] args = { cellphone };
                     String errorMessage = this.messageResolver
-                            .resolveMessage("error.notice.sms.invalid_cellphone", args, locale);
+                            .resolveMessage("error.notice.sms.invalid_cellphone", locale, args);
                     result.addFailures(errorMessage, cellphone);
                 });
                 // 添加因时限不能发送的错误
                 unsendableCellphones.forEach(cellphone -> {
                     Object[] args = { getRemainingSeconds(contentSender, cellphone) };
                     String errorMessage = this.messageResolver
-                            .resolveMessage("error.notice.sms.interval_limited", args, locale);
+                            .resolveMessage("error.notice.sms.interval_limited", locale, args);
                     result.addFailures(errorMessage, cellphone);
                 });
                 return result;

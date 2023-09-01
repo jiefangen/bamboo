@@ -53,7 +53,7 @@ public class HechinaSmsContentSendStrategy extends AbstractHttpSmsContentSendStr
 
     @Override
     public Map<String, String> getFailures(int statusCode, String content) {
-        return null;
+        return super.getFailures(statusCode, content);
     }
 
 }
