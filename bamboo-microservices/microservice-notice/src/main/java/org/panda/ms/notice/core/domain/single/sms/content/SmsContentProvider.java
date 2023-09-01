@@ -21,6 +21,13 @@ public interface SmsContentProvider {
     String getSignName(Locale locale);
 
     /**
+     * 获取指定内容绑定发送器类型
+     *
+     * @return 指定内容发送器
+     */
+    String getSenderType();
+
+    /**
      * 根据指定参数映射集获取短信内容
      *
      * @param params 参数映射集

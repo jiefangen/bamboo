@@ -4,8 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.common.util.clazz.BeanUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,19 +42,20 @@ public class SimpleElTemplateParser implements TemplateParser {
                     continue;
                 }
                 Object value = params.get(propertyNames[0]);
-                if (propertyNames.length > 1) {
-                    value = BeanUtil.getPropertyValue(value,
-                            replaceKey.substring(propertyNames[0].length() + 1));
-                } else {
-                    String[] replaces = StringUtil.substringsBetween(value.toString(),
-                            Strings.PLACEHOLDER_PREFIX, Strings.PLACEHOLDER_SUFFIX);
-                    if (replaces.length > 0) {
-                        value = parse(value.toString(), params, locale);
+                if (value != null) {
+                    if (propertyNames.length > 1) {
+                        value = BeanUtil.getPropertyValue(value,
+                                replaceKey.substring(propertyNames[0].length() + 1));
+                    } else {
+                        String[] replaces = StringUtil.substringsBetween(value.toString(),
+                                Strings.PLACEHOLDER_PREFIX, Strings.PLACEHOLDER_SUFFIX);
+                        if (replaces.length > 0) {
+                            value = parse(value.toString(), params, locale);
+                        }
                     }
                 }
                 String key = Strings.PLACEHOLDER_PREFIX + replaceKey + Strings.PLACEHOLDER_SUFFIX;
-                templateContent = templateContent.replace(key,
-                        value == null ? "" : value.toString());
+                templateContent = templateContent.replace(key, value == null ? Strings.EMPTY : value.toString());
             } catch (Exception e) { // 忽略单个替换异常
                 LogUtil.error(getClass(), e);
             }

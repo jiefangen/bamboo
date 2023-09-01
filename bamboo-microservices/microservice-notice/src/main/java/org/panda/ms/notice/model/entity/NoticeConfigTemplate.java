@@ -46,6 +46,18 @@ public class NoticeConfigTemplate extends BaseEntity {
     private String noticeMode;
 
     /**
+     * 通知内容提供者类型
+     */
+    @Column(name = "notice_provider_type")
+    private String noticeProviderType;
+
+    /**
+     * 通知发送器类型
+     */
+    @Column(name = "notice_sender_type")
+    private String noticeSenderType;
+
+    /**
      * 类别
      */
     @Column(name = "category")

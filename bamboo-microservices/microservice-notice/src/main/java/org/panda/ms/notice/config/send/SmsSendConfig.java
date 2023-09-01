@@ -1,5 +1,6 @@
 package org.panda.ms.notice.config.send;
 
+import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.ms.notice.common.NoticeConstants;
 import org.panda.ms.notice.core.domain.model.NoticeMode;
@@ -53,14 +54,20 @@ public class SmsSendConfig {
     public TemplateSmsContentProvider verificationCodeMessageSms() {
         NoticeConfigTemplate configTemplateParam = new NoticeConfigTemplate();
         configTemplateParam.setNoticeMode(EnumValueHelper.getValue(NoticeMode.SMS));
-        configTemplateParam.setTemplateName(NoticeConstants.TYPE_SMS_VERIFY_CODE);
+        configTemplateParam.setNoticeProviderType(NoticeConstants.TYPE_VERIFY_CODE);
         configTemplateParam.setIsActive(true);
         Optional<NoticeConfigTemplate> configTemplate = configTemplateRepo.findOne(Example.of(configTemplateParam));
         if (configTemplate.isPresent()) {
             TemplateSmsContentProvider verificationCodeMessage = new TemplateSmsContentProvider();
-            String templateName = configTemplate.get().getTemplateName();
-            String[] types = templateName.split("\\,");
-            verificationCodeMessage.setTypes(types);
+            String category = configTemplate.get().getCategory();
+            if (StringUtils.isNotBlank(category)) {
+                String[] types = category.split("\\,");
+                verificationCodeMessage.setTypes(types);
+            } else {
+                String[] types = new String[]{ NoticeConstants.TYPE_VERIFY_CODE };
+                verificationCodeMessage.setTypes(types);
+            }
+            verificationCodeMessage.setSenderType(configTemplate.get().getNoticeSenderType());
             verificationCodeMessage.setMaxCount(10);
             verificationCodeMessage.setCode(configTemplate.get().getTemplateContent());
             return verificationCodeMessage;

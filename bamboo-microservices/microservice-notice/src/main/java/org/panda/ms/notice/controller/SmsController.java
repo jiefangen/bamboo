@@ -1,8 +1,8 @@
 package org.panda.ms.notice.controller;
 
-import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
+import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.ms.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.ms.notice.model.param.CustomSmsParam;
 import org.panda.ms.notice.model.param.SmsParam;
@@ -35,7 +35,7 @@ public class SmsController {
         if (Commons.RESULT_FAILURE.equals(result)) {
             return RestfulResult.failure();
         }
-        SmsNotifyResult smsNotifyResult = JSONObject.parseObject(result, SmsNotifyResult.class);
+        SmsNotifyResult smsNotifyResult = JsonUtil.json2Bean(result, SmsNotifyResult.class);
         return RestfulResult.success(smsNotifyResult);
     }
 
@@ -48,7 +48,7 @@ public class SmsController {
         if (Commons.RESULT_FAILURE.equals(result)) {
             return RestfulResult.failure();
         }
-        SmsNotifyResult smsNotifyResult = JSONObject.parseObject(result, SmsNotifyResult.class);
+        SmsNotifyResult smsNotifyResult = JsonUtil.json2Bean(result, SmsNotifyResult.class);
         return RestfulResult.success(smsNotifyResult);
     }
 

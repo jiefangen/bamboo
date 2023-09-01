@@ -7,10 +7,13 @@ import java.util.Map;
  * 短信通知结果
  */
 public class SmsNotifyResult {
-    private Sms sms;
+    private SmsModel sms;
     private Map<String, String> failures = new HashMap<>();
 
-    public SmsNotifyResult(Sms sms) {
+    public SmsNotifyResult() {
+    }
+
+    public SmsNotifyResult(SmsModel sms) {
         this.sms = sms;
     }
 

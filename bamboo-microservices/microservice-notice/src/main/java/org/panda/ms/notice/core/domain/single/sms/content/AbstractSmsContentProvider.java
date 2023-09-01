@@ -12,6 +12,7 @@ import java.util.Locale;
 public abstract class AbstractSmsContentProvider implements SmsContentProvider, MessageSourceAware {
 
     private String[] types;
+    private String senderType;
     private String signNameCode;
     private int maxCount;
     protected MessageSource messageSource;
@@ -28,6 +29,15 @@ public abstract class AbstractSmsContentProvider implements SmsContentProvider, 
 
     public void setTypes(String... types) {
         this.types = types;
+    }
+
+    @Override
+    public String getSenderType() {
+        return this.senderType;
+    }
+
+    public void setSenderType(String senderType) {
+        this.senderType = senderType;
     }
 
     public void setSignNameCode(String signNameCode) {

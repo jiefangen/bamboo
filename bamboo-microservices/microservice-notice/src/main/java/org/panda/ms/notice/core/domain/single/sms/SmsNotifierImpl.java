@@ -76,7 +76,8 @@ public class SmsNotifierImpl implements SmsNotifier, ContextInitializedBean {
             String content = contentProvider.getContent(params, locale);
             String signName = contentProvider.getSignName(locale);
             int maxCount = contentProvider.getMaxCount();
-            return this.notifyCustom(type, content, signName, maxCount, locale, cellphones);
+            String senderType = contentProvider.getSenderType();
+            return this.notifyCustom(senderType, content, signName, maxCount, locale, cellphones);
         }
         return null;
     }

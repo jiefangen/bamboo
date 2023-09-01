@@ -9,14 +9,16 @@ SET GLOBAL FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `notice_config_template`;
 CREATE TABLE `notice_config_template` (
                                     `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                    `template_name` varchar(128) NOT NULL COMMENT '模版名称',
+                                    `template_name` varchar(500) NOT NULL COMMENT '模版名称',
                                     `template_content_title` varchar(1000) COMMENT '模版内容标题',
                                     `template_content` TEXT NOT NULL COMMENT '模版内容',
                                     `notice_mode` CHAR(1) NOT NULL COMMENT '通知方式',
+                                    `notice_provider_type` varchar(200) NOT NULL COMMENT '通知内容提供者类型',
+                                    `notice_sender_type` varchar(50) COMMENT '通知发送器类型',
                                     `category` varchar(50) DEFAULT NULL COMMENT '类别',
                                     `is_active` BIT(1) DEFAULT b'1' NOT NULL COMMENT '是否激活',
                                      PRIMARY KEY (`id`) USING BTREE,
-                                     UNIQUE KEY `UQ_TEMPLATE_NAME` (`template_name`)
+                                     UNIQUE KEY `UQ_NOTICE_TYPE_MODE` (`notice_provider_type`, `notice_mode`)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='通知配置模版' ROW_FORMAT=Compact;
 
 
