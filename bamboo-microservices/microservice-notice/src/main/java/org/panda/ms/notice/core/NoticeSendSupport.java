@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * 消息通知发送抽象支持
+ * 抽象消息通知发送支持
  */
 public abstract class NoticeSendSupport {
 

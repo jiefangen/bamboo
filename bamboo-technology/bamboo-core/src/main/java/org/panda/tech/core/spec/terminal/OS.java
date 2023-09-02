@@ -1,4 +1,4 @@
-package org.panda.tech.core.spec.enums;
+package org.panda.tech.core.spec.terminal;
 
 import org.panda.bamboo.common.annotation.Caption;
 import org.panda.bamboo.common.annotation.EnumValue;

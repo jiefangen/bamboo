@@ -13,7 +13,7 @@ import org.panda.bamboo.common.model.tuple.Binary;
 import org.panda.bamboo.common.model.tuple.Binate;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
-import org.panda.tech.core.spec.HttpRequestMethod;
+import org.panda.tech.core.spec.http.HttpRequestMethod;
 import org.panda.tech.core.web.util.NetUtil;
 
 import java.io.IOException;

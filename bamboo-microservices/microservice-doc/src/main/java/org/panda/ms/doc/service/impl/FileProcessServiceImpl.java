@@ -4,7 +4,7 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.ms.doc.common.DocConstants;
 import org.panda.ms.doc.common.DocExceptionCodes;
 import org.panda.ms.doc.common.util.DocUtil;
-import org.panda.ms.doc.core.DocumentSupport;
+import org.panda.ms.doc.core.DocProcessSupport;
 import org.panda.ms.doc.core.domain.factory.excel.Excel;
 import org.panda.ms.doc.core.domain.factory.pdf.Pdf;
 import org.panda.ms.doc.core.domain.factory.ppt.Ppt;
@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class FileProcessServiceImpl extends DocumentSupport implements FileProcessService {
+public class FileProcessServiceImpl extends DocProcessSupport implements FileProcessService {
 
     private final Excel excelDoc = super.getExcelDoc();
     private final Word wordDoc = super.getWordDoc();

@@ -7,7 +7,7 @@ import org.panda.business.admin.modules.system.api.vo.MenuVO;
 import org.panda.business.admin.modules.system.service.SysMenuService;
 import org.panda.business.admin.modules.system.service.dto.SysMenuDto;
 import org.panda.business.admin.modules.system.service.entity.SysMenu;
-import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;

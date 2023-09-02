@@ -1,6 +1,6 @@
 package org.panda.ms.notice.core.domain.single.sms.content.http;
 
-import org.panda.tech.core.spec.HttpRequestMethod;
+import org.panda.tech.core.spec.http.HttpRequestMethod;
 
 import java.util.List;
 import java.util.Map;

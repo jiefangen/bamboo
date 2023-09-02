@@ -1,7 +1,7 @@
 package org.panda.ms.notice.core.domain.single.sms.content.http;
 
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.tech.core.spec.HttpRequestMethod;
+import org.panda.tech.core.spec.http.HttpRequestMethod;
 
 import java.util.HashMap;
 import java.util.Map;

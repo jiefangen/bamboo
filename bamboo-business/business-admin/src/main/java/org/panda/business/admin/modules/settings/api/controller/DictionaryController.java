@@ -9,7 +9,7 @@ import org.panda.business.admin.modules.settings.api.param.DictionaryParam;
 import org.panda.business.admin.modules.settings.api.param.DictionaryQueryParam;
 import org.panda.business.admin.modules.settings.service.SysDictionaryService;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionary;
-import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;

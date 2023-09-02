@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.util.clazz;
+package org.panda.bamboo.common.util;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.panda.bamboo.common.util.lang.ArrayUtil;

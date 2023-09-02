@@ -5,7 +5,7 @@ import org.panda.business.admin.common.constant.Authority;
 import org.panda.business.admin.modules.monitor.api.param.OnlineQueryParam;
 import org.panda.business.admin.modules.monitor.api.vo.OnlineVO;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
-import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;

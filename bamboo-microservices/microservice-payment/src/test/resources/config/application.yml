@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: payment
+  profiles:
+    active: junit
+server:
+  port: 11103
+  servlet:
+    context-path: /service-payment
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+logging:
+  level:
+    org.panda.service.doc: debug

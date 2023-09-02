@@ -9,7 +9,7 @@ import org.panda.business.admin.modules.system.api.param.*;
 import org.panda.business.admin.modules.system.api.vo.UserVO;
 import org.panda.business.admin.modules.system.service.SysUserService;
 import org.panda.business.admin.modules.system.service.entity.SysUser;
-import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;

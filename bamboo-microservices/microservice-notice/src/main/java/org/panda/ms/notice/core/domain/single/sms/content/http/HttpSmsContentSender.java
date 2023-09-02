@@ -7,7 +7,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.ms.notice.core.domain.model.sms.SmsModel;
 import org.panda.ms.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.ms.notice.core.domain.single.sms.content.splitable.SplitableSmsContentSender;
-import org.panda.tech.core.spec.HttpRequestMethod;
+import org.panda.tech.core.spec.http.HttpRequestMethod;
 import org.panda.tech.core.util.HttpClientUtil;
 
 import java.time.LocalDateTime;

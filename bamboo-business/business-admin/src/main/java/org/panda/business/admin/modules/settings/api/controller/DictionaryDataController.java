@@ -12,7 +12,7 @@ import org.panda.business.admin.modules.settings.service.SysDictionaryDataServic
 import org.panda.business.admin.modules.settings.service.SysDictionaryService;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionary;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionaryData;
-import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;

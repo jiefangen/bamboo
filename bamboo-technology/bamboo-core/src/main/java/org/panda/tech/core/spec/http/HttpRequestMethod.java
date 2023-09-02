@@ -1,4 +1,4 @@
-package org.panda.tech.core.spec;
+package org.panda.tech.core.spec.http;
 
 /**
  * HTTP请求方式

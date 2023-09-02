@@ -8,7 +8,7 @@ import org.panda.business.admin.modules.settings.api.param.ParameterParam;
 import org.panda.business.admin.modules.settings.api.param.ParameterQueryParam;
 import org.panda.business.admin.modules.settings.service.SysParameterService;
 import org.panda.business.admin.modules.settings.service.entity.SysParameter;
-import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;

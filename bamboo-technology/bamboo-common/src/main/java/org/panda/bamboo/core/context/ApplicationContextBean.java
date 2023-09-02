@@ -1,6 +1,6 @@
 package org.panda.bamboo.core.context;
 
-import org.panda.bamboo.common.util.clazz.SpringUtil;
+import org.panda.bamboo.common.util.SpringUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

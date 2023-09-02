@@ -1,12 +1,9 @@
-package org.panda.tech.core.spec;
+package org.panda.tech.core.spec.terminal;
 
 import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.lang.ArrayUtil;
-import org.panda.tech.core.spec.enums.Device;
-import org.panda.tech.core.spec.enums.OS;
-import org.panda.tech.core.spec.enums.Program;
 
 /**
  * 终端模型

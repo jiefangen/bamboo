@@ -7,7 +7,10 @@ import org.panda.ms.doc.core.domain.factory.pdf.Pdf;
 import org.panda.ms.doc.core.domain.factory.ppt.Ppt;
 import org.panda.ms.doc.core.domain.factory.word.Word;
 
-public abstract class DocumentSupport {
+/**
+ * 抽象文档处理支持
+ */
+public abstract class DocProcessSupport {
 
     protected Excel getExcelDoc() {
         return (Excel) DocFactory.getDocument(DocConstants.EXCEL);

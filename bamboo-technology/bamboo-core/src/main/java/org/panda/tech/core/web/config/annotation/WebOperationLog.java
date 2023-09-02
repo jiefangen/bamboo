@@ -1,7 +1,7 @@
 package org.panda.tech.core.web.config.annotation;
 
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.tech.core.spec.enums.ActionType;
+import org.panda.tech.core.spec.log.ActionType;
 
 import java.lang.annotation.*;
 
