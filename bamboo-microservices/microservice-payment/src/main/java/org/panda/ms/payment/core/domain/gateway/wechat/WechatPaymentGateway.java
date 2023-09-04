@@ -140,7 +140,7 @@ public class WechatPaymentGateway extends AbstractPaymentGateway implements Disp
                 requestParams.put("signType", "RSA"); // 不参与签名
                 return new PaymentRequest(null, PaymentRequestMode.GET_LINK, requestParams);
             }
-            String errorMessage = (String) responseData.get("static/message");
+            String errorMessage = (String) responseData.get("message");
             throw new RuntimeException(errorMessage);
         } catch (Exception e) {
             throw ExceptionUtil.toRuntimeException(e);
@@ -195,7 +195,7 @@ public class WechatPaymentGateway extends AbstractPaymentGateway implements Disp
                 }
             }
         } catch (Exception e) {
-            Map<String, Object> error = Map.of("code", "FAIL", "static/message", e.getMessage());
+            Map<String, Object> error = Map.of("code", "FAIL", "message", e.getMessage());
             return new PaymentResult(HttpStatus.SC_INTERNAL_SERVER_ERROR, JsonUtil.toJson(error));
         }
         return null;

@@ -61,7 +61,7 @@ public class SettingsManager {
      * @return 参数值
      */
     public Optional<String> getParamValueByKey(String paramKey) {
-        return getParamValue(paramKey, Strings.EMPTY_OBJ);
+        return getParamValue(paramKey, Strings.STR_NULL);
     }
 
     /**
@@ -100,7 +100,7 @@ public class SettingsManager {
      * @return 字典数据
      */
     public List<SysDictionaryData> getDictData(String dictKey, String appRange) {
-        return getDictData(dictKey, appRange, Strings.EMPTY_OBJ);
+        return getDictData(dictKey, appRange, Strings.STR_NULL);
     }
 
     /**

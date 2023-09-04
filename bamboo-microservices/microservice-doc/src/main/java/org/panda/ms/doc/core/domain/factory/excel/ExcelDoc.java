@@ -80,7 +80,7 @@ public class ExcelDoc implements Excel {
                     if (cell != null) {
                         excelData[i][j] = getCellValueAsString(cell);
                     } else {
-                        excelData[i][j] = Strings.EMPTY_OBJ;
+                        excelData[i][j] = Strings.STR_NULL;
                     }
                 }
             }
@@ -105,7 +105,7 @@ public class ExcelDoc implements Excel {
             case FORMULA:
                 return cell.toString();
             default:
-                return Strings.EMPTY_OBJ;
+                return Strings.STR_NULL;
         }
     }
 

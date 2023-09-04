@@ -56,7 +56,7 @@ public class SmsServiceImpl extends NoticeSendSupport implements SmsService {
         List<String> mobilePhones = smsParam.getMobilePhones();
         String[] noticeTargets = mobilePhones.toArray(new String[0]);
         String content = smsParam.getContent();
-        Object sendResult = super.sendCustom(Strings.EMPTY_OBJ, content, noticeTargets);
+        Object sendResult = super.sendCustom(Strings.STR_NULL, content, noticeTargets);
 
         String sendJson = JsonUtil.toJson(sendResult);
         this.saveSendRecord(sendJson, JsonUtil.toJson(mobilePhones), NoticeConstants.NOTICE_CUSTOM,

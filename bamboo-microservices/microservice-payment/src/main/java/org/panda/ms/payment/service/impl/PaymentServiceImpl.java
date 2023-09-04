@@ -33,8 +33,7 @@ public class PaymentServiceImpl extends PayGatewaySupport implements PaymentServ
 
     @Override
     protected ModelAndView resolveShowResult(HttpServletRequest request, PaymentResult result, Terminal terminal) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("voucher");
+        ModelAndView modelAndView = new ModelAndView("voucher");
         if (result != null && result.isSuccessful()) {
             modelAndView.setStatus(HttpStatus.resolve(result.getResponseStatus()));
             modelAndView.addObject("gatewayPaymentNo", result.getGatewayPaymentNo());

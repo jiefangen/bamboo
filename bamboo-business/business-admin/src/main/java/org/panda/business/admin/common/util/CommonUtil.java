@@ -29,7 +29,7 @@ public class CommonUtil {
     public static String getGlobalLanguage() {
         HttpServletRequest request = SpringWebContext.getRequest();
         if (request == null) {
-            return Strings.EMPTY_OBJ;
+            return Strings.STR_NULL;
         }
         String language;
         if (WebHttpUtil.isAjaxRequest(request)) { // 从Cookie中获取终端语言

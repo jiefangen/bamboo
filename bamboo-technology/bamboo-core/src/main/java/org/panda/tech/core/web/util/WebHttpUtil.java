@@ -591,7 +591,7 @@ public class WebHttpUtil {
      * @return 访问者ip地址
      */
     public static String getRemoteAddress(HttpServletRequest request) {
-        String remoteAddress = Strings.EMPTY_OBJ;
+        String remoteAddress = Strings.STR_NULL;
         String ip = request.getHeader("X-Real-IP");
         if (StringUtils.isNotBlank(ip) && !HEADER_UNKNOWN.equalsIgnoreCase(ip)) {
             remoteAddress = ip;
