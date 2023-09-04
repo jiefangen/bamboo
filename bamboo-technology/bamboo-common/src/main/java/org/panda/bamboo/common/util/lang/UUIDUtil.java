@@ -9,8 +9,6 @@ import java.util.UUID;
  * 结果作为索引取出字符， 这样重复率大大降低。
  * <p>
  * 经测试，在生成一千万个数据也没有出现重复，完全满足大部分需求。
- *
- * @since 2022/8/10
  */
 public class UUIDUtil {
     private static String[] chars = new String[]{"a", "b", "c", "d", "e", "f",
@@ -38,8 +36,7 @@ public class UUIDUtil {
      * 生成32位uuid
      */
     public static String randomUUID32() {
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-        return uuid;
+        return UUID.randomUUID().toString().replace("-", "");
     }
 
 }

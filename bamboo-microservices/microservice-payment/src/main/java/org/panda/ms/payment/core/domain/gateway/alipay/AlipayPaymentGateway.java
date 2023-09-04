@@ -5,10 +5,9 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.AlipayConfig;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
-import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradePagePayRequest;
-import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
+import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.ExceptionUtil;
 import org.panda.bamboo.common.util.LogUtil;
@@ -28,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 支付网关：支付宝
+ * 支付网关：支付宝支付
  */
 public class AlipayPaymentGateway extends AbstractPaymentGateway {
 
@@ -52,19 +51,17 @@ public class AlipayPaymentGateway extends AbstractPaymentGateway {
         Program program = terminal.getProgram();
         Device device = terminal.getDevice();
         try {
+            AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+            request.setNeedEncrypt(this.config.getEncryptKey() != null);
+            request.setNotifyUrl(getResultConfirmUrl());
+            request.setReturnUrl(getResultShowUrl());
             if (program == Program.WEB) {
                 if (device == Device.PC) { // 电脑网站支付
-                    return pagePay(definition);
+                    return pagePay(definition, request);
                 } else { // 手机网站支付（含平板）
-                    AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
-                    request.setNotifyUrl(getResultConfirmUrl());
-                    request.setReturnUrl(getResultShowUrl());
                     // TODO
                 }
             } else if (program == Program.NATIVE) { // APP支付
-                AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-                request.setNotifyUrl(getResultConfirmUrl());
-                request.setReturnUrl(getResultShowUrl());
                 // TODO
             }
         } catch (Exception e) {
@@ -84,11 +81,7 @@ public class AlipayPaymentGateway extends AbstractPaymentGateway {
         return null;
     }
 
-    private PaymentRequest pagePay(PaymentDefinition definition) throws AlipayApiException {
-        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
-        request.setNeedEncrypt(this.config.getEncryptKey() != null);
-        request.setNotifyUrl(getResultConfirmUrl());
-        request.setReturnUrl(getResultShowUrl());
+    private PaymentRequest pagePay(PaymentDefinition definition, AlipayTradePagePayRequest request) throws AlipayApiException {
         Map<String, Object> prepareParams = new HashMap<>();
         prepareParams.put("out_trade_no", definition.getOrderNo());
         prepareParams.put("total_amount", definition.getAmount().doubleValue());
@@ -139,7 +132,7 @@ public class AlipayPaymentGateway extends AbstractPaymentGateway {
                 } else if ("TRADE_SUCCESS".equals(tradeStatus)) { // 结果通知时交易状态不为null
                     String gatewayPaymentNo = params.get("trade_no");
                     BigDecimal amount = MathUtil.parseDecimal(params.get("total_amount"));
-                    return new PaymentResult(orderNo, gatewayPaymentNo, amount, "success");
+                    return new PaymentResult(orderNo, gatewayPaymentNo, amount, Commons.RESULT_SUCCESS);
                 }
             }
         } catch (Exception e) {

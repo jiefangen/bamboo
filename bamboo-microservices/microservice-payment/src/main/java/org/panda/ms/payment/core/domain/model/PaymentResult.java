@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 
 /**
- * 支付结果
+ * 支付响应结果
  */
 public class PaymentResult {
     /**

@@ -40,11 +40,23 @@
             <version>${knife4j-openapi2.version}</version>
         </dependency>
 
+        <!-- 支付宝支付SDK -->
         <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
             <version>4.35.171.ALL</version>
         </dependency>
-
+        <!-- 微信支付SDK -->
+        <dependency>
+            <groupId>com.github.wechatpay-apiv3</groupId>
+            <artifactId>wechatpay-apache-httpclient</artifactId>
+            <version>0.4.9</version>
+        </dependency>
+        <!-- PayPal支付SDK -->
+        <dependency>
+            <groupId>com.paypal.sdk</groupId>
+            <artifactId>rest-api-sdk</artifactId>
+            <version>1.14.0</version>
+        </dependency>
     </dependencies>
 </project>
