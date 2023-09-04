@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>支付凭证</title>
+    <style>
+        /* 添加一些基本的样式 */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin: 20px;
+        }
+        .payment-details {
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>支付凭证</h1>
+    <div class="payment-details">
+        <p><strong>订单号：</strong> ABC123456</p>
+        <p><strong>支付金额：</strong> $100.00</p>
+        <p><strong>收款方：</strong> 收款商户</p>
+        <p><strong>支付方式：</strong> 信用卡</p>
+    </div>
+    <button id="payButton">立即支付</button>
+</div>
+
+<script>
+    // 添加支付按钮的点击事件处理程序
+    document.getElementById('payButton').addEventListener('click', function() {
+        // 此处可以添加支付流程的逻辑，例如向支付网关发送请求
+        // 在实际应用中，你需要使用合适的支付API和身份验证
+        alert('支付成功！');
+    });
+</script>
+</body>
+</html>
