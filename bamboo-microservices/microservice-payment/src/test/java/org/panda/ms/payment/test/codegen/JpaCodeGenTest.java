@@ -9,12 +9,17 @@ public class JpaCodeGenTest extends ServiceApplicationTest {
 
     @Test
     void jpaEntityGen() {
-        jpaCodeGenerator.docEntityGenerator("", "");
+        jpaCodeGenerator.commonEntityGenerator("pay_order", "pay_order_settlement", "pay_order_refund");
     }
 
     @Test
     public void jpaRepoGen() {
-        jpaCodeGenerator.docRepoGenerator();
+        jpaCodeGenerator.commonRepoGenerator();
+    }
+
+    @Test
+    public void jpaRepoxGen() {
+        jpaCodeGenerator.repoxGenerator(PayOrder1.class, true);
     }
 
 }

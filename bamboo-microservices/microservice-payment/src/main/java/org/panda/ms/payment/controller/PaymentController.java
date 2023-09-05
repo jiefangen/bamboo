@@ -25,7 +25,7 @@ public class PaymentController {
     @PostMapping("/prepare/{gatewayName}")
     @ResponseBody
     public RestfulResult prepare(@PathVariable("gatewayName") String gatewayName,
-                                  @RequestBody PaymentDefinition definition) {
+                                 @RequestBody PaymentDefinition definition) {
         PaymentRequest paymentResult = this.paymentService.payment(gatewayName, definition);
         return RestfulResult.success(paymentResult);
     }

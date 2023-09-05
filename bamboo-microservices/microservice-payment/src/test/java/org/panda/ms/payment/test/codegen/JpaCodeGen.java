@@ -6,6 +6,7 @@ import org.panda.ms.payment.test.config.JpaCodegenProperties;
 import org.panda.tech.data.jpa.codegen.JpaCodeGenConfigSupport;
 import org.panda.tech.data.jpa.codegen.JpaEntityGenerator;
 import org.panda.tech.data.jpa.codegen.JpaRepoGenerator;
+import org.panda.tech.data.model.entity.Entity;
 
 public class JpaCodeGen extends JpaCodeGenConfigSupport {
 
@@ -31,7 +32,7 @@ public class JpaCodeGen extends JpaCodeGenConfigSupport {
         return repoLocation;
     }
 
-    public void docEntityGenerator(String... tableOrEntityNames) {
+    public void commonEntityGenerator(String... tableOrEntityNames) {
         JpaEntityGenerator jpaEntityGenerator = super.entityGenerator();
         try {
             jpaEntityGenerator.generate(tableOrEntityNames);
@@ -40,19 +41,19 @@ public class JpaCodeGen extends JpaCodeGenConfigSupport {
         }
     }
 
-    public void docEntityGenerator(String tableOrEntityName) {
-        JpaEntityGenerator jpaEntityGenerator = super.entityGenerator();
+    public void commonRepoGenerator() {
+        JpaRepoGenerator jpaRepoGenerator = super.repoGenerator();
         try {
-            jpaEntityGenerator.generate(tableOrEntityName);
+            jpaRepoGenerator.generate();
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
         }
     }
 
-    public void docRepoGenerator() {
+    public void repoxGenerator(Class<? extends Entity> entityClass, boolean withRepox) {
         JpaRepoGenerator jpaRepoGenerator = super.repoGenerator();
         try {
-            jpaRepoGenerator.generate();
+            jpaRepoGenerator.generate(entityClass, withRepox);
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
         }
