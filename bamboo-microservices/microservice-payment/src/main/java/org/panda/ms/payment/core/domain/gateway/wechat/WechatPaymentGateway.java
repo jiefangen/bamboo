@@ -3,6 +3,7 @@ package org.panda.ms.payment.core.domain.gateway.wechat;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.util.EntityUtils;
+import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.ExceptionUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
@@ -128,7 +129,10 @@ public class WechatPaymentGateway extends AbstractPaymentGateway implements Disp
             if (statusCode == HttpStatus.SC_OK) {
                 if (product == WechatPayProduct.NATIVE) {
                     String url = (String) responseData.get("code_url");
-                    return new PaymentRequest(url, PaymentRequestMode.QRCODE, null);
+                    PaymentRequest paymentRequest = new PaymentRequest(url, PaymentRequestMode.QRCODE, null);
+                    paymentRequest.setRequestData(JsonUtil.toJson(prepareParams));
+                    paymentRequest.setResponseData(responseJson);
+                    return paymentRequest;
                 }
                 Map<String, String> requestParams = new LinkedHashMap<>();
                 requestParams.put("appId", this.client.getAppId());
@@ -138,7 +142,10 @@ public class WechatPaymentGateway extends AbstractPaymentGateway implements Disp
                 requestParams.put("paySign",
                         generateSignature(requestParams.values(), this.client.getCertPrivateKey()));
                 requestParams.put("signType", "RSA"); // 不参与签名
-                return new PaymentRequest(null, PaymentRequestMode.GET_LINK, requestParams);
+                PaymentRequest paymentRequest = new PaymentRequest(null, PaymentRequestMode.GET_LINK, requestParams);
+                paymentRequest.setRequestData(JsonUtil.toJson(prepareParams));
+                paymentRequest.setResponseData(responseJson);
+                return paymentRequest;
             }
             String errorMessage = (String) responseData.get("message");
             throw new RuntimeException(errorMessage);
@@ -191,7 +198,7 @@ public class WechatPaymentGateway extends AbstractPaymentGateway implements Disp
                     Map<String, Object> amount = (Map<String, Object>) resource.get("amount");
                     BigDecimal amountTotal = new BigDecimal((Integer) amount.get("total"))
                             .divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
-                    return new PaymentResult(orderNo, gatewayPaymentNo, amountTotal, Strings.EMPTY);
+                    return new PaymentResult(orderNo, gatewayPaymentNo, amountTotal, Commons.RESULT_SUCCESS);
                 }
             }
         } catch (Exception e) {

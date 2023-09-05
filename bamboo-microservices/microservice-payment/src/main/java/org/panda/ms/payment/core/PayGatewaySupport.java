@@ -1,6 +1,5 @@
 package org.panda.ms.payment.core;
 
-import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.ms.payment.core.domain.gateway.PaymentManager;
 import org.panda.ms.payment.core.domain.model.PaymentDefinition;
 import org.panda.ms.payment.core.domain.model.PaymentRequest;
@@ -26,14 +25,11 @@ public abstract class PayGatewaySupport {
         return this.paymentManager.prepareRequest(gatewayName, definition);
     }
 
-    public String confirmResult(String gatewayName, HttpServletRequest request, HttpServletResponse response) {
+    public PaymentResult confirmResult(String gatewayName, HttpServletRequest request, HttpServletResponse response) {
         HttpRequestDataProvider notifyDataProvider = new HttpServletRequestDataProvider(request);
         PaymentResult result = this.paymentManager.notifyResult(gatewayName, true, notifyDataProvider);
-        if (result != null) {
-            response.setStatus(result.getResponseStatus());
-            return result.getResponseBody();
-        }
-        return Strings.EMPTY;
+        response.setStatus(result.getResponseStatus());
+        return result;
     }
 
     public ModelAndView showResult(String gatewayName, String terminal, HttpServletRequest request) {

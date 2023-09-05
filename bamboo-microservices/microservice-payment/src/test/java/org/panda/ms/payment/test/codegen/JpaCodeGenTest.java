@@ -1,6 +1,7 @@
 package org.panda.ms.payment.test.codegen;
 
 import org.junit.jupiter.api.Test;
+import org.panda.ms.payment.model.entity.PayOrderNotify;
 import org.panda.ms.payment.test.ServiceApplicationTest;
 
 public class JpaCodeGenTest extends ServiceApplicationTest {
@@ -9,7 +10,8 @@ public class JpaCodeGenTest extends ServiceApplicationTest {
 
     @Test
     void jpaEntityGen() {
-        jpaCodeGenerator.commonEntityGenerator("pay_order", "pay_order_settlement", "pay_order_refund");
+        jpaCodeGenerator.commonEntityGenerator("pay_order", "pay_request_records",
+                "pay_order_notify", "pay_order_settlement", "pay_order_refund");
     }
 
     @Test
@@ -19,7 +21,7 @@ public class JpaCodeGenTest extends ServiceApplicationTest {
 
     @Test
     public void jpaRepoxGen() {
-        jpaCodeGenerator.repoxGenerator(PayOrder1.class, true);
+        jpaCodeGenerator.repoxGenerator(PayOrderNotify.class, true);
     }
 
 }

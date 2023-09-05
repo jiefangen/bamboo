@@ -11,6 +11,9 @@ public class PaymentRequest {
     private PaymentRequestMode mode;
     private Map<String, String> params;
 
+    private String requestData;
+    private String responseData;
+
     public PaymentRequest(String url, PaymentRequestMode mode, Map<String, String> params) {
         this.url = url;
         this.mode = mode;
@@ -29,4 +32,19 @@ public class PaymentRequest {
         return this.params;
     }
 
+    public String getRequestData() {
+        return requestData;
+    }
+
+    public void setRequestData(String requestData) {
+        this.requestData = requestData;
+    }
+
+    public String getResponseData() {
+        return responseData;
+    }
+
+    public void setResponseData(String responseData) {
+        this.responseData = responseData;
+    }
 }

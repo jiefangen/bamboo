@@ -1,7 +1,7 @@
 package org.panda.ms.payment.core.domain.gateway.paypal;
 
 import com.paypal.api.payments.*;
-import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.util.lang.MathUtil;
 import org.panda.ms.payment.core.domain.gateway.AbstractPaymentGateway;
 import org.panda.ms.payment.core.domain.model.PaymentChannel;
@@ -59,7 +59,7 @@ public abstract class PaypalPaymentGateway extends AbstractPaymentGateway {
             Item item = transaction.getItemList().getItems().get(0);
             String orderNo = item.getSku();
 
-            return new PaymentResult(orderNo, gatewayPaymentNo, amount, Strings.EMPTY);
+            return new PaymentResult(orderNo, gatewayPaymentNo, amount, Commons.RESULT_SUCCESS);
         }
         return null;
     }

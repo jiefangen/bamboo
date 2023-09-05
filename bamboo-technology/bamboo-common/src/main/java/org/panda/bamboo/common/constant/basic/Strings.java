@@ -32,10 +32,6 @@ public class Strings {
      * 字符串NULL
      */
     public static final String STR_NULL = null;
-    /**
-     * 空对象
-     */
-    public static final Object OBJ_NULL = null;
 
     /**
      * 星号
