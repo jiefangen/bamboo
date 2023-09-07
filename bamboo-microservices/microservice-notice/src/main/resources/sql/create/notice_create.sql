@@ -13,7 +13,7 @@ CREATE TABLE `notice_config_template` (
                                     `template_content_title` varchar(1000) COMMENT '模版内容标题',
                                     `template_content` TEXT NOT NULL COMMENT '模版内容',
                                     `notice_mode` CHAR(1) NOT NULL COMMENT '通知方式',
-                                    `notice_provider_type` varchar(200) NOT NULL COMMENT '通知内容提供者类型',
+                                    `notice_provider_type` varchar(180) NOT NULL COMMENT '通知内容提供者类型',
                                     `notice_sender_type` varchar(50) COMMENT '通知发送器类型',
                                     `category` varchar(50) DEFAULT NULL COMMENT '类别',
                                     `is_active` BIT(1) DEFAULT b'1' NOT NULL COMMENT '是否激活',
