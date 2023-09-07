@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.ms.payment.core.domain.model.PaymentResult;
 import org.panda.tech.core.web.restful.RestfulResult;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +20,25 @@ import java.math.BigDecimal;
 @RequestMapping(value = "/home")
 public class HomeController {
 
+    @Value("${spring.application.name}")
+    private String name;
+    @Value("${spring.profiles.active}")
+    private String env;
+    @Value("${server.port}")
+    private String port;
+
     @GetMapping
     @ResponseBody
     public RestfulResult<String> home() {
         return RestfulResult.success(getApplicationDesc());
     }
 
-    @GetMapping(value = "/hello")
-    public ModelAndView hello() {
-        ModelAndView modelAndView = new ModelAndView("hello");
+    @GetMapping(value = "/index")
+    public ModelAndView index() {
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("name", name);
+        modelAndView.addObject("env", env);
+        modelAndView.addObject("port", port);
         modelAndView.addObject("appName", getApplicationDesc());
         return modelAndView;
     }
