@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: config-center
+  profiles:
+    active: local
+server:
+  port: 12001

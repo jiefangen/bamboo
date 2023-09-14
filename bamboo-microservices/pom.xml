@@ -17,6 +17,7 @@
     <properties>
         <service.version>1.0.0</service.version>
         <technology.version>1.0.0</technology.version>
+
         <spring-boot.version>2.6.13</spring-boot.version>
 
         <oracle-jdk.version>11</oracle-jdk.version>

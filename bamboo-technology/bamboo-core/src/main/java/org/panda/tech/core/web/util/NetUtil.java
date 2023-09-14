@@ -54,11 +54,35 @@ public class NetUtil {
     }
 
     /**
-     * 获取本机网卡IP地址
+     * 获取本机Host地址
      *
-     * @return 本机网卡IP地址
+     * @return 本机Host地址
      */
-    public static String getLocalIp() {
+    public static String getLocalHost() {
+        try {
+            Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            while (nis.hasMoreElements()) {
+                NetworkInterface ni = nis.nextElement();
+                for (Enumeration<InetAddress> ias = ni.getInetAddresses(); ias.hasMoreElements(); ) {
+                    InetAddress inetAddr = ias.nextElement();
+                    if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address) {
+                        return inetAddr.getHostAddress();
+                    }
+                }
+            }
+            // 如果在循环中没有找到IPv4地址，可以回退到原始方案
+            InetAddress localhost = InetAddress.getLocalHost();
+            if (localhost instanceof Inet4Address) {
+                return localhost.getHostAddress();
+            }
+        } catch (Exception e) {
+            LogUtil.error(NetUtil.class, e);
+        }
+        return LOCAL_IP_V4;
+    }
+
+    public static List<String> getLocalIntranetIps() {
+        List<String> ips = new ArrayList<>();
         try {
             Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
             while (nis.hasMoreElements()) {
@@ -66,15 +90,25 @@ public class NetUtil {
                 Enumeration<InetAddress> ias = ni.getInetAddresses();
                 while (ias.hasMoreElements()) {
                     String ip = ias.nextElement().getHostAddress();
-                    if (NetUtil.isIntranetIp(ip) && !LOCAL_IP_V4.equals(ip)) {
-                        return ip;
+                    if (NetUtil.isIntranetIp(ip) && !LOCAL_IP_V4.equals(ip) && !LOCAL_IP_V6.equals(ip)) {
+                        ips.add(ip);
                     }
                 }
             }
         } catch (SocketException e) {
             LogUtil.error(NetUtil.class, e);
         }
-        return LOCAL_IP_V4;
+        return ips;
+    }
+
+    /**
+     * 获取本机内网IP地址
+     *
+     * @return 本机网卡IP地址
+     */
+    public static String getIntranetIp() {
+        List<String> ips = getLocalIntranetIps();
+        return ips.size() > 0 ? ips.get(0) : LOCAL_IP_V4;
     }
 
     /**
@@ -520,35 +554,6 @@ public class NetUtil {
             url = url.substring(0, index);
         }
         return url;
-    }
-
-    /**
-     * 获取服务运行所在服务器地址
-     */
-    public static String getLocalHost() {
-        try {
-            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-            while (networkInterfaces.hasMoreElements()) {
-                NetworkInterface iface = networkInterfaces.nextElement();
-                // 该网卡接口下的IP地址会有多个，需要一个个遍历，找到自己所需的
-                for (Enumeration<InetAddress> inetAddrs = iface.getInetAddresses(); inetAddrs.hasMoreElements(); ) {
-                    InetAddress inetAddr = inetAddrs.nextElement();
-                    // 排除loopback回环类型地址，只保留IPv4地址
-                    if (!inetAddr.isLoopbackAddress() && inetAddr instanceof Inet4Address) {
-                        // 返回IPv4地址
-                        return inetAddr.getHostAddress();
-                    }
-                }
-            }
-            // 如果在循环中没有找到IPv4地址，可以回退到原始方案
-            InetAddress localhost = InetAddress.getLocalHost();
-            if (localhost instanceof Inet4Address) {
-                return localhost.getHostAddress();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return LOCAL_IP_V4;
     }
 
     public static String getSubDomain(String url, int topDomainLevel) {
