@@ -1,17 +1,17 @@
-<h1 style="text-align: center">Bamboo基于SpringCloud的微服务架构</h1>
+<h1 style="text-align: center">Bamboo基于Springboot的分布式架构</h1>
 
 ## 一、框架项目简介
-#### 致力于提供高性能，高可用，高并发的服务器设计方案。构建企业级微服务生态系统。
+#### 致力于提供高性能，高可用，高并发的服务器设计方案。构建企业级分布式服务生态系统。
 
 ## 二、框架模块简介
 ### bamboo-business（具体业务架构应用层）
     1.business-admin（后台管理系统业务）
-### bamboo-microservices（微服务架构服务提供层）
-    1.microservices-sms（短信微服务）
-    2.microservices-doc（文档微服务）
-### bamboo-support（微服务治理框架支撑层）
-    1.support-config（微服务配置中心）
-    2.support-regiester（微服务注册中心）
+### bamboo-microservices（分布式架构服务提供层）
+    1.microservices-sms（短信服务）
+    2.microservices-doc（文档服务）
+### bamboo-support（服务治理支撑层）
+    1.support-config（服务配置中心）
+    2.support-regiester（服务注册中心）
 ### bamboo-technology（技术框架基础支撑层）
     1.bamboo-core（对上层服务架构提供统一化核心标准支持）
     2.bamboo-data-jpa（对上层服务提供简易jpa使用能力）

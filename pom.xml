@@ -16,9 +16,9 @@
     <modules>
         <!-- 技术框架基础支持层（垂直支持）-->
         <module>bamboo-technology</module>
-        <!-- 微服务治理框架支撑层（水平支撑）-->
+        <!-- 分布式服务治理支撑层（水平支撑）-->
         <module>bamboo-support</module>
-        <!-- 微服务架构服务提供层（垂直支持）-->
+        <!-- 分布式架构服务提供层（垂直支持）-->
         <module>bamboo-microservices</module>
         <!-- 具体业务架构应用层（业务承接）-->
         <module>bamboo-business</module>
