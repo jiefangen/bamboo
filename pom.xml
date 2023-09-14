@@ -19,7 +19,7 @@
         <!-- 分布式服务治理支撑层（水平支撑）-->
         <module>bamboo-support</module>
         <!-- 分布式架构服务提供层（垂直支持）-->
-        <module>bamboo-microservices</module>
+        <module>bamboo-services</module>
         <!-- 具体业务架构应用层（业务承接）-->
         <module>bamboo-business</module>
     </modules>
