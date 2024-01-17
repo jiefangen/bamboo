@@ -24,8 +24,6 @@ import java.util.Locale;
 
 /**
  * IO工具类
- *
- * @author fangen
  */
 public class IOUtil {
 

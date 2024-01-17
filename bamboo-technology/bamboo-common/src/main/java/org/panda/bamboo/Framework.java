@@ -2,8 +2,6 @@ package org.panda.bamboo;
 
 /**
  * 技术框架信息
- * 
- * @author fangen
  */
 public class Framework {
     /**
@@ -17,5 +15,5 @@ public class Framework {
     /**
      * 框架交流邮箱
      */
-    public static final String EMAIL = "bamboo@gmail.com";
+    public static final String EMAIL = "jiefangen@gmail.com";
 }

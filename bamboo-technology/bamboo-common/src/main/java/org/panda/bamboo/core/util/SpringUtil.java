@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.util;
+package org.panda.bamboo.core.util;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.panda.bamboo.common.util.lang.ArrayUtil;
@@ -9,8 +9,6 @@ import org.springframework.core.env.Environment;
 
 /**
  * Spring工具类
- *
- * @author fangen
  */
 public class SpringUtil {
 

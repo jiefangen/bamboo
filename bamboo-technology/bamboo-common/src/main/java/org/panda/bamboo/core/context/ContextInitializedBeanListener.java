@@ -1,8 +1,8 @@
 package org.panda.bamboo.core.context;
 
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.bamboo.core.beans.ContextInitializedBeanProxy;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
+import org.panda.bamboo.core.beans.ContextInitializedBeanProxy;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -14,8 +14,6 @@ import java.util.Map;
 /**
  * 容器初始化完成后执行bean的监听器，找出所有容器初始化完成后执行bean并在容器初始化完成后执行。
  * 如果一个bean具有代理，则只执行代理
- *
- * @author fangen
  */
 @Component
 public class ContextInitializedBeanListener implements ApplicationListener<ContextRefreshedEvent> {

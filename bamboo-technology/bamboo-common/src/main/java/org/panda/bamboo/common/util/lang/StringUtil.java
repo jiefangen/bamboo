@@ -2,17 +2,25 @@ package org.panda.bamboo.common.util.lang;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.clazz.BeanUtil;
+import org.panda.bamboo.common.util.date.DateUtil;
+import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.text.MessageFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -119,6 +127,36 @@ public class StringUtil {
         } catch (PatternSyntaxException ignored) {
         }
         return false;
+    }
+
+    /**
+     * 在指定字符串中查找指定正则表达式首个匹配的起始位置
+     *
+     * @param s       字符串
+     * @param pattern 正则表达式
+     * @return 首个匹配的起始位置
+     */
+    public static int regexFirstStart(String s, String pattern) {
+        Matcher matcher = Pattern.compile(pattern).matcher(s);
+        if (matcher.find()) {
+            return matcher.start();
+        }
+        return -1;
+    }
+
+    /**
+     * 在指定字符串中查找指定正则表达式首个匹配的结束位置
+     *
+     * @param s       字符串
+     * @param pattern 正则表达式
+     * @return 首个匹配的结束位置
+     */
+    public static int regexFirstEnd(String s, String pattern) {
+        Matcher matcher = Pattern.compile(pattern).matcher(s);
+        if (matcher.find()) {
+            return matcher.end();
+        }
+        return -1;
     }
 
     /**
@@ -1097,6 +1135,79 @@ public class StringUtil {
             result.delete(result.length() - insertChars.length(), result.length());
         }
         return result.toString();
+    }
+
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static <T> T parse(String s, Class<T> type) {
+        if (type == String.class) {
+            return (T) s;
+        }
+        if (type == StringBuilder.class) {
+            return (T) new StringBuilder(s);
+        }
+        if (type == BigDecimal.class) {
+            return (T) new BigDecimal(s);
+        }
+        if (type == BigInteger.class) {
+            return (T) new BigInteger(s);
+        }
+        if (type == Long.class || type == long.class) {
+            return (T) Long.valueOf(s);
+        }
+        if (type == Integer.class || type == int.class) {
+            return (T) Integer.valueOf(s);
+        }
+        if (type == Short.class || type == short.class) {
+            return (T) Short.valueOf(s);
+        }
+        if (type == Byte.class || type == byte.class) {
+            return (T) Byte.valueOf(s);
+        }
+        if (type == Double.class || type == double.class) {
+            return (T) Double.valueOf(s);
+        }
+        if (type == Float.class || type == float.class) {
+            return (T) Float.valueOf(s);
+        }
+        if (Date.class.isAssignableFrom(type)) {
+            return (T) DateUtil.parseLong(s);
+        }
+        if (type == Instant.class) {
+            return (T) TemporalUtil.parseInstant(s);
+        }
+        if (type == LocalDate.class) {
+            return (T) TemporalUtil.parseDate(s);
+        }
+        if (type == LocalTime.class) {
+            return (T) TemporalUtil.parseTime(s);
+        }
+        if (type == LocalDateTime.class) {
+            return (T) TemporalUtil.parseDateTime(s);
+        }
+        if (Currency.class.isAssignableFrom(type)) {
+            return (T) Currency.getInstance(new Locale(s));
+        }
+        if (type.isEnum()) {
+            return (T) EnumUtils.getEnum((Class<Enum>) type, s);
+        }
+        if (type.isArray()) {
+            if (type.getComponentType() == String.class) {
+                return (T) s.split(Strings.COMMA);
+            }
+            if (type.getComponentType() == Long.class) {
+                return (T) MathUtil.parseLongObjectArray(s, Strings.COMMA);
+            }
+            if (type.getComponentType() == long.class) {
+                return (T) MathUtil.parseLongArray(s, Strings.COMMA);
+            }
+            if (type.getComponentType() == Integer.class) {
+                return (T) MathUtil.parseIntegerArray(s, Strings.COMMA);
+            }
+            if (type.getComponentType() == int.class) {
+                return (T) MathUtil.parseIntArray(s, Strings.COMMA);
+            }
+        }
+        return null;
     }
 
     /**

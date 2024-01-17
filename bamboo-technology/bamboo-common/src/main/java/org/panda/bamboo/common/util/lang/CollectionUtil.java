@@ -342,6 +342,16 @@ public class CollectionUtil {
         return list;
     }
 
+    @SafeVarargs // 为避免与toList()系列方法参数类型冲突，命名为asList
+    public static <E> List<E> asList(E... array) {
+        if (array == null) {
+            return null;
+        }
+        List<E> list = new ArrayList<>();
+        Collections.addAll(list, array);
+        return list;
+    }
+
     public static <K, V> Map<K, V> clone(Map<K, V> map) {
         if (map == null) {
             return null;

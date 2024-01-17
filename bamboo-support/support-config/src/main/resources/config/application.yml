@@ -1,7 +1,9 @@
 spring:
   application:
-    name: config-center
+    name: spt-config
   profiles:
-    active: local
+    active: dev
 server:
   port: 12001
+  servlet:
+    context-path: /spt-config

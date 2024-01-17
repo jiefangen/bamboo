@@ -24,9 +24,6 @@ public class HomeController {
     @Value("${server.port}")
     private String port;
 
-    @Value("${useLocalCache:false}")
-    private boolean useLocalCache;
-
     @GetMapping
     @ResponseBody
     public RestfulResult<Map<String, Object>> home(HttpServletRequest request) {
@@ -36,7 +33,6 @@ public class HomeController {
         resultMap.put("port", port);
         resultMap.put("localHost", NetUtil.getLocalHost());
         resultMap.put("remoteAddress", WebHttpUtil.getRemoteAddress(request));
-        resultMap.put("useLocalCache", useLocalCache);
         return RestfulResult.success(resultMap);
     }
 

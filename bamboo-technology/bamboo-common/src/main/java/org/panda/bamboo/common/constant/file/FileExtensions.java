@@ -48,6 +48,10 @@ public class FileExtensions {
     // 网页文件
     public static final String HTML = "html";
 
+    // 压缩文件
+    public static final String DOT_WAR = ".war";
+    public static final String DOT_ZIP = ".zip";
+
     // 代码文件
     public static final String[] CODES = { "java", "jsp", "js", "jsx", "ts", "sql",
             "xml", "html", "htm", "xhtml", "rss", "atom", "xjb", "xsd", "xsl", "plist", "wxml",

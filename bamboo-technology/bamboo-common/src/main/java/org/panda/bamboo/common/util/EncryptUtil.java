@@ -3,6 +3,7 @@ package org.panda.bamboo.common.util;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.slf4j.Logger;
 import org.springframework.util.DigestUtils;
 
 import javax.crypto.Cipher;
@@ -10,6 +11,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.security.*;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
@@ -20,6 +22,8 @@ import java.util.Base64;
  * @author fangen
  */
 public class EncryptUtil {
+
+    private static final Logger LOGGER = LogUtil.getLogger(EncryptUtil.class);
 
     private static byte[] toBytes(Object source) {
         try {
@@ -83,6 +87,26 @@ public class EncryptUtil {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public static <T extends PublicKey> T generatePublic(KeyFactory factory, String publicKey) {
+        try {
+            byte[] data = Base64.getDecoder().decode(publicKey);
+            return (T) factory.generatePublic(new X509EncodedKeySpec(data));
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends PrivateKey> T generatePrivate(KeyFactory factory, String privateKey) {
+        try {
+            byte[] data = Base64.getDecoder().decode(privateKey);
+            return (T) factory.generatePrivate(new PKCS8EncodedKeySpec(data));
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static String encryptByAes(String source, String key) {
         try {
             // 对密钥进行处理
@@ -128,7 +152,7 @@ public class EncryptUtil {
             // 返回解密结果
             return new String(decrypted, Strings.ENCODING_UTF8);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage());
         }
         return null;
     }

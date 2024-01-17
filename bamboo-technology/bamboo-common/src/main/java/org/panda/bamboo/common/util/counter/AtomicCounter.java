@@ -1,4 +1,4 @@
-package org.panda.bamboo.common.util;
+package org.panda.bamboo.common.util.counter;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

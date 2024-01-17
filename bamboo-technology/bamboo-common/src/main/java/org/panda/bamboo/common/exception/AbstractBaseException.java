@@ -5,21 +5,30 @@ package org.panda.bamboo.common.exception;
  */
 public abstract class AbstractBaseException extends Exception {
 
-    private static final long serialVersionUID = 6980402847581981301L;
+    private static final long serialVersionUID = 2615028757885274376L;
 
-    private Integer code;
+    private Object payload;
 
-    public AbstractBaseException(Integer code, String message) {
+    public AbstractBaseException() {
+        super();
+    }
+
+    public AbstractBaseException(String message) {
         super(message);
-        this.code = code;
     }
 
-    public int getCode() {
-        return code;
+    /**
+     * 设置负载，用于在异常处理过程中向后续处理环节传递数据
+     *
+     * @param payload 负载
+     */
+    public void setPayload(Object payload) {
+        this.payload = payload;
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    @SuppressWarnings("unchecked")
+    public <T> T getPayload() {
+        return (T) this.payload;
     }
 
 }
