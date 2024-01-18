@@ -1,15 +1,14 @@
 package org.panda.tech.core.web.util;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.bamboo.common.util.io.IOUtil;
 import org.panda.bamboo.common.util.lang.MathUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 
-import java.io.*;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 /**
@@ -26,6 +25,30 @@ public class NetUtil {
     public static final String PROTOCOL_HTTPS = "https://";
 
     private NetUtil() {
+    }
+
+    /**
+     * 拼接URI
+     *
+     * @param contextUri 上下文URI
+     * @param path       相对路径
+     * @return 拼接后的完整URI
+     */
+    public static String concatUri(String contextUri, String path) {
+        // 如果相对路径为空或/，则无需拼接
+        if (StringUtils.isBlank(path) || Strings.SLASH.equals(path)) {
+            return contextUri;
+        }
+        if (contextUri == null) {
+            return null;
+        }
+        if (contextUri.endsWith(Strings.SLASH)) {
+            contextUri = contextUri.substring(0, contextUri.length() - 1);
+        }
+        if (!path.startsWith(Strings.SLASH)) {
+            path = Strings.SLASH + path;
+        }
+        return contextUri + path;
     }
 
     /**
@@ -102,11 +125,11 @@ public class NetUtil {
     }
 
     /**
-     * 获取本机内网IP地址
+     * 获取本机网卡IP地址
      *
      * @return 本机网卡IP地址
      */
-    public static String getIntranetIp() {
+    public static String getLocalIp() {
         List<String> ips = getLocalIntranetIps();
         return ips.size() > 0 ? ips.get(0) : LOCAL_IP_V4;
     }
@@ -298,14 +321,6 @@ public class NetUtil {
         return url + map2ParamString(params, encoding);
     }
 
-    private static String getQueryString(Map<String, Object> params) {
-        String result = mergeParams(Strings.EMPTY, params, Strings.ENCODING_UTF8);
-        if (result.length() > 0) {
-            return result.substring(1); // 去掉首部问号
-        }
-        return Strings.EMPTY;
-    }
-
     public static String removeParams(String url, Collection<String> paramNames) {
         if (paramNames.size() > 0) {
             int index = url.indexOf(Strings.QUESTION);
@@ -325,122 +340,6 @@ public class NetUtil {
             } // 不包含参数的URL无需处理
         }
         return url;
-    }
-
-    /**
-     * 下载指定URL和参数表示的资源到指定本地文件
-     *
-     * @param url       下载资源链接
-     * @param params    下载资源链接的参数
-     * @param localFile 本地文件
-     */
-    public static void download(String url, Map<String, Object> params, File localFile) {
-        url = mergeParams(url, params, Strings.ENCODING_UTF8);
-        InputStream in = null;
-        OutputStream out = null;
-        try {
-            URL urlObj = new URL(url);
-            in = urlObj.openStream();
-            IOUtil.createFile(localFile);
-            out = new BufferedOutputStream(new FileOutputStream(localFile));
-            IOUtils.copy(in, out);
-            in.close();
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            LogUtil.error(NetUtil.class, e);
-        } finally {
-            try {
-                if (in != null) {
-                    in.close();
-                }
-                if (out != null) {
-                    out.close();
-                }
-            } catch (IOException e) {
-                LogUtil.error(NetUtil.class, e);
-            }
-        }
-    }
-
-    private static URLConnection getURLConnection(String url) throws IOException {
-        URLConnection connection = new URL(url).openConnection();
-        connection.setDoInput(true);
-        connection.setDoOutput(true);
-        connection.setConnectTimeout(6000);
-        connection.setReadTimeout(15000);
-        return connection;
-    }
-
-    /**
-     * 从后台向指定URL地址发送GET方式请求，获取响应结果
-     *
-     * @param url      URL地址
-     * @param params   请求参数
-     * @param encoding 参数值的字符集编码
-     * @return 响应结果
-     */
-    public static String requestByGet(String url, Map<String, Object> params, String encoding) {
-        if (StringUtils.isBlank(encoding)) {
-            encoding = Strings.ENCODING_UTF8;
-        }
-        url = mergeParams(url, params, encoding);
-        String result = Strings.EMPTY;
-        InputStream in = null;
-        try {
-            URLConnection connection = getURLConnection(url);
-            in = connection.getInputStream();
-            result = IOUtils.toString(in, encoding);
-        } catch (IOException e) {
-            LogUtil.error(NetUtil.class, e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    LogUtil.error(NetUtil.class, e);
-                }
-            }
-        }
-        return result;
-    }
-
-    public static String requestByPost(String url, Map<String, Object> params, String encoding) {
-        InputStream in = null;
-        PrintWriter out = null;
-        String response = Strings.EMPTY;
-        try {
-            URLConnection connection = getURLConnection(url);
-            if (StringUtils.isBlank(encoding)) {
-                encoding = Strings.ENCODING_UTF8;
-            }
-            connection.setRequestProperty("contentType", "text/html;charset=" + encoding);
-            out = new PrintWriter(new OutputStreamWriter(connection.getOutputStream(), encoding));
-            out.write(getQueryString(params));
-            out.flush();
-            in = connection.getInputStream();
-            byte[] b = new byte[in.available()];
-            in.read(b);
-            response = new String(b, encoding);
-        } catch (IOException e) {
-            LogUtil.error(NetUtil.class, e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    LogUtil.error(NetUtil.class, e);
-                }
-            }
-            if (out != null) {
-                try {
-                    out.close();
-                } catch (Exception e) {
-                    LogUtil.error(NetUtil.class, e);
-                }
-            }
-        }
-        return response;
     }
 
     public static boolean isRelativeUrl(String url) {
@@ -499,6 +398,28 @@ public class NetUtil {
      */
     public static String standardizeHttpUrl(String url) {
         return standardizeUrlWithProtocol(url, "http");
+    }
+
+    /**
+     * 标准化URI地址。所谓标准URI即：所有斜杠均为/，以/开头，不以/结尾
+     *
+     * @param uri URI
+     * @return 标准化后的URI
+     */
+    public static String standardizeUri(String uri) {
+        if (isRelativeUri(uri)) {
+            uri = uri.replace('\\', '/');
+            if (!uri.startsWith(Strings.SLASH)) {
+                uri = Strings.SLASH + uri;
+            }
+            if (Strings.SLASH.equals(uri)) {
+                return uri;
+            }
+        }
+        if (uri.endsWith(Strings.SLASH)) {
+            uri = uri.substring(0, uri.length() - 1);
+        }
+        return uri;
     }
 
     /**
@@ -583,6 +504,63 @@ public class NetUtil {
             return true;
         }
         return false;
+    }
+
+    public static String encode(String s) {
+        return URLEncoder.encode(s, StandardCharsets.UTF_8);
+    }
+
+    public static boolean isRelativeUri(String uri) {
+        return uri.startsWith(Strings.SLASH) && !uri.startsWith(Strings.DOUBLE_SLASH);
+    }
+
+    public static String getContextUri(String uri, String contextPath, boolean withContextPath) {
+        // 去掉#后的锚点
+        int index = uri.indexOf(Strings.WELL);
+        if (index >= 0) {
+            uri = uri.substring(0, index);
+        }
+        // 去掉?后的参数
+        index = uri.indexOf(Strings.QUESTION);
+        if (index >= 0) {
+            uri = uri.substring(0, index);
+        }
+        if (StringUtils.isBlank(contextPath) || Strings.SLASH.equals(contextPath)) {
+            contextPath = Strings.EMPTY;
+        }
+        if (isRelativeUri(uri)) {
+            // contextPath为空，则必然匹配，结果为/
+            if (contextPath.length() == 0) {
+                return Strings.SLASH;
+            }
+            // contextPath不为空，则uri以contextPath开头，才是匹配的相对地址
+            if (uri.startsWith(contextPath + Strings.SLASH) || uri.equals(contextPath)) {
+                return withContextPath ? contextPath : Strings.SLASH;
+            }
+            return null; // 不匹配，无法解析出上下文地址
+        }
+        // 绝对地址
+        index = uri.indexOf(Strings.DOUBLE_SLASH);
+        if (index >= 0) {
+            index = uri.indexOf(Strings.SLASH, index + Strings.DOUBLE_SLASH.length()); // 除协议部分外的第一个/
+            if (index > 0) {
+                String contextUri = uri.substring(0, index);
+                if (contextPath.length() > 0) { // contextPath不为空，则需匹配
+                    String suffix = uri.substring(index);
+                    if (suffix.startsWith(contextPath + Strings.SLASH) || suffix.equals(contextPath)) {
+                        if (withContextPath) {
+                            contextUri += contextPath;
+                        }
+                    } else {
+                        return null;
+                    }
+                }
+                return contextUri;
+            } else if (contextPath.length() == 0) { // 除协议部分外，没有后续/，则contextPath必须为空才匹配
+                return uri;
+            }
+        }
+        return null; // 无法解析出上下文地址
     }
 
 }

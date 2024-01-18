@@ -49,6 +49,10 @@ public enum ActionType {
     @EnumValue("empty")
     EMPTY,
 
+    @Caption("刷新")
+    @EnumValue("refresh")
+    REFRESH,
+
     @Caption("其它")
     @EnumValue("other")
     OTHER,

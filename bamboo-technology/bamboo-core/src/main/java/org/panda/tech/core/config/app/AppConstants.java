@@ -23,4 +23,9 @@ public class AppConstants {
      */
     public static final String EL_SPRING_PROFILES_ACTIVE = "${spring.profiles.active}";
 
+    /**
+     * 表达式：服务启动端口
+     */
+    public static final String EL_SERVER_PORT = "${server.port}";
+
 }

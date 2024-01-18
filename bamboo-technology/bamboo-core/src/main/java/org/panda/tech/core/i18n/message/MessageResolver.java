@@ -1,4 +1,4 @@
-package org.panda.tech.core.util.message;
+package org.panda.tech.core.i18n.message;
 
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.date.TemporalUtil;

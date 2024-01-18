@@ -8,7 +8,7 @@ import org.panda.bamboo.common.annotation.Caption;
 @AllArgsConstructor
 public enum LoginModeEnum {
 
-    @Caption("用户名密码登录")
+    @Caption("账户登录")
     ACCOUNT("account"),
 
     @Caption("短信登录")

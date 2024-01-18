@@ -1,8 +1,8 @@
 package org.panda.tech.core.web.config.exception;
 
-import org.panda.bamboo.common.exception.ExceptionEnum;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -1,7 +1,7 @@
 package org.panda.tech.core.jwt;
 
-import org.panda.bamboo.core.context.ApplicationContextBean;
 import org.panda.bamboo.common.constant.Profiles;
+import org.panda.bamboo.core.context.SpringContextHolder;
 
 /**
  * 抽象的内部JWT配置。
@@ -15,7 +15,7 @@ public abstract class AbstractInternalJwtConfiguration implements InternalJwtCon
 
     @Override
     public int getExpiredIntervalSeconds() {
-        return getExpiredIntervalSeconds(ApplicationContextBean.getActiveProfile());
+        return getExpiredIntervalSeconds(SpringContextHolder.getActiveProfile());
     }
 
     /**

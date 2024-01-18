@@ -37,7 +37,9 @@ import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.*;
+import java.net.Inet4Address;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -633,11 +635,14 @@ public class WebHttpUtil {
                 language = "?lang=zh-CN";
             }
             String apiUrl = "http://ip-api.com/json/" + ip + language;
-            String response = HttpUtil.get(apiUrl);
-            IPAddress ipAddress = JsonUtil.json2Bean(response, IPAddress.class);
-            return ipAddress;
+            try {
+                String response = HttpUtil.get(apiUrl);
+                return JsonUtil.json2Bean(response, IPAddress.class);
+            } catch (Exception e) {
+                // do nothing
+            }
         }
-        return null;
+        return new IPAddress();
     }
 
     /**

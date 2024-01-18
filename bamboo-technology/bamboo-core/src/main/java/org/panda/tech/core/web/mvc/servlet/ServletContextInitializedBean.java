@@ -30,7 +30,6 @@ public class ServletContextInitializedBean implements ServletContextAware, Conte
      */
     @Override
     public void afterInitialized(ApplicationContext context) throws Exception {
-
     }
 
 }

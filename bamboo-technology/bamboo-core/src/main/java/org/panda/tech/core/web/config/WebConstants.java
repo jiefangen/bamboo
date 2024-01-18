@@ -14,6 +14,11 @@ public class WebConstants {
     public static final String HEADER_AJAX_REQUEST = "X-Requested-With";
 
     /**
+     * AJAX请求值
+     */
+    public static final String AJAX_REQUEST_VALUE = "XMLHttpRequest";
+
+    /**
      * 带值的头信息：AJAX请求
      */
     public static final String HEADER_AJAX_REQUEST_WITH_VALUE = "X-Requested-With=XMLHttpRequest";
@@ -40,11 +45,22 @@ public class WebConstants {
      * 头信息：原始请求
      */
     public static final String HEADER_ORIGINAL_REQUEST = "Original-Request";
-
+    /**
+     * 头信息名：鉴权业务类型
+     */
+    public static final String HEADER_AUTH_TYPE = "Auth-Type";
     /**
      * 头信息名：鉴权认证
      */
     public static final String HEADER_AUTH_JWT = "Authorization";
+    /**
+     * 头信息名：鉴权密钥
+     */
+    public static final String HEADER_SECRET_KEY = "Secret-Key";
+    /**
+     * 头信息名：鉴权账户加密凭证
+     */
+    public static final String HEADER_AUTH_CREDENTIALS = "Credentials";
 
     /**
      * 默认的跳转目标参数

@@ -2,8 +2,8 @@ package org.panda.tech.core.web.mvc.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.bamboo.common.util.SpringUtil;
 import org.panda.bamboo.common.util.lang.ArrayUtil;
+import org.panda.bamboo.core.util.SpringUtil;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.util.NetUtil;
@@ -93,8 +93,8 @@ public class WebMvcUtil {
     }
 
     public static boolean isInternalReq(HttpServletRequest request) {
-        String internalJwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
-        if (internalJwt != null) {
+        String authJwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
+        if (StringUtils.isNotBlank(authJwt)) {
             return true;
         }
         String userAgent = request.getHeader(HttpHeaders.USER_AGENT);

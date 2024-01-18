@@ -22,7 +22,8 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 /**
- * Http客户端工具类
+ * HttpClient客户端工具类
+ * 建议场景：具有稳定可靠的生态，提供身份验证、Cookie 管理、重定向管理等
  */
 public class HttpClientUtil {
 
@@ -139,4 +140,36 @@ public class HttpClientUtil {
         }
     }
 
+    public static String commonRequest(HttpRequestMethod method, String url, Map<String, Object> params,
+                                       Map<String, String> headers, String encoding) throws Exception {
+        CloseableHttpResponse response = execute(method, url, params, headers, encoding);
+        if (response != null) {
+            try {
+                int statusCode = response.getStatusLine().getStatusCode();
+                // 301和302重定向状态码，将重定向目标地址作为内容返回
+                if (statusCode == HttpStatus.SC_MOVED_PERMANENTLY || statusCode == HttpStatus.SC_MOVED_TEMPORARILY) {
+                    Header header = response.getFirstHeader(HttpHeaders.LOCATION);
+                    return header.getValue();
+                } else {
+                    return EntityUtils.toString(response.getEntity(), encoding);
+                }
+            } catch (Exception e) {
+                LogUtil.error(HttpClientUtil.class, e);
+            } finally {
+                // 确保关闭请求连接
+                response.close();
+            }
+        }
+        return null;
+    }
+
+    public static String commonRequestByGet(String url, Map<String, Object> params, Map<String, String> headers)
+            throws Exception {
+        return commonRequest(HttpRequestMethod.GET, url, params, headers, Strings.ENCODING_UTF8);
+    }
+
+    public static String commonRequestByPost(String url, Map<String, Object> params, Map<String, String> headers)
+            throws Exception {
+        return commonRequest(HttpRequestMethod.POST, url, params, headers, Strings.ENCODING_UTF8);
+    }
 }
