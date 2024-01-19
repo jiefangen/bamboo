@@ -5,8 +5,8 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.panda.tech.data.annotation.DataSourceSwitch;
 import org.panda.tech.data.common.DataCommons;
+import org.panda.tech.data.common.annotation.DataSourceSwitch;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ import java.lang.reflect.Method;
 @Component
 public class DataSourceSwitchAspect {
 
-    @Pointcut("@annotation(org.panda.tech.data.annotation.DataSourceSwitch)")
+    @Pointcut("@annotation(org.panda.tech.data.common.annotation.DataSourceSwitch)")
     public void dataSourcePointCut() {
     }
 
