@@ -22,6 +22,7 @@
         <!-- 服务安全支持模块-为上层服务提供鉴权标准 -->
         <module>bamboo-security</module>
         <module>bamboo-data-lucene</module>
+        <module>bamboo-data-mongo</module>
     </modules>
 
     <properties>
