@@ -3,7 +3,7 @@ package org.panda.tech.data.mybatis.codegen;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import org.apache.commons.lang3.ArrayUtils;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.bamboo.common.exception.business.param.RequiredParamException;
+import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.data.codegen.ClassBasePackage;
 import org.panda.tech.data.datasource.DataSourceConnConfig;
 
@@ -26,7 +26,8 @@ public class MybatisCodeGeneratorImpl extends MybatisGeneratorSupport implements
     @Override
     public void generate(String... tableNames) {
         if (ArrayUtils.isEmpty(tableNames)) {
-            throw new RequiredParamException();
+            LogUtil.error(getClass(), "tableNames parameters required!");
+            return;
         }
         String tableName = String.join(",", tableNames);
         generate(tableName, true);
