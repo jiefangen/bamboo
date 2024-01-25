@@ -23,6 +23,7 @@
         <module>bamboo-security</module>
         <module>bamboo-data-lucene</module>
         <module>bamboo-data-mongo</module>
+        <module>bamboo-data-redis</module>
     </modules>
 
     <properties>
