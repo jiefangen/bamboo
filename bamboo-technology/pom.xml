@@ -24,6 +24,7 @@
         <module>bamboo-data-lucene</module>
         <module>bamboo-data-mongo</module>
         <module>bamboo-data-redis</module>
+        <module>bamboo-mq-rabbitmq</module>
     </modules>
 
     <properties>
