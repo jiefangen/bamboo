@@ -1,7 +1,9 @@
 package org.panda.tech.security.util;
 
 import org.panda.bamboo.common.util.clazz.BeanUtil;
+import org.panda.tech.core.spec.user.DefaultUserIdentity;
 import org.panda.tech.core.spec.user.UserIdentity;
+import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserGrantedAuthority;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -134,6 +136,34 @@ public class SecurityUtil {
 
     public static boolean isAuthorized() {
         return getAuthorizedUserDetails() != null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void addGrantedAuthority(UserSpecificDetails<?> userDetails, String type, String rank, String app,
+                                           String[] permissions) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) userDetails.getAuthorities();
+        UserGrantedAuthority authority = new UserGrantedAuthority(type, rank, app);
+        authority.addPermissions(permissions);
+        authorities.add(authority);
+    }
+
+    public static UserSpecificDetails<?> buildDefaultUserDetails(String type, String rank, String app,
+                                                                 String[] permissions) {
+        DefaultUserSpecificDetails userDetails = new DefaultUserSpecificDetails();
+        addGrantedAuthority(userDetails, type, rank, app, permissions);
+        DefaultUserIdentity identity = new DefaultUserIdentity(type, 0);
+        userDetails.setIdentity(identity);
+        userDetails.setUsername(identity.getId().toString());
+        userDetails.setCaption(identity.toString());
+        userDetails.setEnabled(true);
+        userDetails.setAccountNonExpired(true);
+        userDetails.setAccountNonLocked(true);
+        userDetails.setCredentialsNonExpired(true);
+        return userDetails;
+    }
+
+    public static void clearContext() {
+        SecurityContextHolder.clearContext();
     }
 
 }

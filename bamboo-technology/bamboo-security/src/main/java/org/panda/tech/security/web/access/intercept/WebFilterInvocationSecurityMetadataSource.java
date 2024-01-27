@@ -1,11 +1,11 @@
 package org.panda.tech.security.web.access.intercept;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.beans.ContextInitializedBean;
+import org.panda.tech.core.util.CommonUtil;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.mvc.util.WebMvcUtil;
 import org.panda.tech.security.config.annotation.*;
@@ -28,7 +28,7 @@ import java.util.*;
  * 用于获取访问资源需要具备的权限
  */
 public class WebFilterInvocationSecurityMetadataSource
-        implements FilterInvocationSecurityMetadataSource, ContextInitializedBean, ConfigAuthorityResolver {
+        implements FilterInvocationSecurityMetadataSource, ConfigAuthorityResolver, ContextInitializedBean {
 
     @Autowired
     private HandlerMethodMapping handlerMethodMapping;
@@ -39,8 +39,7 @@ public class WebFilterInvocationSecurityMetadataSource
 
     private FilterInvocationSecurityMetadataSource origin;
 
-    private AuthoritiesBizExecutor authoritiesBizExecutor = new AuthoritiesBizExecutor() {
-    };
+    private AuthoritiesBizExecutor authoritiesBizExecutor = new AuthoritiesBizExecutor() {};
 
     public void setOrigin(FilterInvocationSecurityMetadataSource origin) {
         this.origin = origin;
@@ -80,7 +79,7 @@ public class WebFilterInvocationSecurityMetadataSource
             } else if (annotation instanceof ConfigPermission) {
                 ConfigPermission configPermission = (ConfigPermission) annotation;
                 authorities.add(new UserConfigAuthority(configPermission.type(), configPermission.rank(),
-                        configPermission.app(), getDefaultPermission(url), configPermission.intranet()));
+                        configPermission.app(), CommonUtil.getDefaultPermission(url), configPermission.intranet()));
             } else if (annotation instanceof ConfigAuthorities) {
                 ConfigAuthorities configAuthorities = (ConfigAuthorities) annotation;
                 for (ConfigAuthority configAuthority : configAuthorities.value()) {
@@ -91,7 +90,7 @@ public class WebFilterInvocationSecurityMetadataSource
                 ConfigPermissions configPermissions = (ConfigPermissions) annotation;
                 for (ConfigPermission configPermission : configPermissions.value()) {
                     authorities.add(new UserConfigAuthority(configPermission.type(), configPermission.rank(),
-                            configPermission.app(), getDefaultPermission(url), configPermission.intranet()));
+                            configPermission.app(), CommonUtil.getDefaultPermission(url), configPermission.intranet()));
                 }
             }
         }
@@ -110,20 +109,6 @@ public class WebFilterInvocationSecurityMetadataSource
             }
         }
         return authorities;
-    }
-
-    private String getDefaultPermission(String url) {
-        // 确保头尾都有/
-        url = StringUtils.wrapIfMissing(url, Strings.SLASH);
-        // 移除可能包含的路径变量
-        if (url.endsWith("/{id}/")) { // 以路径变量id结尾的，默认视为detail
-            url = url.replaceAll("/\\{id\\}/", "/detail/");
-        }
-        url = url.replaceAll("/\\{[^}]*\\}/", Strings.SLASH);
-        // 去掉头尾的/
-        url = StringUtils.strip(url, Strings.SLASH);
-        // 替换中间的/为_
-        return url.replaceAll(Strings.SLASH, Strings.UNDERLINE);
     }
 
     @Override

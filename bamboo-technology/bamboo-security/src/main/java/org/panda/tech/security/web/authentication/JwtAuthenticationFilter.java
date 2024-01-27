@@ -1,7 +1,7 @@
 package org.panda.tech.security.web.authentication;
 
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.jwt.InternalJwtResolver;
+import org.panda.tech.core.webmvc.jwt.JwtParser;
 import org.panda.tech.security.authentication.UserSpecificDetailsAuthenticationToken;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.springframework.context.ApplicationContext;
@@ -22,35 +22,29 @@ import java.io.IOException;
  */
 public class JwtAuthenticationFilter extends GenericFilterBean {
 
-    private InternalJwtResolver jwtResolver;
+    private JwtParser jwtParser;
 
     public JwtAuthenticationFilter(ApplicationContext context) {
-        this.jwtResolver = context.getBean(InternalJwtResolver.class);
+        this.jwtParser = context.getBean(JwtParser.class);
     }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
-        boolean clearAuthentication = false;
-        if (this.jwtResolver.isParsable()) {
-            SecurityContext securityContext = SecurityContextHolder.getContext();
-            if (securityContext != null) {
-                HttpServletRequest request = (HttpServletRequest) req;
-                String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
-                UserSpecificDetails<?> details = this.jwtResolver.parse(jwt, UserSpecificDetails.class);
-                if (details != null) {
-                    Authentication authResult = new UserSpecificDetailsAuthenticationToken(details);
-                    securityContext.setAuthentication(authResult);
-                    clearAuthentication = true; // 设置的一次性授权，需要在后续处理完之后清除
-                }
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        if (this.jwtParser.isAvailable()) {
+            HttpServletRequest request = (HttpServletRequest) req;
+            String type = request.getHeader(WebConstants.HEADER_AUTH_TYPE);
+            String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
+            UserSpecificDetails<?> details = this.jwtParser.parse(type, jwt, UserSpecificDetails.class);
+            if (details != null) {
+                Authentication authResult = new UserSpecificDetailsAuthenticationToken(details);
+                securityContext.setAuthentication(authResult);
             }
         }
-
         chain.doFilter(req, res);
-
-        if (clearAuthentication) {
-            SecurityContextHolder.clearContext();
-        }
+        // 针对本次访问临时授权，完成后清除安全框架上下文信息
+        SecurityContextHolder.clearContext();
     }
 
 }

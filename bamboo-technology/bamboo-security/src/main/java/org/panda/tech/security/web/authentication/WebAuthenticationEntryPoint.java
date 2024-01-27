@@ -2,7 +2,7 @@ package org.panda.tech.security.web.authentication;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.bamboo.common.exception.ExceptionEnum;
+import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.meta.ApiMetaProperties;
 import org.panda.tech.core.web.mvc.util.WebMvcUtil;
@@ -28,7 +28,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class WebAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
 
-    private SecurityUrlProvider securityUrlProvider;
+    private final SecurityUrlProvider securityUrlProvider;
     @Autowired
     private RedirectStrategy redirectStrategy;
     @Autowired
@@ -79,13 +79,13 @@ public class WebAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoin
             } else {
                 this.redirectStrategy.sendRedirect(request, response, loginPageUrl);
             }
-            Object obj = RestfulResult.failure(ExceptionEnum.ILLEGAL_TOKEN.getCode(), ExceptionEnum.ILLEGAL_TOKEN.getMessage());
+            Object obj = RestfulResult.getFailure(ExceptionEnum.ILLEGAL_TOKEN);
             WebHttpUtil.buildJsonResponse(response, obj);
             return;
         }
-        if (WebMvcUtil.isInternalReq(request)) { // 内部RPC调用直接返回401错误
+        if (WebMvcUtil.isInternalReq(request)) { // 内部调用直接返回401错误
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            Object obj = RestfulResult.failure(ExceptionEnum.ILLEGAL_TOKEN.getCode(), ExceptionEnum.ILLEGAL_TOKEN.getMessage());
+            Object obj = RestfulResult.getFailure(ExceptionEnum.ILLEGAL_TOKEN);
             WebHttpUtil.buildJsonResponse(response, obj);
             return;
         }

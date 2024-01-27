@@ -19,7 +19,7 @@ public interface AuthoritiesBizExecutor {
      * @param api api路径
      * @param authorities 权限限定集
      */
-    default void setApiConfigAuthoritiesMapping(String api, Collection<UserConfigAuthority> authorities){
+    default void setApiConfigAuthoritiesMapping(String api, Collection<UserConfigAuthority> authorities) {
     }
     /**
      * 获取业务扩展拦截url规则

@@ -15,16 +15,22 @@
         <module>bamboo-core</module>
         <!-- 数据模块-为本技术框架提供数据相关支持（不可对外依赖） -->
         <module>bamboo-data</module>
-        <!-- jpa支持模块-为上层服务提供jpa访问框架支持 -->
+        <!-- jpa支持模块-为上层服务提供Jpa访问框架支持 -->
         <module>bamboo-data-jpa</module>
-        <!-- mybatis支持模块-为上层服务提供mybatis访问框架支持 -->
+        <!-- mybatis支持模块-为上层服务提供Mybatis访问框架支持 -->
         <module>bamboo-data-mybatis</module>
+        <!-- redis支持模块-为上层服务提供Redis访问使用支持 -->
+        <module>bamboo-data-redis</module>
+        <!-- mongodb支持模块-为上层服务提供MongoDB访问使用支持 -->
+        <module>bamboo-data-mongo</module>
+        <!-- lucene支持模块-为上层服务提供大文本全文搜索支持 -->
+        <module>bamboo-data-lucene</module>
         <!-- 服务安全支持模块-为上层服务提供鉴权标准 -->
         <module>bamboo-security</module>
-        <module>bamboo-data-lucene</module>
-        <module>bamboo-data-mongo</module>
-        <module>bamboo-data-redis</module>
+        <!-- 消息队列模块-为上层服务提供RabbitMQ使用准则 -->
         <module>bamboo-mq-rabbitmq</module>
+        <!-- 消息队列模块-为上层服务提供RocketMQ使用准则 -->
+        <module>bamboo-mq-rocketmq</module>
     </modules>
 
     <properties>

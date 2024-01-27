@@ -11,7 +11,8 @@
     1.service-auth（服务认证鉴权中心服务）
     2.service-notice（通知路由服务）
     3.service-payment（支付网关服务）
-    4.service-doc（文档解析转换服务）
+    4.service-document（文档解析转换服务）
+### bamboo-support（分布式框架扩展支撑层）
 ### bamboo-technology（技术框架基础支撑层）
     1.bamboo-common（通用模块-为本技术框架提供支持【不可对外依赖】）
     2.bamboo-core（核心模块-为上层框架或服务提供核心支持）
@@ -54,4 +55,3 @@
 
 ### 五、反馈交流
 - 邮箱：jiefangen@gmail.com
-

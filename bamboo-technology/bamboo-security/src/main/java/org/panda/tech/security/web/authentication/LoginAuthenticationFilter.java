@@ -1,7 +1,7 @@
 package org.panda.tech.security.web.authentication;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.util.SpringUtil;
+import org.panda.bamboo.core.util.SpringUtil;
 import org.panda.tech.core.web.config.meta.ApiMetaProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;

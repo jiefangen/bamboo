@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: discovery-center
-  profiles:
-    active: local
-server:
-  port: 12002

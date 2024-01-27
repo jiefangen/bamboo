@@ -12,7 +12,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
@@ -20,12 +19,12 @@ import java.util.Collection;
 /**
  * 已登录凭证控制器
  */
-@RestController
 @RequestMapping("/authentication")
-public class AuthenticationController {
+public class AuthenticationControllerSupport {
 
     @Autowired
     private GrantedAuthorityDecider grantedAuthorityDecider;
+
     @Value(AppConstants.EL_SPRING_APP_NAME)
     private String appName;
 
@@ -68,8 +67,14 @@ public class AuthenticationController {
     public void validate(@RequestParam(value = "type", required = false) String type,
             @RequestParam(value = "rank", required = false) String rank,
             @RequestParam(value = "permission", required = false) String permission, HttpServletResponse response) {
-        if (!isGranted(type, rank, permission)) {
+        Collection<? extends GrantedAuthority> grantedAuthorities = SecurityUtil.getGrantedAuthorities();
+        if (CollectionUtils.isEmpty(grantedAuthorities)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        boolean isGranted = this.grantedAuthorityDecider.isGranted(grantedAuthorities, type, rank, this.appName,
+                permission);
+        if (!isGranted) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }
     }
 

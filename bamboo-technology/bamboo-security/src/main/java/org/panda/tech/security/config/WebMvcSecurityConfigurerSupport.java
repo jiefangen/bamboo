@@ -6,15 +6,22 @@ import org.panda.tech.core.web.config.meta.ApiMetaProperties;
 import org.panda.tech.core.web.config.security.WebSecurityProperties;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.mvc.util.SwaggerUtil;
+import org.panda.tech.security.access.ConfigAuthorityAnnotationResolver;
 import org.panda.tech.security.access.UserAuthorityAccessDecisionManager;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
+import org.panda.tech.security.config.annotation.ConfigAuthority;
+import org.panda.tech.security.config.annotation.ConfigPermission;
+import org.panda.tech.security.user.DefaultUserDetailsProvider;
+import org.panda.tech.security.user.UserDetailsProvider;
 import org.panda.tech.security.web.AuthoritiesBizExecutor;
 import org.panda.tech.security.web.SecurityUrlProvider;
 import org.panda.tech.security.web.access.AccessDeniedBusinessExceptionHandler;
 import org.panda.tech.security.web.access.intercept.WebFilterInvocationSecurityMetadataSource;
+import org.panda.tech.security.web.authentication.InternalJwtAuthenticationFilter;
 import org.panda.tech.security.web.authentication.JwtAuthenticationFilter;
 import org.panda.tech.security.web.authentication.WebAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -36,6 +43,7 @@ import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
@@ -44,7 +52,7 @@ import java.util.*;
  * WebMvc安全配置器支持
  */
 @EnableWebSecurity
-public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurerAdapter {
+public abstract class WebMvcSecurityConfigurerSupport extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private HandlerMethodMapping handlerMethodMapping;
@@ -54,8 +62,10 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     private WebSecurityProperties securityProperties;
     @Autowired
     private ApiMetaProperties apiMetaProperties;
-    @Autowired
+    @Autowired(required = false)
     private AuthoritiesBizExecutor authoritiesBizExecutor;
+    @Autowired(required = false)
+    private ConfigAuthorityAnnotationResolver configAuthorityAnnotationResolver;
 
     protected SecurityUrlProvider urlProvider = new SecurityUrlProvider() {
         // 所有方法都有默认实现，默认实例无需提供
@@ -69,7 +79,11 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     // 获取访问资源需要具备的权限
     @Bean
     public WebFilterInvocationSecurityMetadataSource securityMetadataSource() {
-        return new WebFilterInvocationSecurityMetadataSource(authoritiesBizExecutor);
+        if (authoritiesBizExecutor == null) {
+            return new WebFilterInvocationSecurityMetadataSource();
+        } else {
+            return new WebFilterInvocationSecurityMetadataSource(authoritiesBizExecutor);
+        }
     }
 
     // 登录用户访问资源的权限判断
@@ -93,11 +107,8 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
     // 登出成功后的处理
     @Bean
     public LogoutSuccessHandler logoutSuccessHandler() {
-        SimpleUrlLogoutSuccessHandler handler;
-        // 先查询获取自定义登出处理器bean
-        if (getApplicationContext().containsBean("simpleUrlLogoutSuccessHandler")) {
-            handler = getApplicationContext().getBean(SimpleUrlLogoutSuccessHandler.class);
-        } else {
+        SimpleUrlLogoutSuccessHandler handler = getApplicationContext().getBean(SimpleUrlLogoutSuccessHandler.class);
+        if (handler == null) { // 未获取登出处理器则使用默认
             handler = new SimpleUrlLogoutSuccessHandler();
         }
         handler.setRedirectStrategy(this.redirectStrategy);
@@ -172,8 +183,14 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
         for (SecurityConfigurerAdapter configurer : configurers) {
             http.apply(configurer);
         }
-        http.addFilterAfter(new JwtAuthenticationFilter(getApplicationContext()),
-                UsernamePasswordAuthenticationFilter.class);
+        if ("external".equalsIgnoreCase(this.securityProperties.getJwtAuthFilterType())) {
+            http.addFilterAfter(new JwtAuthenticationFilter(getApplicationContext()),
+                    UsernamePasswordAuthenticationFilter.class);
+        } else {
+            // 默认使用内部JWT鉴定过滤器
+            http.addFilterAfter(new InternalJwtAuthenticationFilter(getApplicationContext()),
+                    UsernamePasswordAuthenticationFilter.class);
+        }
 
         RequestMatcher[] anonymousMatchers = getAnonymousRequestMatchers().toArray(new RequestMatcher[0]);
         // @formatter:off
@@ -232,12 +249,21 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
         this.handlerMethodMapping.getAllHandlerMethods().forEach((action, handlerMethod) -> {
             Method method = handlerMethod.getMethod();
             if (Modifier.isPublic(method.getModifiers())) {
+                boolean anonymousAllowed = false;
                 ConfigAnonymous configAnonymous = method.getAnnotation(ConfigAnonymous.class);
-                if (configAnonymous != null) {
+                if (configAnonymous != null) { // 标注匿名注解的允许匿名访问
+                    anonymousAllowed = true;
+                } else if (!hasConfigAuthorityAnnotation(method)) {
+                    // 没有权限注解且允许匿名访问无权限注解，则允许匿名访问
+                    if (this.securityProperties.isAnonymousWithoutAnnotation()) {
+                        anonymousAllowed = true;
+                    }
+                }
+                if (anonymousAllowed) {
                     HttpMethod httpMethod = action.getMethod();
                     String methodValue = httpMethod == null ? null : httpMethod.name();
                     RequestMatcher matcher;
-                    String regex = configAnonymous.regex();
+                    String regex = configAnonymous == null ? null : configAnonymous.regex();
                     if (StringUtils.isNotBlank(regex)) { // 指定了正则表达式，则采用正则匹配器
                         matcher = new RegexRequestMatcher(regex, methodValue, true);
                     } else {
@@ -252,8 +278,28 @@ public abstract class WebSecurityConfigurerSupport extends WebSecurityConfigurer
         return matchers;
     }
 
+    private boolean hasConfigAuthorityAnnotation(Method method) {
+        Annotation[] annotations = method.getAnnotations();
+        for (Annotation annotation : annotations) {
+            if (annotation instanceof ConfigAuthority || annotation instanceof ConfigPermission) {
+                return true;
+            }
+            if (this.configAuthorityAnnotationResolver != null
+                    && this.configAuthorityAnnotationResolver.supports(annotation)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected String[] getLogoutClearCookies() {
         return new String[] { "JSESSIONID", "SESSION" };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(UserDetailsProvider.class)
+    public UserDetailsProvider defaultUserDetailsProvider() {
+        return new DefaultUserDetailsProvider();
     }
 
 }

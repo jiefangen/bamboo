@@ -1,9 +1,9 @@
 package org.panda.tech.security.access;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.exception.business.BusinessException;
-import org.panda.bamboo.common.exception.business.auth.NoOperationAuthorityException;
 import org.panda.bamboo.common.annotation.helper.CaptionHelper;
+import org.panda.tech.core.exception.business.BusinessException;
+import org.panda.tech.core.exception.business.auth.NoOperationAuthorityException;
 import org.panda.tech.core.web.mvc.servlet.mvc.method.HandlerMethodMapping;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;

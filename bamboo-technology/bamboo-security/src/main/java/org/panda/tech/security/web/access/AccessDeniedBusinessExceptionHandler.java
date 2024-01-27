@@ -1,6 +1,6 @@
 package org.panda.tech.security.web.access;
 
-import org.panda.bamboo.common.exception.business.auth.NoOperationAuthorityException;
+import org.panda.tech.core.exception.business.auth.NoOperationAuthorityException;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.security.access.AccessDeniedException;
