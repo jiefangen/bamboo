@@ -10,11 +10,29 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bamboo-mq-rocketmq</artifactId>
+    <version>${technology.version}</version>
 
     <properties>
+        <spring-boot-rocketmq.version>2.2.2</spring-boot-rocketmq.version>
+
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <dependencies>
+        <!-- 技术框架核心组件依赖 -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-core</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
+        <!-- 消息队列rocketmq，客户端4.9.3版本兼容4.x版本的服务端 -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <version>${spring-boot-rocketmq.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
