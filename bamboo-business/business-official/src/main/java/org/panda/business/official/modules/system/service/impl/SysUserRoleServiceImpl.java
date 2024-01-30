@@ -2,14 +2,17 @@ package org.panda.business.official.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
-import org.panda.business.official.modules.system.service.ISysUserRoleService;
+import org.panda.business.official.modules.system.service.SysUserRoleService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.business.official.modules.system.service.entity.SysRole;
 import org.panda.business.official.modules.system.service.entity.SysUser;
 import org.panda.business.official.modules.system.service.entity.SysUserRole;
 import org.panda.business.official.modules.system.service.repository.SysUserRoleMapper;
+import org.panda.business.official.modules.system.service.repository.cache.SysUserCacheRepo;
+import org.panda.business.official.modules.system.service.repository.mongo.SysUserMongoRepox;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,10 +26,19 @@ import java.util.stream.Collectors;
  * @since 2023-06-07
  */
 @Service
-public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements ISysUserRoleService {
+public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUserRole> implements SysUserRoleService {
+
+    @Resource
+    private SysUserCacheRepo sysUserCacheRepo;
+    @Resource
+    private SysUserMongoRepox sysUserMongoRepox;
 
     @Override
+//    @DataSourceSwitch(DataCommons.DATASOURCE_SECONDARY)
     public SysUserDto getUserAndRoles(String username) {
+        if (sysUserCacheRepo.exists(username)) {
+            return sysUserCacheRepo.find(username);
+        }
         SysUser userParam = new SysUser();
         userParam.setUsername(username);
         SysUserDto sysUserDto = this.baseMapper.findUserAndRoles(userParam);
@@ -35,10 +47,14 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         }
         List<SysRole> roles = sysUserDto.getRoles();
         if(CollectionUtils.isNotEmpty(roles)) {
-            Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
+            Set<String> roleCodes = roles.stream().map(SysRole::getRoleCode).collect(Collectors.toSet());
             sysUserDto.setRoleCodes(roleCodes);
         }
-        return sysUserDto;
+        // 用户数据单体缓存
+//        sysUserCacheRepo.save(sysUserDto);
+        // 文档数据库存储
+        SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
+        return sysUserResult;
     }
 
 }

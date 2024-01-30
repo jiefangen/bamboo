@@ -1,10 +1,10 @@
-package org.panda.business.official.infrastructure.security.business;
+package org.panda.business.official.infrastructure.security.authorization;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.bamboo.common.exception.business.param.RequiredParamException;
+import org.panda.tech.core.exception.business.param.RequiredParamException;
 import org.panda.business.official.common.constant.AuthConstants;
-import org.panda.business.official.modules.system.service.ISysUserRoleService;
+import org.panda.business.official.modules.system.service.SysUserRoleService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.business.official.modules.system.service.entity.SysUser;
 import org.panda.tech.core.spec.user.DefaultUserIdentity;
@@ -29,7 +29,7 @@ import java.util.List;
 public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsService {
 
     @Autowired
-    private ISysUserRoleService userRoleService;
+    private SysUserRoleService userRoleService;
 
     @Override
     public UserSpecificDetails loadUserByUsername(String username) throws UsernameNotFoundException {

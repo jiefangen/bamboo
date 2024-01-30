@@ -8,9 +8,6 @@ spring:
     port: 6379
     password:
     timeout: 3000
-  data:
-    mongodb:
-      uri: mongodb://198.19.249.114:27017/official
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/official_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root

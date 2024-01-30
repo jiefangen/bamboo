@@ -5,12 +5,10 @@ spring:
     active: local
 server:
   port: 10102
-  servlet:
-    context-path: /biz-official
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 logging:
   level:
-    org.panda.business.official: debug
+    org.panda.business.official: info

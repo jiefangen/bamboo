@@ -1,8 +1,8 @@
 package org.panda.business.official.modules.system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.business.official.modules.system.service.entity.SysUserRole;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
@@ -12,7 +12,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author bamboo-code-generator
  * @since 2023-06-07
  */
-public interface ISysUserRoleService extends IService<SysUserRole> {
+public interface SysUserRoleService extends IService<SysUserRole> {
 
     SysUserDto getUserAndRoles(String username);
+
 }

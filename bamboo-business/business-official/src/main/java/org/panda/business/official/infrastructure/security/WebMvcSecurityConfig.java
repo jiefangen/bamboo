@@ -1,6 +1,6 @@
 package org.panda.business.official.infrastructure.security;
 
-import org.panda.tech.security.config.WebSecurityConfigurerSupport;
+import org.panda.tech.security.config.WebMvcSecurityConfigurerSupport;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  * @author fangen
  **/
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerSupport {
+public class WebMvcSecurityConfig extends WebMvcSecurityConfigurerSupport {
 
     @Bean
     public PasswordEncoder passwordEncoder() {

@@ -1,5 +1,6 @@
 package org.panda.tech.core.util;
 
+import okhttp3.*;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
@@ -27,7 +28,7 @@ public class OKHttpUtil {
     }
 
     private static Response execute(HttpRequestMethod method, String url, Map<String, Object> params,
-                                                 Map<String, String> headerMap) throws Exception {
+                                    Map<String, String> headerMap) throws Exception {
         Request.Builder requestBuilder = new Request.Builder();
         if (headerMap != null && !headerMap.isEmpty()) {
             for (Map.Entry<String, String> entry : headerMap.entrySet()) {

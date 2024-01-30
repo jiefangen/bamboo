@@ -18,6 +18,12 @@
     </properties>
 
     <dependencies>
+        <!-- 技术框架核心组件依赖 -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-core</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
         <!-- 技术框架security安全框架支持 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
@@ -47,6 +53,30 @@
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
             <version>${knife4j-openapi2.version}</version>
         </dependency>
-    </dependencies>
 
+        <!-- 消息队列rocketmq -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-mq-rocketmq</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
+        <!-- 消息队列rabbitmq -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-mq-rabbitmq</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
+        <!-- 缓存redis -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-data-redis</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
+        <!-- 非结构化数据库mongodb -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-data-mongo</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
+    </dependencies>
 </project>

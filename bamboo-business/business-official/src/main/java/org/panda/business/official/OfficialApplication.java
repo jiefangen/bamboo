@@ -14,6 +14,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan("org.panda.business.official.modules.*.service.repository")
 public class OfficialApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OfficialApplication.class,args);
+        SpringApplication.run(OfficialApplication.class, args);
     }
 }

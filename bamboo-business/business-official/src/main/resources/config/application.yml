@@ -3,14 +3,6 @@ spring:
     name: official
   profiles:
     active: local
-server:
-  port: 10002
-  servlet:
-    context-path: /biz-official
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-
-logging:
-  level:
-    org.panda.business.official: debug

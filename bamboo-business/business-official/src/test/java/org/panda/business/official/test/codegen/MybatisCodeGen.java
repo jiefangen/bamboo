@@ -1,6 +1,6 @@
 package org.panda.business.official.test.codegen;
 
-import org.panda.bamboo.core.context.ApplicationContextBean;
+import org.panda.bamboo.core.context.SpringContextHolder;
 import org.panda.tech.data.codegen.ClassBasePackage;
 import org.panda.tech.data.datasource.DataSourceConnConfig;
 import org.panda.tech.data.mybatis.codegen.MybatisCodeGenConfigSupport;
@@ -27,12 +27,12 @@ public class MybatisCodeGen extends MybatisCodeGenConfigSupport {
     }
 
     public void codeGenerator(String... tableNames) {
-        MybatisCodeGenerator mybatisCodeGenerator = ApplicationContextBean.getBean("generator");
+        MybatisCodeGenerator mybatisCodeGenerator = SpringContextHolder.getBean("generator");
         mybatisCodeGenerator.generate(tableNames);
     }
 
     public void codeGenerator(String tableName, boolean withService) {
-        MybatisCodeGenerator mybatisCodeGenerator = ApplicationContextBean.getBean("generator");
+        MybatisCodeGenerator mybatisCodeGenerator = SpringContextHolder.getBean("generator");
         mybatisCodeGenerator.generate(tableName, withService);
     }
 

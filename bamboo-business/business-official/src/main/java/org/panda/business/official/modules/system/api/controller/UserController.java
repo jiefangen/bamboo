@@ -1,7 +1,7 @@
 package org.panda.business.official.modules.system.api.controller;
 
 import io.swagger.annotations.Api;
-import org.panda.business.official.modules.system.service.ISysUserRoleService;
+import org.panda.business.official.modules.system.service.SysUserRoleService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @Autowired
-    private ISysUserRoleService userRoleService;
+    private SysUserRoleService userRoleService;
 
     /**
      * 获取用户详情
