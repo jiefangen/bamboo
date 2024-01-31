@@ -1,6 +1,6 @@
 package org.panda.business.admin.infrastructure.security.authentication;
 
-import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.business.admin.common.constant.AuthConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.web.authentication.ResolvableExceptionAuthenticationFailureHandler;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,13 +23,13 @@ public class LoginAuthenticationFailureHandler extends ResolvableExceptionAuthen
     @Override
     protected Object getFailureResult(HttpServletRequest request, AuthenticationException exception) {
         if (exception instanceof UsernameNotFoundException) {
-            return RestfulResult.failure(SystemConstants.USER_NOT_EXIST_CODE, exception.getMessage());
+            return RestfulResult.failure(AuthConstants.USER_NOT_EXIST_CODE, exception.getMessage());
         } else if (exception instanceof BadCredentialsException) {
-            return RestfulResult.failure(SystemConstants.PWD_WRONG_CODE, exception.getMessage());
+            return RestfulResult.failure(AuthConstants.PWD_WRONG_CODE, exception.getMessage());
         } else if (exception instanceof DisabledException) {
-            return RestfulResult.failure(SystemConstants.USER_DISABLED_CODE, exception.getMessage());
+            return RestfulResult.failure(AuthConstants.USER_DISABLED_CODE, exception.getMessage());
         } else if (exception instanceof LockedException) {
-            return RestfulResult.failure(SystemConstants.USER_LOCKED_CODE, exception.getMessage());
+            return RestfulResult.failure(AuthConstants.USER_LOCKED_CODE, exception.getMessage());
         }
         return null;
     }

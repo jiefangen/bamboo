@@ -2,7 +2,7 @@ package org.panda.business.admin.infrastructure.security.authentication;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.collections4.CollectionUtils;
-import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.business.admin.common.constant.AuthConstants;
 import org.panda.business.admin.modules.common.manager.SettingsManager;
 import org.panda.business.admin.modules.common.config.SettingsKeys;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
@@ -46,13 +46,13 @@ public class LoginAuthenticationProvider extends AbstractAuthenticationProvider<
         DefaultUserSpecificDetails userSpecificDetails = (DefaultUserSpecificDetails) userDetailsService.loadUserByUsername(username);
         if (authentication instanceof DefaultAuthenticationToken) { // 用户名密码令牌方式
             if (!userSpecificDetails.isEnabled()) { // 账户禁用状态拦截
-                throw new DisabledException(SystemConstants.USER_DISABLED);
+                throw new DisabledException(AuthConstants.USER_DISABLED);
             }
             if (!userSpecificDetails.isAccountNonLocked()) {
-                throw new LockedException(SystemConstants.USER_LOCKED);
+                throw new LockedException(AuthConstants.USER_LOCKED);
             }
             if (!passwordEncoder.matches(password, userSpecificDetails.getPassword())) {
-                throw new BadCredentialsException(SystemConstants.PWD_WRONG);
+                throw new BadCredentialsException(AuthConstants.PWD_WRONG);
             }
         }
         if (authentication instanceof SmsVerifyCodeAuthenticationToken) { // 短信令牌登录方式

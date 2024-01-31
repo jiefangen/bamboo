@@ -6,14 +6,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.admin.application.resolver.MessageSourceResolver;
-import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.business.admin.common.constant.AuthConstants;
 import org.panda.business.admin.common.constant.enums.RoleCode;
-import org.panda.business.admin.modules.common.manager.SettingsManager;
+import org.panda.business.admin.common.constant.enums.UserType;
 import org.panda.business.admin.modules.common.config.SettingsKeys;
+import org.panda.business.admin.modules.common.manager.SettingsManager;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.system.api.param.*;
 import org.panda.business.admin.modules.system.api.vo.MenuVO;
@@ -25,6 +27,7 @@ import org.panda.business.admin.modules.system.service.entity.SysRole;
 import org.panda.business.admin.modules.system.service.entity.SysUser;
 import org.panda.business.admin.modules.system.service.repository.SysRoleMapper;
 import org.panda.business.admin.modules.system.service.repository.SysUserMapper;
+import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.util.QueryPageHelper;
 import org.panda.tech.security.user.UserSpecificDetails;
@@ -34,10 +37,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -107,6 +107,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     userVO.setRoleCodes(roleCodes);
                     userVO.setRoles(roles);
                 }
+                Set<String> roleCodeAndIds = new HashSet<>();
+                for (SysRole role : roles) {
+                    roleCodeAndIds.add(role.getRoleCode() + Strings.VERTICAL_BAR + role.getId());
+                }
+                userVO.setRoleCodeAndIds(roleCodeAndIds);
                 userVOList.add(userVO);
             });
         }
@@ -156,7 +161,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String encodePassword = passwordEncoder.encode(password);
         SysUser user = new SysUser();
         if (StringUtils.isEmpty(userParam.getUserType())) {
-            userParam.setUserType("customer");
+            userParam.setUserType(EnumValueHelper.getValue(UserType.CUSTOMER));
         }
         user.setUserType(userParam.getUserType());
         user.setPassword(encodePassword);
@@ -224,7 +229,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public void updateUserRole(UpdateUserRoleParam userRoleParam) {
-        this.baseMapper.updateUserRole(userRoleParam.getId(), userRoleParam.getRoleCodes());
+        Set<String> roleCodeAndIds = userRoleParam.getRoleCodeAndIds();
+        Set<String> roleIds = new HashSet<>();
+        for (String roleCodeAndId : roleCodeAndIds) {
+            if (roleCodeAndId.contains(Strings.VERTICAL_BAR)) {
+                String roleId = roleCodeAndId.split("\\|")[1];
+                roleIds.add(roleId);
+            }
+        }
+        this.baseMapper.updateUserRole(userRoleParam.getId(), roleIds);
     }
 
     @Override
@@ -237,7 +250,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (!sysUser.getUsername().equals(principalUsername)) {
             // 顶级用户角色才可以更新
             if (!this.checkTopRoles()) {
-                return SystemConstants.ROLE_NOT_CHANGE_PASS;
+                return AuthConstants.ROLE_NOT_CHANGE_PASS;
             }
         }
         if (StringUtils.isEmpty(resetPassParam.getNewPassword())) {
@@ -268,11 +281,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser sysUser = this.getById(id);
         // 用户本人才可以修改自己的密码
         if (!principalUsername.equals(sysUser.getUsername())) {
-            return SystemConstants.ROLE_NOT_CHANGE_PASS;
+            return AuthConstants.ROLE_NOT_CHANGE_PASS;
         }
         // 判断旧密码是否正确
         if (!passwordEncoder.matches(updatePassParam.getOldPassword(), sysUser.getPassword())) {
-            return SystemConstants.PWD_WRONG;
+            return AuthConstants.PWD_WRONG;
         }
         // 校验通过更新密码
         SysUser updateUser = new SysUser();

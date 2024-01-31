@@ -45,10 +45,10 @@
     <update id="updateUserRole">
         delete from sys_user_role where user_id = #{userId};
 
-        <if test="roleCodes != null and roleCodes.size() > 0 ">
+        <if test="roleIds != null and roleIds.size() > 0 ">
             insert into sys_user_role (user_id, role_id) values
-            <foreach item="roleCode" index="index" collection="roleCodes" separator="," close=";">
-                (#{userId}, (select id from sys_role where role_code = #{roleCode}))
+            <foreach item="roleId" index="index" collection="roleIds" separator="," close=";">
+                (#{userId}, #{roleId})
             </foreach>
         </if>
     </update>

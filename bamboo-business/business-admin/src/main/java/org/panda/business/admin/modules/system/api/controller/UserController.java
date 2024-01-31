@@ -2,9 +2,9 @@ package org.panda.business.admin.modules.system.api.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
-import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.business.admin.common.constant.AuthConstants;
 import org.panda.business.admin.modules.system.api.param.*;
 import org.panda.business.admin.modules.system.api.vo.UserVO;
 import org.panda.business.admin.modules.system.service.SysUserService;
@@ -43,7 +43,7 @@ public class UserController {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserVO userInfo = userService.getUserByToken(token);
         if (userInfo == null) {
-            return RestfulResult.failure(SystemConstants.USER_NOT_EXIST_CODE, SystemConstants.USERNAME_NOT_EXIST);
+            return RestfulResult.failure(AuthConstants.USER_NOT_EXIST_CODE, AuthConstants.USERNAME_NOT_EXIST);
         }
         return RestfulResult.success(userInfo);
     }

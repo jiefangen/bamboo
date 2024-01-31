@@ -50,6 +50,7 @@ public class LoginAuthenticationSuccessHandler extends AjaxAuthenticationSuccess
             String token = jwtResolver.generate(appName, userSpecificDetails);
 
             // 用户交互凭证状态存储
+            assert userSpecificDetails != null;
             DefaultUserIdentity userIdentity = userSpecificDetails.getIdentity();
             SysUserToken userToken = new SysUserToken();
             userToken.setUserId(userIdentity.getId());

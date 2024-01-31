@@ -2,7 +2,7 @@ package org.panda.business.admin.modules.system.api.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
 import org.panda.business.admin.modules.system.service.SysRoleService;
 import org.panda.business.admin.modules.system.service.dto.SysRoleDto;

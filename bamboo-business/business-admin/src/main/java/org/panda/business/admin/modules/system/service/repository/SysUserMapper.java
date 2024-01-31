@@ -26,5 +26,5 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      */
     SysUserDto findUserAndRoles(@Param("user") SysUser user);
 
-    void updateUserRole(@Param("userId") Integer userId, @Param("roleCodes") Set<String> roleCodes);
+    void updateUserRole(@Param("userId") Integer userId, @Param("roleIds") Set<String> roleIds);
 }

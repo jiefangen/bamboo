@@ -20,7 +20,7 @@ public class UpdateUserRoleParam {
     @NotNull
     private Integer id;
     /**
-     * 用户的角色集
+     * 用户的角色code|id集
      */
-    private Set<String> roleCodes;
+    private Set<String> roleCodeAndIds;
 }

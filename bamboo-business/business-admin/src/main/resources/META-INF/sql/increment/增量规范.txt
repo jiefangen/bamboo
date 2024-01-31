@@ -1,0 +1,183 @@
+
+一、xxx_add.sql 和 xxx_drop.sql的写入规则：
+
+增量脚本的写入原则：增量脚本执行后不影响现有程序的正常运行
+xxx是对应的库名
+
+-------------------------------------
+
+xxx_add中可以写入的sql语句包括：
+
+1. 建表
+1）包括对新建表创建所有约束或索引
+
+2. 增加字段
+1) 对于空表或新建的表，可直接增加非空字段
+2) 对于已有数据的表增加一列非空字段分三步，如对表szmall_product.T_ONLINE_PRODUCT增加一列非空的DELETE_TIME：
+第一步增加新列：ALTER TABLE szmall_product.T_ONLINE_PRODUCT ADD ( DELETE_TIME DATE); 
+第二步对已有的记录填充该列数据：update szmall_product.T_ONLINE_PRODUCT set DELETE_TIME=to_date('1970-01-01 08:00:01','yyyy-mm-dd hh24:mi:ss'); 
+第三步修改新增列为非空：ALTER TABLE szmall_product.T_ONLINE_PRODUCT modify ( DELETE_TIME DATE NOT NULL );
+
+3. 修改字段
+1) 只能扩大字段长度
+2) 缩小字段长度或者更改字段名称：需通过增加新字段，copy旧字段值至新字段，drop旧字段来实现(drop操作写在xxx_drop文件中)
+
+4. 增加约束
+1）对于非空约束，必须为表中已有数据的记录在新增字段上指定默认值
+
+5. 增加索引
+
+6. 修改表名
+1) 需通过新建表，copy旧表数据至新表，drop旧表来实现(drop操作写在xxx_drop文件中)
+
+-------------------------------------
+
+xxx_drop中可以写入的sql语句包括：
+1. drop表
+2. drop字段
+3. drop约束
+4. drop索引
+
+
+*********************************************************
+
+二、DDL语句模板
+
+说明：
+1. 所有的数据库对象前面都加上数据库名，如表：T_MANAGER，用以区分所在的数据库
+2. 数据库对象的命名规范，详情参考SVN上的doc\standard\JavaEE开发代码规范的数据库部分
+
+-------------------------------------
+
+创建表：
+create table T_MANAGER
+(
+  id             NUMBER(10) not null,
+  username       VARCHAR(20 char) not null,
+  password       CHAR(64) not null,
+  email          VARCHAR(255 char),
+  mobile_phone   CHAR(11),
+  fullname       VARCHAR(10 char) not null,
+  remark         VARCHAR(200 char),
+  top            NUMBER(1) default 0 not null,
+  manager_status CHAR(1) not null,
+  nickname       VARCHAR(20 char) not null
+)
+
+-------------------------------------
+
+删除表：
+drop table T_MANAGER;
+
+-------------------------------------
+
+增加一列：
+ALTER TABLE T_MANAGER ADD ENAME VARCHAR(10); --无默认值
+ALTER TABLE T_MANAGER ADD (NAME VARCHAR(30) DEFAULT '无名氏' NOT NULL); --有默认值
+
+修改一列：
+ALTER TABLE T_MANAGER MODIFY ENAME VARCHAR(20);
+
+删除一列：
+ALTER TABLE T_MANAGER DROP COLUMN ENAME;
+
+-------------------------------------
+
+增加多列：
+ALTER TABLE T_MANAGER ADD (ENAME VARCHAR(10),JOB NUMBER);
+
+修改多列：
+ALTER TABLE T_MANAGER MODIFY (ENAME VARCHAR(20),JOB VARCHAR(20));
+
+删除多列：
+ALTER TABLE T_MANAGER DROP (ENAME,JOB);
+
+-------------------------------------
+
+增加主键：
+
+ALTER TABLE T_MANAGER
+ADD CONSTRAINT PK_MANAGER_EID PRIMARY KEY (EID)
+USING INDEX;
+
+PK_MANAGER_EID: 主键名，
+命名格式：PK_表名_主键字段名;
+
+注意：
+如果表名由多个下划线隔开成的多个单词，取每个单词的首字母, 比如：
+alter table T_APPLYMENT_AUDIT_AUTH
+add constraint PK_AAA_ID primary key (ID)
+using index; 
+
+
+增加联合主键：
+
+ALTER TABLE T_MANAGER
+ADD CONSTRAINT PK_MANAGER_EID_MID PRIMARY KEY (EID,MID)
+USING INDEX;
+
+PK_MANAGER_EID_MID : 主键名，
+命名格式：PK_表名_主键字段名1_主键字段名2;
+
+
+-------------------------------------
+
+增加外键：
+alter table T_MANAGER_R_ROLE
+add constraint FK_MRR_MAN_MID foreign key (MANAGER_ID)
+references T_MANAGER (ID);
+
+FK_MRR_MAN_MID: 自定义外键名，
+命名格式：FK_本表名_主表名_本表关联字段名
+
+注意：
+1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母,如本例
+2) 创建外键后，必须在从表的关联键上创建索引，如本例：
+create index IDX_MRR_MID on T_MANAGER_R_ROLE(MANAGER_ID)；
+
+-------------------------------------
+
+创建唯一约束：
+alter table T_MANAGER
+add constraint UNI_MANAGER_EMAIL unique (EMAIL)
+using index;
+
+UNI_MANAGER_EMAIL: 是自定义约束名，
+命名格式：UNI_表名_字段名
+
+注意：
+1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母
+  
+-------------------------------------
+
+创建索引：
+create index IDX_MRR_MID on T_MANAGER_R_ROLE(MANAGER_ID)；
+
+IDX_MRR_MID：自定义索引名，
+命名格式：IDX_表名_字段名
+
+注意：
+1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母,如本例
+
+-------------------------------------
+
+创建序列：
+CREATE SEQUENCE SEQ_MANAGER_ID
+MINVALUE 1
+MAXVALUE 99999999999999999999
+START WITH 1
+INCREMENT BY 1
+CACHE 20
+ORDER;
+/
+
+SEQ_MANAGER_ID：自定义序列名，命名格式：SEQ_表名_字段名
+注意：
+1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母
+
+
+
+
+
+
+

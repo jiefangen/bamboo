@@ -24,6 +24,10 @@ public class SettingsKeys {
      */
     public static final String AUTH_URL_PATTERNS = "admin:app:authUrlPatterns";
     /**
+     * admin系统-权限初始化动态加载配置拥有所有权限的角色
+     */
+    public static final String AUTH_ALL_PER_ROLES = "admin:role:authAllPerRoles";
+    /**
      * admin系统-同时在线用户限制
      */
     public static final String ONLINE_LIMIT = "admin:user:onlineLimit";

@@ -1,3 +1,6 @@
+server:
+  servlet:
+    context-path: /biz-admin
 spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/admin_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
@@ -66,16 +69,15 @@ spring:
             delete-allow: true                                                 #允许删除数据操作
             multi-statement-allow: true                                        #允许一次执行多条sql
 
-
-# Actuator监控配置,开启监控所有端点
+# actuator监控配置,开启监控所有端点
 management:
+  endpoint:
+    health:
+      show-details: always
   endpoints:
     web:
       exposure:
         include: '*'
-  endpoint:
-    health:
-      show-details: always
 
 # 日志相关配置
 logging:

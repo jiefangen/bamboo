@@ -6,14 +6,14 @@ import org.panda.business.admin.modules.system.service.entity.SysRole;
 import org.panda.business.admin.modules.system.service.entity.SysUser;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Setter
 @Getter
 public class UserVO extends SysUser implements Serializable {
-    private static final long serialVersionUID = -6246035577943174581L;
+
+    private static final long serialVersionUID = 759457472720480753L;
 
     /**
      * 拥有的角色集
@@ -22,7 +22,11 @@ public class UserVO extends SysUser implements Serializable {
     /**
      * 角色权限code集
      */
-    private Set<String> roleCodes = new HashSet<>();
+    private Set<String> roleCodes;
+    /**
+     * 角色权限集-code|roleId
+     */
+    private Set<String> roleCodeAndIds;
     /**
      * 路由菜单信息
      */

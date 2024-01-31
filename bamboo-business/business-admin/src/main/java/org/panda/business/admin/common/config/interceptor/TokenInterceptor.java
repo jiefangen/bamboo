@@ -1,9 +1,9 @@
 package org.panda.business.admin.common.config.interceptor;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import org.panda.bamboo.common.exception.ExceptionEnum;
+import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.business.admin.common.constant.AuthConstants;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.tech.core.web.config.WebConstants;
@@ -61,7 +61,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         try {
             jwtVerify = jwtResolver.verify(jwt);
         } catch (Exception e) {
-            Object obj = RestfulResult.failure(ExceptionEnum.ILLEGAL_TOKEN.getCode(), ExceptionEnum.ILLEGAL_TOKEN.getMessage());
+            Object obj = RestfulResult.getFailure(ExceptionEnum.ILLEGAL_TOKEN);
             WebHttpUtil.buildJsonResponse(response, obj);
             return false;
         }
@@ -75,8 +75,7 @@ public class TokenInterceptor implements HandlerInterceptor {
             if (userToken != null && userToken.getStatus() != null) { // 失效
                 Integer status = userToken.getStatus();
                 if (status == 3 || LocalDateTime.now().isAfter(userToken.getExpirationTime())) {
-                    failureResult = RestfulResult.failure(ExceptionEnum.TOKEN_EXPIRED.getCode(),
-                            ExceptionEnum.TOKEN_EXPIRED.getMessage());
+                    failureResult = RestfulResult.getFailure(ExceptionEnum.TOKEN_EXPIRED);
                 } else {
                     if (status == 1) { // 在线有效
                         interceptPass = true;
@@ -84,7 +83,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                         userToken.setStatus(1);
                         interceptPass = true;
                     } else if (status == 4) { // 登出
-                        failureResult = RestfulResult.failure(SystemConstants.LOGGED_OUT, SystemConstants.LOGGED_OUT_REASON);
+                        failureResult = RestfulResult.failure(AuthConstants.LOGGED_OUT, AuthConstants.LOGGED_OUT_REASON);
                     }
                 }
                 if (interceptPass) { // 实时刷新用户token在线时间

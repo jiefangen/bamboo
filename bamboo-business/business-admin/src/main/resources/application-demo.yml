@@ -1,6 +1,8 @@
+server:
+  port: 20001
 spring:
   datasource:
-    url: jdbc:mysql://centos-data.orb.local:3306/admin_system?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+    url: jdbc:mysql://198.19.249.243:3312/admin_system?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
     username: root
     password: P@ssw0rd123!
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -47,7 +49,7 @@ spring:
         reset-enable: false                                                    #是否启用重置按钮（禁用HTML中 Reset All按钮）
         login-username: admin                                                  #内置监控页面的登录页用户名
         login-password: 123456                                                 #内置监控页面的登录页密码
-        allow: centos-business.orb.local                                       #IP白名单没有配置或者为空，则允许所有访问
+        allow: bamboo-cloud-biz.orb.local                                      #IP白名单没有配置或者为空，则允许所有访问
         deny:                                                                  #IP黑名单若白名单也存在，则优先使用
       # Spring监控AOP切入点,配置多个英文逗号分隔
       aop-patterns: org.panda.business.admin.modules.*.service.repository

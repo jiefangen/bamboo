@@ -18,6 +18,12 @@
     </properties>
 
     <dependencies>
+        <!-- 技术框架核心组件依赖 -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-core</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
         <!-- 技术框架security安全框架支持 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
@@ -49,4 +55,25 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <!-- 构建不带版本号的jar包 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <executable>true</executable>
+                    <finalName>${artifactId}</finalName>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

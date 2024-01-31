@@ -34,7 +34,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Setter
-@ConfigurationProperties(prefix="swagger.config")
+@ConfigurationProperties(prefix="bamboo.swagger.config")
 @EnableSwagger2WebMvc
 @Configuration
 public class SwaggerConfig {
@@ -124,14 +124,6 @@ public class SwaggerConfig {
                 allEndpoints, basePath), shouldRegisterLinksMapping, null);
     }
 
-    /**
-     * shouldRegisterLinksMapping
-     *
-     * @param webEndpointProperties
-     * @param environment
-     * @param basePath
-     * @return
-     */
     private boolean shouldRegisterLinksMapping(WebEndpointProperties webEndpointProperties, Environment environment, String basePath) {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath) || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
     }

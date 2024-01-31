@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 /**
  * 配置登出成功处理器
  **/
-@Component("simpleUrlLogoutSuccessHandler")
+@Component
 public class LogoutAuthenticationSuccessHandler extends SimpleUrlLogoutSuccessHandler {
 
     @Autowired

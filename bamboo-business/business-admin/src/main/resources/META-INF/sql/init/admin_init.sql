@@ -3,7 +3,7 @@ insert into `sys_user` (`id`, `username`, `nickname`, `user_type`, `user_rank`, 
 (101, 'admin', 'Admin', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '男'),
 (102, 'system', 'System', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '男'),
 (103, 'actuator', 'Actuator', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '女'),
-(104, 'user', '木雨之舟', 'general', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '男'),
+(104, 'fangen', '木雨之舟', 'general', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '男'),
 (105, '李礼', 'LiLi', 'general', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '女'),
 (106, '介知礼', '知书达理', 'customer', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '女');
 
@@ -11,7 +11,7 @@ insert into `sys_role` (`id`, `role_name`, `role_code`, `description`) values
 (101, 'admin', 'ADMIN' ,'顶级管理员，有权查看本平台所有页面。'),
 (102, 'system', 'SYSTEM', '系统管理员，有权查看系统管理相关页面。'),
 (103, 'actuator', 'ACTUATOR' ,'监控管理员，有权查看系统监控相关页面。'),
-(104, 'fangen', 'USER', '一般用户，有权查看一般用户特定授权页面。'),
+(104, 'user', 'USER', '特性用户，有权查看用户特定授权页面。'),
 (105, 'general', 'GENERAL', '普通用户，有权查看特定授权页面。'),
 (106, 'customer', 'CUSTOMER', '访客，只能查看无权限管控页面。');
 
@@ -49,7 +49,7 @@ insert into `sys_role_menu` (`role_id`, `menu_id`) values
 insert into `sys_parameter` (`id`, `param_name`, `param_key`, `param_value`, `param_type`, `app_range`, `remark`, `creator`) values
 (101, 'admin系统-生成token签名密钥key', 'admin:app:tokenKey', 'FBQ8x8pMuvX' ,'internal', 'admin', '随机生成字符串，可定期更换', 'systemInit'),
 (102, 'admin系统-token失效时间间隔', 'admin:app:tokenInterval', '3600' ,'internal', 'admin', '时间间隔，单位秒', 'systemInit'),
-(103, 'admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**' ,'internal', 'admin', '匹配模式数组格式存储', 'systemInit'),
+(103, 'admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**,/common/**' ,'internal', 'admin', '匹配模式数组格式存储', 'systemInit'),
 (104, 'admin系统-同时在线用户限制', 'admin:user:onlineLimit', '3' ,'internal', 'admin', '统计限制在线和离线用户', 'systemInit'),
 (105, '用户管理-账号初始化密码', 'admin:user:initPassword', '123456' ,'internal', 'admin', '默认用户密码', 'systemInit');
 
@@ -78,7 +78,7 @@ insert into `sys_dictionary_data` (`id`, `dict_id`, `dict_label`, `dict_value`, 
 (108, 103, '顶级管理员' ,'ADMIN', 'Y', '有权查看本平台所有页面', 0, 'systemInit'),
 (109, 103, '系统管理员' ,'SYSTEM', 'N', '有权查看系统管理相关页面', 1, 'systemInit'),
 (110, 103, '监控管理员' ,'ACTUATOR', 'N', '有权查看系统监控相关页面', 2, 'systemInit'),
-(111, 103, '一般用户' ,'USER', 'N', '有权查看一般用户特定授权页面', 3, 'systemInit'),
+(111, 103, '特性用户' ,'USER', 'N', '有权查看一般用户特定授权页面', 3, 'systemInit'),
 (112, 103, '普通用户' ,'GENERAL', 'N', '有权查看特定授权页面', 4, 'systemInit'),
 (113, 103, '访客' ,'CUSTOMER', 'N', '只能查看无权限管控页面', 5, 'systemInit'),
 

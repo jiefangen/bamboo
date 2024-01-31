@@ -53,4 +53,5 @@ public enum RoleCode {
     public static boolean isSystemRole(String roleCode) {
         return getSysRoles().contains(roleCode);
     }
+
 }

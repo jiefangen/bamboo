@@ -1,10 +1,10 @@
-package org.panda.business.admin.infrastructure.security.business;
+package org.panda.business.admin.infrastructure.security.authorization;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.bamboo.common.exception.business.param.RequiredParamException;
-import org.panda.business.admin.common.constant.SystemConstants;
+import org.panda.tech.core.exception.business.param.RequiredParamException;
+import org.panda.business.admin.common.constant.AuthConstants;
 import org.panda.business.admin.modules.system.service.SysPermissionService;
 import org.panda.business.admin.modules.system.service.SysUserService;
 import org.panda.business.admin.modules.system.service.dto.SysUserDto;
@@ -48,7 +48,7 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
         // 用户信息查询判断拦截
         SysUserDto sysUserDto = userService.getUserAndRoles(username);
         if (sysUserDto == null || sysUserDto.getUser() == null) {
-            throw new UsernameNotFoundException(SystemConstants.USERNAME_NOT_EXIST);
+            throw new UsernameNotFoundException(AuthConstants.USERNAME_NOT_EXIST);
         }
         SysUser sysUser = sysUserDto.getUser();
         // 组装用户特性细节

@@ -25,7 +25,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 
     List<SysRole> findRoles();
 
-    SysRole findByRoleName(@Param("roleName") String roleName);
+    SysRole findByRoleNameCode(@Param("roleName") String roleName, @Param("roleCode") String roleCode);
 
     int updateRole(@Param("roleId") Integer roleId, @Param("role") SysRoleDto role);
 

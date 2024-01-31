@@ -1,4 +1,4 @@
-package org.panda.business.admin.modules;
+package org.panda.business.admin.modules.home;
 
 import io.swagger.annotations.Api;
 import org.panda.business.admin.common.constant.Authority;
@@ -7,8 +7,8 @@ import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.panda.tech.security.config.annotation.ConfigPermission;
+import org.panda.tech.security.web.endpoint.AuthenticationControllerSupport;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @Api(tags = "权限验证模版控制器")
 @RestController
-@RequestMapping("/authority")
-public class AuthorityController {
+public class AuthenticationController extends AuthenticationControllerSupport {
     /**
      * 匿名即可访问
      */
@@ -62,8 +61,7 @@ public class AuthorityController {
     @GetMapping("/accessSystemPer")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER),
-            @ConfigAuthority(permission = Authority.ROLE_CUSTOMER)
+            @ConfigAuthority(permission = Authority.ROLE_USER)
     })
     public RestfulResult accessSystemPer() {
         return RestfulResult.success(true);

@@ -1,10 +1,11 @@
 server:
-  port: 10001
+  port: 30001
 spring:
+  # 数据库配置
   datasource:
-    url: jdbc:mysql://localhost:3306/admin_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
+    url: jdbc:mysql://47.116.33.28:3306/admin_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
-    password: root123456
+    password: P@ssw0rd123!
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -48,8 +49,8 @@ spring:
         url-pattern: '/druid/*'                                                #内置监控页面的访问地址
         reset-enable: false                                                    #是否启用重置按钮（禁用HTML中 Reset All按钮）
         login-username: admin                                                  #内置监控页面的登录页用户名
-        login-password: 123456                                                 #内置监控页面的登录页密码
-        allow: 127.0.0.1                                                       #IP白名单没有配置或者为空，则允许所有访问
+        login-password: jfg123456/                                             #内置监控页面的登录页密码
+        allow:                                                                 #IP白名单没有配置或者为空，则允许所有访问
         deny:                                                                  #IP黑名单若白名单也存在，则优先使用
       # Spring监控AOP切入点,配置多个英文逗号分隔
       aop-patterns: org.panda.business.admin.modules.*.service.repository
@@ -68,13 +69,13 @@ spring:
             delete-allow: true                                                 #允许删除数据操作
             multi-statement-allow: true                                        #允许一次执行多条sql
 
-# Actuator监控配置,开启监控所有端点
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: always
-
+# 日志格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符
+pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n"
+contextName: business-admin
+logging:
+  config: classpath:config/logback-spring.xml
+  pattern:
+    console: ${pattern}
+    file: ${pattern}
+  file:
+    path: /home/${contextName}/logs

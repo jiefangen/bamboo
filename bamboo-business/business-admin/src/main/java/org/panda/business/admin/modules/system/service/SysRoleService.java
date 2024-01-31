@@ -1,7 +1,7 @@
 package org.panda.business.admin.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.business.admin.modules.system.service.dto.SysRoleDto;
 import org.panda.business.admin.modules.system.service.entity.SysRole;
 

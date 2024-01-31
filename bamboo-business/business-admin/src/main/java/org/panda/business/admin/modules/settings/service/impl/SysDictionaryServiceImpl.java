@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
-import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.modules.settings.api.param.DictionaryParam;
 import org.panda.business.admin.modules.settings.api.param.DictionaryQueryParam;

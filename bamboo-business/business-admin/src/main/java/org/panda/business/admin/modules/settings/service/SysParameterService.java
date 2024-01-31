@@ -1,7 +1,7 @@
 package org.panda.business.admin.modules.settings.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.panda.bamboo.common.exception.business.BusinessException;
+import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.business.admin.modules.settings.api.param.ParameterParam;
 import org.panda.business.admin.modules.settings.api.param.ParameterQueryParam;
 import org.panda.business.admin.modules.settings.service.entity.SysParameter;

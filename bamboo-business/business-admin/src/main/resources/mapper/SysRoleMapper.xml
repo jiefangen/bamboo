@@ -35,11 +35,12 @@
         FROM sys_role r
     </select>
 
-    <select id="findByRoleName" resultMap="baseRoleMap">
+    <select id="findByRoleNameCode" resultMap="baseRoleMap">
         SELECT
         id role_id,
         <include refid="roleColumns"/>
         FROM sys_role r WHERE role_name = #{roleName,jdbcType=VARCHAR}
+        OR role_code = #{roleCode,jdbcType=VARCHAR}
     </select>
 
     <update id="updateRole">
