@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: document-service
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+server:
+  port: 11001
+
+# 日志组件配置
+logging:
+  level:
+    org.panda.ms.doc: debug

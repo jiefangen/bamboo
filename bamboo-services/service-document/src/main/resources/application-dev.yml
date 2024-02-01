@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:7847
+        namespace: 877bab8f-8daf-4959-b684-8fb3088ef049
+        group: MS_GROUP
+      discovery:
+        server-addr: 127.0.0.1:7847
+        namespace: 877bab8f-8daf-4959-b684-8fb3088ef049
+        group: MS_GROUP
+  config:
+    import:
+      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yml?refreshEnabled=true

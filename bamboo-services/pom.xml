@@ -7,9 +7,9 @@
     <artifactId>bamboo-services</artifactId>
     <version>1.0.RELEASE</version>
     <packaging>pom</packaging>
-    <description>微服务架构服务提供层</description>
+    <description>分布式架构服务提供层</description>
     <modules>
-        <module>service-doc</module>
+        <module>service-document</module>
         <module>service-notice</module>
         <module>service-payment</module>
     </modules>
