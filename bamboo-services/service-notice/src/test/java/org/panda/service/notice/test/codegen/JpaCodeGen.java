@@ -1,7 +1,7 @@
 package org.panda.service.notice.test.codegen;
 
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.bamboo.core.context.ApplicationContextBean;
+import org.panda.bamboo.core.context.SpringContextHolder;
 import org.panda.service.notice.test.config.JpaCodegenProperties;
 import org.panda.tech.data.jpa.codegen.JpaCodeGenConfigSupport;
 import org.panda.tech.data.jpa.codegen.JpaEntityGenerator;
@@ -13,7 +13,7 @@ public class JpaCodeGen extends JpaCodeGenConfigSupport {
 
     private void initConfig() {
         if (jpaCodegenProperties == null) {
-            jpaCodegenProperties = ApplicationContextBean.getBean(JpaCodegenProperties.class);
+            jpaCodegenProperties = SpringContextHolder.getBean(JpaCodegenProperties.class);
         }
     }
 

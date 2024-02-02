@@ -1,14 +1,12 @@
 spring:
   application:
-    name: notice
+    name: notice-service
   profiles:
-    active: local
+    active: dev
   messages:
     basename: message/error/notice-error,message/info/notice-info
 server:
   port: 11002
-  servlet:
-    context-path: /service-notice
 
 logging:
   level:

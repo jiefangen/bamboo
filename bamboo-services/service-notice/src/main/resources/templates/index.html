@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${appName}"></title>
+    <title th:text="${appDesc}"></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="container">
-    <h1><span th:text="${appName}"></span></h1>
+    <h1><span th:text="${appDesc}"></span></h1>
     <h3>
         <p>
             <span th:text="'Env【' + ${env} + '】'" ></span>
@@ -39,7 +39,7 @@
         <p><span th:text="'Visitor Addr【' + ${remoteAddress} + '】'" ></span></p>
     </h3>
     <p>If you see this page, the service has been successfully started.</p>
-    <p><span th:text="'Thank you for using ' + ${name} + '.'"></span></p>
+    <p><span th:text="'Thank you for using ' + ${appName} + '.'"></span></p>
 </div>
 </body>
 </html>

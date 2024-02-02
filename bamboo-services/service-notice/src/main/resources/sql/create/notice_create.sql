@@ -1,4 +1,4 @@
-/* service_notice通知服务表创建脚本 */
+/* notice通知服务表创建脚本 */
 DROP DATABASE IF EXISTS `service_notice`;
 CREATE DATABASE IF NOT EXISTS `service_notice` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `service_notice`;

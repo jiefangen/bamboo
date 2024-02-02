@@ -2,12 +2,12 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 198.19.249.35:7847
-        namespace: f2b00b45-b5a5-46e4-a2ad-67e83b2058b7
+        server-addr: 127.0.0.1:7847
+        namespace: 877bab8f-8daf-4959-b684-8fb3088ef049
         group: MS_GROUP
       discovery:
-        server-addr: 198.19.249.35:7847
-        namespace: f2b00b45-b5a5-46e4-a2ad-67e83b2058b7
+        server-addr: 127.0.0.1:7847
+        namespace: 877bab8f-8daf-4959-b684-8fb3088ef049
         group: BAMBOO_GROUP
   config:
     import:

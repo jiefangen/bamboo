@@ -2,7 +2,7 @@ package org.panda.service.notice.core.domain.single.email.provider;
 
 import org.panda.bamboo.common.parser.FreeMarkerTemplateParser;
 import org.panda.bamboo.common.parser.TemplateParser;
-import org.panda.tech.core.util.message.MessageResolver;
+import org.panda.tech.core.i18n.message.MessageResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Locale;

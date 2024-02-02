@@ -3,7 +3,7 @@ package org.panda.service.notice.core.domain.single.email.provider;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.parser.FreeMarkerTemplateParser;
 import org.panda.bamboo.common.parser.TemplateParser;
-import org.panda.tech.core.web.util.NetUtil;
+import org.panda.tech.core.web.util.URLConnUtil;
 
 import java.util.Locale;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class UrlEmailProvider extends AbstractEmailProvider {
     @Override
     public String getContent(Map<String, Object> params, Locale locale) {
         try {
-            return NetUtil.requestByPost(this.url, params, null);
+            return URLConnUtil.requestByPost(this.url, params, null);
         } catch (Exception e) {
             this.logger.error(e.getMessage(), e);
         }

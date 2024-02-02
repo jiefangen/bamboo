@@ -1,7 +1,7 @@
 package org.panda.service.notice.core.domain.single.sms.content;
 
 import org.panda.bamboo.common.constant.Profiles;
-import org.panda.bamboo.core.context.ApplicationContextBean;
+import org.panda.bamboo.core.context.SpringContextHolder;
 
 /**
  * 抽象的短信内容发送器
@@ -21,7 +21,7 @@ public abstract class AbstractSmsContentSender implements SmsContentSender {
 
     @Override
     public int getIntervalSeconds() {
-        String profile = ApplicationContextBean.getActiveProfile();
+        String profile = SpringContextHolder.getActiveProfile();
         switch (profile) {
             case Profiles.JUNIT:
             case Profiles.LOCAL:

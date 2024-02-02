@@ -1,12 +1,12 @@
 spring:
   application:
-    name: notice
+    name: notice-service
   profiles:
     active: junit
 server:
   port: 11102
   servlet:
-    context-path: /service-notice
+    context-path: /notice-service
     encoding:
       charset: UTF-8
       force: true

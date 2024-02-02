@@ -6,7 +6,7 @@ import org.panda.bamboo.core.beans.ContextInitializedBean;
 import org.panda.service.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.service.notice.core.domain.single.sms.content.SmsContentProvider;
 import org.panda.service.notice.core.domain.single.sms.content.SmsContentSender;
-import org.panda.tech.core.util.message.MessageResolver;
+import org.panda.tech.core.i18n.message.MessageResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;

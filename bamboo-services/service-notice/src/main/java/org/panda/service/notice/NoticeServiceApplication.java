@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Import;
  *
  * @author fangen
  */
-@SpringBootApplication
 @Import({CoreModule.class})
+@SpringBootApplication
 public class NoticeServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(NoticeServiceApplication.class, args);
