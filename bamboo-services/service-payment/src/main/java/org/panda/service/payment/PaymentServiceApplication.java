@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  *
  * @author fangen
  */
-@SpringBootApplication
 @Import({CoreModule.class})
 @EnableTransactionManagement
+@SpringBootApplication
 public class PaymentServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(PaymentServiceApplication.class, args);

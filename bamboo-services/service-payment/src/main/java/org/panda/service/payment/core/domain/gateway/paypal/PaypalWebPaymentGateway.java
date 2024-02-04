@@ -5,7 +5,6 @@ import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
 import org.panda.service.payment.core.domain.model.PaymentDefinition;
-import org.panda.ms.payment.core.domain.model.*;
 import org.panda.service.payment.core.domain.model.PaymentRequest;
 import org.panda.service.payment.core.domain.model.PaymentRequestMode;
 import org.panda.service.payment.core.domain.model.PaymentResult;

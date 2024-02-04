@@ -1,6 +1,7 @@
 package org.panda.tech.data.redis.lock;
 
 import org.panda.bamboo.common.util.LogUtil;
+import org.panda.tech.data.redis.RedisConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.redis.util.RedisLockRegistry;
 
@@ -12,9 +13,6 @@ import java.util.concurrent.locks.Lock;
  * 适用于单节点或主从复制环境
  **/
 public class RedisDistributedLock {
-
-    // 默认一分钟后失效
-    private static final long DEFAULT_EXPIRE_UNUSED = 60000L;
 
     @Autowired
     private RedisLockRegistry redisLockRegistry;
@@ -56,7 +54,7 @@ public class RedisDistributedLock {
         try {
             Lock lock = obtainLock(lockKey);
             lock.unlock();
-            redisLockRegistry.expireUnusedOlderThan(DEFAULT_EXPIRE_UNUSED);
+            redisLockRegistry.expireUnusedOlderThan(RedisConstants.DEFAULT_EXPIRE_UNUSED);
         } catch (Exception e) {
             LogUtil.error(getClass(), "Distributed lock [{}] release exception {}", lockKey, e);
         }

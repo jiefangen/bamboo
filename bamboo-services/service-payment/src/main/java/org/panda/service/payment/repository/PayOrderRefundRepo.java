@@ -1,7 +1,7 @@
 package org.panda.service.payment.repository;
 
-import org.panda.service.payment.model.entity.PayOrderRefund;
 import org.springframework.data.jpa.repository.support.JpaRepositoryImplementation;
+import org.panda.service.payment.model.entity.PayOrderRefund;
 
 /**
  * @author bamboo-code-generator

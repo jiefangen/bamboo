@@ -1,14 +1,25 @@
+server:
+  port: 21002
+
 spring:
-  cloud:
-    nacos:
-      config:
-        server-addr: 198.19.249.35:7847
-        namespace: f2b00b45-b5a5-46e4-a2ad-67e83b2058b7
-        group: MS_GROUP
-      discovery:
-        server-addr: 198.19.249.35:7847
-        namespace: f2b00b45-b5a5-46e4-a2ad-67e83b2058b7
-        group: BAMBOO_GROUP
-  config:
-    import:
-      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yml?refreshEnabled=true
+  datasource:
+    url: jdbc:mysql://198.19.249.243:3312/ms_notice?useUnicode=true&characterEncoding=utf-8&useSSL=true
+    username: root
+    password: P@ssw0rd123!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      pool-name: HikariCP
+      maximum-pool-size: 10 # 最大连接数
+      connection-timeout: 30000 # 连接超时（毫秒）
+      idle-timeout: 60000 # 空闲的连接的生命时长（毫秒）
+      max-lifetime: 60000 # 连接的生命时长（毫秒）
+      validation-timeout: 3000 # 验证连接有效性（毫秒）
+    jpa:
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+
+logging:
+  level:
+    org.panda.ms.notice: info

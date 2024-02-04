@@ -7,8 +7,6 @@ import org.panda.service.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.service.notice.model.param.CustomSmsParam;
 import org.panda.service.notice.model.param.SmsParam;
 import org.panda.service.notice.service.SmsService;
-import org.panda.support.cloud.core.security.model.PerConstants;
-import org.panda.tech.core.config.annotation.GrantAuthority;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,7 +43,6 @@ public class SmsController {
      * 使用自定义内容发送邮件
      */
     @PostMapping("/custom/send")
-    @GrantAuthority(permission = PerConstants.ROLE_ACCOUNT)
     public RestfulResult customSend(@RequestBody @Valid CustomSmsParam smsParam) {
         String result = smsService.sendCustomSms(smsParam);
         if (Commons.RESULT_FAILURE.equals(result)) {
