@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        import-check:
+          enabled: false
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3308/security_auth?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: P@ssw0rd123!
+    driver-class-name: com.mysql.cj.jdbc.Driver

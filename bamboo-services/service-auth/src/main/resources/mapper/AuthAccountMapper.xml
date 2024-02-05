@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.panda.service.auth.repository.AuthAccountMapper">
+    <resultMap id="baseAccountMap" type="org.panda.service.auth.model.dto.AuthAccountDto">
+        <id column="account_id" property="accountId" jdbcType="INTEGER"/>
+        <association property="account" javaType="org.panda.service.auth.model.entity.AuthAccount">
+            <id column="account_id" property="id" jdbcType="INTEGER"/>
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+            <result column="password" property="password" jdbcType="VARCHAR"/>
+            <result column="merchant_num" property="merchantNum" jdbcType="VARCHAR"/>
+            <result column="account_type" property="accountType" jdbcType="VARCHAR"/>
+            <result column="account_rank" property="accountRank" jdbcType="VARCHAR"/>
+            <result column="email" property="email" jdbcType="VARCHAR"/>
+            <result column="enabled" property="enabled" jdbcType="BOOLEAN"/>
+            <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        </association>
+        <!-- 关联属性Roles -->
+        <collection property="roles" ofType="org.panda.service.auth.model.entity.AuthRole">
+            <id column="role_id" property="id" jdbcType="INTEGER"/>
+            <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+            <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
+            <result column="description" property="description" jdbcType="VARCHAR"/>
+            <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+            <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        </collection>
+    </resultMap>
+
+    <sql id="accountColumns"> u.username, u.password, u.merchant_num, u.account_type, u.account_rank, u.enabled, u.email, u.create_time, u.update_time </sql>
+
+    <sql id="roleColumns"> r.role_name, r.role_code, r.description, r.create_time, r.update_time </sql>
+
+    <select id="findAccountAndRoles" resultMap="baseAccountMap">
+        select
+        u.id account_id, <include refid="accountColumns"/>,
+        r.id role_id, <include refid="roleColumns"/>
+        from auth_account u
+        left join auth_account_role ur on u.id = ur.account_id
+        left join auth_role r on ur.role_id = r.id
+        where u.username = #{account.username,jdbcType=VARCHAR}
+    </select>
+</mapper>

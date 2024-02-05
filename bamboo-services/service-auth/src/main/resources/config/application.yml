@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: auth-service
+  profiles:
+    active: dev
+server:
+  port: 11006
+  servlet:
+    context-path: /auth
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    org.panda.ms.auth: debug
