@@ -4,7 +4,6 @@ import org.apache.http.HttpStatus;
 
 import java.math.BigDecimal;
 
-
 /**
  * 支付响应结果
  */

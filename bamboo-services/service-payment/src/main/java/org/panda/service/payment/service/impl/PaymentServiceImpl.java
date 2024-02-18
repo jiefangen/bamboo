@@ -44,7 +44,7 @@ public class PaymentServiceImpl extends PayGatewaySupport implements PaymentServ
         // 支付订单创建
         PayOrder order = createOrder(gatewayName, definition);
         // 支付请求结果回填更新
-        PaymentRequest paymentRequest = super.prepare(gatewayName,definition);
+        PaymentRequest paymentRequest = super.prepare(gatewayName, definition);
         if (paymentRequest != null && paymentRequest.getParams() != null) {
             Map<String, String> params = paymentRequest.getParams();
             order.setChannelFlowNo(params.get("channelFlowNo"));
