@@ -7,5 +7,4 @@ import org.springframework.stereotype.Controller;
 @Api(tags = "匿名服务问候语")
 @Controller
 public class HomeController extends HomeControllerSupport {
-
 }

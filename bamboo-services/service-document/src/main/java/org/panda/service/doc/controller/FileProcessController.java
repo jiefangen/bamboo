@@ -23,7 +23,7 @@ public class FileProcessController {
     private FileProcessService fileProcessService;
 
     @PostMapping(value = "/upload/import")
-    public RestfulResult uploadImport(@RequestBody DocFileParam docFileParam) {
+    public RestfulResult<?> uploadImport(@RequestBody DocFileParam docFileParam) {
         byte[] decodedBytes = Base64.getDecoder().decode(docFileParam.getFileBase64());
         InputStream inputStream = new ByteArrayInputStream(decodedBytes);
         DocFile docFile = new DocFile();
