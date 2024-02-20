@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("/info")
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.QUERY, intoStorage = false)
-    public RestfulResult info(HttpServletRequest request) {
+    public RestfulResult<?> info(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserVO userInfo = userService.getUserByToken(token);
         if (userInfo == null) {
@@ -51,7 +51,7 @@ public class UserController {
     @PostMapping("/page")
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.QUERY)
-    public RestfulResult page(@RequestBody UserQueryParam queryParam) {
+    public RestfulResult<?> page(@RequestBody UserQueryParam queryParam) {
         QueryResult<UserVO> userPage = userService.getUserByPage(queryParam);
         return RestfulResult.success(userPage);
     }
@@ -63,7 +63,7 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_add")
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
-    public RestfulResult add(@RequestBody @Valid AddUserParam userParam) {
+    public RestfulResult<?> add(@RequestBody @Valid AddUserParam userParam) {
         String result = userService.addUser(userParam);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
@@ -78,7 +78,7 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_edit")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult edit(@RequestBody SysUser user) {
+    public RestfulResult<?> edit(@RequestBody SysUser user) {
         boolean result = userService.updateUser(user);
         if (result) {
             return RestfulResult.success();
@@ -89,7 +89,7 @@ public class UserController {
     @PutMapping("/updateAccount")
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult updateAccount(@RequestBody @Valid UpdateAccountParam updateAccountParam) {
+    public RestfulResult<?> updateAccount(@RequestBody @Valid UpdateAccountParam updateAccountParam) {
         boolean result = userService.updateAccount(updateAccountParam);
         if (result) {
             return RestfulResult.success();
@@ -100,7 +100,7 @@ public class UserController {
     @PostMapping("/updatePassword")
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult updatePassword(@RequestBody @Valid UpdatePassParam updatePassParam) {
+    public RestfulResult<?> updatePassword(@RequestBody @Valid UpdatePassParam updatePassParam) {
         String result = userService.updatePassword(updatePassParam);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
@@ -116,7 +116,7 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_resetPassword")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult resetPassword(@RequestBody @Valid ResetPassParam resetPassParam) {
+    public RestfulResult<?> resetPassword(@RequestBody @Valid ResetPassParam resetPassParam) {
         String result = userService.resetPassword(resetPassParam);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
@@ -132,7 +132,7 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_del")
     })
     @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
-    public RestfulResult del(@PathVariable String username) {
+    public RestfulResult<?> del(@PathVariable String username) {
         try {
             boolean result = userService.deleteUser(username);
             if (result) {
@@ -151,7 +151,7 @@ public class UserController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updateUserRole")
     })
     @WebOperationLog(actionType = ActionType.AUTH, intoStorage = true)
-    public RestfulResult updateUserRole(@RequestBody @Valid UpdateUserRoleParam userRoleParam) {
+    public RestfulResult<?> updateUserRole(@RequestBody @Valid UpdateUserRoleParam userRoleParam) {
         userService.updateUserRole(userRoleParam);
         return RestfulResult.success();
     }

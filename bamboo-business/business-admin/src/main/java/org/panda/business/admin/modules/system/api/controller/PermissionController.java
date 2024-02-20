@@ -30,14 +30,14 @@ public class PermissionController {
     @PostMapping("/page")
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.QUERY)
-    public RestfulResult page(@RequestBody PermissionQueryParam queryParam) {
+    public RestfulResult<?> page(@RequestBody PermissionQueryParam queryParam) {
         QueryResult<SysPermission> permissionPage = permissionService.getPermissionsByPage(queryParam);
         return RestfulResult.success(permissionPage);
     }
 
     @GetMapping("/getPermission")
     @ConfigPermission
-    public RestfulResult getPermission(Integer roleId){
+    public RestfulResult<?> getPermission(Integer roleId){
         List<SysPermission> permissionList = permissionService.getPermissions(roleId);
         return RestfulResult.success(permissionList);
     }

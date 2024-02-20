@@ -8,6 +8,5 @@ import org.panda.tech.data.model.query.spec.Querying;
  * @author fangen
  */
 public class QueryParam extends Querying implements QueryModel {
-
     private static final long serialVersionUID = 8665534842502849824L;
 }

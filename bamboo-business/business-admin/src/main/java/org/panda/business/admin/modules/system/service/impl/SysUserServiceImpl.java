@@ -115,8 +115,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 userVOList.add(userVO);
             });
         }
-        QueryResult<UserVO> queryResult = QueryPageHelper.convertQueryResult(userVOList, userPage);
-        return queryResult;
+        return QueryPageHelper.convertQueryResult(userVOList, userPage);
     }
 
     @Override

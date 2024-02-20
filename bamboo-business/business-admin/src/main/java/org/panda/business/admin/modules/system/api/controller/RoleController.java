@@ -33,7 +33,7 @@ public class RoleController {
 
     @GetMapping("/getRoles")
     @ConfigPermission
-    public RestfulResult getRoles() {
+    public RestfulResult<?> getRoles() {
         List<SysRoleDto> roles = roleService.getRoles();
         return RestfulResult.success(roles);
     }
@@ -44,7 +44,7 @@ public class RoleController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_role_add")
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
-    public RestfulResult add(@RequestBody SysRole role) {
+    public RestfulResult<?> add(@RequestBody SysRole role) {
         String result = roleService.addRole(role);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
@@ -58,7 +58,7 @@ public class RoleController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_role_update")
     })
     @WebOperationLog(actionType = ActionType.AUTH, intoStorage = true)
-    public RestfulResult updateRoleMenu(@PathVariable Integer roleId, @RequestBody SysRoleDto roleDTO) {
+    public RestfulResult<?> updateRoleMenu(@PathVariable Integer roleId, @RequestBody SysRoleDto roleDTO) {
         roleService.updateRoleMenu(roleId, roleDTO);
         return RestfulResult.success();
     }
@@ -69,7 +69,7 @@ public class RoleController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_role_del")
     })
     @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
-    public RestfulResult del(@PathVariable Integer roleId) {
+    public RestfulResult<?> del(@PathVariable Integer roleId) {
         try {
             int result = roleService.deleteRole(roleId);
             if (result < 1) {

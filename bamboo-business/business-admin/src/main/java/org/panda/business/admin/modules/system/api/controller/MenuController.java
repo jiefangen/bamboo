@@ -34,21 +34,21 @@ public class MenuController {
 
     @GetMapping("/getRoutes")
     @ConfigPermission
-    public RestfulResult getRoutes() {
+    public RestfulResult<?> getRoutes() {
         List<MenuVO> routes = menuService.getRoutes();
         return RestfulResult.success(routes);
     }
 
     @GetMapping("/getMenus")
     @ConfigPermission
-    public RestfulResult getMenus(){
+    public RestfulResult<?> getMenus(){
         List<SysMenuDto> routes = menuService.getMenus();
         return RestfulResult.success(routes);
     }
 
     @GetMapping("/getChildKeys")
     @ConfigPermission
-    public RestfulResult getChildKeys(Integer menuId){
+    public RestfulResult<?> getChildKeys(Integer menuId){
         List<Integer> childKeys = menuService.getChildKeys(menuId);
         Collections.reverse(childKeys);
         return RestfulResult.success(childKeys);
@@ -60,7 +60,7 @@ public class MenuController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_menu_add")
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
-    public RestfulResult add(@RequestBody SysMenu menu){
+    public RestfulResult<?> add(@RequestBody SysMenu menu){
         menuService.addMenu(menu);
         return RestfulResult.success();
     }
@@ -71,7 +71,7 @@ public class MenuController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_menu_update")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult update(@RequestBody SysMenu menu){
+    public RestfulResult<?> update(@RequestBody SysMenu menu){
         menuService.updateMenu(menu);
         return RestfulResult.success();
     }
@@ -82,7 +82,7 @@ public class MenuController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_menu_del")
     })
     @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
-    public RestfulResult del(@PathVariable Integer menuId){
+    public RestfulResult<?> del(@PathVariable Integer menuId){
         try {
             int result = menuService.deleteMenu(menuId);
             if (result < 1) {

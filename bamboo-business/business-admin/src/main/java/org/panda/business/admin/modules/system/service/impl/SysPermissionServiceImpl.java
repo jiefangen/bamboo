@@ -62,7 +62,6 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         }
         queryWrapper.orderByAsc(SysPermission::getId);
         IPage<SysPermission> actionLogPage = this.page(page, queryWrapper);
-        QueryResult<SysPermission> queryResult = QueryPageHelper.convertQueryResult(actionLogPage);
-        return queryResult;
+        return QueryPageHelper.convertQueryResult(actionLogPage);
     }
 }
