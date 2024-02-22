@@ -9,8 +9,10 @@ spring:
       max-request-size: 1000MB
 server:
   port: 11001
+  servlet:
+    context-path: /document
 
 # 日志组件配置
 logging:
   level:
-    org.panda.ms.doc: debug
+    org.panda.service.doc: debug
