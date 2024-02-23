@@ -4,7 +4,7 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.DocExceptionCodes;
 import org.panda.service.doc.common.util.DocUtil;
-import org.panda.service.doc.core.DocProcessSupport;
+import org.panda.service.doc.core.DocumentFactoryProducer;
 import org.panda.service.doc.core.domain.document.DocModel;
 import org.panda.service.doc.core.domain.factory.excel.Excel;
 import org.panda.service.doc.core.domain.factory.pdf.Pdf;
@@ -26,15 +26,33 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class FileProcessServiceImpl extends DocProcessSupport implements FileProcessService {
+public class FileProcessServiceImpl implements FileProcessService {
 
-    private final Excel excelDoc = super.getExcelDoc();
-    private final Word wordDoc = super.getWordDoc();
-    private final Ppt pptDoc = super.getPptDoc();
-    private final Pdf pdfDoc = super.getPdfDoc();
+    private final Excel excelDoc = DocumentFactoryProducer.getExcelDoc();
+    private final Word wordDoc = DocumentFactoryProducer.getWordDoc();
+    private final Ppt pptDoc = DocumentFactoryProducer.getPptDoc();
+    private final Pdf pdfDoc = DocumentFactoryProducer.getPdfDoc();
 
     @Autowired
     private DocFileRepo docFileRepo;
+
+    private Object readDocument(InputStream inputStream, DocFile docFile) {
+        String fileType = docFile.getFileType();
+        if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
+            docFile.setCategory(DocConstants.EXCEL);
+            return excelDoc.read(inputStream, fileType);
+        } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
+            docFile.setCategory(DocConstants.WORD);
+            return wordDoc.read(inputStream, fileType);
+        } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(fileType) || DocConstants.PPT_PPT.equalsIgnoreCase(fileType)) {
+            docFile.setCategory(DocConstants.PPT);
+            return pptDoc.read(inputStream, fileType);
+        } else if (DocConstants.PDF.equalsIgnoreCase(fileType)) {
+            docFile.setCategory(DocConstants.PDF);
+            return pdfDoc.read(inputStream, fileType);
+        }
+        return new Object();
+    }
 
     @Override
     public Object importFle(DocFile docFile, InputStream inputStream) {
@@ -43,24 +61,19 @@ public class FileProcessServiceImpl extends DocProcessSupport implements FilePro
             return DocUtil.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
         Md5Encryptor encryptor = new Md5Encryptor();
-        docFile.setFileMd5(encryptor.encrypt(docFile));
-        Object content;
-        if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
-            docFile.setCategory(DocConstants.EXCEL);
-            content = excelDoc.read(inputStream, docFile.getFileType());
-        } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
-            docFile.setCategory(DocConstants.WORD);
-            content = wordDoc.read(inputStream, docFile.getFileType());
-        } else if (DocConstants.PPT_PPTX.equalsIgnoreCase(fileType) || DocConstants.PPT_PPT.equalsIgnoreCase(fileType)) {
-            docFile.setCategory(DocConstants.PPT);
-            content = pptDoc.read(inputStream, docFile.getFileType());
-        } else {
-            docFile.setCategory(DocConstants.PDF);
-            content = pdfDoc.read(inputStream, docFile.getFileType());
+        String fileMd5 = encryptor.encrypt(docFile);
+        // 文件上传MD5验证
+        DocFile docFileParams = new DocFile();
+        docFileParams.setFileMd5(fileMd5);
+        Example<DocFile> example = Example.of(docFileParams);
+        if (docFileRepo.count(example) > 0) {
+            return "The file already exists";
         }
+        docFile.setFileMd5(fileMd5);
+        Object content = readDocument(inputStream, docFile);
         docFile.setContent(JsonUtil.toJson(content));
         // 数据保存入库
-        DocFile file = this.save(docFile);
+        DocFile file = save(docFile);
         return file.getId();
     }
 

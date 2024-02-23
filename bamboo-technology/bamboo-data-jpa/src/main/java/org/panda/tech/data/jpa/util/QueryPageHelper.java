@@ -21,8 +21,7 @@ public class QueryPageHelper {
      * @param <T> 结果数据类型
      */
     public static <T> QueryResult<T> convertQueryResult(List<T> records, Pageable pageable) {
-        QueryResult<T> queryResult = QueryResult.of(records, pageable.getPageSize(), pageable.getPageNumber(), (long) records.size());
-        return queryResult;
+        return  QueryResult.of(records, pageable.getPageSize(), pageable.getPageNumber(), (long) records.size());
     }
 
     /**
@@ -33,7 +32,6 @@ public class QueryPageHelper {
      * @param <T> 结果数据类型
      */
     public static <T> QueryResult<T> convertQueryResult(Page<T> page) {
-        QueryResult<T> queryResult = QueryResult.of(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements());
-        return queryResult;
+        return QueryResult.of(page.getContent(), page.getSize(), page.getNumber(), page.getTotalElements());
     }
 }

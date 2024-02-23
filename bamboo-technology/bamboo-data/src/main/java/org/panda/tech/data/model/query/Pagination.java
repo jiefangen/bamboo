@@ -13,7 +13,6 @@ import java.util.List;
  */
 @Getter
 public class Pagination implements Serializable {
-
     private static final long serialVersionUID = -4377015523880130351L;
 
     private int pageNo = 1;

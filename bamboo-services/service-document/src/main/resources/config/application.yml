@@ -12,7 +12,6 @@ server:
   servlet:
     context-path: /document
 
-# 日志组件配置
 logging:
   level:
     org.panda.service.doc: debug

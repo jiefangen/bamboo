@@ -33,9 +33,9 @@ public class DocFileServiceImpl implements DocFileService {
 
     @Override
     public QueryResult<DocFile> getDocFileByPage(DocFileQueryParam queryParam) {
-        Pageable pageable = PageRequest.of(queryParam.getPageNo(), queryParam.getPageSize(),
+        queryParam.setPageSizeDefault(10);
+        Pageable pageable = PageRequest.of(queryParam.getPageNo() - 1, queryParam.getPageSize(),
                 Sort.by("createTime").descending());
-
         // 构建查询条件
         Specification<DocFile> spec = (root, query, criteriaBuilder) -> {
             List<Predicate> predicateList = new ArrayList<>();
@@ -46,8 +46,7 @@ public class DocFileServiceImpl implements DocFileService {
             return query.where(predicateList.toArray(new Predicate[predicateList.size()])).getRestriction();
         };
         Page<DocFile> docFilePage = docFileRepo.findAll(spec, pageable);
-        QueryResult<DocFile> queryResult = QueryPageHelper.convertQueryResult(docFilePage);
-        return queryResult;
+        return QueryPageHelper.convertQueryResult(docFilePage);
     }
 
     @Override

@@ -97,8 +97,7 @@ public class ExcelDoc implements Excel {
                     return cell.getDateCellValue().toString();
                 } else {
                     DecimalFormat decimalFormat = new DecimalFormat("#.########");
-                    String formattedNumber = decimalFormat.format(cell.getNumericCellValue());
-                    return formattedNumber;
+                    return decimalFormat.format(cell.getNumericCellValue());
                 }
             case BOOLEAN:
                 return String.valueOf(cell.getBooleanCellValue());

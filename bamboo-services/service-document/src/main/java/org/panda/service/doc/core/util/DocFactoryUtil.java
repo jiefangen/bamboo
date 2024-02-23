@@ -1,4 +1,4 @@
-package org.panda.service.doc.core.domain;
+package org.panda.service.doc.core.util;
 
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.core.domain.factory.Document;
@@ -12,16 +12,16 @@ import org.panda.service.doc.core.domain.factory.word.WordDoc;
  *
  * @author fangen
  **/
-public class DocFactory {
+public class DocFactoryUtil {
 
     public static Document getDocument(String docType){
-        if(DocConstants.EXCEL.equals(docType)){
+        if(DocConstants.EXCEL.equalsIgnoreCase(docType)){
             return new ExcelDoc();
-        } else if(DocConstants.WORD.equals(docType)){
+        } else if(DocConstants.WORD.equalsIgnoreCase(docType)){
             return new WordDoc();
-        } else if(DocConstants.PPT.equals(docType)){
+        } else if(DocConstants.PPT.equalsIgnoreCase(docType)){
             return new PptDoc();
-        } else if(DocConstants.PDF.equals(docType)){
+        } else if(DocConstants.PDF.equalsIgnoreCase(docType)){
             return new PdfDoc();
         }
         return null;
