@@ -5,8 +5,6 @@ import org.springframework.util.Assert;
 
 /**
  * 容器初始化后执行bean代理，为目标bean提供线程执行能力
- *
- * @author fangen
  */
 public class ContextInitializedBeanProxy extends DelayContextInitializedBean {
 

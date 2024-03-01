@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * 在容器初始化完成后延时执行操作的bean
- *
- * @author fangen
  */
 public abstract class DelayContextInitializedBean implements ContextInitializedBean, DisposableBean {
 
@@ -26,11 +24,11 @@ public abstract class DelayContextInitializedBean implements ContextInitializedB
 
     @Override
     public void afterInitialized(ApplicationContext context) throws Exception {
-        Class<?> beanClass = getClass();
         this.executor.schedule(() -> {
             try {
                 execute();
             } catch (Exception e) {
+                Class<?> beanClass = getClass();
                 LogUtil.error(beanClass, e);
             }
         }, getDelayMillis(), TimeUnit.MILLISECONDS);

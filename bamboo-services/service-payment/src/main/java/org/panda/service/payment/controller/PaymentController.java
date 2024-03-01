@@ -24,7 +24,7 @@ public class PaymentController {
 
     @PostMapping("/prepare/{gatewayName}")
     @ResponseBody
-    public RestfulResult prepare(@PathVariable("gatewayName") String gatewayName,
+    public RestfulResult<?> prepare(@PathVariable("gatewayName") String gatewayName,
                                  @RequestBody PaymentDefinition definition) {
         PaymentRequest paymentResult = this.paymentService.payment(gatewayName, definition);
         return RestfulResult.success(paymentResult);
@@ -32,7 +32,7 @@ public class PaymentController {
 
     @RequestMapping(value = "/callback/confirm/{gatewayName}")
     @ResponseBody
-    public RestfulResult callbackConfirm(@PathVariable("gatewayName") String gatewayName, HttpServletRequest request,
+    public RestfulResult<?> callbackConfirm(@PathVariable("gatewayName") String gatewayName, HttpServletRequest request,
                                 HttpServletResponse response) {
         String result = this.paymentService.callbackConfirm(gatewayName, request, response);
         if (StringUtils.isBlank(result)) {

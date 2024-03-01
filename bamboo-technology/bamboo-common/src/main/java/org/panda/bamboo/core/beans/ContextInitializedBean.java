@@ -4,8 +4,6 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * 在容器初始化完成后执行操作的bean
- *
- * @author fangen
  */
 public interface ContextInitializedBean {
 

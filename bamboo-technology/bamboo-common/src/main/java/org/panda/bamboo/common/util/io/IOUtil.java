@@ -15,6 +15,7 @@ import org.springframework.util.ResourceUtils;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -102,7 +103,7 @@ public class IOUtil {
         try {
             Process process = Runtime.getRuntime().exec(command);
             process.waitFor();
-            result = IOUtils.toString(process.getInputStream(), Strings.ENCODING_UTF8);
+            result = IOUtils.toString(process.getInputStream(), StandardCharsets.UTF_8);
         } catch (IOException | InterruptedException e) {
             LogUtil.error(IOUtil.class, e);
         }
