@@ -145,8 +145,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         }
         queryWrapper.orderByDesc(SysActionLog::getOperatingTime);
         IPage<SysActionLog> actionLogPage = this.page(page, queryWrapper);
-        QueryResult<SysActionLog> queryResult = QueryPageHelper.convertQueryResult(actionLogPage);
-        return queryResult;
+        return QueryPageHelper.convertQueryResult(actionLogPage);
     }
 
     @Override
@@ -156,7 +155,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
 
     @Override
     public void cleanObsoleteLog() {
-        long obsoleteInterval = 14 * 24 * 60 * 60L; // 14天/单位秒
+        long obsoleteInterval = 30 * 24 * 60 * 60L; // 30天/单位秒
         LocalDateTime obsoleteTime = LocalDateTime.now().minusSeconds(obsoleteInterval);
         LambdaQueryWrapper<SysActionLog> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.lt(SysActionLog::getOperatingTime, obsoleteTime);

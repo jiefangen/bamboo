@@ -31,9 +31,9 @@ public class SystemScheduler {
     @Scheduled(fixedDelay = 7*Times.MS_ONE_DAY, initialDelay = Times.MS_ONE_SECOND)
     public void cleanObsoleteLog() {
         LOGGER.debug("CleanActionLog scheduler start...");
-        // 日志记录保存14～21天
+        // 日志记录保存30～37天
         actionLogService.cleanObsoleteLog();
-        // 记录保存时长7～14天
+        // 记录保存时长15～22天
         userTokenService.cleanObsoleteToken();
         LOGGER.debug("CleanActionLog scheduler end.");
     }

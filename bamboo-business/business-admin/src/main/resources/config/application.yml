@@ -2,7 +2,7 @@ spring:
   application:
     name: admin
   profiles:
-    active: local
+    active: @profiles.active@
 server:
   port: 10001
 

@@ -134,7 +134,7 @@ public class SysUserTokenServiceImpl extends ServiceImpl<SysUserTokenMapper, Sys
 
     @Override
     public void cleanObsoleteToken() {
-        long obsoleteInterval = 7 * 24 * 60 * 60L; // 7天/单位秒
+        long obsoleteInterval = 15 * 24 * 60 * 60L; // 15天/单位秒
         LocalDateTime obsoleteTime = LocalDateTime.now().minusSeconds(obsoleteInterval);
         LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(SysUserToken::getStatus, 3, 4);
