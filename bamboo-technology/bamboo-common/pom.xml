@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <!--            <optional>true</optional>--> <!-- 表示传递依赖，即别的包引用时该依赖不传递 -->
+            <!-- <optional>true</optional> --> <!-- 表示传递依赖，即别的包引用时该依赖不传递 -->
             <version>1.18.26</version>
         </dependency>
 

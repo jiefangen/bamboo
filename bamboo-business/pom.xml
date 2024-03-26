@@ -90,6 +90,10 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+                <configuration>
+                    <executable>true</executable>
+                    <finalName>${project.artifactId}-${profiles.active}</finalName>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -113,28 +117,24 @@
             </activation>
         </profile>
         <profile>
-            <!-- 开发环境 -->
             <id>dev</id>
             <properties>
                 <profiles.active>dev</profiles.active>
             </properties>
         </profile>
         <profile>
-            <!-- 测试环境 -->
             <id>test</id>
             <properties>
                 <profiles.active>test</profiles.active>
             </properties>
         </profile>
         <profile>
-            <!-- 演示环境 -->
             <id>demo</id>
             <properties>
                 <profiles.active>demo</profiles.active>
             </properties>
         </profile>
         <profile>
-            <!-- 生产环境 -->
             <id>prod</id>
             <properties>
                 <profiles.active>prod</profiles.active>
