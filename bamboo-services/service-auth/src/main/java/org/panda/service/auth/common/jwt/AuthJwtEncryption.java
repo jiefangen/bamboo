@@ -1,7 +1,7 @@
 package org.panda.service.auth.common.jwt;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.tech.core.webmvc.jwt.symmetric.JwtSymmetricEncryption;
+import org.panda.tech.core.jwt.encrypt.symmetric.JwtSymmetricEncryption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

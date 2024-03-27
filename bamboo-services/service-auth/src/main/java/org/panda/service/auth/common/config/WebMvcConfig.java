@@ -2,10 +2,10 @@ package org.panda.service.auth.common.config;
 
 import org.panda.tech.core.web.mvc.servlet.filter.RequestLogFilter;
 import org.panda.tech.core.web.mvc.support.WebMvcConfigurerSupport;
-import org.panda.tech.core.webmvc.jwt.JwtGenerator;
-import org.panda.tech.core.webmvc.jwt.JwtGeneratorImpl;
-import org.panda.tech.core.webmvc.jwt.JwtParser;
-import org.panda.tech.core.webmvc.jwt.JwtParserImpl;
+import org.panda.tech.core.jwt.encrypt.JwtGenerator;
+import org.panda.tech.core.jwt.encrypt.JwtGeneratorImpl;
+import org.panda.tech.core.jwt.encrypt.JwtParser;
+import org.panda.tech.core.jwt.encrypt.JwtParserImpl;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

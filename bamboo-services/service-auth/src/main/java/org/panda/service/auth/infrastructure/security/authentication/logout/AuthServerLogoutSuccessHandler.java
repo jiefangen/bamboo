@@ -3,7 +3,7 @@ package org.panda.service.auth.infrastructure.security.authentication.logout;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
-import org.panda.tech.core.webmvc.jwt.JwtParser;
+import org.panda.tech.core.jwt.encrypt.JwtParser;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

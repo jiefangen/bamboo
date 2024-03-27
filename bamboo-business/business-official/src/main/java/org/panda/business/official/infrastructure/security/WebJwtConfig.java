@@ -3,7 +3,7 @@ package org.panda.business.official.infrastructure.security;
 import org.panda.bamboo.common.util.lang.MathUtil;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
-import org.panda.tech.core.jwt.AbstractInternalJwtConfiguration;
+import org.panda.tech.core.jwt.internal.AbstractInternalJwtConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 

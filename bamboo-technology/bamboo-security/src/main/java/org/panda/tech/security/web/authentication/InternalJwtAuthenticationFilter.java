@@ -1,7 +1,7 @@
 package org.panda.tech.security.web.authentication;
 
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.jwt.InternalJwtResolver;
+import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.security.authentication.UserSpecificDetailsAuthenticationToken;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.springframework.context.ApplicationContext;

@@ -6,7 +6,7 @@ import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.tech.core.spec.user.DefaultUserIdentity;
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.jwt.InternalJwtResolver;
+import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;

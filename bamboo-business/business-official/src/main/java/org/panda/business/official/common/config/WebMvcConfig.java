@@ -1,7 +1,7 @@
 package org.panda.business.official.common.config;
 
-import org.panda.tech.core.web.jwt.DefaultInternalJwtResolver;
-import org.panda.tech.core.web.jwt.InternalJwtResolver;
+import org.panda.tech.core.jwt.internal.resolver.DefaultInternalJwtResolver;
+import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.core.web.mvc.support.WebMvcConfigurerSupport;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

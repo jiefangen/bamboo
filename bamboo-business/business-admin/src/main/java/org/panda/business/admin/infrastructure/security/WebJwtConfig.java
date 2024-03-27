@@ -5,7 +5,7 @@ import org.panda.business.admin.modules.common.manager.SettingsManager;
 import org.panda.business.admin.modules.common.config.SettingsKeys;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
-import org.panda.tech.core.jwt.AbstractInternalJwtConfiguration;
+import org.panda.tech.core.jwt.internal.AbstractInternalJwtConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

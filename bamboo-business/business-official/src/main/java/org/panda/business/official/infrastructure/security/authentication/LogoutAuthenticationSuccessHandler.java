@@ -2,7 +2,7 @@ package org.panda.business.official.infrastructure.security.authentication;
 
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.jwt.InternalJwtResolver;
+import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
