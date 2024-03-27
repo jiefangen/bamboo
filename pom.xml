@@ -14,8 +14,6 @@
     <name>${artifactId}</name>
     <description>企业级分布式架构解决方案</description>
     <modules>
-        <!-- 技术框架基础支持层（垂直支持）-->
-        <module>bamboo-technology</module>
         <!-- 分布式服务治理支撑层（水平支撑）-->
         <module>bamboo-support</module>
         <!-- 分布式架构服务提供层（垂直支持）-->
