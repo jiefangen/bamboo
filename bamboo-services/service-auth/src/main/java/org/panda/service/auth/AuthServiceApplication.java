@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @Import({CoreModule.class, SecurityModule.class})
 @EnableTransactionManagement
-@MapperScan("org.panda.ms.auth.repository")
+@MapperScan("org.panda.service.auth.repository")
 public class AuthServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthServiceApplication.class,args);

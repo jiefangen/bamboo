@@ -2,12 +2,8 @@ spring:
   application:
     name: payment-service
   profiles:
-    active: dev
+    active: @profiles.active@
   messages:
     basename: message/error/payment-error,message/info/payment-info
 server:
   port: 11003
-
-logging:
-  level:
-    org.panda.ms.payment: debug

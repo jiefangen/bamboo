@@ -21,6 +21,10 @@ public class CommonProperties implements InitializingBean {
     private Map<String, AppConfiguration> apps = new HashMap<>(); // 必须用Map，在Spring占位符表达式中才可以取指定应用的配置
     private boolean gatewayEnabled;
     private String gatewayUri;
+    /**
+     * 受保护应用服务鉴权的URL模式
+     */
+    private List<String> authUrlPatterns;
 
     public Map<String, AppConfiguration> getApps() {
         return Collections.unmodifiableMap(this.apps);
@@ -132,6 +136,14 @@ public class CommonProperties implements InitializingBean {
         }
         basic.setLoginedUri(basic.getContextUri() + appConfig.getLoginedPath());
         return basic;
+    }
+
+    public List<String> getAuthUrlPatterns() {
+        return authUrlPatterns;
+    }
+
+    public void setAuthUrlPatterns(List<String> authUrlPatterns) {
+        this.authUrlPatterns = authUrlPatterns;
     }
 
 }

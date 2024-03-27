@@ -2,7 +2,7 @@ spring:
   application:
     name: auth-service
   profiles:
-    active: dev
+    active: @profiles.active@
 server:
   port: 11006
   servlet:
@@ -10,7 +10,3 @@ server:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-
-logging:
-  level:
-    org.panda.ms.auth: debug

@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>microservice-auth</artifactId>
+    <artifactId>service-auth</artifactId>
     <version>${service.version}</version>
     <description>应用api认证授权服务</description>
 

@@ -38,7 +38,7 @@ public class AccessController {
      */
     @GetMapping("/validate")
     @ConfigAuthority
-    public RestfulResult validate(@RequestParam(value = "service", required = false) String service, HttpServletResponse response) {
+    public RestfulResult<?> validate(@RequestParam(value = "service", required = false) String service, HttpServletResponse response) {
         Collection<? extends GrantedAuthority> grantedAuthorities = SecurityUtil.getGrantedAuthorities();
         if (CollectionUtils.isEmpty(grantedAuthorities)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

@@ -28,7 +28,7 @@ public class AppServiceController {
 
     @PostMapping("/authorize")
     @ConfigAnonymous
-    public RestfulResult authorize(@RequestBody AppServiceModel appServiceModel) {
+    public RestfulResult<?> authorize(@RequestBody AppServiceModel appServiceModel) {
         if (appServiceModel == null || StringUtils.isEmpty(appServiceModel.getAppName())) {
             return RestfulResult.failure();
         }
