@@ -16,6 +16,8 @@
     </modules>
 
     <properties>
+        <bamboo-core.version>1.1.0</bamboo-core.version>
+
         <service.version>1.0.0</service.version>
         <technology.version>1.0.0</technology.version>
 
@@ -31,7 +33,7 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-core</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-core.version}</version>
         </dependency>
 
         <dependency>

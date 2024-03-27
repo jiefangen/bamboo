@@ -22,7 +22,7 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-core</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-core.version}</version>
         </dependency>
         <!-- 技术框架security安全框架支持 -->
         <dependency>

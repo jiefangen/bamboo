@@ -16,6 +16,8 @@
     </modules>
 
     <properties>
+        <bamboo-core.version>1.1.0</bamboo-core.version>
+
         <business.version>1.0.0</business.version>
         <service.version>1.0.0</service.version>
         <support.version>1.0.0</support.version>
