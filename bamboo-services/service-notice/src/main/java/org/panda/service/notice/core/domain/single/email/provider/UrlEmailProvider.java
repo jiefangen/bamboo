@@ -3,7 +3,7 @@ package org.panda.service.notice.core.domain.single.email.provider;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.parser.FreeMarkerTemplateParser;
 import org.panda.bamboo.common.parser.TemplateParser;
-import org.panda.tech.core.web.util.URLConnUtil;
+import org.panda.tech.core.util.http.URLConnUtil;
 
 import java.util.Locale;
 import java.util.Map;

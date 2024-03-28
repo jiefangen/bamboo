@@ -8,7 +8,7 @@ import org.panda.service.notice.core.domain.model.sms.SmsModel;
 import org.panda.service.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.service.notice.core.domain.single.sms.content.splitable.SplitableSmsContentSender;
 import org.panda.tech.core.spec.http.HttpRequestMethod;
-import org.panda.tech.core.util.HttpClientUtil;
+import org.panda.tech.core.util.http.HttpClientUtil;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
