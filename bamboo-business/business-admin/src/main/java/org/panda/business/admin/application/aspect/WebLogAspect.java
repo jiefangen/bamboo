@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author fangen
  **/
-@Aspect
 @Component
+@Aspect
 public class WebLogAspect extends WebLogSupport {
 
     @Autowired
