@@ -1,11 +1,12 @@
 package org.panda.service.auth.common.config;
 
-import org.panda.tech.core.web.mvc.servlet.filter.RequestLogFilter;
-import org.panda.tech.core.web.mvc.support.WebMvcConfigurerSupport;
 import org.panda.tech.core.jwt.encrypt.JwtGenerator;
 import org.panda.tech.core.jwt.encrypt.JwtGeneratorImpl;
 import org.panda.tech.core.jwt.encrypt.JwtParser;
 import org.panda.tech.core.jwt.encrypt.JwtParserImpl;
+import org.panda.tech.core.rpc.filter.RpcInvokerFilter;
+import org.panda.tech.core.web.mvc.servlet.filter.RequestLogFilter;
+import org.panda.tech.core.web.mvc.support.WebMvcConfigurerSupport;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,12 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerSupport {
 
-    /**
-     * web请求日志过滤器
-     */
     @Bean
     public RequestLogFilter requestLogFilter() {
         return new RequestLogFilter("/auth/**");
+    }
+
+    @Bean
+    public RpcInvokerFilter rpcInvokerFilter() {
+        return new RpcInvokerFilter();
     }
 
     /**
