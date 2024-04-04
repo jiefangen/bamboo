@@ -2,8 +2,8 @@ package org.panda.business.official.test.concurrent;
 
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
-import org.panda.tech.core.concurrent.async.DefaultProgressTask;
-import org.panda.tech.core.concurrent.async.TaskProgress;
+import org.panda.tech.core.jwt.concurrent.async.DefaultProgressTask;
+import org.panda.tech.core.jwt.concurrent.async.TaskProgress;
 
 public class OfficialProgressTask extends DefaultProgressTask<TaskProgress<String>> {
 
