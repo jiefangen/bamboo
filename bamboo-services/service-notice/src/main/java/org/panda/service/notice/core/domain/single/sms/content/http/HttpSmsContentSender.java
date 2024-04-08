@@ -8,7 +8,7 @@ import org.panda.service.notice.core.domain.model.sms.SmsModel;
 import org.panda.service.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.service.notice.core.domain.single.sms.content.splitable.SplitableSmsContentSender;
 import org.panda.tech.core.util.http.HttpClientUtil;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpMethod;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -69,9 +69,9 @@ public class HttpSmsContentSender extends SplitableSmsContentSender {
             }
         }
         Map<String, Object> params = this.strategy.getParams(contents, index, cellphoneSet);
-        RequestMethod method = this.strategy.getRequestMethod();
+        HttpMethod method = this.strategy.getRequestMethod();
         Binate<Integer, String> binate = HttpClientUtil.request(method, this.strategy.getUrl(), params, null,
-                this.strategy.getEncoding());
+                null, this.strategy.getEncoding());
         if (binate != null && binate.getLeft() != HttpStatus.SC_OK) {
             return this.strategy.getFailures(binate.getLeft(), binate.getRight());
         }

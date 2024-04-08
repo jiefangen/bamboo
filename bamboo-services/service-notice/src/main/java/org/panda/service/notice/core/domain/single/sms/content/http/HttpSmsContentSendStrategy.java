@@ -1,6 +1,6 @@
 package org.panda.service.notice.core.domain.single.sms.content.http;
 
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpMethod;
 
 import java.util.List;
 import java.util.Map;
@@ -23,7 +23,7 @@ public interface HttpSmsContentSendStrategy {
      *
      * @return 请求方式
      */
-    RequestMethod getRequestMethod();
+    HttpMethod getRequestMethod();
 
     /**
      * 获取编码方式

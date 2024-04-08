@@ -1,7 +1,7 @@
 package org.panda.service.notice.core.domain.single.sms.content.http;
 
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpMethod;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
 public abstract class AbstractHttpSmsContentSendStrategy implements HttpSmsContentSendStrategy {
 
     private String url;
-    private RequestMethod requestMethod = RequestMethod.POST;
+    private HttpMethod requestMethod = HttpMethod.POST;
     private String encoding = Strings.ENCODING_UTF8;
     protected Map<String, Object> defaultParams;
 
@@ -26,11 +26,11 @@ public abstract class AbstractHttpSmsContentSendStrategy implements HttpSmsConte
     }
 
     @Override
-    public RequestMethod getRequestMethod() {
+    public HttpMethod getRequestMethod() {
         return this.requestMethod;
     }
 
-    public void setRequestMethod(RequestMethod requestMethod) {
+    public void setRequestMethod(HttpMethod requestMethod) {
         this.requestMethod = requestMethod;
     }
 
