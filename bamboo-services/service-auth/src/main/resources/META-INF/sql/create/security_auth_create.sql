@@ -67,14 +67,14 @@ CREATE TABLE `auth_permission` (
                                 `scope` VARCHAR(100) COMMENT '权限范围',
                                 `description` VARCHAR(200) COMMENT '描述',
                                 PRIMARY KEY (`id`) USING BTREE,
-                                UNIQUE KEY `UQ_PERMISSION_CODE` (`permission_code`)
+                                UNIQUE KEY `UQ_PERMISSION_CODE_SOURCE` (`permission_code`, `source`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用资源权限' ROW_FORMAT=Compact;
 
 ALTER TABLE `auth_account_role` ADD CONSTRAINT fk_auth_account_role_user_id_user FOREIGN KEY (`account_id`) REFERENCES auth_account (`id`);
 ALTER TABLE `auth_account_role` ADD CONSTRAINT fk_auth_account_role_role_id_role FOREIGN KEY (`role_id`) REFERENCES auth_role (`id`);
 
-ALTER TABLE `auth_role_permission` ADD CONSTRAINT fk_auth_role_permission_permission_id_permission FOREIGN KEY (`permission_id`) REFERENCES auth_permission (`id`);
-ALTER TABLE `auth_role_permission` ADD CONSTRAINT fk_auth_role_permission_role_id_role FOREIGN KEY (`role_id`) REFERENCES auth_role (`id`);
+-- ALTER TABLE `auth_role_permission` ADD CONSTRAINT fk_auth_role_permission_permission_id_permission FOREIGN KEY (`permission_id`) REFERENCES auth_permission (`id`);
+-- ALTER TABLE `auth_role_permission` ADD CONSTRAINT fk_auth_role_permission_role_id_role FOREIGN KEY (`role_id`) REFERENCES auth_role (`id`);
 
 
 DROP TABLE IF EXISTS `app_server`;
@@ -82,10 +82,12 @@ CREATE TABLE `app_server` (
                            `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
                            `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
                            `app_code` VARCHAR(60) NOT NULL COMMENT '应用服务编码',
-                           `caption` VARCHAR(200) COMMENT '标题',
-                           `business` VARCHAR(200) COMMENT '业务',
+                           `env` VARCHAR(30) COMMENT '应用运行环境',
+                           `host` VARCHAR(50) COMMENT '运行服务器地址',
+                           `caption` VARCHAR(500) COMMENT '标题',
+                           `business` VARCHAR(300) COMMENT '业务',
                            `status` INT NOT NULL COMMENT '状态：0-停用；1-正常；2-维护中；4-故障',
                            `scope` VARCHAR(100) COMMENT '应用服务范围',
                            PRIMARY KEY (`id`) USING BTREE,
-                           UNIQUE KEY `UQ_APP_CODE` (`app_code`)
+                           UNIQUE KEY `UQ_APP_CODE_ENV` (`app_code`, `env`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用服务' ROW_FORMAT=Compact;

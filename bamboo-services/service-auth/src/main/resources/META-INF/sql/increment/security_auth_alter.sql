@@ -23,7 +23,9 @@ end by fangen 01
 begin by fangen 02
 SHOW INDEX FROM auth_permission;
 DROP INDEX UQ_PERMISSION_CODE ON auth_permission;
-
+-- 删除指定表的指定字段
 ALTER TABLE auth_permission DROP COLUMN `description`;
+-- 删除指定表的外键约束
+ALTER TABLE auth_role_permission DROP FOREIGN KEY fk_auth_role_permission_permission_id_permission;
 
 end by fangen 02

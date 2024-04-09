@@ -19,6 +19,14 @@ public class AppServiceModel implements DomainModel {
      */
     private String appName;
     /**
+     * 应用运行环境
+     */
+    private String env;
+    /**
+     * 运行服务器地址
+     */
+    private String host;
+    /**
      * 标题
      */
     private String caption;

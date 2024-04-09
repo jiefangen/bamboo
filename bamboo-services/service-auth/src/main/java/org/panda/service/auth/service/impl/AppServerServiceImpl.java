@@ -93,12 +93,15 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
         String appCode = appName.toUpperCase();
         LambdaQueryWrapper<AppServer> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(AppServer::getAppCode, appCode);
+        String env = appServiceModel.getEnv();
+        queryWrapper.eq(AppServer::getEnv, env);
         AppServer appServer = this.getOne(queryWrapper);
-        if (appServer == null) {
-            // 应用服务注册激活
+        if (appServer == null) { // 应用服务注册激活
             AppServer appServerParam = new AppServer();
             appServerParam.setAppName(appName);
             appServerParam.setAppCode(appCode);
+            appServerParam.setEnv(env);
+            appServerParam.setHost(appServiceModel.getHost());
             appServerParam.setStatus(1);
             appServerParam.setCaption(appServiceModel.getCaption());
             appServerParam.setBusiness(appServiceModel.getBusiness());
