@@ -2,6 +2,7 @@ package org.panda.business.admin;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.panda.tech.core.CoreModule;
+import org.panda.tech.core.rpc.annotation.EnableRpcInvoker;
 import org.panda.tech.security.SecurityModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableScheduling
 @EnableTransactionManagement
 @MapperScan("org.panda.business.admin.modules.*.service.repository")
+@EnableRpcInvoker // 开启RPC组件调用
 @SpringBootApplication
 public class AdminApplication {
     public static void main(String[] args) {

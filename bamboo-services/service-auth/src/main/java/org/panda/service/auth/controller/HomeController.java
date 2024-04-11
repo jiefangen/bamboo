@@ -22,5 +22,4 @@ public class HomeController extends HomeControllerSupport {
     public ModelAndView index(HttpServletRequest request) {
         return super.index(request);
     }
-
 }

@@ -39,5 +39,4 @@ public class AppServiceController {
             return RestfulResult.failure(result);
         }
     }
-
 }
