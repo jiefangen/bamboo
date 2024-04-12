@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RpcClient
 public class AuthServiceClient {
 
-    @RpcMethod("/service/account/page")
+    @RpcMethod(value = "/service/account/page", subType = QueryResult.class)
     public RestfulResult<QueryResult<?>> accountPage(@RequestBody AccountQueryParam queryParam) {
         return RestfulResult.success();
     }
