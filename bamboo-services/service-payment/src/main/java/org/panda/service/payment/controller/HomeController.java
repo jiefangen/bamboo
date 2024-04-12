@@ -22,7 +22,7 @@ public class HomeController extends HomeControllerSupport {
                                 @RequestParam(required = false) BigDecimal amount) {
         ModelAndView modelAndView = new ModelAndView("voucher");
         PaymentResult result = new PaymentResult(orderNo, gatewayPaymentNo, amount, Strings.STR_NULL);
-        if (result != null && result.isSuccessful()) {
+        if (result.isSuccessful()) {
             modelAndView.addObject("appDesc", super.getApplicationDesc());
             modelAndView.setStatus(HttpStatus.resolve(result.getResponseStatus()));
             modelAndView.addObject("orderNo", result.getOrderNo());

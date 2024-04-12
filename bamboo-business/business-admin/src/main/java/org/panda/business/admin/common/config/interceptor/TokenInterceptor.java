@@ -58,16 +58,15 @@ public class TokenInterceptor implements HandlerInterceptor {
         // token结构规则校验
         String jwt = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         boolean jwtVerify;
+        Object failureResult = RestfulResult.getFailure(ExceptionEnum.ILLEGAL_TOKEN);
         try {
             jwtVerify = jwtResolver.verify(jwt);
         } catch (Exception e) {
-            Object obj = RestfulResult.getFailure(ExceptionEnum.ILLEGAL_TOKEN);
-            WebHttpUtil.buildJsonResponse(response, obj);
+            WebHttpUtil.buildJsonResponse(response, failureResult);
             return false;
         }
         // token状态信息校验
         boolean interceptPass = false; // 拦截器通过状态标识
-        Object failureResult = RestfulResult.failure();
         if (jwtVerify) {
             LambdaQueryWrapper<SysUserToken> queryWrapper = new LambdaQueryWrapper<>();
             queryWrapper.eq(SysUserToken::getToken, jwt);
