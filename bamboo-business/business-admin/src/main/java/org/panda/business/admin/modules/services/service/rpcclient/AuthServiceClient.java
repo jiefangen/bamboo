@@ -1,9 +1,10 @@
 package org.panda.business.admin.modules.services.service.rpcclient;
 
 import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
+import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
 import org.panda.tech.core.rpc.annotation.RpcClient;
 import org.panda.tech.core.rpc.annotation.RpcMethod;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.tech.data.model.query.Pagination;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RpcClient
 public class AuthServiceClient {
 
-    @RpcMethod(value = "/service/account/page", subType = QueryResult.class)
-    public RestfulResult<QueryResult<?>> accountPage(@RequestBody AccountQueryParam queryParam) {
-        return RestfulResult.success();
+    @RpcMethod(value = "/service/account/page", subTypes = AuthAccountVO.class)
+    public QueryResult<AuthAccountVO> accountPage(@RequestBody AccountQueryParam queryParam) {
+        return QueryResult.empty(new Pagination());
     }
-
 }

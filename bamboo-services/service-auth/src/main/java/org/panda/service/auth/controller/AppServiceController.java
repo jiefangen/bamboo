@@ -48,9 +48,8 @@ public class AppServiceController {
     }
 
     @PostMapping("/account/page") // 限制外部调用，只能通过内部RPC方式访问
-    public RestfulResult<?> accountPage(@RequestBody AccountQueryParam queryParam) {
-        QueryResult<AuthAccount> accountQuery = accountService.getAccountByPage(queryParam);
-        return RestfulResult.success(accountQuery);
+    public QueryResult<AuthAccount> accountPage(@RequestBody AccountQueryParam queryParam) {
+        return accountService.getAccountByPage(queryParam);
     }
 
 }

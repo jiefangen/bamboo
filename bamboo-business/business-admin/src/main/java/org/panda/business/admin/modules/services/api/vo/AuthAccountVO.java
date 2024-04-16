@@ -18,11 +18,9 @@ public class AuthAccountVO implements Serializable {
 
     private String username;
 
-//    private String password;
-//
-//    private String secretKey;
-//
-//    private String credentials;
+    private String secretKey;
+
+    private String credentials;
 
     private String merchantNum;
 
