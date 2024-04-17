@@ -45,7 +45,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         // 忽略资源直接放行
         if (this.securityProperties != null) {
             List<String> ignoringPatterns = this.securityProperties.getIgnoringPatterns();
-            if (ignoringPatterns != null) {
+            if (!ignoringPatterns.isEmpty()) {
                 String url = WebHttpUtil.getRelativeRequestUrl(request);
                 for (String ignoringPattern : ignoringPatterns) {
                     if (StringUtil.antPathMatchOneOf(url, ignoringPattern)) {

@@ -46,7 +46,7 @@ public class WebLogAspect extends WebLogSupport {
 
     @Override
     protected String getIdentity(HttpServletRequest request) {
-        UserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
+        UserSpecificDetails<?> userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();
         if (userSpecificDetails != null) {
             return userSpecificDetails.getUsername();
         }
@@ -55,7 +55,7 @@ public class WebLogAspect extends WebLogSupport {
 
     @Override
     protected void storageLog(Object res) {
-        WebLogRange threadInfo = super.threadLocal.get();
+        WebLogRange threadInfo = threadLocal.get();
         WebLogData webLogData = new WebLogData();
         webLogData.transform(threadInfo);
         // 异步写入数据库
