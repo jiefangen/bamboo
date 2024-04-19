@@ -103,8 +103,8 @@ public class AuthRolePermissionServiceImpl extends ServiceImpl<AuthRolePermissio
                         rolePermissions.add(rolePermission);
                     }
                 }
-                // 加入管理员角色权限，默认管理员拥有全部资源权限
-                rolePermissions.addAll(AuthRoleCode.getManagerRoles());
+                // 加入顶级角色权限，默认顶级角色拥有全部资源权限
+                rolePermissions.addAll(AuthRoleCode.getTopRoles());
                 for (String roleCode : rolePermissions) {
                     LambdaQueryWrapper<AuthRole> queryWrapper = new LambdaQueryWrapper<>();
                     queryWrapper.eq(AuthRole::getRoleCode, roleCode);

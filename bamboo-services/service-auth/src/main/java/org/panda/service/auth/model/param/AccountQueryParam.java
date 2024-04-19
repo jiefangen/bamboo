@@ -11,7 +11,10 @@ import org.panda.tech.data.model.query.QueryParam;
 @Getter
 public class AccountQueryParam extends QueryParam {
     private static final long serialVersionUID = 6250496610119264454L;
-
+    /**
+     * 模糊筛选条件
+     */
+    private String keyword;
     /**
      * 账户名
      */

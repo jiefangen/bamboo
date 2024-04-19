@@ -1,10 +1,7 @@
 package org.panda.business.admin.modules.services.service.manager;
 
 import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
-import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
 import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
-import org.panda.tech.data.model.query.QueryResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,13 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthServiceManager {
 
-    @Autowired
-    private AuthServiceClient authServiceClient;
+    private final AuthServiceClient authServiceClient;
+
+    public AuthServiceManager(AuthServiceClient authServiceClient) {
+        this.authServiceClient = authServiceClient;
+    }
 
     public Object accountPage(AccountQueryParam queryParam) {
         try {
-            QueryResult<AuthAccountVO> accountPageResult = authServiceClient.accountPage(queryParam);
-            return accountPageResult;
+            return authServiceClient.accountPage(queryParam);
         } catch (Exception e) {
             return e.getMessage() == null ? null : e.getMessage();
         }

@@ -1,6 +1,8 @@
 package org.panda.service.auth.test.crypto;
 
 import org.junit.jupiter.api.Test;
+import org.panda.bamboo.common.util.algorithm.HutoolSnowflake;
+import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.service.auth.test.AuthServiceApplicationTest;
@@ -10,6 +12,8 @@ import org.panda.tech.core.spec.user.UsernamePassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.Instant;
 
 /**
  * 固定密钥生成
@@ -36,6 +40,12 @@ public class KeyGeneratorTest extends AuthServiceApplicationTest {
         System.out.println("encryptedText: " + encryptedText);
         String decryptSource = aesEncryptor.decrypt(encryptedText, key);
         System.out.println("decryptSource: " + decryptSource);
+    }
+
+    @Test
+    void merchantNumGen() {
+        Long snowflakeId = HutoolSnowflake.getSnowflakeId();
+        System.out.println("merchantNum: " + TemporalUtil.formatLongNoDelimiter(Instant.now()) + snowflakeId);
     }
 
     @Test

@@ -10,29 +10,30 @@ import java.util.List;
  */
 public enum AuthRoleCode {
 
-    @Caption("顶级管理员")
-    ADMIN,
+    @Caption("管理员")
+    MANAGER,
 
-    @Caption("账户角色权限")
+    @Caption("账户角色")
     ACCOUNT,
 
     @Caption("访客")
     CUSTOMER;
 
 
-    public static List<String> getManagerRoles() {
+    public static List<String> getTopRoles() {
         List<String> topRoles = new ArrayList<>();
-        topRoles.add(ADMIN.name());
+        topRoles.add(MANAGER.name());
+        topRoles.add(ACCOUNT.name());
         return topRoles;
     }
 
     /**
-     * 是否是管理员角色
+     * 是否是顶级权限角色
      *
      * @param roleCode 角色Code
      * @return true-是；false-否
      */
-    public static boolean isManagerRole(String roleCode) {
-        return getManagerRoles().contains(roleCode);
+    public static boolean isTopRole(String roleCode) {
+        return getTopRoles().contains(roleCode);
     }
 }

@@ -90,7 +90,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         Page<SysUser> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(queryParam.getKeyword())) {
-            queryWrapper.like(SysUser::getUsername, queryParam.getKeyword())
+            queryWrapper.like(SysUser::getUsername, queryParam.getKeyword()).or()
                         .like(SysUser::getNickname, queryParam.getKeyword());
         }
         queryWrapper.orderByAsc(SysUser::getCreateTime);
@@ -103,7 +103,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 UserVO userVO = new UserVO(user);
                 List<SysRole> roles = sysRoleMapper.findRolesByUserId(user.getId());
                 if(CollectionUtils.isNotEmpty(roles)) {
-                    Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
+                    Set<String> roleCodes = roles.stream().map(SysRole::getRoleCode).collect(Collectors.toSet());
                     userVO.setRoleCodes(roleCodes);
                     userVO.setRoles(roles);
                 }

@@ -51,6 +51,10 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
     public QueryResult<AuthAccount> getAccountByPage(AccountQueryParam queryParam) {
         Page<AuthAccount> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
         LambdaQueryWrapper<AuthAccount> queryWrapper = new LambdaQueryWrapper<>();
+        if (StringUtils.isNotBlank(queryParam.getKeyword())) {
+            queryWrapper.like(AuthAccount::getUsername, queryParam.getKeyword()).or()
+                        .like(AuthAccount::getMerchantNum, queryParam.getKeyword());
+        }
         if (StringUtils.isNotBlank(queryParam.getUsername())) {
             queryWrapper.like(AuthAccount::getUsername, queryParam.getUsername());
         }
