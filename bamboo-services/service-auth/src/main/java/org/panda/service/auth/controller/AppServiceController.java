@@ -6,6 +6,7 @@ import org.panda.bamboo.common.constant.Commons;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
 import org.panda.service.auth.model.entity.AuthAccount;
 import org.panda.service.auth.model.param.AccountQueryParam;
+import org.panda.service.auth.model.param.AddAccountParam;
 import org.panda.service.auth.service.AppServerService;
 import org.panda.service.auth.service.AuthAccountService;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -50,6 +51,11 @@ public class AppServiceController {
     @PostMapping("/account/page") // 限制外部调用，只能通过内部RPC方式访问
     public QueryResult<AuthAccount> accountPage(@RequestBody AccountQueryParam queryParam) {
         return accountService.getAccountByPage(queryParam);
+    }
+
+    @PostMapping("/account/add")
+    public boolean add(@RequestBody AddAccountParam accountParam) {
+        return accountService.addAccount(accountParam);
     }
 
 }

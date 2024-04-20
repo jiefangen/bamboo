@@ -70,16 +70,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         SysUser userParam = new SysUser();
         userParam.setUsername(username);
         SysUserDto sysUserDto = this.baseMapper.findUserAndRoles(userParam);
-        if (sysUserDto == null) {
-            return null;
-        }
-        List<SysRole> roles = sysUserDto.getRoles();
-        if(CollectionUtils.isNotEmpty(roles)) {
-            if (roles.get(0).getId() != null) {
-                Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
-                sysUserDto.setRoleCodes(roleCodes);
-            } else { // 未绑定角色
-                sysUserDto.setRoles(null);
+        if (sysUserDto != null) {
+            List<SysRole> roles = sysUserDto.getRoles();
+            if(CollectionUtils.isNotEmpty(roles)) {
+                if (roles.get(0).getId() != null) {
+                    Set<String> roleCodes = roles.stream().map(SysRole::getRoleCode).collect(Collectors.toSet());
+                    sysUserDto.setRoleCodes(roleCodes);
+                } else { // 未绑定角色
+                    sysUserDto.setRoles(null);
+                }
             }
         }
         return sysUserDto;

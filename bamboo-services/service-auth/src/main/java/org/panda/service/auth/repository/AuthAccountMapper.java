@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import org.panda.service.auth.model.dto.AuthAccountDto;
 import org.panda.service.auth.model.entity.AuthAccount;
 
+import java.util.Set;
+
 /**
  * <p>
  * 应用认证账户 Mapper 接口
@@ -22,4 +24,6 @@ public interface AuthAccountMapper extends BaseMapper<AuthAccount> {
      * @return 账户以及关联角色集
      */
     AuthAccountDto findAccountAndRoles(@Param("account") AuthAccount account);
+
+    void addAccountRole(@Param("accountId") Integer accountId, @Param("roleIds") Set<Integer> roleIds);
 }

@@ -79,8 +79,7 @@ public class UserController {
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
     public RestfulResult<?> edit(@RequestBody SysUser user) {
-        boolean result = userService.updateUser(user);
-        if (result) {
+        if (userService.updateUser(user)) {
             return RestfulResult.success();
         }
         return RestfulResult.failure();

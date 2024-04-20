@@ -2,6 +2,7 @@ package org.panda.business.admin.modules.services.api.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
+import org.panda.business.admin.modules.services.api.param.AddAccountParam;
 import org.panda.business.admin.modules.services.service.manager.AuthServiceManager;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
@@ -32,5 +33,16 @@ public class AuthServiceController {
     public RestfulResult<?> accountPage(@RequestBody AccountQueryParam queryParam) {
         Object accountPageResult = authServiceManager.accountPage(queryParam);
         return accountPageResult == null ? RestfulResult.failure() : RestfulResult.success(accountPageResult);
+    }
+
+    @PostMapping("/account/add")
+    @ConfigPermission
+    @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
+    public RestfulResult<?> addAccount(@RequestBody AddAccountParam accountParam) {
+        if (authServiceManager.accountAdd(accountParam)) {
+            return RestfulResult.success();
+        } else {
+            return RestfulResult.failure();
+        }
     }
 }

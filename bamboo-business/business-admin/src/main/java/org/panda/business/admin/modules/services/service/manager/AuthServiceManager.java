@@ -1,7 +1,14 @@
 package org.panda.business.admin.modules.services.service.manager;
 
+import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
+import org.panda.business.admin.modules.services.api.param.AddAccountParam;
 import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +18,9 @@ import org.springframework.stereotype.Service;
  **/
 @Service
 public class AuthServiceManager {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final AuthServiceClient authServiceClient;
 
@@ -22,8 +32,30 @@ public class AuthServiceManager {
         try {
             return authServiceClient.accountPage(queryParam);
         } catch (Exception e) {
+            LogUtil.error(getClass(), e);
             return e.getMessage() == null ? null : e.getMessage();
         }
     }
 
+    public boolean accountAdd(AddAccountParam accountParam) {
+        try {
+            // 账户名或密码为空则自动随机生成
+            if (StringUtils.isEmpty(accountParam.getUsername())) {
+                accountParam.setUsername(StringUtil.randomLetters(13, Strings.EMPTY));
+            }
+            String password = accountParam.getPassword();
+            if (StringUtils.isEmpty(password)) {
+                password = StringUtil.randomNormalMixeds(16);
+            }
+            String encodedPassword = passwordEncoder.encode(password);
+            accountParam.setPassword(encodedPassword);
+            if (StringUtils.isEmpty(accountParam.getAccountType())) {
+                accountParam.setAccountType("account");
+            }
+            return authServiceClient.accountAdd(accountParam);
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+            return false;
+        }
+    }
 }

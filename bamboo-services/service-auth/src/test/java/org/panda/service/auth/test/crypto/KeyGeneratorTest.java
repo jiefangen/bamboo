@@ -1,6 +1,7 @@
 package org.panda.service.auth.test.crypto;
 
 import org.junit.jupiter.api.Test;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.algorithm.HutoolSnowflake;
 import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
@@ -30,7 +31,7 @@ public class KeyGeneratorTest extends AuthServiceApplicationTest {
 
     @Test
     void fixedKeyGenerator() {
-        String key = StringUtil.randomNormalMixeds(32);
+        String key = StringUtil.randomNormalMixeds(16);
         System.out.println("key: " + key);
         AesEncryptor aesEncryptor = new AesEncryptor();
         UsernamePassword usernamePassword = new UsernamePassword();
@@ -44,8 +45,10 @@ public class KeyGeneratorTest extends AuthServiceApplicationTest {
 
     @Test
     void merchantNumGen() {
-        Long snowflakeId = HutoolSnowflake.getSnowflakeId();
+        Long snowflakeId = HutoolSnowflake.getDistributedId();
         System.out.println("merchantNum: " + TemporalUtil.formatLongNoDelimiter(Instant.now()) + snowflakeId);
+
+        System.out.println("randomLetters: " + StringUtil.randomLetters(13, Strings.EMPTY));
     }
 
     @Test

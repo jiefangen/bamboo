@@ -39,4 +39,11 @@
         left join auth_role r on ur.role_id = r.id
         where u.username = #{account.username,jdbcType=VARCHAR}
     </select>
+
+    <insert id="addAccountRole" >
+        insert into auth_account_role (account_id, role_id) values
+        <foreach item="roleId" index="index" collection="roleIds" separator="," close=";">
+            (#{accountId}, #{roleId})
+        </foreach>
+    </insert>
 </mapper>

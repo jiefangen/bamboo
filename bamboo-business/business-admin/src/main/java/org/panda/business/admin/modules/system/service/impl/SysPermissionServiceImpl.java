@@ -57,7 +57,7 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         Page<SysPermission> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
         LambdaQueryWrapper<SysPermission> queryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(queryParam.getKeyword())) {
-            queryWrapper.like(SysPermission::getPermissionName, queryParam.getKeyword())
+            queryWrapper.like(SysPermission::getPermissionName, queryParam.getKeyword()).or()
                     .like(SysPermission::getOperationScope, queryParam.getKeyword());
         }
         queryWrapper.orderByAsc(SysPermission::getId);
