@@ -6,6 +6,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
 import org.panda.business.admin.modules.services.api.param.AddAccountParam;
+import org.panda.business.admin.modules.services.api.param.UpdateAuthAccountParam;
 import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,7 +38,7 @@ public class AuthServiceManager {
         }
     }
 
-    public boolean accountAdd(AddAccountParam accountParam) {
+    public boolean addAccount(AddAccountParam accountParam) {
         try {
             // 账户名或密码为空则自动随机生成
             if (StringUtils.isEmpty(accountParam.getUsername())) {
@@ -52,7 +53,16 @@ public class AuthServiceManager {
             if (StringUtils.isEmpty(accountParam.getAccountType())) {
                 accountParam.setAccountType("account");
             }
-            return authServiceClient.accountAdd(accountParam);
+            return authServiceClient.addAccount(accountParam);
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+            return false;
+        }
+    }
+
+    public boolean updateAccount(UpdateAuthAccountParam accountParam) {
+        try {
+            return authServiceClient.updateAccount(accountParam);
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
             return false;

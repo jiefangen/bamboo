@@ -16,6 +16,7 @@ import org.panda.service.auth.model.entity.AuthAccount;
 import org.panda.service.auth.model.entity.AuthRole;
 import org.panda.service.auth.model.param.AccountQueryParam;
 import org.panda.service.auth.model.param.AddAccountParam;
+import org.panda.service.auth.model.param.UpdateAccountParam;
 import org.panda.service.auth.repository.AuthAccountMapper;
 import org.panda.service.auth.service.AuthAccountService;
 import org.panda.service.auth.service.AuthRoleService;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,7 +77,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         if (StringUtils.isNotBlank(queryParam.getMerchantNum())) {
             queryWrapper.eq(AuthAccount::getMerchantNum, queryParam.getMerchantNum());
         }
-        queryWrapper.orderByAsc(AuthAccount::getCreateTime);
+        queryWrapper.orderByDesc(AuthAccount::getCreateTime);
         IPage<AuthAccount> accountPage = this.page(page, queryWrapper);
         return QueryPageHelper.convertQueryResult(accountPage);
     }
@@ -112,7 +114,8 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         // 按账户类型绑定角色关系
         if (isSaved && StringUtils.isNotEmpty(accountType)) {
             LambdaQueryWrapper<AuthRole> roleQueryWrapper = new LambdaQueryWrapper<>();
-            roleQueryWrapper.eq(AuthRole::getRoleName, accountType);
+            roleQueryWrapper.eq(AuthRole::getRoleName, accountType).or()
+                            .eq(AuthRole::getRoleCode, accountType.toUpperCase(Locale.ROOT));
             List<AuthRole> authRoles = authRoleService.list(roleQueryWrapper);
             if (authRoles != null && !authRoles.isEmpty()) {
                 Set<Integer> roleIds = authRoles.stream().map(AuthRole::getId).collect(Collectors.toSet());
@@ -121,5 +124,17 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
             }
         }
         return isSaved;
+    }
+
+    @Override
+    public boolean updateAccount(UpdateAccountParam updateAccountParam) {
+        if (updateAccountParam.getId() != null) {
+            AuthAccount authAccount = new AuthAccount();
+            authAccount.setId(updateAccountParam.getId());
+            authAccount.setEnabled(updateAccountParam.getEnabled());
+            authAccount.setEmail(updateAccountParam.getEmail());
+            return this.updateById(authAccount);
+        }
+        return false;
     }
 }

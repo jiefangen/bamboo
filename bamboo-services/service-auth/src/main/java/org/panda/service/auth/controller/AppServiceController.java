@@ -4,13 +4,8 @@ import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
-import org.panda.service.auth.model.entity.AuthAccount;
-import org.panda.service.auth.model.param.AccountQueryParam;
-import org.panda.service.auth.model.param.AddAccountParam;
 import org.panda.service.auth.service.AppServerService;
-import org.panda.service.auth.service.AuthAccountService;
 import org.panda.tech.core.web.restful.RestfulResult;
-import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,9 +26,6 @@ public class AppServiceController {
     @Autowired
     private AppServerService appServerService;
 
-    @Autowired
-    private AuthAccountService accountService;
-
     @PostMapping("/authorize")
     @ConfigAnonymous
     public RestfulResult<?> authorize(@RequestBody AppServiceModel appServiceModel) {
@@ -47,15 +39,4 @@ public class AppServiceController {
             return RestfulResult.failure(result);
         }
     }
-
-    @PostMapping("/account/page") // 限制外部调用，只能通过内部RPC方式访问
-    public QueryResult<AuthAccount> accountPage(@RequestBody AccountQueryParam queryParam) {
-        return accountService.getAccountByPage(queryParam);
-    }
-
-    @PostMapping("/account/add")
-    public boolean add(@RequestBody AddAccountParam accountParam) {
-        return accountService.addAccount(accountParam);
-    }
-
 }

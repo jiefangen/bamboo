@@ -3,16 +3,16 @@ package org.panda.business.admin.modules.services.api.controller;
 import io.swagger.annotations.Api;
 import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
 import org.panda.business.admin.modules.services.api.param.AddAccountParam;
+import org.panda.business.admin.modules.services.api.param.UpdateAuthAccountParam;
 import org.panda.business.admin.modules.services.service.manager.AuthServiceManager;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigPermission;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * 认证服务控制器
@@ -39,10 +39,20 @@ public class AuthServiceController {
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
     public RestfulResult<?> addAccount(@RequestBody AddAccountParam accountParam) {
-        if (authServiceManager.accountAdd(accountParam)) {
+        if (authServiceManager.addAccount(accountParam)) {
             return RestfulResult.success();
         } else {
             return RestfulResult.failure();
         }
+    }
+
+    @PutMapping("/account/update")
+    @ConfigPermission
+    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
+    public RestfulResult<?> updateAccount(@RequestBody @Valid UpdateAuthAccountParam updateAccountParam) {
+        if (authServiceManager.updateAccount(updateAccountParam)) {
+            return RestfulResult.success();
+        }
+        return RestfulResult.failure();
     }
 }
