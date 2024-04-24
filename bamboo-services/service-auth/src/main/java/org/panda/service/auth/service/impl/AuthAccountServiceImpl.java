@@ -91,7 +91,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
             return false;
         }
         authAccount.setUsername(username);
-        authAccount.setPassword(password);
+        authAccount.setPassword(accountParam.getEncodedPassword());
         // 随机生成商户账户密钥
         String secretKey = "K-" + StringUtil.randomNormalMixeds(32);
         authAccount.setSecretKey(secretKey);

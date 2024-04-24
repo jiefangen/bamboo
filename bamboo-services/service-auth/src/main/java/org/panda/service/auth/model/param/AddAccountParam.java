@@ -14,6 +14,10 @@ public class AddAccountParam {
 
     @NotBlank
     private String password;
+    /**
+     * 加密后的密码
+     */
+    private String encodedPassword;
 
     private String accountType;
 

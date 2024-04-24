@@ -47,7 +47,6 @@ public class KeyGeneratorTest extends AuthServiceApplicationTest {
     void merchantNumGen() {
         Long snowflakeId = HutoolSnowflake.getDistributedId();
         System.out.println("merchantNum: " + TemporalUtil.formatLongNoDelimiter(Instant.now()) + snowflakeId);
-
         System.out.println("randomLetters: " + StringUtil.randomLetters(13, Strings.EMPTY));
     }
 
