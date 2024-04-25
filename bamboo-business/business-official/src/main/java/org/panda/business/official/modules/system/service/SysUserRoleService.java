@@ -15,5 +15,4 @@ import org.panda.business.official.modules.system.service.entity.SysUserRole;
 public interface SysUserRoleService extends IService<SysUserRole> {
 
     SysUserDto getUserAndRoles(String username);
-
 }

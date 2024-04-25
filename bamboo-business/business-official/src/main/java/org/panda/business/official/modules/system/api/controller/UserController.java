@@ -29,9 +29,11 @@ public class UserController {
      */
     @GetMapping("/getUserDetails")
     @ConfigAnonymous
-    public RestfulResult getUserDetails(@RequestParam String username) {
+    public RestfulResult<?> getUserDetails(@RequestParam String username) {
         SysUserDto sysUserDto = userRoleService.getUserAndRoles(username);
+        if (sysUserDto == null) {
+            return RestfulResult.failure();
+        }
         return RestfulResult.success(sysUserDto);
     }
-
 }

@@ -59,7 +59,6 @@ public class UserController {
     @PostMapping("/add")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_add")
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
@@ -74,7 +73,6 @@ public class UserController {
     @PutMapping("/edit")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_edit")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
@@ -111,7 +109,6 @@ public class UserController {
     @PostMapping("/resetPassword")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_resetPassword")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
@@ -127,14 +124,12 @@ public class UserController {
     @DeleteMapping("/del/{username}")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_del")
     })
     @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
     public RestfulResult<?> del(@PathVariable String username) {
         try {
-            boolean result = userService.deleteUser(username);
-            if (result) {
+            if (userService.deleteUser(username)) {
                 return RestfulResult.success();
             }
         } catch (BusinessException e){
@@ -146,7 +141,6 @@ public class UserController {
     @PostMapping("/updateUserRole")
     @ConfigAuthorities({
             @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER),
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "system_user_updateUserRole")
     })
     @WebOperationLog(actionType = ActionType.AUTH, intoStorage = true)

@@ -89,5 +89,5 @@ CREATE TABLE `app_server` (
                            `status` INT NOT NULL COMMENT '状态：0-停用；1-正常；2-维护中；4-故障',
                            `scope` VARCHAR(100) COMMENT '应用服务范围',
                            PRIMARY KEY (`id`) USING BTREE,
-                           UNIQUE KEY `UQ_APP_CODE_ENV` (`app_code`, `env`)
+                           KEY `IDX_APP_NAME` (`app_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用服务' ROW_FORMAT=Compact;

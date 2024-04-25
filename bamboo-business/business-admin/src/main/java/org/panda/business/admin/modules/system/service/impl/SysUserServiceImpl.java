@@ -92,7 +92,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             queryWrapper.like(SysUser::getUsername, queryParam.getKeyword()).or()
                         .like(SysUser::getNickname, queryParam.getKeyword());
         }
-        queryWrapper.orderByAsc(SysUser::getCreateTime);
+        queryWrapper.orderByDesc(SysUser::getCreateTime);
         IPage<SysUser> userPage = this.page(page, queryWrapper);
 
         List<UserVO> userVOList = new ArrayList<>();
@@ -167,7 +167,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         user.setPhone(userParam.getPhone());
         user.setNickname(userParam.getNickname());
         user.setEmail(userParam.getEmail());
-        user.setSex(userParam.getSex());
+        // 为空时填入2-未知
+        user.setSex(StringUtils.isEmpty(userParam.getSex()) ? "2" : userParam.getSex());
         if (this.save(user)) {
             return Commons.RESULT_SUCCESS;
         } else {
@@ -228,11 +229,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public void updateUserRole(UpdateUserRoleParam userRoleParam) {
         Set<String> roleCodeAndIds = userRoleParam.getRoleCodeAndIds();
-        Set<String> roleIds = new HashSet<>();
+        Set<Integer> roleIds = new HashSet<>();
         for (String roleCodeAndId : roleCodeAndIds) {
             if (roleCodeAndId.contains(Strings.VERTICAL_BAR)) {
                 String roleId = roleCodeAndId.split("\\|")[1];
-                roleIds.add(roleId);
+                if (StringUtils.isNotEmpty(roleId)) {
+                    roleIds.add(Integer.parseInt(roleId));
+                }
             }
         }
         this.baseMapper.updateUserRole(userRoleParam.getId(), roleIds);

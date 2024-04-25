@@ -12,6 +12,7 @@ public class Authority {
     public static final String TYPE_MANAGER = "manager";
     public static final String TYPE_GENERAL = "general";
     public static final String TYPE_CUSTOMER = "customer";
+    public static final String TYPE_ACCOUNT = "account";
 
     /**
      * 用户级别
@@ -27,7 +28,7 @@ public class Authority {
     public static final String ROLE_ADMIN = "ADMIN";
     public static final String ROLE_SYSTEM = "SYSTEM";
     public static final String ROLE_ACTUATOR = "ACTUATOR";
-    public static final String ROLE_USER = "USER";
+    public static final String ROLE_ACCOUNT = "ACCOUNT";
     public static final String ROLE_GENERAL = "GENERAL";
     public static final String ROLE_CUSTOMER = "CUSTOMER";
 

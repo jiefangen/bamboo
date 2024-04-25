@@ -25,4 +25,5 @@ SHOW INDEX FROM auth_permission;
 DROP INDEX UQ_PERMISSION_CODE ON auth_permission;
 
 ALTER TABLE auth_permission DROP COLUMN `description`;
+ALTER TABLE sys_user MODIFY sex CHAR(1) COMMENT '性别：0-女；1-男；2-未知';
 end by fangen 02

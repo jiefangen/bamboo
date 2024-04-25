@@ -34,7 +34,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     private SysUserMongoRepox sysUserMongoRepox;
 
     @Override
-//    @DataSourceSwitch(DataCommons.DATASOURCE_SECONDARY)
+//    @DataSourceSwitch(Datasource.DATASOURCE_ADMIN)
     public SysUserDto getUserAndRoles(String username) {
         if (sysUserCacheRepo.exists(username)) {
             return sysUserCacheRepo.find(username);
@@ -42,19 +42,19 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         SysUser userParam = new SysUser();
         userParam.setUsername(username);
         SysUserDto sysUserDto = this.baseMapper.findUserAndRoles(userParam);
-        if (sysUserDto == null) {
-            return null;
+        if (sysUserDto != null) {
+            List<SysRole> roles = sysUserDto.getRoles();
+            if(CollectionUtils.isNotEmpty(roles)) {
+                Set<String> roleCodes = roles.stream().map(SysRole::getRoleCode).collect(Collectors.toSet());
+                sysUserDto.setRoleCodes(roleCodes);
+            }
+            // 用户数据单体缓存
+//            sysUserCacheRepo.save(sysUserDto);
+            // 文档数据库存储
+//            SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
+            return sysUserDto;
         }
-        List<SysRole> roles = sysUserDto.getRoles();
-        if(CollectionUtils.isNotEmpty(roles)) {
-            Set<String> roleCodes = roles.stream().map(SysRole::getRoleCode).collect(Collectors.toSet());
-            sysUserDto.setRoleCodes(roleCodes);
-        }
-        // 用户数据单体缓存
-//        sysUserCacheRepo.save(sysUserDto);
-        // 文档数据库存储
-        SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
-        return sysUserResult;
+        return null;
     }
 
 }

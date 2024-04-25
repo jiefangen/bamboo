@@ -16,7 +16,7 @@ CREATE TABLE `sys_user` (
                           `phone` VARCHAR(20) COMMENT '手机号',
                           `nickname` VARCHAR(200) COMMENT '昵称',
                           `email` VARCHAR(50) COMMENT '邮箱',
-                          `sex` CHAR(1) COMMENT '性别',
+                          `sex` CHAR(1) COMMENT '性别：0-女；1-男；2-未知',
                           `enabled` BIT(1) DEFAULT 1 NOT NULL COMMENT '启用',
                           `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                           `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

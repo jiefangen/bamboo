@@ -1,6 +1,8 @@
 package org.panda.business.admin.modules.services.service.manager;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
@@ -11,11 +13,22 @@ import org.panda.business.admin.modules.services.api.param.GetAccountDetailsPara
 import org.panda.business.admin.modules.services.api.param.UpdateAuthAccountParam;
 import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
 import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
+import org.panda.business.admin.modules.system.api.param.AddUserParam;
+import org.panda.business.admin.modules.system.service.SysRoleService;
+import org.panda.business.admin.modules.system.service.SysUserService;
+import org.panda.business.admin.modules.system.service.entity.SysRole;
+import org.panda.business.admin.modules.system.service.entity.SysUser;
+import org.panda.business.admin.modules.system.service.repository.SysUserMapper;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.spec.user.UsernamePassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 认证服务管理器
@@ -27,6 +40,12 @@ public class AuthServiceManager {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private SysUserService userService;
+    @Autowired
+    private SysRoleService roleService;
+    @Autowired
+    private SysUserMapper userMapper;
 
     private final AuthServiceClient authServiceClient;
 
@@ -60,9 +79,30 @@ public class AuthServiceManager {
                 accountParam.setAccountType("account");
             }
             boolean isAddAccount = authServiceClient.addAccount(accountParam);
-            if (isAddAccount) {
-                // TODO 同步创建后台商户账号
 
+            if (isAddAccount) { // 同步创建后台商户账号
+                AddUserParam userParam = new AddUserParam();
+                userParam.setUsername(accountParam.getUsername());
+                userParam.setPassword(password);
+                userParam.setNickname(accountParam.getUsername());
+                userParam.setEmail(accountParam.getEmail());
+                String accountType = accountParam.getAccountType();
+                userParam.setUserType(accountParam.getAccountType());
+                String addUserResult = userService.addUser(userParam);
+                if (Commons.RESULT_SUCCESS.equals(addUserResult)) {
+                    // 根据账户类型自动绑定相应的角色
+                    LambdaQueryWrapper<SysRole> roleQueryWrapper = new LambdaQueryWrapper<>();
+                    roleQueryWrapper.eq(SysRole::getRoleName, accountType).or()
+                            .eq(SysRole::getRoleCode, accountType.toUpperCase(Locale.ROOT));
+                    List<SysRole> authRoles = roleService.list(roleQueryWrapper);
+                    if (authRoles != null && !authRoles.isEmpty()) {
+                        Set<Integer> roleIds = authRoles.stream().map(SysRole::getId).collect(Collectors.toSet());
+                        LambdaQueryWrapper<SysUser> userQueryWrapper = new LambdaQueryWrapper<>();
+                        userQueryWrapper.eq(SysUser::getUsername, userParam.getUsername());
+                        SysUser sysUser = userService.getOne(userQueryWrapper);
+                        userMapper.updateUserRole(sysUser.getId(), roleIds);
+                    }
+                }
             }
             return isAddAccount;
         } catch (Exception e) {

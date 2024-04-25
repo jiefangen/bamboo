@@ -95,7 +95,7 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
         queryWrapper.eq(AppServer::getAppCode, appCode);
         String env = appServiceModel.getEnv();
         queryWrapper.eq(AppServer::getEnv, env);
-        AppServer appServer = this.getOne(queryWrapper);
+        AppServer appServer = this.getOne(queryWrapper, false);
         if (appServer == null) { // 应用服务注册激活
             AppServer appServerParam = new AppServer();
             appServerParam.setAppName(appName);

@@ -32,7 +32,7 @@ public class UserSpecificDetailsServiceImpl implements UserSpecificDetailsServic
     private SysUserRoleService userRoleService;
 
     @Override
-    public UserSpecificDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserSpecificDetails<?> loadUserByUsername(String username) throws UsernameNotFoundException {
         if (StringUtils.isEmpty(username)) {
             throw new RequiredParamException();
         }

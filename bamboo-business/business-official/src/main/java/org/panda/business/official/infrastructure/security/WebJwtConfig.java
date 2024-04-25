@@ -41,8 +41,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
     @Override
     public String getSecretKey() {
         AesEncryptor aesEncryptor = new AesEncryptor();
-        String secretKey = aesEncryptor.encrypt(appName, KEY);
-        return secretKey;
+        return aesEncryptor.encrypt(appName, KEY);
     }
 
     @Override

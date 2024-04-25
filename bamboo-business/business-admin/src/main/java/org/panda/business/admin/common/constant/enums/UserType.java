@@ -12,6 +12,10 @@ public enum UserType {
     @EnumValue("manager")
     MANAGER,
 
+    @Caption("认证账户用户")
+    @EnumValue("account")
+    ACCOUNT,
+
     @Caption("普通用户")
     @EnumValue("general")
     GENERAL,

@@ -1,17 +1,17 @@
 /* 数据表初始化脚本, 默认明文密码123456 */
 insert into `sys_user` (`id`, `username`, `nickname`, `user_type`, `user_rank`, `password`, `sex`) values
-(101, 'admin', 'Admin', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '男'),
-(102, 'system', 'System', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '男'),
-(103, 'actuator', 'Actuator', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '女'),
-(104, 'fangen', '木雨之舟', 'general', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '男'),
-(105, '李礼', 'LiLi', 'general', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '女'),
-(106, '介知礼', '知书达理', 'customer', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '女');
+(101, 'admin', 'Admin', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '1'),
+(102, 'system', 'System', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '1'),
+(103, 'actuator', 'Actuator', 'manager', '0', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '0'),
+(104, 'fangen', '木雨之舟', 'general', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '1'),
+(105, '李礼', 'LiLi', 'general', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '0'),
+(106, '介知礼', '知书达理', 'customer', '1', '$2a$10$EMNrFn9zjcJZQf6z8WxG6OhdC5tQbk5a39hPG61aHkTGOVWacAWFi', '0');
 
 insert into `sys_role` (`id`, `role_name`, `role_code`, `description`) values
 (101, 'admin', 'ADMIN' ,'顶级管理员，有权查看本平台所有页面。'),
 (102, 'system', 'SYSTEM', '系统管理员，有权查看系统管理相关页面。'),
 (103, 'actuator', 'ACTUATOR' ,'监控管理员，有权查看系统监控相关页面。'),
-(104, 'user', 'USER', '特性用户，有权查看用户特定授权页面。'),
+(104, 'account', 'ACCOUNT', '认证账户用户，有权查看一般服务认证用户特定授权页面。'),
 (105, 'general', 'GENERAL', '普通用户，有权查看特定授权页面。'),
 (106, 'customer', 'CUSTOMER', '访客，只能查看无权限管控页面。');
 
@@ -42,8 +42,7 @@ insert into `sys_role_menu` (`role_id`, `menu_id`) values
 (101, 101),(101, 102),(101, 103),(101, 104),(101, 105),(101, 106),(101, 107),(101, 108),(101, 109),(101, 110),
 (101, 111),(101, 112),(101, 113),
 (102, 101),(102, 102),(102, 103),(102, 104),(102, 105),(102, 111),(102, 112),(102, 113),
-(103, 106),(103, 107),(103, 108),(103, 109),(103, 110),
-(104, 101),(104, 102);
+(103, 106),(103, 107),(103, 108),(103, 109),(103, 110);
 
 /* 系统参数初始化 */
 insert into `sys_parameter` (`id`, `param_name`, `param_key`, `param_value`, `param_type`, `app_range`, `remark`, `creator`) values

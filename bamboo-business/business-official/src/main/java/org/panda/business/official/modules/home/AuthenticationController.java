@@ -23,7 +23,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessAnonymous")
     @ConfigAnonymous
-    public RestfulResult accessAnonymous() {
+    public RestfulResult<?> accessAnonymous() {
         return RestfulResult.success(true);
     }
 
@@ -32,7 +32,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessManagerType")
     @ConfigAuthority(type = Authority.TYPE_MANAGER)
-    public RestfulResult accessManagerType() {
+    public RestfulResult<?> accessManagerType() {
         return RestfulResult.success(true);
     }
 
@@ -41,7 +41,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessRank1")
     @ConfigAuthority(rank = Authority.RANK_1)
-    public RestfulResult accessRank1() {
+    public RestfulResult<?> accessRank1() {
         return RestfulResult.success(true);
     }
 
@@ -50,7 +50,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessSystemPer")
     @ConfigAuthority(permission = Authority.ROLE_SYSTEM)
-    public RestfulResult accessSystemPer() {
+    public RestfulResult<?> accessSystemPer() {
         return RestfulResult.success(true);
     }
 
@@ -59,7 +59,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessAuthSucceed")
     @ConfigAuthority
-    public RestfulResult accessAuthSucceed() {
+    public RestfulResult<?> accessAuthSucceed() {
         return RestfulResult.success(true);
     }
 
@@ -68,7 +68,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessAllPermission")
     @ConfigAuthority(type = Authority.TYPE_MANAGER, rank = Authority.RANK_0, permission = Authority.ROLE_ACTUATOR)
-    public RestfulResult accessAllPermission() {
+    public RestfulResult<?> accessAllPermission() {
         return RestfulResult.success(true);
     }
 
@@ -77,7 +77,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessPermission")
     @ConfigPermission
-    public RestfulResult accessPermission() {
+    public RestfulResult<?> accessPermission() {
         return RestfulResult.success(true);
     }
 
@@ -85,7 +85,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      * 拒绝所有权限访问
      */
     @GetMapping("/accessDenyAll")
-    public RestfulResult accessDenyAll() {
+    public RestfulResult<?> accessDenyAll() {
         return RestfulResult.success(true);
     }
 }

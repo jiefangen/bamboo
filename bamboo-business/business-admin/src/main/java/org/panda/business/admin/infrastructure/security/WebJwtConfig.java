@@ -22,7 +22,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
     /**
      * 随机生成的key，每次启动都会有不同的密钥产生
      */
-    private static String TOKEN_KEY;
+    private static final String TOKEN_KEY;
 
     @Value(AppConstants.EL_SPRING_APP_NAME)
     private String appName;
@@ -49,15 +49,10 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
     @Override
     public String getSecretKey() {
         Optional<String> tokenKeyOptional = settingsManager.getParamValue(SettingsKeys.TOKEN_KEY, appName);
-        String tokenKey;
-        if (tokenKeyOptional.isPresent()) { // 优先使用系统配置参数
-            tokenKey = tokenKeyOptional.get();
-        } else {
-            tokenKey = TOKEN_KEY;
-        }
+        // 优先使用系统配置参数
+        String tokenKey = tokenKeyOptional.orElse(TOKEN_KEY);
         AesEncryptor aesEncryptor = new AesEncryptor();
-        String secretKey = aesEncryptor.encrypt(appName, tokenKey);
-        return secretKey;
+        return aesEncryptor.encrypt(appName, tokenKey);
     }
 
     @Override

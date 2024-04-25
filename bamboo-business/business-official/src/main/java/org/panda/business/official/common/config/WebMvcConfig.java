@@ -14,9 +14,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerSupport {
-    /**
-     * 定制jwt解决方案，视具体应用而定
-     */
+
     @Bean
     @ConditionalOnMissingBean(InternalJwtResolver.class)
     public InternalJwtResolver internalJwtResolver() {

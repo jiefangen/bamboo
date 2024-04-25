@@ -60,8 +60,7 @@ public class AuthenticationController extends AuthenticationControllerSupport {
      */
     @GetMapping("/accessSystemPer")
     @ConfigAuthorities({
-            @ConfigAuthority(permission = Authority.ROLE_SYSTEM),
-            @ConfigAuthority(permission = Authority.ROLE_USER)
+            @ConfigAuthority(permission = Authority.ROLE_SYSTEM)
     })
     public RestfulResult accessSystemPer() {
         return RestfulResult.success(true);
