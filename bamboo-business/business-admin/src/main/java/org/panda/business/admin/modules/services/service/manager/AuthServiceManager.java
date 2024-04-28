@@ -7,10 +7,7 @@ import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
-import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
-import org.panda.business.admin.modules.services.api.param.AddAccountParam;
-import org.panda.business.admin.modules.services.api.param.GetAccountDetailsParam;
-import org.panda.business.admin.modules.services.api.param.UpdateAuthAccountParam;
+import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
 import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
 import org.panda.business.admin.modules.system.api.param.AddUserParam;
@@ -134,5 +131,14 @@ public class AuthServiceManager {
         accountDetails.setUsername(usernamePassword.getUsername());
         accountDetails.setPassword(usernamePassword.getPassword());
         return accountDetails;
+    }
+
+    public Object servicePage(ServiceQueryParam queryParam) {
+        try {
+            return authServiceClient.servicePage(queryParam);
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+            return e.getMessage() == null ? null : e.getMessage();
+        }
     }
 }

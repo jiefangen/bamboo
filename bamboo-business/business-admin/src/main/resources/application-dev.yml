@@ -78,3 +78,8 @@ management:
     health:
       show-details: always
 
+# 自定义相关配置
+bamboo:
+  common:
+    serviceRoot:
+      authServiceClient: http://localhost:11006/auth

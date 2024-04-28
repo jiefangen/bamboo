@@ -18,5 +18,4 @@ public class WebMvcSecurityConfig extends WebMvcSecurityConfigurerSupport {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

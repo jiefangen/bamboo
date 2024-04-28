@@ -1,22 +1,28 @@
 package org.panda.service.auth.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
+import org.panda.service.auth.infrastructure.security.app.authority.AppConfigAuthority;
 import org.panda.service.auth.model.entity.AppServer;
+import org.panda.service.auth.model.param.ServiceQueryParam;
 import org.panda.service.auth.repository.AppServerMapper;
 import org.panda.service.auth.service.AppServerService;
 import org.panda.service.auth.service.AuthPermissionService;
 import org.panda.service.auth.service.AuthRolePermissionService;
 import org.panda.tech.core.config.annotation.GrantAuthority;
-import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
-import org.panda.service.auth.infrastructure.security.app.authority.AppConfigAuthority;
 import org.panda.tech.core.util.CommonUtil;
 import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.util.WebHttpUtil;
+import org.panda.tech.data.model.query.QueryResult;
+import org.panda.tech.data.mybatis.util.QueryPageHelper;
 import org.panda.tech.security.cas.CasConstants;
 import org.panda.tech.security.user.UserGrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +97,8 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
     public String initServicePermission(AppServiceModel appServiceModel) {
         String appName = appServiceModel.getAppName();
         String appCode = appName.toUpperCase();
-        LambdaQueryWrapper<AppServer> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<AppServer> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AppServer::getAppName, appName);
         queryWrapper.eq(AppServer::getAppCode, appCode);
         String env = appServiceModel.getEnv();
         queryWrapper.eq(AppServer::getEnv, env);
@@ -118,4 +125,15 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
         return Commons.RESULT_SUCCESS;
     }
 
+    @Override
+    public QueryResult<AppServer> getServicePage(ServiceQueryParam queryParam) {
+        Page<AppServer> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
+        LambdaQueryWrapper<AppServer> queryWrapper = Wrappers.lambdaQuery();
+        if (StringUtils.isNotBlank(queryParam.getKeyword())) {
+            queryWrapper.like(AppServer::getAppName, queryParam.getKeyword()).or()
+                        .like(AppServer::getAppCode, queryParam.getKeyword());
+        }
+        IPage<AppServer> servicePage = this.page(page, queryWrapper);
+        return QueryPageHelper.convertQueryResult(servicePage);
+    }
 }

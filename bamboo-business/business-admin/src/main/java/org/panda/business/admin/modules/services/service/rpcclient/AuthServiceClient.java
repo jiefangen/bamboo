@@ -2,7 +2,9 @@ package org.panda.business.admin.modules.services.service.rpcclient;
 
 import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
 import org.panda.business.admin.modules.services.api.param.AddAccountParam;
+import org.panda.business.admin.modules.services.api.param.ServiceQueryParam;
 import org.panda.business.admin.modules.services.api.param.UpdateAuthAccountParam;
+import org.panda.business.admin.modules.services.api.vo.AppServerVO;
 import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
 import org.panda.tech.core.rpc.annotation.RpcClient;
 import org.panda.tech.core.rpc.annotation.RpcMethod;
@@ -34,5 +36,10 @@ public class AuthServiceClient {
     @RpcMethod(value = "/authService/account/update", method = HttpMethod.PUT)
     public boolean updateAccount(@RequestBody UpdateAuthAccountParam authAccountParam) {
         return false;
+    }
+
+    @RpcMethod(value = "/authService/service/page", subTypes = AppServerVO.class)
+    public QueryResult<AppServerVO> servicePage(@RequestBody ServiceQueryParam queryParam) {
+        return QueryResult.empty(new Pagination());
     }
 }

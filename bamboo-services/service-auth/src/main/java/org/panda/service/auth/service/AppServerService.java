@@ -1,8 +1,10 @@
 package org.panda.service.auth.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.panda.service.auth.model.entity.AppServer;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
+import org.panda.service.auth.model.entity.AppServer;
+import org.panda.service.auth.model.param.ServiceQueryParam;
+import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -27,4 +29,5 @@ public interface AppServerService extends IService<AppServer> {
 
     String initServicePermission(AppServiceModel appServiceModel);
 
+    QueryResult<AppServer> getServicePage(ServiceQueryParam queryParam);
 }

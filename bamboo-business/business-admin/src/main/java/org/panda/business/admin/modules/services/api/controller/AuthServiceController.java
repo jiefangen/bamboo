@@ -1,10 +1,7 @@
 package org.panda.business.admin.modules.services.api.controller;
 
 import io.swagger.annotations.Api;
-import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
-import org.panda.business.admin.modules.services.api.param.AddAccountParam;
-import org.panda.business.admin.modules.services.api.param.GetAccountDetailsParam;
-import org.panda.business.admin.modules.services.api.param.UpdateAuthAccountParam;
+import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
 import org.panda.business.admin.modules.services.service.manager.AuthServiceManager;
 import org.panda.tech.core.spec.log.ActionType;
@@ -32,7 +29,7 @@ public class AuthServiceController {
     @PostMapping("/account/page")
     @ConfigPermission
     @WebOperationLog(actionType = ActionType.QUERY)
-    public RestfulResult<?> accountPage(@RequestBody AccountQueryParam queryParam) {
+    public RestfulResult<?> getAccountPage(@RequestBody AccountQueryParam queryParam) {
         Object accountPageResult = authServiceManager.accountPage(queryParam);
         return accountPageResult == null ? RestfulResult.failure() : RestfulResult.success(accountPageResult);
     }
@@ -63,5 +60,13 @@ public class AuthServiceController {
     public RestfulResult<AccountDetailsVO> getAccountDetails(@RequestBody @Valid GetAccountDetailsParam accountDetailsParam) {
         AccountDetailsVO accountDetails = authServiceManager.getAccountDetails(accountDetailsParam);
         return RestfulResult.success(accountDetails);
+    }
+
+    @PostMapping("/service/page")
+    @ConfigPermission
+    @WebOperationLog(actionType = ActionType.QUERY)
+    public RestfulResult<?> getServicePage(@RequestBody ServiceQueryParam queryParam) {
+        Object servicePageResult = authServiceManager.servicePage(queryParam);
+        return servicePageResult == null ? RestfulResult.failure() : RestfulResult.success(servicePageResult);
     }
 }

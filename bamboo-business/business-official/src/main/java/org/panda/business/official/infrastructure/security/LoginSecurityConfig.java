@@ -30,5 +30,4 @@ public class LoginSecurityConfig extends LoginSecurityConfigurerSupport<Username
     protected UsernamePasswordAuthenticationFilter createProcessingFilter() {
         return new LoginModeAuthenticationFilter(super.getApplicationContext());
     }
-
 }

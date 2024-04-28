@@ -57,7 +57,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
         }
         List<AuthRole> roles = authAccountDto.getRoles();
         if(CollectionUtils.isNotEmpty(roles)) {
-            Set<String> roleCodes = roles.stream().map(role -> role.getRoleCode()).collect(Collectors.toSet());
+            Set<String> roleCodes = roles.stream().map(AuthRole::getRoleCode).collect(Collectors.toSet());
             authAccountDto.setRoleCodes(roleCodes);
         }
         return authAccountDto;
@@ -66,7 +66,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
     @Override
     public QueryResult<AuthAccount> getAccountByPage(AccountQueryParam queryParam) {
         Page<AuthAccount> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
-        LambdaQueryWrapper<AuthAccount> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<AuthAccount> queryWrapper = Wrappers.lambdaQuery();
         if (StringUtils.isNotBlank(queryParam.getKeyword())) {
             queryWrapper.like(AuthAccount::getUsername, queryParam.getKeyword()).or()
                         .like(AuthAccount::getMerchantNum, queryParam.getKeyword());
@@ -113,7 +113,7 @@ public class AuthAccountServiceImpl extends ServiceImpl<AuthAccountMapper, AuthA
 
         // 按账户类型绑定角色关系
         if (isSaved && StringUtils.isNotEmpty(accountType)) {
-            LambdaQueryWrapper<AuthRole> roleQueryWrapper = new LambdaQueryWrapper<>();
+            LambdaQueryWrapper<AuthRole> roleQueryWrapper = Wrappers.lambdaQuery();
             roleQueryWrapper.eq(AuthRole::getRoleName, accountType).or()
                             .eq(AuthRole::getRoleCode, accountType.toUpperCase(Locale.ROOT));
             List<AuthRole> authRoles = authRoleService.list(roleQueryWrapper);
