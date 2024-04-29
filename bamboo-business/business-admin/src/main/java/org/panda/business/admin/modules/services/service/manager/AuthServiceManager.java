@@ -9,6 +9,7 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
+import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
 import org.panda.business.admin.modules.system.api.param.AddUserParam;
 import org.panda.business.admin.modules.system.service.SysRoleService;
@@ -139,6 +140,17 @@ public class AuthServiceManager {
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
             return e.getMessage() == null ? null : e.getMessage();
+        }
+    }
+
+    public List<PermissionInfoVO> getPermissionInfo(GetPermissionParam permissionParam) {
+        try {
+            // 服务ID用作权限资源来源
+            permissionParam.setResourcesId(permissionParam.getId());
+            return authServiceClient.permissionInfo(permissionParam);
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+            return null;
         }
     }
 }

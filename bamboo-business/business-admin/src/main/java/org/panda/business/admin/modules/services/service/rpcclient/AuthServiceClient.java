@@ -1,11 +1,9 @@
 package org.panda.business.admin.modules.services.service.rpcclient;
 
-import org.panda.business.admin.modules.services.api.param.AccountQueryParam;
-import org.panda.business.admin.modules.services.api.param.AddAccountParam;
-import org.panda.business.admin.modules.services.api.param.ServiceQueryParam;
-import org.panda.business.admin.modules.services.api.param.UpdateAuthAccountParam;
+import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AppServerVO;
 import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
+import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.tech.core.rpc.annotation.RpcClient;
 import org.panda.tech.core.rpc.annotation.RpcMethod;
 import org.panda.tech.data.model.query.Pagination;
@@ -13,6 +11,9 @@ import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 认证授权客户端实现
@@ -41,5 +42,10 @@ public class AuthServiceClient {
     @RpcMethod(value = "/authService/service/page", subTypes = AppServerVO.class)
     public QueryResult<AppServerVO> servicePage(@RequestBody ServiceQueryParam queryParam) {
         return QueryResult.empty(new Pagination());
+    }
+
+    @RpcMethod(value = "/authService/service/permission/info", subTypes = PermissionInfoVO.class)
+    public List<PermissionInfoVO> permissionInfo(@RequestBody GetPermissionParam permissionParam) {
+        return new ArrayList<>();
     }
 }

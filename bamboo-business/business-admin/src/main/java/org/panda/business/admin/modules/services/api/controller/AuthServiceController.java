@@ -3,6 +3,7 @@ package org.panda.business.admin.modules.services.api.controller;
 import io.swagger.annotations.Api;
 import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
+import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.business.admin.modules.services.service.manager.AuthServiceManager;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 认证服务控制器
@@ -67,6 +69,13 @@ public class AuthServiceController {
     @WebOperationLog(actionType = ActionType.QUERY)
     public RestfulResult<?> getServicePage(@RequestBody ServiceQueryParam queryParam) {
         Object servicePageResult = authServiceManager.servicePage(queryParam);
+        return servicePageResult == null ? RestfulResult.failure() : RestfulResult.success(servicePageResult);
+    }
+
+    @PostMapping("/service/permission/info")
+    @ConfigPermission
+    public RestfulResult<?> getPermissionInfo(@RequestBody GetPermissionParam permissionParam) {
+        List<PermissionInfoVO> servicePageResult = authServiceManager.getPermissionInfo(permissionParam);
         return servicePageResult == null ? RestfulResult.failure() : RestfulResult.success(servicePageResult);
     }
 }

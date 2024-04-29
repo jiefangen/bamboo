@@ -3,15 +3,16 @@ package org.panda.service.auth.api;
 import io.swagger.annotations.Api;
 import org.panda.service.auth.model.entity.AppServer;
 import org.panda.service.auth.model.entity.AuthAccount;
-import org.panda.service.auth.model.param.AccountQueryParam;
-import org.panda.service.auth.model.param.AddAccountParam;
-import org.panda.service.auth.model.param.ServiceQueryParam;
-import org.panda.service.auth.model.param.UpdateAccountParam;
+import org.panda.service.auth.model.param.*;
+import org.panda.service.auth.model.vo.PermissionInfoVO;
 import org.panda.service.auth.service.AppServerService;
 import org.panda.service.auth.service.AuthAccountService;
+import org.panda.service.auth.service.AuthPermissionService;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 认证服务API
@@ -28,6 +29,8 @@ public class AuthServiceApi {
     private AuthAccountService accountService;
     @Autowired
     private AppServerService appServerService;
+    @Autowired
+    private AuthPermissionService permissionService;
 
     @PostMapping("/account/page")
     public QueryResult<AuthAccount> accountPage(@RequestBody AccountQueryParam queryParam) {
@@ -47,5 +50,10 @@ public class AuthServiceApi {
     @PostMapping("/service/page")
     public QueryResult<AppServer> servicePage(@RequestBody ServiceQueryParam queryParam) {
         return appServerService.getServicePage(queryParam);
+    }
+
+    @PostMapping("/service/permission/info")
+    public List<PermissionInfoVO> permissionInfo(@RequestBody GetPermissionParam permissionParam) {
+        return permissionService.getPermissionInfo(permissionParam);
     }
 }

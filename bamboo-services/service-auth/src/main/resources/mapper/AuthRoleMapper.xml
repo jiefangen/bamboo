@@ -2,4 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.panda.service.auth.repository.AuthRoleMapper">
 
+    <select id="getRoleByPermissionId" resultType="org.panda.service.auth.model.entity.AuthRole">
+        select t.*
+        from auth_role t
+                 left join auth_role_permission t1 on t.id = t1.role_id
+                 left join auth_permission t2 on t1.permission_id = t2.id
+        where t2.id = #{permissionId}
+    </select>
+
 </mapper>
