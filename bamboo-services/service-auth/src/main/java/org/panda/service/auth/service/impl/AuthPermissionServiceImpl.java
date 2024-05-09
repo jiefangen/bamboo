@@ -55,7 +55,7 @@ public class AuthPermissionServiceImpl extends ServiceImpl<AuthPermissionMapper,
                 PermissionInfoVO permissionInfoVO = JsonUtil.json2Bean(JsonUtil.toJson(authPermission), PermissionInfoVO.class);
                 List<AuthRole> authRoles = authRoleMapper.getRoleByPermissionId(authPermission.getId());
                 if (!authRoles.isEmpty()) {
-                    StringBuilder roleScopeSb = new StringBuilder();
+                    StringBuilder roleScopeSb = new StringBuilder(Strings.VERTICAL_BAR);
                     authRoles.forEach(authRole -> {
                         roleScopeSb.append(authRole.getRoleCode()).append(Strings.VERTICAL_BAR);
                     });

@@ -103,20 +103,23 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
         String env = appServiceModel.getEnv();
         queryWrapper.eq(AppServer::getEnv, env);
         AppServer appServer = this.getOne(queryWrapper, false);
+        // 组装应用服务参数
+        AppServer appServerParam = new AppServer();
+        appServerParam.setAppName(appName);
+        appServerParam.setAppCode(appCode);
+        appServerParam.setEnv(env);
+        appServerParam.setHost(appServiceModel.getHost());
+        appServerParam.setStatus(1);
+        appServerParam.setCaption(appServiceModel.getCaption());
+        appServerParam.setBusiness(appServiceModel.getBusiness());
+        appServerParam.setScope(appServiceModel.getScope());
         if (appServer == null) { // 应用服务注册激活
-            AppServer appServerParam = new AppServer();
-            appServerParam.setAppName(appName);
-            appServerParam.setAppCode(appCode);
-            appServerParam.setEnv(env);
-            appServerParam.setHost(appServiceModel.getHost());
-            appServerParam.setStatus(1);
-            appServerParam.setCaption(appServiceModel.getCaption());
-            appServerParam.setBusiness(appServiceModel.getBusiness());
-            appServerParam.setScope(appServiceModel.getScope());
-            boolean retBool = this.save(appServerParam);
-            if (retBool) { // 保存成功
-                appServer = this.getOne(queryWrapper);
+            if (this.save(appServerParam)) {
+                appServer = this.getOne(Wrappers.lambdaQuery(appServerParam));
             }
+        } else { // 已注册过的更新
+            appServerParam.setId(appServer.getId());
+            this.updateById(appServerParam);
         }
         if (appServer == null) { // 还未获取到应用服务则本次初始化失败
             return appName + " service registration and save failed";
