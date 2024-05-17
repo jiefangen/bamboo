@@ -2,6 +2,7 @@ package org.panda.business.official.test.algorithm;
 
 import org.junit.jupiter.api.Test;
 import org.panda.bamboo.common.util.algorithm.AlgoChecksum;
+import org.panda.tech.core.web.util.IP2RegionUtil;
 
 /**
  * 算法测试类
@@ -17,4 +18,10 @@ public class AlgorithmTest {
         System.out.println(checkResult);
     }
 
+    @Test
+    void getIPRegion() {
+        // 120.25.220.23、47.243.14.168
+        String ip = "47.243.14.168";
+        System.out.println(IP2RegionUtil.getIPRegion(ip));
+    }
 }

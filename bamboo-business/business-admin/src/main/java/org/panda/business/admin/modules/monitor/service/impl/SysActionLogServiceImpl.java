@@ -127,7 +127,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
             if (StringUtils.isBlank(regionName) && StringUtils.isBlank(city)) {
                 ipAttribution = messageSourceResolver.findI18nMessage("admin.monitor.actionLog.ipInvalid");
             } else {
-                ipAttribution = regionName + Strings.SPACE + city;
+                ipAttribution = regionName + Strings.VERTICAL_BAR + city;
             }
         } else {
             ipAttribution = messageSourceResolver.findI18nMessage("admin.monitor.actionLog.ipAttribution");
