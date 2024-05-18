@@ -21,7 +21,10 @@ public class AlgorithmTest {
     @Test
     void getIPRegion() {
         // 120.25.220.23、47.243.14.168
-        String ip = "47.243.14.168";
-        System.out.println(IP2RegionUtil.getIPRegion(ip));
+        System.out.println(IP2RegionUtil.getIPRegion("47.243.14.168"));
+        IP2RegionUtil ip2RegionUtil = new IP2RegionUtil();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(ip2RegionUtil.getIPRegionCache("120.25.220.23"));
+        }
     }
 }
