@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bamboo-business</artifactId>
+        <groupId>org.panda.business</groupId>
+        <version>1.0.RELEASE</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>business-helper-app</artifactId>
+    <version>${business.version}</version>
+
+    <properties>
+        <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
+        <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
+        <pagehelper.version>1.4.1</pagehelper.version>
+    </properties>
+
+    <dependencies>
+        <!-- 技术框架核心组件依赖 -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-core</artifactId>
+            <version>${bamboo-core.version}</version>
+        </dependency>
+        <!-- 技术框架mybatis扩展支持 -->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-data-mybatis</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
+        <!-- MySQL连接驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- 监控和管理应用程序的生产级特性 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- 自动生成可视化的API文档 -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
+            <version>${knife4j-openapi2.version}</version>
+        </dependency>
+
+        <!-- 安全验证框架 -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring-boot-web-starter</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        <!-- 分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.version}</version>
+        </dependency>
+    </dependencies>
+</project>

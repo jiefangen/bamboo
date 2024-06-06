@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="60 seconds" packagingData="true">
+    <property name="contextName" value="${contextName}" />
+    <!-- contextName：每个logger都关联到logger上下文，默认上下文名称为“default”。但可以使用<contextName>设置成其他名字，用于区分不同应用程序的记录。一旦设置，不能修改。-->
+    <contextName>${contextName}</contextName>
+
+    <!-- ******************** appender：日志 start ******************** -->
+    <!-- 标准输出：console -->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 文件输出：file -->
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--<file></file>-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <FileNamePattern>${LOG_PATH}\%d{yyyyMMdd}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <!--日志文件最大的大小-->
+        <!--<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">-->
+          <!--<MaxFileSize>10MB</MaxFileSize>-->
+        <!--</triggeringPolicy>-->
+    </appender>
+    <!-- ******************** appender：日志 end ******************** -->
+
+    <!-- 定义日志的level、appender，且最多只能配置一个 -->
+    <!--TRACE < DEBUG < INFO <  WARN < ERROR-->
+    <root>
+        <level value="INFO" />
+        <appender-ref ref="file" />
+        <appender-ref ref="console" />
+    </root>
+
+    <!-- level:日志级别（logger中的level会覆盖root中的，即以logger中为准，不管是否向上传递）name:包名或类的全路径addtivity:日志信息是否向上（root）传递  -->
+    <logger name="org.panda" />
+    <!-- 生产环境可更换成info级别,减少日志内容的产生 -->
+    <logger name="org.panda" level="info" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="file"/>
+    </logger>
+</configuration>

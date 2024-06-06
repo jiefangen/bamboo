@@ -1,4 +1,4 @@
-package org.panda.business.admin.common.config;
+package org.panda.business.helper.app.common.config;
 
 import org.panda.tech.core.jwt.internal.resolver.DefaultInternalJwtResolver;
 import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
@@ -20,16 +20,15 @@ public class WebMvcConfig extends WebMvcConfigurerSupport {
      */
     @Bean
     public RequestLogFilter requestLogFilter() {
-        return new RequestLogFilter("/auth/**");
+        return new RequestLogFilter("/helper-app/**");
     }
 
     /**
-     * 定制JWT解决方案，视具体应用而定
+     * 内部JWT解决方案
      */
     @Bean
     @ConditionalOnMissingBean(InternalJwtResolver.class)
     public InternalJwtResolver internalJwtResolver() {
         return new DefaultInternalJwtResolver();
     }
-
 }

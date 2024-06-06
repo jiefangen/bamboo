@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: helper-app
+  profiles:
+    active: junit
+server:
+  port: 10103
+  servlet:
+      context-path: /helper-app
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

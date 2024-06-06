@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${appDesc}"></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><span th:text="${appDesc}"></span></h1>
+    <h3>
+        <p>
+            <span th:text="'Env【' + ${env} + '】'" ></span>
+            <span th:text="'Port【' + ${port} + '】'" ></span>
+        </p>
+        <p><span th:text="'Service Host【' + ${localHost} + '】'" ></span></p>
+        <p><span th:text="'Visitor Addr【' + ${remoteAddress} + '】'" ></span></p>
+    </h3>
+    <p>If you see this page, the service has been successfully started.</p>
+    <p><span th:text="'Thank you for using ' + ${appName} + '.'"></span></p>
+</div>
+</body>
+</html>

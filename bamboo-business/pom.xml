@@ -13,6 +13,8 @@
         <module>business-admin</module>
         <!-- 官网平台系统 -->
         <module>business-official</module>
+        <!-- 雨竹小助手APP系统 -->
+        <module>business-helper-app</module>
     </modules>
 
     <properties>
