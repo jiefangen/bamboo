@@ -1,12 +1,12 @@
 package org.panda.business.helper.app.common.constant;
 
 /**
- * 系统全局常量类
+ * 项目全局常量类
  *
  * @author fangen
  * @since 2020/5/16
  **/
-public class GlobalConstants {
+public class ProjectConstants {
     /**
      * X-Token令牌
      */
@@ -99,5 +99,10 @@ public class GlobalConstants {
      * 此用户已被禁用
      */
     public static final String USER_DISABLED = "This user has been disabled.";
+
+    /**
+     * 默认初始化密码
+     */
+    public static final String DEFAULT_USER_PWD = "123456";
 
 }

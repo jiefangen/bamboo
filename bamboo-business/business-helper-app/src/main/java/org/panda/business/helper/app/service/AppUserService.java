@@ -1,7 +1,9 @@
 package org.panda.business.helper.app.service;
 
-import org.panda.business.helper.app.model.entity.AppUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.panda.business.helper.app.model.entity.AppUser;
+import org.panda.business.helper.app.model.params.AppLoginParam;
+import org.panda.tech.core.web.restful.RestfulResult;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AppUserService extends IService<AppUser> {
 
+    RestfulResult<?> appLogin(AppLoginParam appLoginParam);
 }

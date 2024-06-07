@@ -7,7 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.util.date.DateUtil;
-import org.panda.business.helper.app.common.constant.GlobalConstants;
+import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +54,7 @@ public class TokenUtil {
         Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
         JWTVerifier verifier = JWT.require(algorithm).withIssuer("auth0").build();
         DecodedJWT jwt = verifier.verify(token);
-        LOGGER.debug( "{}：username: {}, {}", GlobalConstants.VIA_TOKEN_INTERCEPTOR,
+        LOGGER.debug( "{}：username: {}, {}", ProjectConstants.VIA_TOKEN_INTERCEPTOR,
                 jwt.getClaim("username").asString(), "expire date：", DateUtil.formatLong(jwt.getExpiresAt()));
         return true;
     }

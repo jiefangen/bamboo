@@ -8,7 +8,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.panda.business.helper.app.common.constant.GlobalConstants;
+import org.panda.business.helper.app.common.constant.ProjectConstants;
 
 public class HelperAppRealm extends AuthorizingRealm {
 
@@ -21,7 +21,7 @@ public class HelperAppRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         if (authenticationToken.getPrincipal() == null) {
-            throw new AuthenticationException(GlobalConstants.USER_EMPTY);
+            throw new AuthenticationException(ProjectConstants.USER_EMPTY);
         }
         String username = authenticationToken.getPrincipal().toString();
 

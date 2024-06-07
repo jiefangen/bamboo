@@ -74,11 +74,11 @@ public class ShiroConfig {
     /**
      * Shiro配置了放行哪些资源，访问哪些需要什么权限等
      */
-    @Bean
+//    @Bean
     public FilterRegistrationBean replaceTokenFilter(){
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setDispatcherTypes(DispatcherType.REQUEST);
-//        registration.setFilter( new CorsFilter());
+//        registration.setFilter(new CorsFilter());
         registration.addUrlPatterns("/*");
         registration.setName("CrossFilter");
         registration.setOrder(1);

@@ -1,15 +1,16 @@
 package org.panda.business.helper.app.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -61,7 +62,7 @@ public class AppUser implements Serializable {
 
     @ApiModelProperty(value = "性别：0-女；1-男")
     @TableField("gender")
-    private Boolean gender;
+    private Integer gender;
 
     @ApiModelProperty(value = "头像")
     @TableField("avatar")
@@ -73,7 +74,7 @@ public class AppUser implements Serializable {
 
     @ApiModelProperty(value = "状态：0-虚拟；1-正常；4-删除；9-锁定")
     @TableField("status")
-    private Boolean status;
+    private Integer status;
 
     @ApiModelProperty(value = "启用")
     @TableField("enabled")
