@@ -15,7 +15,6 @@
     <properties>
         <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
         <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
-        <pagehelper.version>1.4.1</pagehelper.version>
     </properties>
 
     <dependencies>
@@ -47,19 +46,6 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
             <version>${knife4j-openapi2.version}</version>
-        </dependency>
-
-        <!-- 安全验证框架 -->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring-boot-web-starter</artifactId>
-            <version>1.9.0</version>
-        </dependency>
-        <!-- 分页插件 -->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pagehelper.version}</version>
         </dependency>
     </dependencies>
 </project>

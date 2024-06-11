@@ -3,8 +3,6 @@ package org.panda.business.helper.app.controller;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.common.utils.TokenUtil;
@@ -60,10 +58,10 @@ public class LoginController {
     @GetMapping("/logout")
     @WebOperationLog(content = "/logout", actionType= ActionType.QUIT, intoStorage = true)
     public RestfulResult<?> logout(){
-        Subject subject = SecurityUtils.getSubject();
-        if (subject.isAuthenticated()) {
-            subject.logout();
-        }
+//        Subject subject = SecurityUtils.getSubject();
+//        if (subject.isAuthenticated()) {
+//            subject.logout();
+//        }
         return RestfulResult.success();
     }
 }
