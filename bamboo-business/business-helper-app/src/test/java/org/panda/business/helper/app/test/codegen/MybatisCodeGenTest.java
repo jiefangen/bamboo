@@ -8,6 +8,6 @@ public class MybatisCodeGenTest extends HelperAppApplicationTest {
     @Test
     void codeGen() {
         MybatisCodeGen mybatisCodeGen = new MybatisCodeGen();
-        mybatisCodeGen.codeGenerator("app_user");
+        mybatisCodeGen.codeGenerator("app_user_token", "app_action_log");
     }
 }

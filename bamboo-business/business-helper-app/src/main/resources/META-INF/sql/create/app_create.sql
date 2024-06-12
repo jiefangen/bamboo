@@ -10,9 +10,9 @@ DROP TABLE IF EXISTS `app_user`;
 CREATE TABLE `app_user` (
     `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
     `username` VARCHAR(50) NOT NULL COMMENT '用户名',
-    `password` VARCHAR(50) NOT NULL COMMENT '密码',
+    `password` VARCHAR(50) COMMENT '密码',
     `user_rank` INT default 1 NOT NULL COMMENT '用户级别：1～n',
-    `salt` VARCHAR(50) NOT NULL COMMENT '随机盐',
+    `salt` VARCHAR(50) COMMENT '随机盐',
     `nickname` VARCHAR(80) COMMENT '昵称',
     `phone` VARCHAR(20) COMMENT '手机号',
     `email` VARCHAR(50) COMMENT '邮箱',

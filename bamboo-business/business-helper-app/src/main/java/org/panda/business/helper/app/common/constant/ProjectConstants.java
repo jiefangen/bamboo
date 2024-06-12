@@ -8,14 +8,6 @@ package org.panda.business.helper.app.common.constant;
  **/
 public class ProjectConstants {
     /**
-     * X-Token令牌
-     */
-    public static final String TOKEN_HEADER = "X-Token";
-    /**
-     * Token授权
-     */
-    public static final String AUTH_HEADER = "Authorization";
-    /**
      * 用户信息错误状态码
      */
     public static final Integer USER_INFO_ERROR = 50001;
@@ -56,7 +48,7 @@ public class ProjectConstants {
     public static final Integer OTHER_CLIENTS_LOGGED_IN = 50012;
 
     /**
-     * Token expired
+     * Token失效
      */
     public static final Integer TOKEN_EXPIRED = 50014;
 

@@ -8,16 +8,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * WebJwt配置器
+ * AppJwt配置器
  *
  * @author fangen
  **/
 @Configuration
-public class WebJwtConfig extends AbstractInternalJwtConfiguration {
+public class AppJwtConfig extends AbstractInternalJwtConfiguration {
     /**
      * 随机生成的key，每次启动都会有不同的密钥产生
      */
     private static final String TOKEN_KEY;
+    /**
+     * 失效时间
+     */
+    private static final int EXPIRED_INTERVAL = 86400;
 
     @Value(AppConstants.EL_SPRING_APP_NAME)
     private String appName;
@@ -44,7 +48,7 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
 
     @Override
     public int getExpiredIntervalSeconds() {
-        return super.getExpiredIntervalSeconds();
+        return EXPIRED_INTERVAL;
     }
 
 }
