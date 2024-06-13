@@ -106,6 +106,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             LogUtil.error(getClass(), e);
         }
         if (tokenVerify) {
+            // TODO 登出流程，接入shiro后实现
+
             // 登出成功token失效处理
             LambdaQueryWrapper<AppUserToken> queryWrapper = Wrappers.lambdaQuery();
             UserIdentityToken userIdentityToken = appSecurityUtil.parseToken(token);

@@ -1,5 +1,11 @@
 package org.panda.business.helper.app.common.config.interceptor;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.panda.bamboo.common.util.LogUtil;
+import org.panda.business.helper.app.common.constant.ProjectConstants;
+import org.panda.business.helper.app.model.entity.AppUserToken;
+import org.panda.business.helper.app.service.AppUserTokenService;
 import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.core.web.config.WebConstants;
@@ -12,6 +18,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 /**
  * Token拦截器
@@ -24,6 +31,8 @@ public class TokenInterceptor implements HandlerInterceptor {
 
     @Autowired
     private InternalJwtResolver jwtResolver;
+    @Autowired
+    private AppUserTokenService userTokenService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
@@ -39,14 +48,35 @@ public class TokenInterceptor implements HandlerInterceptor {
         try {
             jwtVerify = jwtResolver.verify(token);
         } catch (Exception e) {
+            LogUtil.error(getClass(), e);
             WebHttpUtil.buildJsonResponse(response, failureResult);
             return false;
         }
         // token状态信息校验
         boolean interceptPass = false; // 拦截器通过状态标识
         if (jwtVerify) {
-            // TODO 处理用户token状态逻辑
-            interceptPass = true;
+            LambdaQueryWrapper<AppUserToken> queryWrapper = Wrappers.lambdaQuery();
+            queryWrapper.eq(AppUserToken::getToken, token);
+            AppUserToken userToken = userTokenService.getOne(queryWrapper, false);
+            if (userToken != null && userToken.getStatus() != null) { // 失效
+                Integer status = userToken.getStatus();
+                if (status == 3 || LocalDateTime.now().isAfter(userToken.getExpirationTime())) {
+                    failureResult = RestfulResult.getFailure(ExceptionEnum.TOKEN_EXPIRED);
+                } else {
+                    if (status == 1) { // 在线有效
+                        interceptPass = true;
+                    } else if (status == 2) { // 离线
+                        userToken.setStatus(1);
+                        interceptPass = true;
+                    } else if (status == 4) { // 登出
+                        failureResult = RestfulResult.failure(ProjectConstants.LOGGED_OUT, ProjectConstants.LOGGED_OUT_REASON);
+                    }
+                }
+                if (interceptPass) { // 实时刷新用户token在线时间
+                    userToken.setUpdateTime(LocalDateTime.now());
+                    userTokenService.updateById(userToken);
+                }
+            }
         }
 
         // token拦截器校验结果组装返回

@@ -1,6 +1,5 @@
 package org.panda.business.helper.app.infrastructure.security;
 
-import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.jwt.internal.AbstractInternalJwtConfiguration;
@@ -15,9 +14,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppJwtConfig extends AbstractInternalJwtConfiguration {
     /**
-     * 随机生成的key，每次启动都会有不同的密钥产生
+     * 固定默认的key，每次启动都会是相同的密钥
      */
-    private static final String TOKEN_KEY;
+    private static final String TOKEN_KEY = "d8MBgVBT3EE";
     /**
      * 失效时间
      */
@@ -27,7 +26,7 @@ public class AppJwtConfig extends AbstractInternalJwtConfiguration {
     private String appName;
 
     static { // 服务每次重启都会更新密钥key，提高系统安全性
-        TOKEN_KEY = StringUtil.randomNormalMixeds(11);
+//        TOKEN_KEY = StringUtil.randomNormalMixeds(11);
     }
 
     @Override

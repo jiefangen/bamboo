@@ -20,7 +20,7 @@ public class WebMvcConfig extends WebMvcConfigurerSupport {
      */
     @Bean
     public RequestLogFilter requestLogFilter() {
-        return new RequestLogFilter("/helper-app/**");
+        return new RequestLogFilter("/**");
     }
 
     /**

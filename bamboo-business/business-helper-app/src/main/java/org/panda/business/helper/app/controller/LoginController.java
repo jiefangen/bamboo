@@ -29,7 +29,7 @@ public class LoginController {
     private AppUserService appUserService;
 
     @PostMapping("/login")
-    @WebOperationLog(content = "/login", actionType= ActionType.LOGIN, intoStorage = true)
+    @WebOperationLog(content = "/login", actionType = ActionType.LOGIN, intoStorage = true)
     public RestfulResult<?> login(@RequestBody @Valid AppLoginParam appLoginParam){
         return appUserService.appLogin(appLoginParam);
     }
@@ -40,7 +40,7 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    @WebOperationLog(content = "/logout", actionType= ActionType.QUIT, intoStorage = true)
+    @WebOperationLog(content = "/logout", actionType = ActionType.QUIT, intoStorage = true)
     public RestfulResult<?> logout(HttpServletRequest request) {
         return appUserService.appLogout(request);
     }

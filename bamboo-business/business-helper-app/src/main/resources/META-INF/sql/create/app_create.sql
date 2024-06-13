@@ -47,7 +47,7 @@ CREATE TABLE `app_user_token` (
 DROP TABLE IF EXISTS `app_action_log`;
 CREATE TABLE `app_action_log` (
     `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-    `identity` VARCHAR(500) NOT NULL COMMENT '身份标识',
+    `identity` VARCHAR(150) NOT NULL COMMENT '身份标识',
     `action_type` VARCHAR(20) NOT NULL COMMENT '操作类型',
     `content` VARCHAR(500) COMMENT '操作内容',
     `host` VARCHAR(50) COMMENT '主机地址',
@@ -58,7 +58,10 @@ CREATE TABLE `app_action_log` (
     `source_id` VARCHAR(100) COMMENT '来源ID',
     `terminal_device` VARCHAR(100) COMMENT '终端设备',
     `terminal_os` VARCHAR(100) COMMENT '终端操作系统',
+    `request_body` TEXT COMMENT '请求体',
+    `response_res` TEXT COMMENT '响应结果',
     `exception_info` VARCHAR(4000) COMMENT '异常信息',
-    PRIMARY KEY (`id`) USING BTREE
+    PRIMARY KEY (`id`) USING BTREE,
+    KEY `IDX_IDENTITY` (`identity`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='APP操作日志' ROW_FORMAT=Compact;
 

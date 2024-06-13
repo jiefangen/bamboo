@@ -1,7 +1,8 @@
 package org.panda.business.helper.app.service;
 
-import org.panda.business.helper.app.model.entity.AppActionLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.panda.business.helper.app.common.model.WebLogData;
+import org.panda.business.helper.app.model.entity.AppActionLog;
 
 /**
  * <p>
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AppActionLogService extends IService<AppActionLog> {
 
+    void intoLogDbAsync(WebLogData webLogData, Object res);
 }

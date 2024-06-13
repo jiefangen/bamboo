@@ -2,7 +2,7 @@ package org.panda.business.official.test.concurrent;
 
 import org.junit.jupiter.api.Test;
 import org.panda.business.official.test.OfficialApplicationTest;
-import org.panda.tech.core.jwt.concurrent.async.TaskProgress;
+import org.panda.tech.core.concurrent.async.TaskProgress;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ProgressTaskExecutorTest extends OfficialApplicationTest {

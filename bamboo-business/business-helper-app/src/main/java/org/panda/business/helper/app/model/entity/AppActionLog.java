@@ -1,15 +1,16 @@
 package org.panda.business.helper.app.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -74,6 +75,14 @@ public class AppActionLog implements Serializable {
     @ApiModelProperty(value = "终端操作系统")
     @TableField("terminal_os")
     private String terminalOs;
+
+    @ApiModelProperty(value = "请求体")
+    @TableField("request_body")
+    private String requestBody;
+
+    @ApiModelProperty(value = "响应结果")
+    @TableField("response_res")
+    private String responseRes;
 
     @ApiModelProperty(value = "异常信息")
     @TableField("exception_info")

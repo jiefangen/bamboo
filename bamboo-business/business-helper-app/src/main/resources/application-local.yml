@@ -66,6 +66,10 @@ spring:
             delete-allow: true                                                 #允许删除数据操作
             multi-statement-allow: true                                        #允许一次执行多条sql
 
+# 日志相关配置
+logging:
+  level:
+    org.panda: info
 
 # Actuator监控配置；开启监控所有端点
 management:

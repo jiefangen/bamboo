@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.common.model.WebLogData;
@@ -20,6 +19,7 @@ import org.panda.business.admin.modules.monitor.service.SysActionLogService;
 import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.business.admin.modules.monitor.service.repository.SysActionLogMapper;
+import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.model.IPAddress;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -56,8 +56,8 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     @Autowired
     private MessageSourceResolver messageSourceResolver;
 
-    @Override
     @Async("taskExecutor")
+    @Override
     public void intoLogDb(WebLogData webLogData, Object res) {
         SysActionLog actionLog = new SysActionLog();
         String remoteAddress = webLogData.getHost();
@@ -72,7 +72,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         actionLog.setContent(webLogData.getContent());
         // 返回结果解析处理
         if (res instanceof RestfulResult) {
-            RestfulResult result = (RestfulResult) res;
+            RestfulResult<?> result = (RestfulResult<?>) res;
             if (result.getCode() != ResultEnum.SUCCESS.getCode()) {
                 actionLog.setExceptionInfo(result.getMessage());
             }
