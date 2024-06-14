@@ -1,5 +1,6 @@
 package org.panda.business.helper.app.infrastructure.security;
 
+import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.jwt.internal.AbstractInternalJwtConfiguration;
@@ -17,10 +18,6 @@ public class AppJwtConfig extends AbstractInternalJwtConfiguration {
      * 固定默认的key，每次启动都会是相同的密钥
      */
     private static final String TOKEN_KEY = "d8MBgVBT3EE";
-    /**
-     * 失效时间
-     */
-    private static final int EXPIRED_INTERVAL = 86400;
 
     @Value(AppConstants.EL_SPRING_APP_NAME)
     private String appName;
@@ -47,7 +44,7 @@ public class AppJwtConfig extends AbstractInternalJwtConfiguration {
 
     @Override
     public int getExpiredIntervalSeconds() {
-        return EXPIRED_INTERVAL;
+        return Times.S_ONE_DAY;
     }
 
 }

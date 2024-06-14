@@ -7,29 +7,27 @@ import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
- * 系统登录接口
+ * APP登录接口
  *
  * @author fangen
  * @since 2020/5/13
  **/
-@Api(tags = "系统用户登录")
+@Api(tags = "APP用户登录")
 @RestController
+@RequestMapping("/app")
 public class LoginController {
 
     @Autowired
     private AppUserService appUserService;
 
     @PostMapping("/login")
-    @WebOperationLog(content = "/login", actionType = ActionType.LOGIN, intoStorage = true)
+    @WebOperationLog(content = "/app/login", actionType = ActionType.LOGIN, intoStorage = true)
     public RestfulResult<?> login(@RequestBody @Valid AppLoginParam appLoginParam){
         return appUserService.appLogin(appLoginParam);
     }
@@ -40,7 +38,7 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    @WebOperationLog(content = "/logout", actionType = ActionType.QUIT, intoStorage = true)
+    @WebOperationLog(content = "/app/logout", actionType = ActionType.QUIT, intoStorage = true)
     public RestfulResult<?> logout(HttpServletRequest request) {
         return appUserService.appLogout(request);
     }

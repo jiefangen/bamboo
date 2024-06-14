@@ -69,7 +69,7 @@ spring:
 # 日志相关配置
 logging:
   level:
-    org.panda: info
+    org.panda: debug
 
 # Actuator监控配置；开启监控所有端点
 management:

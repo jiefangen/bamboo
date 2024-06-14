@@ -13,8 +13,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Configuration
 public class ExecutorConfig extends ExecutorConfigSupport {
 
+    public static final int CORE_POOL_SIZE = 8;
+
     @Override
     protected int getCorePoolSize() {
-        return 10;
+        return CORE_POOL_SIZE;
     }
 }

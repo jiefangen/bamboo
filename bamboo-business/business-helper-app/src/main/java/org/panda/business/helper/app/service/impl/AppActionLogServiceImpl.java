@@ -1,8 +1,13 @@
 package org.panda.business.helper.app.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.collections4.CollectionUtils;
+import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.helper.app.common.model.WebLogData;
 import org.panda.business.helper.app.model.entity.AppActionLog;
 import org.panda.business.helper.app.repository.AppActionLogMapper;
@@ -17,6 +22,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -43,7 +50,7 @@ public class AppActionLogServiceImpl extends ServiceImpl<AppActionLogMapper, App
         actionLog.setElapsedTime(webLogData.getTakeTime());
         actionLog.setActionType(webLogData.getActionType());
         actionLog.setContent(webLogData.getContent());
-        actionLog.setRequestBody(webLogData.getBodyStr());
+        actionLog.setRequestBody(StringUtil.cut(webLogData.getBodyStr(), 1000)); // 字符串截取长度根据数据库存储长度而定
         // 返回结果解析处理
         if (res instanceof RestfulResult) {
             RestfulResult<?> result = (RestfulResult<?>) res;
@@ -51,10 +58,10 @@ public class AppActionLogServiceImpl extends ServiceImpl<AppActionLogMapper, App
                 actionLog.setExceptionInfo(result.getMessage());
             }
             actionLog.setStatusCode(result.getCode());
-            actionLog.setResponseRes(JsonUtil.toJson(result));
+            actionLog.setResponseRes(StringUtil.cut(JsonUtil.toJson(result), 3000));
         } else if (res instanceof Throwable) {
             Throwable throwable = (Throwable) res;
-            actionLog.setExceptionInfo(throwable.getMessage());
+            actionLog.setExceptionInfo(StringUtil.cut(throwable.getMessage(), 3000));
             if (throwable instanceof BusinessException) {
                 BusinessException businessException = (BusinessException) throwable;
                 actionLog.setStatusCode(businessException.getCode());
@@ -65,5 +72,20 @@ public class AppActionLogServiceImpl extends ServiceImpl<AppActionLogMapper, App
             actionLog.setStatusCode(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         this.save(actionLog);
+    }
+
+    @Override
+    public void cleanObsoleteLog() {
+        long obsoleteInterval = 30 * Times.S_ONE_DAY; // 30天/单位秒
+        LocalDateTime obsoleteTime = LocalDateTime.now().minusSeconds(obsoleteInterval);
+        LambdaQueryWrapper<AppActionLog> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.lt(AppActionLog::getOperatingTime, obsoleteTime);
+        List<AppActionLog> obsoleteLogs = this.list(queryWrapper);
+        if (CollectionUtils.isNotEmpty(obsoleteLogs)) {
+            List<Long> idList = obsoleteLogs.stream()
+                    .map(AppActionLog::getId)
+                    .collect(Collectors.toList());
+            this.removeByIds(idList);
+        }
     }
 }

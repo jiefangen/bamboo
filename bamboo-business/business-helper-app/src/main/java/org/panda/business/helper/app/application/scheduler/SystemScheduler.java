@@ -1,9 +1,10 @@
-package org.panda.business.admin.application.scheduler;
+package org.panda.business.helper.app.application.scheduler;
 
 import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.business.admin.modules.monitor.service.SysActionLogService;
-import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
+import org.panda.business.helper.app.service.AppActionLogService;
+import org.panda.business.helper.app.service.AppUserTokenService;
+import org.panda.tech.core.concurrent.ExecutorUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -20,9 +21,9 @@ public class SystemScheduler {
     private static final Logger LOGGER = LogUtil.getLogger(SystemScheduler.class);
 
     @Autowired
-    private SysActionLogService actionLogService;
+    private AppActionLogService actionLogService;
     @Autowired
-    private SysUserTokenService userTokenService;
+    private AppUserTokenService userTokenService;
 
     /**
      * 定期清理废弃日志
@@ -42,12 +43,11 @@ public class SystemScheduler {
      * 在线用户token状态刷新
      * 间隔30秒
      */
-    @Async("scheduledExecutor")
+    @Async(ExecutorUtil.SCHEDULED_EXECUTOR_BEAN_NAME)
     @Scheduled(fixedDelay = 30*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
     public void refreshToken() {
         LOGGER.debug("RefreshToken scheduler start...");
         userTokenService.refreshTokenStatus();
         LOGGER.debug("RefreshToken scheduler end.");
     }
-
 }

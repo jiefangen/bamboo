@@ -15,4 +15,6 @@ import org.panda.business.helper.app.model.entity.AppActionLog;
 public interface AppActionLogService extends IService<AppActionLog> {
 
     void intoLogDbAsync(WebLogData webLogData, Object res);
+
+    void cleanObsoleteLog();
 }

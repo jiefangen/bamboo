@@ -13,4 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface AppUserTokenService extends IService<AppUserToken> {
 
+    void refreshTokenStatus();
+
+    void cleanObsoleteToken();
 }

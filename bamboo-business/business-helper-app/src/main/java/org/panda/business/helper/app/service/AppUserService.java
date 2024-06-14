@@ -3,6 +3,7 @@ package org.panda.business.helper.app.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.params.AppLoginParam;
+import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.tech.core.web.restful.RestfulResult;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,4 +38,11 @@ public interface AppUserService extends IService<AppUser> {
      * @return 登出结果
      */
     RestfulResult<?> appLogout(HttpServletRequest request);
+
+    /**
+     * 根据token获取用户详情
+     *
+     * @return 用户详情
+     */
+    UserInfo getUserByToken(String token);
 }

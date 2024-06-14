@@ -13,6 +13,7 @@ import org.panda.business.helper.app.infrastructure.security.user.UserIdentityTo
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.entity.AppUserToken;
 import org.panda.business.helper.app.model.params.AppLoginParam;
+import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.business.helper.app.repository.AppUserMapper;
 import org.panda.business.helper.app.service.AppUserService;
 import org.panda.business.helper.app.service.AppUserTokenService;
@@ -80,12 +81,37 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         return  RestfulResult.failure();
     }
 
+    private AppUser addAppUser(AppLoginParam appLoginParam) {
+        AppUser appUserParam = new AppUser();
+        appUserParam.setUsername(appLoginParam.getUsername());
+        appUserParam.setOpenid(appLoginParam.getOpenid());
+        appUserParam.setAvatar(appLoginParam.getAvatar());
+        String password = appLoginParam.getPassword();
+        if (StringUtils.isBlank(password)) {
+            password = ProjectConstants.DEFAULT_USER_PWD;
+        }
+        // TODO 加盐密码，接入shiro后实现
+//        String salt = shiroEncrypt.getRandomSalt();
+//        appUserParam.setSalt(salt);
+//        String encodedPassword = shiroEncrypt.encryptPassword(password, salt);
+//        appUserParam.setPassword(encodedPassword);
+        appUserParam.setStatus(1);
+        if (this.save(appUserParam)) {
+            return this.getOne(Wrappers.lambdaQuery(appUserParam));
+        }
+        return null;
+    }
+
     @Override
     public RestfulResult<?> loginVerify(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         if (StringUtils.isNotBlank(token)) {
             try {
-                appSecurityUtil.tokenVerify(token);
+                if (appSecurityUtil.tokenVerify(token)) {
+                    // TODO 登录凭证认证鉴权验证，接入shiro后实现
+
+                    return RestfulResult.success();
+                }
             } catch (Exception e) { // 验证过程中会抛出特定异常
                 if (e instanceof TokenExpiredException) {
                     LogUtil.warn(getClass(), e.getMessage());
@@ -125,23 +151,16 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         return RestfulResult.failure();
     }
 
-    private AppUser addAppUser(AppLoginParam appLoginParam) {
-        AppUser appUserParam = new AppUser();
-        appUserParam.setUsername(appLoginParam.getUsername());
-        appUserParam.setOpenid(appLoginParam.getOpenid());
-        appUserParam.setAvatar(appLoginParam.getAvatar());
-        String password = appLoginParam.getPassword();
-        if (StringUtils.isBlank(password)) {
-            password = ProjectConstants.DEFAULT_USER_PWD;
-        }
-        // TODO 加盐密码，接入shiro后实现
-//        String salt = shiroEncrypt.getRandomSalt();
-//        appUserParam.setSalt(salt);
-//        String encodedPassword = shiroEncrypt.encryptPassword(password, salt);
-//        appUserParam.setPassword(encodedPassword);
-        appUserParam.setStatus(1);
-        if (this.save(appUserParam)) {
-            return this.getOne(Wrappers.lambdaQuery(appUserParam));
+    @Override
+    public UserInfo getUserByToken(String token) {
+        if (StringUtils.isNotBlank(token)) {
+            UserIdentityToken userIdentityToken = appSecurityUtil.parseToken(token);
+            AppUser appUser = this.getById(userIdentityToken.getUserId());
+            if (appUser != null) {
+                UserInfo userInfo = new UserInfo();
+                userInfo.transform(appUser); // 用户详情类型转换
+                return userInfo;
+            }
         }
         return null;
     }
