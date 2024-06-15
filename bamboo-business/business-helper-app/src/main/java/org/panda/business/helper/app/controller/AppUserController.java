@@ -30,7 +30,7 @@ public class AppUserController {
     private AppUserService appUserService;
 
     @GetMapping("/info")
-    @WebOperationLog(content = "/app/user/info", actionType = ActionType.QUERY, intoStorage = true)
+    @WebOperationLog(actionType = ActionType.QUERY, intoStorage = true)
     public RestfulResult<?> info(HttpServletRequest request){
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserInfo userInfo = appUserService.getUserByToken(token);

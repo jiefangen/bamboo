@@ -50,7 +50,7 @@ public class AppActionLogServiceImpl extends ServiceImpl<AppActionLogMapper, App
         actionLog.setElapsedTime(webLogData.getTakeTime());
         actionLog.setActionType(webLogData.getActionType());
         actionLog.setContent(webLogData.getContent());
-        actionLog.setRequestBody(StringUtil.cut(webLogData.getBodyStr(), 1000)); // 字符串截取长度根据数据库存储长度而定
+        actionLog.setRequestBody(StringUtil.cutForBytes(webLogData.getBodyStr(), 1000)); // 字符串截取长度根据数据库存储长度而定
         // 返回结果解析处理
         if (res instanceof RestfulResult) {
             RestfulResult<?> result = (RestfulResult<?>) res;
@@ -58,10 +58,10 @@ public class AppActionLogServiceImpl extends ServiceImpl<AppActionLogMapper, App
                 actionLog.setExceptionInfo(result.getMessage());
             }
             actionLog.setStatusCode(result.getCode());
-            actionLog.setResponseRes(StringUtil.cut(JsonUtil.toJson(result), 3000));
+            actionLog.setResponseRes(StringUtil.cutForBytes(JsonUtil.toJson(result), 3000));
         } else if (res instanceof Throwable) {
             Throwable throwable = (Throwable) res;
-            actionLog.setExceptionInfo(StringUtil.cut(throwable.getMessage(), 3000));
+            actionLog.setExceptionInfo(StringUtil.cutForBytes(throwable.getMessage(), 3000));
             if (throwable instanceof BusinessException) {
                 BusinessException businessException = (BusinessException) throwable;
                 actionLog.setStatusCode(businessException.getCode());

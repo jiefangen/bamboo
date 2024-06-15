@@ -18,7 +18,7 @@ CREATE TABLE `app_user` (
     `email` VARCHAR(50) COMMENT '邮箱',
     `gender` TINYINT(1) COMMENT '性别：0-女；1-男',
     `avatar` VARCHAR(500) COMMENT '头像',
-    `openid` VARCHAR(255) COMMENT '微信openid',
+    `openid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '微信openid',
     `status` TINYINT(1) NOT NULL COMMENT '状态：0-虚拟；1-正常；4-删除；9-锁定',
     `enabled` BIT(1) NOT NULL DEFAULT 1 COMMENT '启用',
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

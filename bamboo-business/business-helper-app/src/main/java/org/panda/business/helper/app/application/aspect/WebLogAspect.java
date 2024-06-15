@@ -64,7 +64,7 @@ public class WebLogAspect extends WebLogSupport {
         WebLogRange threadInfo = threadLocal.get();
         WebLogData webLogData = new WebLogData();
         webLogData.transform(threadInfo);
-        // 异步写入数据库
+        // 异步持久化存储
         actionLogService.intoLogDbAsync(webLogData, res);
     }
 }

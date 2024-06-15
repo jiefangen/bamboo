@@ -5,14 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * 异步线程池配置
+ * 系统全局线程池配置
  *
  * @author fangen
  */
 @EnableAsync
 @Configuration
 public class ExecutorConfig extends ExecutorConfigSupport {
-
     public static final int CORE_POOL_SIZE = 8;
 
     @Override
