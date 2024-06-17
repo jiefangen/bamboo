@@ -28,12 +28,12 @@ public class LoginController {
 
     @PostMapping("/login")
     @WebOperationLog(content = "/app/login", actionType = ActionType.LOGIN, intoStorage = true)
-    public RestfulResult<?> login(@RequestBody @Valid AppLoginParam appLoginParam){
+    public RestfulResult<?> login(@RequestBody @Valid AppLoginParam appLoginParam) {
         return appUserService.appLogin(appLoginParam);
     }
 
     @GetMapping("/doLogin")
-    public RestfulResult<?> doLogin(HttpServletRequest request){
+    public RestfulResult<?> doLogin(HttpServletRequest request) {
         return appUserService.loginVerify(request);
     }
 
