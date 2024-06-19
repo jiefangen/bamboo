@@ -4,7 +4,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.tech.core.exception.business.param.RequiredParamException;
-import org.panda.business.admin.common.constant.AuthConstants;
+import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.business.admin.modules.system.service.SysPermissionService;
 import org.panda.business.admin.modules.system.service.SysUserService;
 import org.panda.business.admin.modules.system.service.dto.SysUserDto;

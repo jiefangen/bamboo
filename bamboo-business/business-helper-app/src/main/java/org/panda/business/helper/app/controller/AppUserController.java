@@ -1,9 +1,9 @@
 package org.panda.business.helper.app.controller;
 
 import io.swagger.annotations.Api;
-import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.business.helper.app.service.AppUserService;
+import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
@@ -35,7 +35,7 @@ public class AppUserController {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserInfo userInfo = appUserService.getUserByToken(token);
         if (userInfo == null) {
-            return RestfulResult.failure(ProjectConstants.USER_NOT_EXIST_CODE, ProjectConstants.USERNAME_NOT_EXIST);
+            return RestfulResult.failure(AuthConstants.USER_NOT_EXIST_CODE, AuthConstants.USERNAME_NOT_EXIST);
         }
         return RestfulResult.success(userInfo);
     }

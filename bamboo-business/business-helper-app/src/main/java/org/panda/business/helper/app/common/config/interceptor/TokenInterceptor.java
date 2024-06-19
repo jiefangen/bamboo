@@ -3,10 +3,10 @@ package org.panda.business.helper.app.common.config.interceptor;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.model.entity.AppUserToken;
 import org.panda.business.helper.app.service.AppUserTokenService;
 import org.panda.tech.core.exception.ExceptionEnum;
+import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -69,7 +69,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                         userToken.setStatus(1);
                         interceptPass = true;
                     } else if (status == 4) { // 登出
-                        failureResult = RestfulResult.failure(ProjectConstants.LOGGED_OUT, ProjectConstants.LOGGED_OUT_REASON);
+                        failureResult = RestfulResult.failure(AuthConstants.LOGGED_OUT, AuthConstants.LOGGED_OUT_REASON);
                     }
                 }
                 if (interceptPass) { // 实时刷新用户token在线时间

@@ -17,6 +17,8 @@ import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.business.helper.app.repository.AppUserMapper;
 import org.panda.business.helper.app.service.AppUserService;
 import org.panda.business.helper.app.service.AppUserTokenService;
+import org.panda.tech.core.exception.ExceptionEnum;
+import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.jwt.internal.InternalJwtConfiguration;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -115,11 +117,11 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             } catch (Exception e) { // 验证过程中会抛出特定异常
                 if (e instanceof TokenExpiredException) {
                     LogUtil.warn(getClass(), e.getMessage());
-                    return RestfulResult.failure(ProjectConstants.TOKEN_EXPIRED, e.getMessage());
+                    return RestfulResult.failure(ExceptionEnum.TOKEN_EXPIRED.getCode(), e.getMessage());
                 }
             }
         }
-        return RestfulResult.failure(ProjectConstants.LOGGED_OUT, ProjectConstants.LOGGED_OUT_REASON);
+        return RestfulResult.failure(AuthConstants.LOGGED_OUT, AuthConstants.LOGGED_OUT_REASON);
     }
 
     @Override

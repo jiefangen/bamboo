@@ -22,11 +22,16 @@ public class AppLoginParam {
      */
     private String password;
     /**
-     * 微信openid
-     */
-    private String openid;
-    /**
      * 头像
      */
     private String avatar;
+
+    /**
+     * 临时登录凭证code
+     */
+    private String code;
+    /**
+     * 微信openid
+     */
+    private String openid;
 }

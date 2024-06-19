@@ -2,7 +2,7 @@ package org.panda.business.admin.infrastructure.security.authentication;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.collections4.CollectionUtils;
-import org.panda.business.admin.common.constant.AuthConstants;
+import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.business.admin.modules.common.manager.SettingsManager;
 import org.panda.business.admin.modules.common.config.SettingsKeys;
 import org.panda.business.admin.modules.monitor.service.SysUserTokenService;

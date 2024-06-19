@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.business.admin.application.resolver.MessageSourceResolver;
-import org.panda.business.admin.common.constant.AuthConstants;
+import org.panda.business.admin.common.constant.ProjectConstants;
 import org.panda.business.admin.modules.settings.api.param.DictDataParam;
 import org.panda.business.admin.modules.settings.api.param.DictDataQueryParam;
 import org.panda.business.admin.modules.settings.service.SysDictionaryDataService;
@@ -74,7 +74,7 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
         SysDictionaryData dictionaryData = new SysDictionaryData();
         dictDataParam.transform(dictionaryData);
         if (StringUtils.isEmpty(dictionaryData.getIsDefault())) {
-            dictionaryData.setIsDefault(AuthConstants.NO_DEFAULT);
+            dictionaryData.setIsDefault(ProjectConstants.NO_DEFAULT);
         }
         LambdaQueryWrapper<SysDictionaryData> dictQueryWrapper = new LambdaQueryWrapper<>();
         dictQueryWrapper.eq(SysDictionaryData::getDictId, dictId);
@@ -95,17 +95,17 @@ public class SysDictionaryDataServiceImpl extends ServiceImpl<SysDictionaryDataM
             return false;
         }
         SysDictionaryData sysDictData = this.getById(dictDataParam.getId());
-        if (!AuthConstants.IS_DEFAULT.equals(sysDictData.getIsDefault())
-                && AuthConstants.IS_DEFAULT.equals(dictDataParam.getIsDefault())) { // 更新其它标签为非默认
+        if (!ProjectConstants.IS_DEFAULT.equals(sysDictData.getIsDefault())
+                && ProjectConstants.IS_DEFAULT.equals(dictDataParam.getIsDefault())) { // 更新其它标签为非默认
             LambdaQueryWrapper<SysDictionaryData> dictUpdateWrapper = new LambdaQueryWrapper<>();
             dictUpdateWrapper.eq(SysDictionaryData::getDictId, dictDataParam.getDictId());
             List<SysDictionaryData> dictUpdateData = this.list(dictUpdateWrapper);
             List<SysDictionaryData> sysDictUpdateData = dictUpdateData.stream()
                     .map(dictData -> {
-                        dictData.setIsDefault(AuthConstants.NO_DEFAULT);
+                        dictData.setIsDefault(ProjectConstants.NO_DEFAULT);
                         return dictData;
                         }).collect(Collectors.toList());
-            dictUpdateWrapper.eq(SysDictionaryData::getIsDefault, AuthConstants.NO_DEFAULT);
+            dictUpdateWrapper.eq(SysDictionaryData::getIsDefault, ProjectConstants.NO_DEFAULT);
             this.updateBatchById(sysDictUpdateData);
         }
 

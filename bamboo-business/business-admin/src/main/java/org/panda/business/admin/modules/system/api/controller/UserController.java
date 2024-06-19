@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.business.admin.common.constant.Authority;
-import org.panda.business.admin.common.constant.AuthConstants;
+import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.business.admin.modules.system.api.param.*;
 import org.panda.business.admin.modules.system.api.vo.UserVO;
 import org.panda.business.admin.modules.system.service.SysUserService;
