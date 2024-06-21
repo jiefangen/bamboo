@@ -16,4 +16,8 @@ public class ProjectConstants {
      */
     public static final String DEFAULT_UNKNOWN = "unknown";
 
+    /**
+     * 请求头，来源
+     */
+    public static final String HEADER_SOURCE = "source";
 }

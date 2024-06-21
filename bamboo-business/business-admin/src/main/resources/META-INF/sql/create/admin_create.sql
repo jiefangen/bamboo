@@ -73,11 +73,11 @@ CREATE TABLE `sys_menu` (
 
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE sys_role_permission (
-                                     `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                     `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
-                                     `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
-                                     `association` VARCHAR(50) COMMENT '关联方式',
-                                     PRIMARY KEY (`id`) USING BTREE
+                                 `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                                 `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
+                                 `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
+                                 `association` VARCHAR(50) COMMENT '关联方式',
+                                 PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统角色权限关系' ROW_FORMAT=Compact;
 
 

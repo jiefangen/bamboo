@@ -18,7 +18,8 @@ CREATE TABLE `app_user` (
     `email` VARCHAR(50) COMMENT '邮箱',
     `gender` TINYINT(1) COMMENT '性别：0-女；1-男',
     `avatar` VARCHAR(500) COMMENT '头像',
-    `openid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '微信openid',
+    `source` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '用户来源：WECHAT-MINI-微信小程序；ANDROID-安卓；IOS-苹果',
+    `source_channel` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '来源渠道',
     `status` TINYINT(1) NOT NULL COMMENT '状态：0-虚拟；1-正常；4-删除；9-锁定',
     `enabled` BIT(1) NOT NULL DEFAULT 1 COMMENT '启用',
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -26,6 +27,23 @@ CREATE TABLE `app_user` (
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE KEY `UQ_USERNAME` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='APP用户' ROW_FORMAT=Compact;
+
+
+DROP TABLE IF EXISTS `app_user_wechat`;
+CREATE TABLE `app_user_wechat` (
+    `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+    `user_id` INT unsigned NOT NULL COMMENT '关联用户ID',
+    `app_type` VARCHAR(20) NOT NULL COMMENT '微信应用类型：MP-小程序；SA-公众号；WEB-网站',
+    `openid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '微信用户唯一标识',
+    `unionid` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '用户在开放平台的唯一标识符',
+    `session_key` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '会话密钥',
+    `access_token` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '访问凭证',
+    `expires_in` INT NOT NULL DEFAULT 0 COMMENT '凭证有效时间（单位秒）',
+    `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE KEY `UQ_USERNAME` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='微信用户标识' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `app_user_token`;
@@ -67,7 +85,7 @@ CREATE TABLE `app_action_log` (
     KEY `IDX_IDENTITY` (`identity`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='APP操作日志' ROW_FORMAT=Compact;
 
-/* 日志接口参数过长，可考虑分离表来存储 */
+/* 如果日志接口参数过长，可考虑分离表来存储大本文数据 */
 DROP TABLE IF EXISTS `app_log_details`;
 CREATE TABLE `app_log_details` (
     `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',

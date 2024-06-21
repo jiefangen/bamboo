@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.date.TemporalUtil;
+import org.panda.business.helper.app.common.constant.AppSourceType;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
 import org.panda.business.helper.app.infrastructure.security.user.UserIdentityToken;
@@ -24,9 +26,11 @@ import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * <p>
@@ -46,6 +50,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Autowired
     private AppUserTokenService userTokenService;
 
+    @Transactional
     @Override
     public RestfulResult<?> appLogin(AppLoginParam appLoginParam) {
         String username = appLoginParam.getUsername();
@@ -56,34 +61,46 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             queryWrapper.eq(AppUser::getOpenid, appLoginParam.getOpenid());
         }
         AppUser appUser = this.getOne(queryWrapper);
-        if (appUser == null) { // 注册
-            appUser = addAppUser(appLoginParam);
+        String source = appSecurityUtil.getSourceHeader();
+        if (appUser == null) { // 用户不存在注册
+            appUser = addAppUser(appLoginParam, source);
         }
-        if (appUser != null) {
+        if (appUser != null) { // 用户登录流程
             // TODO 登录流程，接入shiro后实现
 
+            UserInfo userInfo = new UserInfo();
+            userInfo.transform(appUser);
             // 登录成功，生成用户toke返回，用于前后端交互凭证
             String token = appSecurityUtil.generateToken(appUser);
-            // 用户操作凭证记录
-            AppUserToken userToken = new AppUserToken();
-            userToken.setUserId(appUser.getId());
-            String identity = appUser.getUsername();
-            userToken.setIdentity(identity);
-            userToken.setToken(token);
-            // 自定义token有效状态先于jwt10秒失效
-            int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
-            userToken.setExpiredInterval(expiredInterval);
-            LocalDateTime currentDate = LocalDateTime.now();
-            userToken.setCreateTime(currentDate);
-            userToken.setUpdateTime(currentDate);
-            userToken.setExpirationTime(TemporalUtil.addSeconds(currentDate, expiredInterval));
-            userTokenService.save(userToken);
-            return RestfulResult.success(token);
+            userInfo.setToken(token);
+            saveUserToken(appUser, token);
+
+            // TODO 接入微信小程序授权信息
+            if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), source)) {
+            }
+            return RestfulResult.success(userInfo);
         }
         return  RestfulResult.failure();
     }
 
-    private AppUser addAppUser(AppLoginParam appLoginParam) {
+    private void saveUserToken(AppUser appUser, String token) {
+        // 用户操作凭证记录
+        AppUserToken userToken = new AppUserToken();
+        userToken.setUserId(appUser.getId());
+        String identity = appUser.getUsername();
+        userToken.setIdentity(identity);
+        userToken.setToken(token);
+        // 自定义token有效状态先于jwt10秒失效
+        int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
+        userToken.setExpiredInterval(expiredInterval);
+        LocalDateTime currentDate = LocalDateTime.now();
+        userToken.setCreateTime(currentDate);
+        userToken.setUpdateTime(currentDate);
+        userToken.setExpirationTime(TemporalUtil.addSeconds(currentDate, expiredInterval));
+        userTokenService.save(userToken);
+    }
+
+    private AppUser addAppUser(AppLoginParam appLoginParam, String source) {
         AppUser appUserParam = new AppUser();
         appUserParam.setUsername(appLoginParam.getUsername());
         appUserParam.setOpenid(appLoginParam.getOpenid());
