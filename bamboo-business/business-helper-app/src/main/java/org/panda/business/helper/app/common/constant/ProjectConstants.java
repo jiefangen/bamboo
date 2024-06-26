@@ -19,5 +19,5 @@ public class ProjectConstants {
     /**
      * 请求头，来源
      */
-    public static final String HEADER_SOURCE = "source";
+    public static final String HEADER_SOURCE = "app-source";
 }

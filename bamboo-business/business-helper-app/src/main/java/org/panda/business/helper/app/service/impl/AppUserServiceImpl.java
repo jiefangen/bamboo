@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.date.TemporalUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.helper.app.common.constant.AppSourceType;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
@@ -52,20 +53,21 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     @Transactional
     @Override
-    public RestfulResult<?> appLogin(AppLoginParam appLoginParam) {
+    public RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
+        // 获取app用户来源
+        String appSource = appSecurityUtil.getSourceHeader(request);
         String username = appLoginParam.getUsername();
         // 判断登录账户是否存在
         LambdaQueryWrapper<AppUser> queryWrapper = Wrappers.lambdaQuery();
         queryWrapper.eq(AppUser::getUsername, username);
-        if (StringUtils.isNotBlank(appLoginParam.getOpenid())) {
-            queryWrapper.eq(AppUser::getOpenid, appLoginParam.getOpenid());
-        }
+        queryWrapper.eq(AppUser::getAppid, appLoginParam.getAppid());
+        queryWrapper.eq(AppUser::getSource, appSource);
         AppUser appUser = this.getOne(queryWrapper);
-        String source = appSecurityUtil.getSourceHeader();
-        if (appUser == null) { // 用户不存在注册
-            appUser = addAppUser(appLoginParam, source);
+        if (appUser == null) { // 用户不存在即自动注册
+            appUser = addAppUser(appLoginParam, appSource);
         }
-        if (appUser != null) { // 用户登录流程
+        // 获取到用户后进入登录流程
+        if (appUser != null) {
             // TODO 登录流程，接入shiro后实现
 
             UserInfo userInfo = new UserInfo();
@@ -76,7 +78,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             saveUserToken(appUser, token);
 
             // TODO 接入微信小程序授权信息
-            if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), source)) {
+            if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
+                String code = appLoginParam.getCode();
             }
             return RestfulResult.success(userInfo);
         }
@@ -102,9 +105,18 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     private AppUser addAppUser(AppLoginParam appLoginParam, String source) {
         AppUser appUserParam = new AppUser();
-        appUserParam.setUsername(appLoginParam.getUsername());
-        appUserParam.setOpenid(appLoginParam.getOpenid());
+        String username = appLoginParam.getUsername();
+        if (StringUtils.isEmpty(username)) { // 系统全局唯一的用户名为空则系统自动生成
+            LambdaQueryWrapper<AppUser> queryWrapper = Wrappers.lambdaQuery();
+            do { // 校验该用户名是否唯一，重复则循环获取
+                username = StringUtil.randomNormalMixeds(9);
+                queryWrapper.eq(AppUser::getUsername, username);
+            } while (this.count(queryWrapper) > 0);
+        }
+        appUserParam.setUsername(username);
+        appUserParam.setAppid(appLoginParam.getAppid());
         appUserParam.setAvatar(appLoginParam.getAvatar());
+        appUserParam.setNickname(appLoginParam.getNickname());
         String password = appLoginParam.getPassword();
         if (StringUtils.isBlank(password)) {
             password = ProjectConstants.DEFAULT_USER_PWD;
@@ -114,6 +126,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 //        appUserParam.setSalt(salt);
 //        String encodedPassword = shiroEncrypt.encryptPassword(password, salt);
 //        appUserParam.setPassword(encodedPassword);
+        appUserParam.setSource(source);
         appUserParam.setStatus(1);
         if (this.save(appUserParam)) {
             return this.getOne(Wrappers.lambdaQuery(appUserParam));

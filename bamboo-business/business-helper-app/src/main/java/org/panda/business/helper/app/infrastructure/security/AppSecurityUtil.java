@@ -5,7 +5,6 @@ import org.panda.business.helper.app.infrastructure.security.user.UserIdentityTo
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
-import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,8 +48,7 @@ public class AppSecurityUtil {
     /**
      * 获取请求来源
      */
-    public String getSourceHeader() {
-        HttpServletRequest request = SpringWebContext.getRequest();
+    public String getSourceHeader(HttpServletRequest request) {
         return WebHttpUtil.getHeader(request, ProjectConstants.HEADER_SOURCE);
     }
 }

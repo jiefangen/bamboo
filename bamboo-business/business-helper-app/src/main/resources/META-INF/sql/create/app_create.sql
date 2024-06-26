@@ -18,6 +18,7 @@ CREATE TABLE `app_user` (
     `email` VARCHAR(50) COMMENT '邮箱',
     `gender` TINYINT(1) COMMENT '性别：0-女；1-男',
     `avatar` VARCHAR(500) COMMENT '头像',
+    `appid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '应用appid',
     `source` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '用户来源：WECHAT-MINI-微信小程序；ANDROID-安卓；IOS-苹果',
     `source_channel` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '来源渠道',
     `status` TINYINT(1) NOT NULL COMMENT '状态：0-虚拟；1-正常；4-删除；9-锁定',

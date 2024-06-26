@@ -2,8 +2,6 @@ package org.panda.business.helper.app.model.params;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * 用户登录参数
  *
@@ -15,7 +13,6 @@ public class AppLoginParam {
     /**
      * 用户名
      */
-    @NotBlank
     private String username;
     /**
      * 密码
@@ -25,13 +22,18 @@ public class AppLoginParam {
      * 头像
      */
     private String avatar;
-
     /**
-     * 临时登录凭证code
+     * 用户昵称
+     */
+    private String nickname;
+
+/* ----------微信小程序登录所需参数---------- */
+    /**
+     * AppId
+     */
+    private String appid;
+    /**
+     * 微信临时凭证code
      */
     private String code;
-    /**
-     * 微信openid
-     */
-    private String openid;
 }

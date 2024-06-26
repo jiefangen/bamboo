@@ -68,9 +68,17 @@ public class AppUser implements Serializable {
     @TableField("avatar")
     private String avatar;
 
-    @ApiModelProperty(value = "微信openid")
-    @TableField("openid")
-    private String openid;
+    @ApiModelProperty(value = "应用appid")
+    @TableField("appid")
+    private String appid;
+
+    @ApiModelProperty(value = "用户来源：WECHAT-MINI-微信小程序；ANDROID-安卓；IOS-苹果")
+    @TableField("source")
+    private String source;
+
+    @ApiModelProperty(value = "来源渠道")
+    @TableField("source_channel")
+    private String source_channel;
 
     @ApiModelProperty(value = "状态：0-虚拟；1-正常；4-删除；9-锁定")
     @TableField("status")

@@ -23,7 +23,7 @@ public interface AppUserService extends IService<AppUser> {
      * @param appLoginParam 登录参数
      * @return 登录结果
      */
-    RestfulResult<?> appLogin(AppLoginParam appLoginParam);
+    RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request);
 
     /**
      * 登录验证
