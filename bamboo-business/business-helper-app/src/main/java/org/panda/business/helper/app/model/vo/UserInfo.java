@@ -44,6 +44,10 @@ public class UserInfo {
      * 用户交互凭证
      */
     private String token;
+    /**
+     * token有效时间
+     */
+    private Long tokenEffectiveTime;
 
     public void transform(AppUser appUser) {
         this.userId = appUser.getId();

@@ -35,7 +35,7 @@ CREATE TABLE `app_user_wechat` (
     `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
     `user_id` INT unsigned NOT NULL COMMENT '关联用户ID',
     `app_type` VARCHAR(20) NOT NULL COMMENT '微信应用类型：MP-小程序；SA-公众号；WEB-网站',
-    `openid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '微信用户唯一标识',
+    `openid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '微信小程序用户唯一标识',
     `unionid` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '用户在开放平台的唯一标识符',
     `session_key` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '会话密钥',
     `access_token` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '访问凭证',

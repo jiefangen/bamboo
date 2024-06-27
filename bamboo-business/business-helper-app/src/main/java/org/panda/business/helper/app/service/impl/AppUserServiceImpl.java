@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
+import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
@@ -56,6 +57,12 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     public RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
         // 获取app用户来源
         String appSource = appSecurityUtil.getSourceHeader(request);
+        // TODO 接入微信小程序授权信息
+        if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
+            String code = appLoginParam.getCode();
+            // 利用临时code获取openid等微信授权信息
+        }
+
         String username = appLoginParam.getUsername();
         // 判断登录账户是否存在
         LambdaQueryWrapper<AppUser> queryWrapper = Wrappers.lambdaQuery();
@@ -75,26 +82,23 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             // 登录成功，生成用户toke返回，用于前后端交互凭证
             String token = appSecurityUtil.generateToken(appUser);
             userInfo.setToken(token);
-            saveUserToken(appUser, token);
-
-            // TODO 接入微信小程序授权信息
-            if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
-                String code = appLoginParam.getCode();
-            }
+            // 自定义token有效状态先于jwt10秒失效
+            int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
+            userInfo.setTokenEffectiveTime(expiredInterval * Times.MS_ONE_SECOND);
+            saveUserToken(appUser, token, expiredInterval);
             return RestfulResult.success(userInfo);
         }
         return  RestfulResult.failure();
     }
 
-    private void saveUserToken(AppUser appUser, String token) {
+    private void saveUserToken(AppUser appUser, String token, int expiredInterval) {
         // 用户操作凭证记录
         AppUserToken userToken = new AppUserToken();
         userToken.setUserId(appUser.getId());
         String identity = appUser.getUsername();
         userToken.setIdentity(identity);
         userToken.setToken(token);
-        // 自定义token有效状态先于jwt10秒失效
-        int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
+
         userToken.setExpiredInterval(expiredInterval);
         LocalDateTime currentDate = LocalDateTime.now();
         userToken.setCreateTime(currentDate);
