@@ -26,14 +26,26 @@ public class AppLoginParam {
      * 用户昵称
      */
     private String nickname;
+    /**
+     * 应用的AppId
+     */
+    private String appid;
 
 /* ----------微信小程序登录所需参数---------- */
     /**
-     * AppId
+     * 微信用户唯一凭证
      */
-    private String appid;
+    private String openid;
     /**
      * 微信临时凭证code
      */
     private String code;
+    /**
+     * 包括敏感数据在内的完整用户信息的加密数据
+     */
+    private String encryptedData;
+    /**
+     * 加密算法的初始向量
+     */
+    private String iv;
 }

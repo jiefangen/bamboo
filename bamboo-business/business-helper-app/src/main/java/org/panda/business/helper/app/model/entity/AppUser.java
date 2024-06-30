@@ -60,13 +60,17 @@ public class AppUser implements Serializable {
     @TableField("email")
     private String email;
 
-    @ApiModelProperty(value = "性别：0-女；1-男")
+    @ApiModelProperty(value = "性别：0-未知；1-男性；2-女性")
     @TableField("gender")
     private Integer gender;
 
     @ApiModelProperty(value = "头像")
     @TableField("avatar")
     private String avatar;
+
+    @ApiModelProperty(value = "微信小程序用户唯一标识")
+    @TableField("openid")
+    private String openid;
 
     @ApiModelProperty(value = "应用appid")
     @TableField("appid")

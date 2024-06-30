@@ -2,6 +2,7 @@ package org.panda.support.openapi.service.support;
 
 import org.apache.commons.lang3.StringUtils;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.bamboo.common.util.EncryptUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ import java.util.*;
  */
 public abstract class WechatPublicAppAccessSupport extends WechatAppAccessSupport {
 
-    private static final long ACCESS_TOKEN_INTERVAL = 1000 * 60 * 60; // 有效期1小时
+    private static final long ACCESS_TOKEN_INTERVAL = 2 * Times.MS_ONE_HOUR; // 有效期，目前是7200秒之内的值
 
     private String accessToken;
     private long accessTokenExpiredTimestamp = 0L;

@@ -47,5 +47,12 @@
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
             <version>${knife4j-openapi2.version}</version>
         </dependency>
+
+        <!-- 国内openapi封装支持 -->
+        <dependency>
+            <groupId>org.panda.support</groupId>
+            <artifactId>support-openapi</artifactId>
+            <version>${support.version}</version>
+        </dependency>
     </dependencies>
 </project>

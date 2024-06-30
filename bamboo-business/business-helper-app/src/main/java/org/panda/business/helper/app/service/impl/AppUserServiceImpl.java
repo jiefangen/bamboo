@@ -14,13 +14,18 @@ import org.panda.business.helper.app.common.constant.AppSourceType;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
 import org.panda.business.helper.app.infrastructure.security.user.UserIdentityToken;
+import org.panda.business.helper.app.infrastructure.thirdparty.wechat.WechatMpManager;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.entity.AppUserToken;
+import org.panda.business.helper.app.model.entity.AppUserWechat;
 import org.panda.business.helper.app.model.params.AppLoginParam;
 import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.business.helper.app.repository.AppUserMapper;
 import org.panda.business.helper.app.service.AppUserService;
 import org.panda.business.helper.app.service.AppUserTokenService;
+import org.panda.business.helper.app.service.AppUserWechatService;
+import org.panda.support.openapi.model.WechatAppType;
+import org.panda.support.openapi.model.WechatUser;
 import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.jwt.internal.InternalJwtConfiguration;
@@ -51,25 +56,33 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     private InternalJwtConfiguration jwtConfiguration;
     @Autowired
     private AppUserTokenService userTokenService;
+    @Autowired
+    private AppUserWechatService appUserWechatService;
+    @Autowired
+    private WechatMpManager wechatMpManager;
 
     @Transactional
     @Override
     public RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
-        // 获取app用户来源
-        String appSource = appSecurityUtil.getSourceHeader(request);
-        // TODO 接入微信小程序授权信息
-        if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
-            String code = appLoginParam.getCode();
-            // 利用临时code获取openid等微信授权信息
-        }
-
         String username = appLoginParam.getUsername();
-        // 判断登录账户是否存在
         LambdaQueryWrapper<AppUser> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(AppUser::getUsername, username);
-        queryWrapper.eq(AppUser::getAppid, appLoginParam.getAppid());
+        String appSource = appSecurityUtil.getSourceHeader(request);
+        WechatUser wechatUser = null;
+        // 根据不同app来源查询对应用户授权信息
+        if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
+            if (StringUtils.isEmpty(appLoginParam.getOpenid())) {
+                // 利用临时code获取openid等微信授权信息
+                wechatUser = wechatMpManager.loadUser(appLoginParam.getCode());
+                appLoginParam.setOpenid(wechatUser.getOpenid());
+            }
+            queryWrapper.eq(AppUser::getOpenid, appLoginParam.getOpenid());
+        } else if (Objects.equals(EnumValueHelper.getValue(AppSourceType.ANDROID), appSource)) {
+            queryWrapper.eq(AppUser::getUsername, username);
+        } else {
+            return RestfulResult.failure("Illegal app client");
+        }
         queryWrapper.eq(AppUser::getSource, appSource);
-        AppUser appUser = this.getOne(queryWrapper);
+        AppUser appUser = this.getOne(queryWrapper, false);
         if (appUser == null) { // 用户不存在即自动注册
             appUser = addAppUser(appLoginParam, appSource);
         }
@@ -86,9 +99,24 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
             userInfo.setTokenEffectiveTime(expiredInterval * Times.MS_ONE_SECOND);
             saveUserToken(appUser, token, expiredInterval);
+            // 微信小程序授权信息保存
+            saveWechatUser(appUser, wechatUser);
             return RestfulResult.success(userInfo);
         }
-        return  RestfulResult.failure();
+        return RestfulResult.failure();
+    }
+
+    private void saveWechatUser(AppUser appUser, WechatUser wechatUser) {
+        if (wechatUser != null) {
+            // 登录成功检查更新微信用户授权信息
+            AppUserWechat appUserWechat = new AppUserWechat();
+            appUserWechat.setUserId(appUser.getId());
+            appUserWechat.setOpenid(wechatUser.getOpenid());
+            appUserWechat.setUnionId(wechatUser.getUnionId());
+            appUserWechat.setSessionKey(wechatUser.getSessionKey());
+            appUserWechat.setAppType(EnumValueHelper.getValue(WechatAppType.MP));
+            appUserWechatService.saveOrUpdate(appUserWechat);
+        }
     }
 
     private void saveUserToken(AppUser appUser, String token, int expiredInterval) {
@@ -98,7 +126,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         String identity = appUser.getUsername();
         userToken.setIdentity(identity);
         userToken.setToken(token);
-
         userToken.setExpiredInterval(expiredInterval);
         LocalDateTime currentDate = LocalDateTime.now();
         userToken.setCreateTime(currentDate);
@@ -118,6 +145,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             } while (this.count(queryWrapper) > 0);
         }
         appUserParam.setUsername(username);
+        appUserParam.setOpenid(appLoginParam.getOpenid());
         appUserParam.setAppid(appLoginParam.getAppid());
         appUserParam.setAvatar(appLoginParam.getAvatar());
         appUserParam.setNickname(appLoginParam.getNickname());
@@ -145,7 +173,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             try {
                 if (appSecurityUtil.tokenVerify(token)) {
                     // TODO 登录凭证认证鉴权验证，接入shiro后实现
-
                     return RestfulResult.success();
                 }
             } catch (Exception e) { // 验证过程中会抛出特定异常

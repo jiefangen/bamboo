@@ -11,15 +11,15 @@ import org.panda.bamboo.common.annotation.EnumValue;
 public enum WechatAppType {
 
     @Caption("小程序")
-    @EnumValue("M")
+    @EnumValue("MP")
     MP,
 
     @Caption("公众号")
-    @EnumValue("S")
+    @EnumValue("SA")
     SA,
 
     @Caption("网站")
-    @EnumValue("W")
+    @EnumValue("WEB")
     WEB;
 
 }

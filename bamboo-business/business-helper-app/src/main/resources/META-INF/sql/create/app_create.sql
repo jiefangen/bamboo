@@ -16,9 +16,10 @@ CREATE TABLE `app_user` (
     `nickname` VARCHAR(80) NOT NULL DEFAULT '' COMMENT '昵称',
     `phone` VARCHAR(20) NOT NULL DEFAULT '' COMMENT '手机号',
     `email` VARCHAR(50) COMMENT '邮箱',
-    `gender` TINYINT(1) COMMENT '性别：0-女；1-男',
-    `avatar` VARCHAR(500) COMMENT '头像',
-    `appid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '应用appid',
+    `gender` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '性别：0-未知；1-男性；2-女性',
+    `avatar` VARCHAR(300) COMMENT '头像',
+    `openid` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '微信小程序用户唯一标识',
+    `appid` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '应用appid',
     `source` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '用户来源：WECHAT-MINI-微信小程序；ANDROID-安卓；IOS-苹果',
     `source_channel` VARCHAR(100) NOT NULL DEFAULT '' COMMENT '来源渠道',
     `status` TINYINT(1) NOT NULL COMMENT '状态：0-虚拟；1-正常；4-删除；9-锁定',
@@ -26,7 +27,8 @@ CREATE TABLE `app_user` (
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `UQ_USERNAME` (`username`)
+    UNIQUE KEY `UQ_USERNAME` (`username`),
+    UNIQUE KEY `UQ_OPENID` (`openid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='APP用户' ROW_FORMAT=Compact;
 
 
@@ -35,15 +37,15 @@ CREATE TABLE `app_user_wechat` (
     `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
     `user_id` INT unsigned NOT NULL COMMENT '关联用户ID',
     `app_type` VARCHAR(20) NOT NULL COMMENT '微信应用类型：MP-小程序；SA-公众号；WEB-网站',
-    `openid` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '微信小程序用户唯一标识',
-    `unionid` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '用户在开放平台的唯一标识符',
-    `session_key` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '会话密钥',
-    `access_token` VARCHAR(512) NOT NULL DEFAULT '' COMMENT '访问凭证',
+    `openid` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '微信小程序用户唯一标识',
+    `union_id` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '用户在开放平台的唯一标识符',
+    `session_key` VARCHAR(50) NOT NULL DEFAULT '' COMMENT '会话密钥',
+    `access_token` VARCHAR(300) NOT NULL DEFAULT '' COMMENT '访问凭证',
     `expires_in` INT NOT NULL DEFAULT 0 COMMENT '凭证有效时间（单位秒）',
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`) USING BTREE,
-    UNIQUE KEY `UQ_USERNAME` (`username`)
+    UNIQUE KEY `UQ_OPENID` (`openid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='微信用户标识' ROW_FORMAT=Compact;
 
 
