@@ -5,6 +5,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.panda.bamboo.common.constant.basic.Times;
 import org.panda.bamboo.common.util.EncryptUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
+import org.panda.support.openapi.model.EncryptedData;
+import org.panda.support.openapi.model.WechatUserDetail;
 import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
@@ -35,7 +37,7 @@ public abstract class WechatPublicAppAccessSupport extends WechatAppAccessSuppor
         }
     }
 
-    public String decryptUnionId(String encryptedData, String iv, String sessionKey) {
+    public Map<String, Object> decryptData(String encryptedData, String iv, String sessionKey) {
         if (StringUtils.isBlank(encryptedData) || StringUtils.isBlank(iv)
                 || StringUtils.isBlank(sessionKey)) {
             return null;
@@ -74,10 +76,32 @@ public abstract class WechatPublicAppAccessSupport extends WechatAppAccessSuppor
                 if (!getAppId().equals(watermark.get("appid"))) {
                     return null;
                 }
-                return (String) result.get("unionId");
+                return result;
             }
         } catch (Exception e) {
             LoggerFactory.getLogger(getClass()).error(e.getLocalizedMessage(), e);
+        }
+        return null;
+    }
+
+    public Map<String, Object> decryptData(EncryptedData encryptedData, String sessionKey) {
+        return decryptData(encryptedData.getEncryptedData(), encryptedData.getIv(), sessionKey);
+    }
+
+    public WechatUserDetail decryptUserDetail(String encryptedData, String iv, String sessionKey) {
+        Map<String, Object> result = decryptData(encryptedData, iv, sessionKey);
+        if (result != null) {
+            WechatUserDetail userDetail = new WechatUserDetail();
+            userDetail.setAppType(getAppType());
+            userDetail.setAccessToken(accessToken);
+            userDetail.setUnionId((String) result.get("unionid"));
+            userDetail.setHeadImageUrl((String) result.get("avatarUrl"));
+            userDetail.setNickname((String) result.get("nickName"));
+            userDetail.setGender((Integer) result.get("gender"));
+            userDetail.setCountry((String) result.get("country"));
+            userDetail.setProvince((String) result.get("province"));
+            userDetail.setCity((String) result.get("city"));
+            return userDetail;
         }
         return null;
     }

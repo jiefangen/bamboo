@@ -39,6 +39,10 @@ public class UserInfo {
      * 头像
      */
     private String avatar;
+    /**
+     * 微信openid
+     */
+    private String openid;
 
     /**
      * 用户交互凭证
@@ -57,5 +61,6 @@ public class UserInfo {
         this.phone = appUser.getPhone();
         this.email = appUser.getEmail();
         this.avatar = appUser.getAvatar();
+        this.openid = appUser.getOpenid();
     }
 }

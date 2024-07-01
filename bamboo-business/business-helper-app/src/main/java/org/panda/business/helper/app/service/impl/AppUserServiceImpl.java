@@ -19,11 +19,13 @@ import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.entity.AppUserToken;
 import org.panda.business.helper.app.model.entity.AppUserWechat;
 import org.panda.business.helper.app.model.params.AppLoginParam;
+import org.panda.business.helper.app.model.params.UpdateUserParam;
 import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.business.helper.app.repository.AppUserMapper;
 import org.panda.business.helper.app.service.AppUserService;
 import org.panda.business.helper.app.service.AppUserTokenService;
 import org.panda.business.helper.app.service.AppUserWechatService;
+import org.panda.support.openapi.model.EncryptedData;
 import org.panda.support.openapi.model.WechatAppType;
 import org.panda.support.openapi.model.WechatUser;
 import org.panda.tech.core.exception.ExceptionEnum;
@@ -37,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -71,7 +74,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         // 根据不同app来源查询对应用户授权信息
         if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
             if (StringUtils.isEmpty(appLoginParam.getOpenid())) {
-                // 利用临时code获取openid等微信授权信息
+                // 利用临时code获取openid、sessionKey等微信授权信息
                 wechatUser = wechatMpManager.loadUser(appLoginParam.getCode());
                 appLoginParam.setOpenid(wechatUser.getOpenid());
             }
@@ -86,20 +89,22 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         if (appUser == null) { // 用户不存在即自动注册
             appUser = addAppUser(appLoginParam, appSource);
         }
+
         // 获取到用户后进入登录流程
         if (appUser != null) {
             // TODO 登录流程，接入shiro后实现
 
+            // 登录成功，构建用户返回信息
             UserInfo userInfo = new UserInfo();
             userInfo.transform(appUser);
-            // 登录成功，生成用户toke返回，用于前后端交互凭证
             String token = appSecurityUtil.generateToken(appUser);
             userInfo.setToken(token);
             // 自定义token有效状态先于jwt10秒失效
             int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
             userInfo.setTokenEffectiveTime(expiredInterval * Times.MS_ONE_SECOND);
+            // 保存用户登录token
             saveUserToken(appUser, token, expiredInterval);
-            // 微信小程序授权信息保存
+            // 保存微信小程序授权信息
             saveWechatUser(appUser, wechatUser);
             return RestfulResult.success(userInfo);
         }
@@ -115,7 +120,14 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             appUserWechat.setUnionId(wechatUser.getUnionId());
             appUserWechat.setSessionKey(wechatUser.getSessionKey());
             appUserWechat.setAppType(EnumValueHelper.getValue(WechatAppType.MP));
-            appUserWechatService.saveOrUpdate(appUserWechat);
+            LambdaQueryWrapper<AppUserWechat> wechatWrapper = Wrappers.lambdaQuery();
+            wechatWrapper.eq(AppUserWechat::getUserId, appUser.getId());
+            wechatWrapper.eq(AppUserWechat::getOpenid, appUser.getOpenid());
+            if (appUserWechatService.count(wechatWrapper) > 0) {
+                appUserWechatService.update(appUserWechat, wechatWrapper);
+            } else {
+                appUserWechatService.save(appUserWechat);
+            }
         }
     }
 
@@ -222,9 +234,43 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             if (appUser != null) {
                 UserInfo userInfo = new UserInfo();
                 userInfo.transform(appUser); // 用户详情类型转换
+                userInfo.setToken(token);
+                int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
+                userInfo.setTokenEffectiveTime(expiredInterval * Times.MS_ONE_SECOND);
                 return userInfo;
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean updateUser(UpdateUserParam updateUserParam, HttpServletRequest request) {
+        // 如果未传入更新的手机号则尝试从微信加密数据中获取
+        if (StringUtils.isEmpty(updateUserParam.getPhone()) && updateUserParam.getEncryptedData() != null) {
+            LambdaQueryWrapper<AppUserWechat> queryWrapper = Wrappers.lambdaQuery();
+            queryWrapper.eq(AppUserWechat::getUserId, updateUserParam.getUserId());
+            AppUserWechat appUserWechat = appUserWechatService.getOne(queryWrapper, false);
+            EncryptedData encryptedData = updateUserParam.getEncryptedData();
+            Map<String, Object> dataRes = wechatMpManager.decryptData(encryptedData, appUserWechat.getSessionKey());
+            if (dataRes == null) {
+                return false;
+            }
+            updateUserParam.setPhone((String) dataRes.get("purePhoneNumber"));
+        }
+        AppUser appUser = new AppUser();
+        appUser.setId(updateUserParam.getUserId());
+        if (StringUtils.isNotEmpty(updateUserParam.getPhone())) {
+            appUser.setPhone(updateUserParam.getPhone());
+        }
+        if (StringUtils.isNotEmpty(updateUserParam.getEmail())) {
+            appUser.setEmail(updateUserParam.getEmail());
+        }
+        if (StringUtils.isNotEmpty(updateUserParam.getAvatar())) {
+            appUser.setAvatar(updateUserParam.getAvatar());
+        }
+        if (StringUtils.isNotEmpty(updateUserParam.getNickname())) {
+            appUser.setNickname(updateUserParam.getNickname());
+        }
+        return this.updateById(appUser);
     }
 }

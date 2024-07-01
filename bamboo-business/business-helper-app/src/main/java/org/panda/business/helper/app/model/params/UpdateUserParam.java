@@ -3,22 +3,29 @@ package org.panda.business.helper.app.model.params;
 import lombok.Data;
 import org.panda.support.openapi.model.EncryptedData;
 
+import javax.validation.constraints.NotNull;
+
 /**
- * 用户登录参数
+ * 更新用户参数
  *
  * @author fangen
  * @since 2024/6/6
  **/
 @Data
-public class AppLoginParam {
+public class UpdateUserParam {
     /**
-     * 用户名
+     * 用户ID
      */
-    private String username;
+    @NotNull
+    private Integer userId;
     /**
-     * 密码
+     * 手机号
      */
-    private String password;
+    private String phone;
+    /**
+     * 邮箱
+     */
+    private String email;
     /**
      * 头像
      */
@@ -27,20 +34,8 @@ public class AppLoginParam {
      * 用户昵称
      */
     private String nickname;
-    /**
-     * 应用的AppId
-     */
-    private String appid;
 
 /* ---------- 微信小程序专用参数 ---------- */
-    /**
-     * 微信临时凭证code
-     */
-    private String code;
-    /**
-     * 微信用户唯一凭证
-     */
-    private String openid;
     /**
      * 加密数据
      */

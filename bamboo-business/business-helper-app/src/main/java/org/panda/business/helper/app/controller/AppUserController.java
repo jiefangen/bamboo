@@ -1,6 +1,7 @@
 package org.panda.business.helper.app.controller;
 
 import io.swagger.annotations.Api;
+import org.panda.business.helper.app.model.params.UpdateUserParam;
 import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.business.helper.app.service.AppUserService;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
@@ -9,11 +10,10 @@ import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * APP用户接口
@@ -30,7 +30,7 @@ public class AppUserController {
     private AppUserService appUserService;
 
     @GetMapping("/info")
-    @WebOperationLog(actionType = ActionType.QUERY, intoStorage = true)
+    @WebOperationLog(actionType = ActionType.QUERY)
     public RestfulResult<?> info(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserInfo userInfo = appUserService.getUserByToken(token);
@@ -38,6 +38,15 @@ public class AppUserController {
             return RestfulResult.failure(AuthConstants.USER_NOT_EXIST_CODE, AuthConstants.USERNAME_NOT_EXIST);
         }
         return RestfulResult.success(userInfo);
+    }
+
+    @PostMapping("/update")
+    @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
+    public RestfulResult<?> update(@RequestBody @Valid UpdateUserParam updateUserParam, HttpServletRequest request) {
+        if (appUserService.updateUser(updateUserParam, request)) {
+            return RestfulResult.success();
+        }
+        return RestfulResult.failure();
     }
 
 }

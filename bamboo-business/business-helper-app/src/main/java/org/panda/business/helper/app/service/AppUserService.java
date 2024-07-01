@@ -3,6 +3,7 @@ package org.panda.business.helper.app.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.params.AppLoginParam;
+import org.panda.business.helper.app.model.params.UpdateUserParam;
 import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.tech.core.web.restful.RestfulResult;
 
@@ -45,4 +46,11 @@ public interface AppUserService extends IService<AppUser> {
      * @return 用户详情
      */
     UserInfo getUserByToken(String token);
+
+    /**
+     * 更新用户
+     *
+     * @return 更新结果
+     */
+    boolean updateUser(UpdateUserParam updateUserParam, HttpServletRequest request);
 }

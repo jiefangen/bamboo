@@ -30,8 +30,8 @@ public class AppSecurityUtil {
     public String generateToken(AppUser appUser) {
         UserIdentityToken userIdentityToken = new UserIdentityToken();
         userIdentityToken.setUserId(appUser.getId());
+        userIdentityToken.setCredentials(appUser.getPassword());
         userIdentityToken.setIdentity(appUser.getUsername());
-        userIdentityToken.setPassword(appUser.getPassword());
         userIdentityToken.setUserRank(appUser.getUserRank());
         // 生成用户toke返回，用于前后端交互凭证
         return jwtResolver.generate(appName, userIdentityToken);

@@ -18,7 +18,7 @@ public class UserIdentityToken {
     /**
      * 凭证密码
      */
-    private String password;
+    private String credentials;
     /**
      * 用户等级，定制权限管控
      */
@@ -40,12 +40,12 @@ public class UserIdentityToken {
         this.identity = identity;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCredentials() {
+        return credentials;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setCredentials(String credentials) {
+        this.credentials = credentials;
     }
 
     public Integer getUserRank() {
