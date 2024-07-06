@@ -51,6 +51,7 @@ import java.util.Objects;
  * @since 2024-06-05
  */
 @Service
+@Transactional
 public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> implements AppUserService {
 
     @Autowired
@@ -64,7 +65,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Autowired
     private WechatMpManager wechatMpManager;
 
-    @Transactional
     @Override
     public RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
         String username = appLoginParam.getUsername();
@@ -185,7 +185,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             try {
                 if (appSecurityUtil.tokenVerify(token)) {
                     // TODO 登录凭证认证鉴权验证，接入shiro后实现
-                    return RestfulResult.success();
+
+                    return RestfulResult.success(this.getUserByToken(token));
                 }
             } catch (Exception e) { // 验证过程中会抛出特定异常
                 if (e instanceof TokenExpiredException) {

@@ -38,7 +38,7 @@ public class LoginController {
     }
 
     @GetMapping("/logout")
-    @WebOperationLog(content = "/app/logout", actionType = ActionType.QUIT, intoStorage = true)
+    @WebOperationLog(actionType = ActionType.QUIT, intoStorage = true)
     public RestfulResult<?> logout(HttpServletRequest request) {
         return appUserService.appLogout(request);
     }
