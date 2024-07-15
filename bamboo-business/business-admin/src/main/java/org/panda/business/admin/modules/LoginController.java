@@ -28,5 +28,4 @@ public class LoginController {
         // 用于登出流程引导，无需处理任何逻辑
         return RestfulResult.success();
     }
-
 }

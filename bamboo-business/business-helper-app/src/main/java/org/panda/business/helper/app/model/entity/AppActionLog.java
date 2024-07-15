@@ -64,18 +64,6 @@ public class AppActionLog implements Serializable {
     @TableField("status_code")
     private Integer statusCode;
 
-    @ApiModelProperty(value = "来源ID")
-    @TableField("source_id")
-    private String sourceId;
-
-    @ApiModelProperty(value = "终端设备")
-    @TableField("terminal_device")
-    private String terminalDevice;
-
-    @ApiModelProperty(value = "终端操作系统")
-    @TableField("terminal_os")
-    private String terminalOs;
-
     @ApiModelProperty(value = "请求体")
     @TableField("request_body")
     private String requestBody;
