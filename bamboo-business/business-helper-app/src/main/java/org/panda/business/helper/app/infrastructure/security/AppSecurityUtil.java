@@ -1,7 +1,6 @@
 package org.panda.business.helper.app.infrastructure.security;
 
 import org.panda.business.helper.app.common.constant.ProjectConstants;
-import org.panda.business.helper.app.infrastructure.security.user.UserIdentityToken;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;

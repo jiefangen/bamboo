@@ -1,4 +1,4 @@
-package org.panda.business.helper.app.infrastructure.security.user;
+package org.panda.business.helper.app.infrastructure.security;
 
 /**
  * 用户凭证交互token

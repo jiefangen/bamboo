@@ -30,7 +30,7 @@
             <artifactId>bamboo-data-mybatis</artifactId>
             <version>${technology.version}</version>
         </dependency>
-        <!-- 技术框架mybatis扩展支持 -->
+        <!-- 服务安全认证授权模块 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-security-auth</artifactId>

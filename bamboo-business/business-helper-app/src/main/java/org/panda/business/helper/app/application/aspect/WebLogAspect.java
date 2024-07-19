@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.*;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.common.model.WebLogData;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
-import org.panda.business.helper.app.infrastructure.security.user.UserIdentityToken;
+import org.panda.business.helper.app.infrastructure.security.UserIdentityToken;
 import org.panda.business.helper.app.service.AppActionLogService;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.annotation.WebOperationLog;

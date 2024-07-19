@@ -13,7 +13,7 @@ import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.helper.app.common.constant.AppSourceType;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
-import org.panda.business.helper.app.infrastructure.security.user.UserIdentityToken;
+import org.panda.business.helper.app.infrastructure.security.UserIdentityToken;
 import org.panda.business.helper.app.infrastructure.thirdparty.wechat.WechatMpManager;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.entity.AppUserToken;
@@ -92,7 +92,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
         // 获取到用户后进入登录流程
         if (appUser != null) {
-            // TODO 登录流程，接入shiro后实现
+            // TODO 登录流程，接入验证框架后实现
 
             // 登录成功，构建用户返回信息
             UserInfo userInfo = new UserInfo();
