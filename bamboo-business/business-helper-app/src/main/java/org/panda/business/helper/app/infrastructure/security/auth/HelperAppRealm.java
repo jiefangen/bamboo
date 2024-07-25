@@ -48,8 +48,8 @@ public class HelperAppRealm implements Realm<HelperUser> {
             String code = binary.getRight();
         }
         DefaultLoginInfo loginInfo = new DefaultLoginInfo(helperUser);
-        final Cookie identityCookie = WebHttpUtil.createCookie(ProjectConstants.COOKIE_IDENTITY,
-                identity, Strings.SLASH, Integer.MAX_VALUE, true);
+        Cookie identityCookie = WebHttpUtil.createCookie(ProjectConstants.COOKIE_IDENTITY, identity,
+                Strings.SLASH, Integer.MAX_VALUE, true);
         loginInfo.addCookie(identityCookie);
         return loginInfo;
     }
