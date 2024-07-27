@@ -79,13 +79,20 @@ public class SwaggerConfig {
 
     private List<Parameter> globalParameters() {
         List<Parameter> parameters = new ArrayList<>();
-        ParameterBuilder tokenParam = new ParameterBuilder();
-        tokenParam.name(WebConstants.HEADER_AUTH_JWT)
+        ParameterBuilder tokenParams = new ParameterBuilder();
+        tokenParams.name(WebConstants.HEADER_AUTH_JWT)
                 .description(WebConstants.HEADER_AUTH_JWT)
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
                 .required(false).build();
-        parameters.add(tokenParam.build());
+        parameters.add(tokenParams.build());
+        ParameterBuilder sourceParams = new ParameterBuilder();
+        sourceParams.name(WebConstants.HEADER_SOURCE)
+                .description(WebConstants.HEADER_SOURCE)
+                .modelRef(new ModelRef("string"))
+                .parameterType("header")
+                .required(true).build();
+        parameters.add(sourceParams.build());
         return parameters;
     }
 

@@ -14,6 +14,7 @@ import org.panda.business.helper.app.common.constant.AppSourceType;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
 import org.panda.business.helper.app.infrastructure.security.UserIdentityToken;
+import org.panda.business.helper.app.infrastructure.security.auth.SecurityUtil;
 import org.panda.business.helper.app.infrastructure.thirdparty.wechat.WechatMpManager;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.entity.AppUserToken;
@@ -28,7 +29,12 @@ import org.panda.business.helper.app.service.AppUserWechatService;
 import org.panda.support.openapi.model.EncryptedData;
 import org.panda.support.openapi.model.WechatAppType;
 import org.panda.support.openapi.model.WechatUser;
+import org.panda.tech.auth.authentication.token.DefaultAuthToken;
+import org.panda.tech.auth.mgt.DefaultSecurityManager;
+import org.panda.tech.auth.subject.Subject;
 import org.panda.tech.core.exception.ExceptionEnum;
+import org.panda.tech.core.exception.business.BusinessException;
+import org.panda.tech.core.exception.business.HandleableException;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.jwt.internal.InternalJwtConfiguration;
 import org.panda.tech.core.web.config.WebConstants;
@@ -65,6 +71,9 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Autowired
     private WechatMpManager wechatMpManager;
 
+    @Autowired
+    private DefaultSecurityManager securityManager;
+
     @Override
     public RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
         String username = appLoginParam.getUsername();
@@ -74,9 +83,13 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         // 根据不同app来源查询对应用户授权信息
         if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
             if (StringUtils.isEmpty(appLoginParam.getOpenid())) {
-                // 利用临时code获取openid、sessionKey等微信授权信息
-                wechatUser = wechatMpManager.loadUser(appLoginParam.getCode());
-                appLoginParam.setOpenid(wechatUser.getOpenid());
+                try {
+                    // 利用临时code获取openid、sessionKey等微信授权信息
+                    wechatUser = wechatMpManager.loadUser(appLoginParam.getCode());
+                    appLoginParam.setOpenid(wechatUser.getOpenid());
+                } catch (BusinessException e) {
+                    return RestfulResult.failure(e.getMessage());
+                }
             }
             queryWrapper.eq(AppUser::getOpenid, appLoginParam.getOpenid());
         } else if (Objects.equals(EnumValueHelper.getValue(AppSourceType.ANDROID), appSource)) {
@@ -92,8 +105,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
         // 获取到用户后进入登录流程
         if (appUser != null) {
-            // TODO 登录流程，接入验证框架后实现
-
             // 登录成功，构建用户返回信息
             UserInfo userInfo = new UserInfo();
             userInfo.transform(appUser);
@@ -179,13 +190,30 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     }
 
     @Override
+    public RestfulResult<?> authAppLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
+        RestfulResult<?> result = appLogin(appLoginParam, request);
+        DefaultAuthToken authToken = new DefaultAuthToken();
+        if (result.isSuccess()) {
+            Object data = result.getData();
+            authToken.setPrincipal(data);
+            Subject subject = SecurityUtil.getSubject();
+            try {
+                subject.login(authToken);
+                return RestfulResult.success(data);
+            } catch (HandleableException e) {
+                LogUtil.error(getClass(), e);
+                return RestfulResult.failure(e.getMessage());
+            }
+        }
+        return RestfulResult.failure(result.getMessage());
+    }
+
+    @Override
     public RestfulResult<?> loginVerify(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         if (StringUtils.isNotBlank(token)) {
             try {
                 if (appSecurityUtil.tokenVerify(token)) {
-                    // TODO 登录凭证认证鉴权验证，接入shiro后实现
-
                     return RestfulResult.success(this.getUserByToken(token));
                 }
             } catch (Exception e) { // 验证过程中会抛出特定异常
@@ -208,8 +236,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             LogUtil.error(getClass(), e);
         }
         if (tokenVerify) {
-            // TODO 登出流程，接入shiro后实现
-
             // 登出成功token失效处理
             LambdaQueryWrapper<AppUserToken> queryWrapper = Wrappers.lambdaQuery();
             UserIdentityToken userIdentityToken = appSecurityUtil.parseToken(token);

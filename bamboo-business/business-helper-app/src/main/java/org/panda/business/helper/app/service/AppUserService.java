@@ -27,6 +27,14 @@ public interface AppUserService extends IService<AppUser> {
     RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request);
 
     /**
+     * APP登录
+     *
+     * @param appLoginParam 登录参数
+     * @return 登录结果
+     */
+    RestfulResult<?> authAppLogin(AppLoginParam appLoginParam, HttpServletRequest request);
+
+    /**
      * 登录验证
      *
      * @return 验证结果

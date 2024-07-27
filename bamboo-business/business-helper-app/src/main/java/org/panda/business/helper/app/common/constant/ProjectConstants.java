@@ -15,11 +15,8 @@ public class ProjectConstants {
      * 未知
      */
     public static final String DEFAULT_UNKNOWN = "unknown";
-
     /**
-     * 请求头，来源
+     * 身份标识
      */
-    public static final String HEADER_SOURCE = "app-source";
-
     public static final String COOKIE_IDENTITY = "identity";
 }
