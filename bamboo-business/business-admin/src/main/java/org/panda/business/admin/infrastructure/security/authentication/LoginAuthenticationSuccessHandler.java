@@ -12,7 +12,7 @@ import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
-import org.panda.tech.security.web.authentication.AjaxAuthenticationSuccessHandler;
+import org.panda.tech.security.web.authentication.DefaultAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
  * @author fangen
  **/
 @Component
-public class LoginAuthenticationSuccessHandler extends AjaxAuthenticationSuccessHandler {
+public class LoginAuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler {
 
     @Autowired
     private InternalJwtResolver jwtResolver;
@@ -42,7 +42,7 @@ public class LoginAuthenticationSuccessHandler extends AjaxAuthenticationSuccess
     private String appName;
 
     @Override
-    protected Object getAjaxLoginResult(HttpServletRequest request, Authentication authentication) {
+    protected Object getDefaultLoginResult(HttpServletRequest request, Authentication authentication) {
         // 安全认证登录成功后的业务处理
         if (SecurityUtil.isAuthorized() && jwtResolver.isGenerable(appName) ) {
             DefaultUserSpecificDetails userSpecificDetails = SecurityUtil.getAuthorizedUserDetails();

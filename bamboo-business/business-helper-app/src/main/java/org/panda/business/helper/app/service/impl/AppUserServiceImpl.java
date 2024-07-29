@@ -14,7 +14,8 @@ import org.panda.business.helper.app.common.constant.AppSourceType;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
 import org.panda.business.helper.app.infrastructure.security.UserIdentityToken;
-import org.panda.business.helper.app.infrastructure.security.auth.SecurityUtil;
+import org.panda.business.helper.app.infrastructure.security.auth.HelperUser;
+import org.panda.business.helper.app.infrastructure.security.auth.SubjectUtil;
 import org.panda.business.helper.app.infrastructure.thirdparty.wechat.WechatMpManager;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.entity.AppUserToken;
@@ -30,8 +31,6 @@ import org.panda.support.openapi.model.EncryptedData;
 import org.panda.support.openapi.model.WechatAppType;
 import org.panda.support.openapi.model.WechatUser;
 import org.panda.tech.auth.authentication.token.DefaultAuthToken;
-import org.panda.tech.auth.mgt.DefaultSecurityManager;
-import org.panda.tech.auth.subject.Subject;
 import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.exception.business.HandleableException;
@@ -39,6 +38,7 @@ import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.jwt.internal.InternalJwtConfiguration;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,9 +70,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     private AppUserWechatService appUserWechatService;
     @Autowired
     private WechatMpManager wechatMpManager;
-
-    @Autowired
-    private DefaultSecurityManager securityManager;
 
     @Override
     public RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
@@ -192,13 +189,14 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     @Override
     public RestfulResult<?> authAppLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
         RestfulResult<?> result = appLogin(appLoginParam, request);
-        DefaultAuthToken authToken = new DefaultAuthToken();
-        if (result.isSuccess()) {
+        if (result.isSuccess()) { // 安全验证框架登录
+            DefaultAuthToken authToken = new DefaultAuthToken();
+            authToken.setRememberMe(true);
+            authToken.setHost(WebHttpUtil.getRemoteAddress(request));
             Object data = result.getData();
             authToken.setPrincipal(data);
-            Subject subject = SecurityUtil.getSubject();
             try {
-                subject.login(authToken);
+                SubjectUtil.getSubject().login(authToken);
                 return RestfulResult.success(data);
             } catch (HandleableException e) {
                 LogUtil.error(getClass(), e);
@@ -248,6 +246,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
                 userToken.setLogoutTime(LocalDateTime.now());
                 userTokenService.updateById(userToken);
             }
+            // 安全验证框架登出
+            SubjectUtil.getSubject().logout();
             return RestfulResult.success();
         }
         return RestfulResult.failure();
@@ -255,6 +255,10 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     @Override
     public UserInfo getUserByToken(String token) {
+        HelperUser helperUser = SubjectUtil.getHelperUser();
+        if (helperUser != null) {
+            return helperUser.getUserInfo();
+        }
         if (StringUtils.isNotBlank(token)) {
             UserIdentityToken userIdentityToken = appSecurityUtil.parseToken(token);
             AppUser appUser = this.getById(userIdentityToken.getUserId());

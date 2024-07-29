@@ -1,4 +1,4 @@
-package org.panda.business.helper.app.infrastructure.security.auth.user;
+package org.panda.business.helper.app.infrastructure.security.auth;
 
 import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.tech.core.spec.user.DefaultUserIdentity;

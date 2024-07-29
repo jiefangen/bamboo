@@ -1,9 +1,10 @@
 package org.panda.business.helper.app.infrastructure.security.auth;
 
+import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
-import org.panda.business.helper.app.infrastructure.security.auth.user.HelperUser;
 import org.panda.business.helper.app.model.vo.UserInfo;
+import org.panda.business.helper.app.service.AppUserService;
 import org.panda.tech.auth.authentication.DefaultLoginInfo;
 import org.panda.tech.auth.authentication.DefaultLogoutInfo;
 import org.panda.tech.auth.authentication.LoginInfo;
@@ -12,10 +13,11 @@ import org.panda.tech.auth.authentication.token.AuthenticationToken;
 import org.panda.tech.auth.authentication.token.SmsVerifyToken;
 import org.panda.tech.auth.authentication.token.UsernamePasswordToken;
 import org.panda.tech.auth.authority.AuthorizationInfo;
-import org.panda.tech.auth.realm.Realm;
+import org.panda.tech.auth.realm.RememberMeRealm;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.exception.business.HandleableException;
 import org.panda.tech.core.web.util.WebHttpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
@@ -27,11 +29,26 @@ import javax.servlet.http.Cookie;
  * @since JDK 11 2024/7/17
  **/
 @Component
-public class HelperAppRealm implements Realm<HelperUser> {
+public class HelperAppRealm implements RememberMeRealm<HelperUser> {
+
+    @Autowired
+    private AppUserService appUserService;
 
     @Override
     public Class<HelperUser> getUserClass() {
         return HelperUser.class;
+    }
+
+    @Override
+    public HelperUser getLoginUser(String token) {
+        if (StringUtils.isEmpty(token)) {
+            return null;
+        }
+        HelperUser helperUser = new HelperUser();
+        UserInfo userInfo = appUserService.getUserByToken(token);
+        helperUser.setUserInfo(userInfo);
+        helperUser.setId(userInfo.getUserId());
+        return helperUser;
     }
 
     @Override
@@ -72,4 +89,5 @@ public class HelperAppRealm implements Realm<HelperUser> {
     public LogoutInfo getLogoutInfo(HelperUser user) throws BusinessException {
         return new DefaultLogoutInfo(false);
     }
+
 }

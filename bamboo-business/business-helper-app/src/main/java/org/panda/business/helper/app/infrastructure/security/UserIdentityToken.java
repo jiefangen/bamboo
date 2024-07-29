@@ -19,10 +19,6 @@ public class UserIdentityToken {
      * 凭证密码
      */
     private String credentials;
-    /**
-     * 用户等级，定制权限管控
-     */
-    private Integer userRank;
 
     public Integer getUserId() {
         return userId;
@@ -48,11 +44,4 @@ public class UserIdentityToken {
         this.credentials = credentials;
     }
 
-    public Integer getUserRank() {
-        return userRank;
-    }
-
-    public void setUserRank(Integer userRank) {
-        this.userRank = userRank;
-    }
 }
