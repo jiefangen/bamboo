@@ -5,7 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
 import org.panda.business.helper.app.common.model.WebLogData;
-import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
+import org.panda.business.helper.app.infrastructure.security.AppSecurityUtils;
 import org.panda.business.helper.app.infrastructure.security.UserIdentityToken;
 import org.panda.business.helper.app.service.AppActionLogService;
 import org.panda.tech.core.web.config.WebConstants;
@@ -29,7 +29,7 @@ public class WebLogAspect extends WebLogSupport {
     @Autowired
     private AppActionLogService actionLogService;
     @Autowired
-    private AppSecurityUtil appSecurityUtil;
+    private AppSecurityUtils appSecurityUtil;
 
     @Pointcut("execution(* org.panda.business.helper.app.controller..*.*(..))")
     public void pointcut() {}

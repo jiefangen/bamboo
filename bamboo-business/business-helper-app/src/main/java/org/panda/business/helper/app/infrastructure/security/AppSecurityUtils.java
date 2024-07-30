@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since JDK 11 2024/6/11
  **/
 @Component
-public class AppSecurityUtil {
+public class AppSecurityUtils {
 
     @Autowired
     private InternalJwtResolver jwtResolver;

@@ -2,18 +2,21 @@ package org.panda.business.helper.app.test.common;
 
 import org.junit.jupiter.api.Test;
 import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.business.helper.app.common.utils.AppPassUtils;
+import org.panda.tech.core.util.PasswordUtil;
 
 public class CommonTest {
 
-//    private final ShiroEncrypt shiroEncrypt = new ShiroEncrypt();
+    @Test
+    void encrypt() {
+        String salt = AppPassUtils.getRandomSalt();
+        System.out.println("randomSalt: " + salt + " " + salt.length());
+        String encodedPassword = AppPassUtils.encryptPassword("123456", salt);
+        System.out.println("encodedPassword: " + encodedPassword + " " + encodedPassword.length());
 
-//    @Test
-//    void encrypt() {
-//        String salt = shiroEncrypt.getRandomSalt();
-//        System.out.println("randomSalt: " + salt + " " + salt.length());
-//        String encodedPassword = shiroEncrypt.encryptPassword("123456", salt);
-//        System.out.println("encodedPassword: " + encodedPassword+ " " + salt.length());
-//    }
+        String originalPassword = PasswordUtil.encryptPassword("123456");
+        System.out.println("originalPassword: " + originalPassword + " " + originalPassword.length());
+    }
 
     @Test
     void randomNormal() {

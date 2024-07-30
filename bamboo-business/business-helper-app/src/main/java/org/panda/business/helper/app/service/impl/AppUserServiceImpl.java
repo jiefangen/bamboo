@@ -12,10 +12,11 @@ import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.helper.app.common.constant.AppSourceType;
 import org.panda.business.helper.app.common.constant.ProjectConstants;
-import org.panda.business.helper.app.infrastructure.security.AppSecurityUtil;
+import org.panda.business.helper.app.common.utils.AppPassUtils;
+import org.panda.business.helper.app.infrastructure.security.AppSecurityUtils;
 import org.panda.business.helper.app.infrastructure.security.UserIdentityToken;
 import org.panda.business.helper.app.infrastructure.security.auth.HelperUser;
-import org.panda.business.helper.app.infrastructure.security.auth.SubjectUtil;
+import org.panda.business.helper.app.infrastructure.security.auth.SubjectUtils;
 import org.panda.business.helper.app.infrastructure.thirdparty.wechat.WechatMpManager;
 import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.entity.AppUserToken;
@@ -61,7 +62,7 @@ import java.util.Objects;
 public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> implements AppUserService {
 
     @Autowired
-    private AppSecurityUtil appSecurityUtil;
+    private AppSecurityUtils appSecurityUtils;
     @Autowired
     private InternalJwtConfiguration jwtConfiguration;
     @Autowired
@@ -75,7 +76,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
     public RestfulResult<?> appLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
         String username = appLoginParam.getUsername();
         LambdaQueryWrapper<AppUser> queryWrapper = Wrappers.lambdaQuery();
-        String appSource = appSecurityUtil.getSourceHeader(request);
+        String appSource = appSecurityUtils.getSourceHeader(request);
         WechatUser wechatUser = null;
         // 根据不同app来源查询对应用户授权信息
         if (Objects.equals(EnumValueHelper.getValue(AppSourceType.WECHAT_MINI), appSource)) {
@@ -105,7 +106,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             // 登录成功，构建用户返回信息
             UserInfo userInfo = new UserInfo();
             userInfo.transform(appUser);
-            String token = appSecurityUtil.generateToken(appUser);
+            String token = appSecurityUtils.generateToken(appUser);
             userInfo.setToken(token);
             // 自定义token有效状态先于jwt10秒失效
             int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
@@ -173,11 +174,11 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         if (StringUtils.isBlank(password)) {
             password = ProjectConstants.DEFAULT_USER_PWD;
         }
-        // TODO 加盐密码，接入shiro后实现
-//        String salt = shiroEncrypt.getRandomSalt();
-//        appUserParam.setSalt(salt);
-//        String encodedPassword = shiroEncrypt.encryptPassword(password, salt);
-//        appUserParam.setPassword(encodedPassword);
+        // 加盐密码
+        String salt = AppPassUtils.getRandomSalt();
+        appUserParam.setSalt(salt);
+        String encodedPassword = AppPassUtils.encryptPassword(password, salt);
+        appUserParam.setPassword(encodedPassword);
         appUserParam.setSource(source);
         appUserParam.setStatus(1);
         if (this.save(appUserParam)) {
@@ -196,7 +197,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
             Object data = result.getData();
             authToken.setPrincipal(data);
             try {
-                SubjectUtil.getSubject().login(authToken);
+                SubjectUtils.getSubject().login(authToken);
                 return RestfulResult.success(data);
             } catch (HandleableException e) {
                 LogUtil.error(getClass(), e);
@@ -211,7 +212,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         if (StringUtils.isNotBlank(token)) {
             try {
-                if (appSecurityUtil.tokenVerify(token)) {
+                if (appSecurityUtils.tokenVerify(token)) {
                     return RestfulResult.success(this.getUserByToken(token));
                 }
             } catch (Exception e) { // 验证过程中会抛出特定异常
@@ -229,14 +230,14 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         boolean tokenVerify = false;
         try {
-            tokenVerify = appSecurityUtil.tokenVerify(token);
+            tokenVerify = appSecurityUtils.tokenVerify(token);
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
         }
         if (tokenVerify) {
             // 登出成功token失效处理
             LambdaQueryWrapper<AppUserToken> queryWrapper = Wrappers.lambdaQuery();
-            UserIdentityToken userIdentityToken = appSecurityUtil.parseToken(token);
+            UserIdentityToken userIdentityToken = appSecurityUtils.parseToken(token);
             queryWrapper.eq(AppUserToken::getUserId, userIdentityToken.getUserId());
             queryWrapper.eq(AppUserToken::getIdentity, userIdentityToken.getIdentity());
             queryWrapper.eq(AppUserToken::getToken, token);
@@ -247,7 +248,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
                 userTokenService.updateById(userToken);
             }
             // 安全验证框架登出
-            SubjectUtil.getSubject().logout();
+            SubjectUtils.getSubject().logout();
             return RestfulResult.success();
         }
         return RestfulResult.failure();
@@ -255,12 +256,12 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     @Override
     public UserInfo getUserByToken(String token) {
-        HelperUser helperUser = SubjectUtil.getHelperUser();
+        HelperUser helperUser = SubjectUtils.getHelperUser();
         if (helperUser != null) {
             return helperUser.getUserInfo();
         }
         if (StringUtils.isNotBlank(token)) {
-            UserIdentityToken userIdentityToken = appSecurityUtil.parseToken(token);
+            UserIdentityToken userIdentityToken = appSecurityUtils.parseToken(token);
             AppUser appUser = this.getById(userIdentityToken.getUserId());
             if (appUser != null) {
                 UserInfo userInfo = new UserInfo();

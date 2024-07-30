@@ -23,7 +23,7 @@ import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.util.QueryPageHelper;
-import org.panda.tech.security.cas.CasConstants;
+import org.panda.tech.security.config.constants.SecurityConstants;
 import org.panda.tech.security.user.UserGrantedAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,7 +55,7 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
             // 尝试从请求头header中获取
             HttpServletRequest request = SpringWebContext.getRequest();
             if (request != null) {
-                service = WebHttpUtil.getHeader(request, CasConstants.PARAMETER_SERVICE);
+                service = WebHttpUtil.getHeader(request, SecurityConstants.PARAMETER_SERVICE);
             }
         }
         if (StringUtils.isNotBlank(service)) {

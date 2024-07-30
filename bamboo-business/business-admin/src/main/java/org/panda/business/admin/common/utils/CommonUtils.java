@@ -1,4 +1,4 @@
-package org.panda.business.admin.common.util;
+package org.panda.business.admin.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
@@ -13,7 +13,7 @@ import java.util.Locale;
  *
  * @author fangen
  **/
-public class CommonUtil {
+public class CommonUtils {
     /**
      * 语言编码标识
      */

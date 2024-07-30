@@ -107,7 +107,7 @@ public class WechatPaymentGateway extends AbstractPaymentGateway implements Disp
     }
 
     private String getH5Type(OS os) {
-        if (os == OS.MAC) {
+        if (os == OS.IOS) {
             return "iOS";
         }
         if (os == OS.ANDROID) {

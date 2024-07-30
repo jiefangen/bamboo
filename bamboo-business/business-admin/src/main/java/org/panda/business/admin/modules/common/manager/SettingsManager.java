@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.business.admin.common.util.CommonUtil;
+import org.panda.business.admin.common.utils.CommonUtils;
 import org.panda.business.admin.modules.common.config.SettingsKeys;
 import org.panda.business.admin.modules.settings.service.SysDictionaryDataService;
 import org.panda.business.admin.modules.settings.service.SysDictionaryService;
@@ -127,7 +127,7 @@ public class SettingsManager {
      * @return 对应语言的展示值
      */
     public Optional<String> getI18nDictLabel(String dictDataValue, String appRange) {
-        String language = CommonUtil.getGlobalLanguage();
+        String language = CommonUtils.getGlobalLanguage();
         String i18nDictKey = SettingsKeys.I18N_KEY_PREFIX + language;
         List<SysDictionaryData> dictDataList = getDictData(i18nDictKey, appRange, dictDataValue);
         if (CollectionUtils.isNotEmpty(dictDataList)) {

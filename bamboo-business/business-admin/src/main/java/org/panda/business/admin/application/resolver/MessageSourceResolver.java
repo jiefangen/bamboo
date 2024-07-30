@@ -1,6 +1,6 @@
 package org.panda.business.admin.application.resolver;
 
-import org.panda.business.admin.common.util.CommonUtil;
+import org.panda.business.admin.common.utils.CommonUtils;
 import org.panda.tech.core.i18n.ModelPropertyCaptionResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -29,7 +29,7 @@ public class MessageSourceResolver {
      * @return 国际化信息
      */
     public String findI18nMessage(String code) {
-        return messageSource.getMessage(code, null, code, CommonUtil.getLocaleLanguage());
+        return messageSource.getMessage(code, null, code, CommonUtils.getLocaleLanguage());
     }
 
     /**
@@ -40,7 +40,7 @@ public class MessageSourceResolver {
      * @return 国际化信息
      */
     public Optional<String> findI18nMessage(Class<?> clazz, String propertyName) {
-        String message = propertyCaptionResolver.resolveCaption(clazz, propertyName, CommonUtil.getLocaleLanguage());
+        String message = propertyCaptionResolver.resolveCaption(clazz, propertyName, CommonUtils.getLocaleLanguage());
         return Optional.of(message);
     }
 

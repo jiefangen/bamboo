@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author fangen
  * @since JDK 11
  */
-public class SubjectUtil {
+public class SubjectUtils {
 
-    private SubjectUtil() {
+    private SubjectUtils() {
     }
 
     private static SubjectManager SUBJECT_MANAGER;

@@ -13,7 +13,7 @@ import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.business.admin.application.resolver.MessageSourceResolver;
 import org.panda.business.admin.common.model.WebLogData;
-import org.panda.business.admin.common.util.CommonUtil;
+import org.panda.business.admin.common.utils.CommonUtils;
 import org.panda.business.admin.modules.monitor.api.param.LogQueryParam;
 import org.panda.business.admin.modules.monitor.service.SysActionLogService;
 import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
@@ -120,7 +120,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     private String getIpAttribution(String remoteAddress) {
         String ipAttribution;
         if (!NetUtil.isIntranetIp(remoteAddress)) {
-            String locale = CommonUtil.getGlobalLanguage();
+            String locale = CommonUtils.getGlobalLanguage();
             IPAddress ipAddress = WebHttpUtil.getIPAddress(remoteAddress, locale);
             String regionName = ipAddress.getRegionName();
             String city = ipAddress.getCity();
