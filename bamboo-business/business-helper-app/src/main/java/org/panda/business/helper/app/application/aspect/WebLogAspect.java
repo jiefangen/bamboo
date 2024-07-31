@@ -13,7 +13,7 @@ import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.model.WebLogRange;
 import org.panda.tech.core.web.support.WebLogSupport;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author fangen
  **/
-@Component
 @Aspect
+@Configuration
 public class WebLogAspect extends WebLogSupport {
 
     @Autowired
