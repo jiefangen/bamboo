@@ -11,7 +11,7 @@ import org.panda.business.admin.modules.system.service.SysUserService;
 import org.panda.business.admin.modules.system.service.entity.SysUser;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.config.annotation.WebOperationLog;
+import org.panda.tech.core.spec.log.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;

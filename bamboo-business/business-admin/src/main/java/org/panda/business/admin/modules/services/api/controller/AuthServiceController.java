@@ -6,7 +6,7 @@ import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
 import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.business.admin.modules.services.service.manager.AuthServiceManager;
 import org.panda.tech.core.spec.log.ActionType;
-import org.panda.tech.core.web.config.annotation.WebOperationLog;
+import org.panda.tech.core.spec.log.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigPermission;
 import org.springframework.beans.factory.annotation.Autowired;

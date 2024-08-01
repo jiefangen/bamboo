@@ -8,10 +8,10 @@ import org.panda.business.helper.app.common.model.WebLogData;
 import org.panda.business.helper.app.infrastructure.security.AppSecurityUtils;
 import org.panda.business.helper.app.infrastructure.security.UserIdentityToken;
 import org.panda.business.helper.app.service.AppActionLogService;
+import org.panda.tech.core.spec.log.annotation.WebOperationLog;
+import org.panda.tech.core.spec.log.support.WebLogSupport;
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.config.annotation.WebOperationLog;
 import org.panda.tech.core.web.model.WebLogRange;
-import org.panda.tech.core.web.support.WebLogSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 

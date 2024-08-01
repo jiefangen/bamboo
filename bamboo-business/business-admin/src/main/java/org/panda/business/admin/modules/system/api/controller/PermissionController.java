@@ -5,7 +5,7 @@ import org.panda.business.admin.modules.system.api.param.PermissionQueryParam;
 import org.panda.business.admin.modules.system.service.SysPermissionService;
 import org.panda.business.admin.modules.system.service.entity.SysPermission;
 import org.panda.tech.core.spec.log.ActionType;
-import org.panda.tech.core.web.config.annotation.WebOperationLog;
+import org.panda.tech.core.spec.log.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.security.config.annotation.ConfigPermission;

@@ -5,7 +5,7 @@ import org.panda.business.admin.common.constant.Authority;
 import org.panda.business.admin.modules.common.manager.SettingsManager;
 import org.panda.business.admin.modules.settings.service.entity.SysDictionaryData;
 import org.panda.tech.core.spec.log.ActionType;
-import org.panda.tech.core.web.config.annotation.WebOperationLog;
+import org.panda.tech.core.spec.log.annotation.WebOperationLog;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
