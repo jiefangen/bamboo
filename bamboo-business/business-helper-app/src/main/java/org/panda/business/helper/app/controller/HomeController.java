@@ -29,7 +29,7 @@ public class HomeController extends HomeControllerSupport {
 
     @GetMapping("/lock/param")
     @ResponseBody
-    @RequestLock(prefix = "lockParam", expire = 5)
+    @RequestLock(expire = 5)
     public RestfulResult<?> lockParam(@LockKeyParam @RequestParam String username,
                                       @LockKeyParam @RequestParam String password) {
         return RestfulResult.success(username + Strings.COLON + password);
