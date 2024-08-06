@@ -91,7 +91,7 @@ public class SwaggerConfig {
                 .description(WebConstants.HEADER_SOURCE)
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
-                .required(true).build();
+                .required(false).build();
         parameters.add(sourceParams.build());
         return parameters;
     }
