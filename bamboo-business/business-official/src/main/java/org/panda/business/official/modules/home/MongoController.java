@@ -1,7 +1,7 @@
 package org.panda.business.official.modules.home;
 
 import io.swagger.annotations.Api;
-import org.panda.business.official.modules.system.service.SysUserMongoService;
+import org.panda.business.official.modules.system.mongo.SysUserMongoService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;

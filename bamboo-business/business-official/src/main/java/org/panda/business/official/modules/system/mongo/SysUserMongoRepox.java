@@ -1,4 +1,4 @@
-package org.panda.business.official.modules.system.service.repository.mongo;
+package org.panda.business.official.modules.system.mongo;
 
 
 import org.panda.business.official.modules.system.service.dto.SysUserDto;

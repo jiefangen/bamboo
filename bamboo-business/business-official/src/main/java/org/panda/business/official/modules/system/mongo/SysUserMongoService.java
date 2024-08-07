@@ -1,4 +1,4 @@
-package org.panda.business.official.modules.system.service;
+package org.panda.business.official.modules.system.mongo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
@@ -31,8 +31,7 @@ public class SysUserMongoService extends MongoUnityRepoxSupport<SysUserDto, Stri
         List<Criteria> criteriaList = new ArrayList<>();
         criteriaList.add(new Criteria());
         Query query = MongoQueryUtil.buildQuery(criteriaList);
-        SysUserDto sysUserDto = getAccessTemplate().first(getEntityClass(), query);
-        return sysUserDto;
+        return getAccessTemplate().first(getEntityClass(), query);
     }
 
 

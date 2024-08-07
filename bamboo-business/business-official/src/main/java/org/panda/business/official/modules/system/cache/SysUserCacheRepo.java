@@ -1,4 +1,4 @@
-package org.panda.business.official.modules.system.service.repository.cache;
+package org.panda.business.official.modules.system.cache;
 
 
 import org.panda.business.official.modules.system.service.dto.SysUserDto;

@@ -7,7 +7,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.date.DateUtil;
 import org.panda.business.official.infrastructure.cache.RedisCacheService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
-import org.panda.business.official.modules.system.service.repository.cache.SysUserCacheRepo;
+import org.panda.business.official.modules.system.cache.SysUserCacheRepo;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.redis.lock.RedisDistributedLock;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;

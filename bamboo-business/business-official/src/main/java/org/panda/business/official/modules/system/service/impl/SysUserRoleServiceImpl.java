@@ -8,8 +8,8 @@ import org.panda.business.official.modules.system.service.entity.SysRole;
 import org.panda.business.official.modules.system.service.entity.SysUser;
 import org.panda.business.official.modules.system.service.entity.SysUserRole;
 import org.panda.business.official.modules.system.service.repository.SysUserRoleMapper;
-import org.panda.business.official.modules.system.service.repository.cache.SysUserCacheRepo;
-import org.panda.business.official.modules.system.service.repository.mongo.SysUserMongoRepox;
+import org.panda.business.official.modules.system.cache.SysUserCacheRepo;
+import org.panda.business.official.modules.system.mongo.SysUserMongoRepox;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,7 +51,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
             // 用户数据单体缓存
 //            sysUserCacheRepo.save(sysUserDto);
             // 文档数据库存储
-//            SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
+            SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
             return sysUserDto;
         }
         return null;
