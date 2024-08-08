@@ -10,7 +10,7 @@ public class ProjectConstants {
     /**
      * 默认初始化密码
      */
-    public static final String DEFAULT_USER_PWD = "123456";
+    public static final String DEFAULT_USER_PWD = "User123/";
     /**
      * 未知
      */

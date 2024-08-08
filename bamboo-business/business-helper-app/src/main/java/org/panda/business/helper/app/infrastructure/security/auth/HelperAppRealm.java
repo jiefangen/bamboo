@@ -13,6 +13,7 @@ import org.panda.tech.auth.authentication.token.AuthenticationToken;
 import org.panda.tech.auth.authentication.token.SmsVerifyToken;
 import org.panda.tech.auth.authentication.token.UsernamePasswordToken;
 import org.panda.tech.auth.authority.AuthorizationInfo;
+import org.panda.tech.auth.authority.DefaultAuthorizationInfo;
 import org.panda.tech.auth.realm.RememberMeRealm;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.exception.business.HandleableException;
@@ -82,7 +83,11 @@ public class HelperAppRealm implements RememberMeRealm<HelperUser> {
 
     @Override
     public AuthorizationInfo getAuthorizationInfo(HelperUser user) {
-        return null;
+        DefaultAuthorizationInfo authorizationInfo = new DefaultAuthorizationInfo(true);
+        // 添加等级角色
+//        authorizationInfo.addRole(Authority);
+//        authorizationInfo.addPermission(user.getUserInfo().getUserRank());
+        return authorizationInfo;
     }
 
     @Override
