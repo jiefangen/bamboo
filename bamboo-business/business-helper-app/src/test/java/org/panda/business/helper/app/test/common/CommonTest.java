@@ -14,7 +14,7 @@ public class CommonTest {
         String encodedPassword = AppPassUtils.encryptPassword("123456", salt);
         System.out.println("encodedPassword: " + encodedPassword + " " + encodedPassword.length());
 
-        String originalPassword = PasswordUtil.encryptPassword("123456");
+        String originalPassword = PasswordUtil.encryptPassword("User123/", "JmivJdsSBLKbgwuEfTuPIYAmvyDMaThauQVD");
         System.out.println("originalPassword: " + originalPassword + " " + originalPassword.length());
     }
 

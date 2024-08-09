@@ -4,6 +4,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.basic.Times;
@@ -31,12 +32,15 @@ import org.panda.business.helper.app.service.AppUserWechatService;
 import org.panda.support.openapi.model.EncryptedData;
 import org.panda.support.openapi.model.WechatAppType;
 import org.panda.support.openapi.model.WechatUser;
+import org.panda.tech.auth.authentication.token.AuthenticationToken;
 import org.panda.tech.auth.authentication.token.DefaultAuthToken;
+import org.panda.tech.auth.authentication.token.SmsVerifyToken;
+import org.panda.tech.auth.authentication.token.UsernamePasswordToken;
 import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.exception.business.BusinessException;
-import org.panda.tech.core.exception.business.HandleableException;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.jwt.internal.InternalJwtConfiguration;
+import org.panda.tech.core.web.config.LoginModeEnum;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
@@ -97,27 +101,31 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
         }
         queryWrapper.eq(AppUser::getSource, appSource);
         AppUser appUser = this.getOne(queryWrapper, false);
-        if (appUser == null) { // 用户不存在即自动注册
+        if (ObjectUtils.isEmpty(appUser)) { // 用户不存在即自动注册
             appUser = addAppUser(appLoginParam, appSource);
         }
-
         // 获取到用户后进入登录流程
         if (appUser != null) {
-            // 登录成功，构建用户返回信息
-            UserInfo userInfo = new UserInfo();
-            userInfo.transform(appUser);
-            String token = appSecurityUtils.generateToken(appUser);
-            userInfo.setToken(token);
-            // 自定义token有效状态先于jwt10秒失效
-            int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
-            userInfo.setTokenEffectiveTime(expiredInterval * Times.MS_ONE_SECOND);
-            // 保存用户登录token
-            saveUserToken(appUser, token, expiredInterval);
             // 保存微信小程序授权信息
             saveWechatUser(appUser, wechatUser);
-            return RestfulResult.success(userInfo);
+            return RestfulResult.success(buildUserInfo(appUser));
         }
         return RestfulResult.failure();
+    }
+
+    @Override
+    public UserInfo buildUserInfo(AppUser appUser) {
+        // 登录成功，构建用户返回信息
+        UserInfo userInfo = new UserInfo();
+        userInfo.transform(appUser);
+        String token = appSecurityUtils.generateToken(appUser);
+        userInfo.setToken(token);
+        // 自定义token有效状态先于jwt10秒失效
+        int expiredInterval = jwtConfiguration.getExpiredIntervalSeconds() - 10;
+        userInfo.setTokenEffectiveTime(expiredInterval * Times.MS_ONE_SECOND);
+        // 保存用户登录token
+        saveUserToken(appUser, token, expiredInterval);
+        return userInfo;
     }
 
     private void saveWechatUser(AppUser appUser, WechatUser wechatUser) {
@@ -189,22 +197,47 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
     @Override
     public RestfulResult<?> authAppLogin(AppLoginParam appLoginParam, HttpServletRequest request) {
-        RestfulResult<?> result = appLogin(appLoginParam, request);
-        if (result.isSuccess()) { // 安全验证框架登录
-            DefaultAuthToken authToken = new DefaultAuthToken();
-            authToken.setRememberMe(true);
-            authToken.setHost(WebHttpUtil.getRemoteAddress(request));
-            Object data = result.getData();
-            authToken.setPrincipal(data);
-            try {
-                SubjectUtils.getSubject().login(authToken);
-                return RestfulResult.success(data);
-            } catch (HandleableException e) {
-                LogUtil.error(getClass(), e);
-                return RestfulResult.failure(e.getMessage());
+        // 登录方式判定
+        String loginMode = appLoginParam.getLoginMode();
+        String host = WebHttpUtil.getRemoteAddress(request);
+        if (LoginModeEnum.ACCOUNT.getValue().equalsIgnoreCase(loginMode)) {
+            UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken();
+            usernamePasswordToken.setRememberMe(true);
+            usernamePasswordToken.setHost(host);
+            usernamePasswordToken.setUsername(appLoginParam.getUsername());
+            usernamePasswordToken.setPassword(appLoginParam.getPassword());
+            return subjectLogin(usernamePasswordToken);
+        } else if (LoginModeEnum.SMS.getValue().equalsIgnoreCase(loginMode)) {
+            // 短信登录方式
+            SmsVerifyToken smsVerifyToken = new SmsVerifyToken();
+            smsVerifyToken.setRememberMe(true);
+            smsVerifyToken.setHost(host);
+        } else {
+            RestfulResult<?> result = appLogin(appLoginParam, request);
+            if (result.isSuccess()) { // 安全验证框架登录
+                DefaultAuthToken authToken = new DefaultAuthToken();
+                authToken.setRememberMe(true);
+                authToken.setHost(host);
+                authToken.setPrincipal(result.getData());
+                return subjectLogin(authToken);
             }
+            return RestfulResult.failure(result.getMessage());
         }
-        return RestfulResult.failure(result.getMessage());
+        return RestfulResult.failure();
+    }
+
+    private RestfulResult<?> subjectLogin(AuthenticationToken authToken) {
+        try {
+            SubjectUtils.getSubject().login(authToken);
+            if (ObjectUtils.isNotEmpty(SubjectUtils.getHelperUser())) {
+                return RestfulResult.success(SubjectUtils.getHelperUser().getUserInfo());
+            } else {
+                return RestfulResult.failure();
+            }
+        } catch (Exception e) {
+//            LogUtil.error(getClass(), e);
+            return RestfulResult.failure(e.getMessage());
+        }
     }
 
     @Override

@@ -12,6 +12,13 @@ import org.panda.support.openapi.model.EncryptedData;
 @Data
 public class AppLoginParam {
     /**
+     * 登录方式：account-账户登录；sms-短信登录
+     * 为空默认微信小程序登录方式
+     */
+    private String loginMode;
+
+/* ---------- 通用用户名密码登录参数 ---------- */
+    /**
      * 用户名
      */
     private String username;
@@ -32,7 +39,7 @@ public class AppLoginParam {
      */
     private String appid;
 
-/* ---------- 微信小程序专用参数 ---------- */
+/* ---------- 微信小程序登录专用参数 ---------- */
     /**
      * 微信临时凭证code
      */

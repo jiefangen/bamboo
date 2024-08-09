@@ -61,4 +61,12 @@ public interface AppUserService extends IService<AppUser> {
      * @return 更新结果
      */
     boolean updateUser(UpdateUserParam updateUserParam, HttpServletRequest request);
+
+    /**
+     * 登录构建用户信息
+     *
+     * @param appUser app用户
+     * @return 用户信息
+     */
+    UserInfo buildUserInfo(AppUser appUser);
 }
