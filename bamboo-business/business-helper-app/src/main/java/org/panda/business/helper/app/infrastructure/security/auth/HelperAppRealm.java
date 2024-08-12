@@ -19,9 +19,8 @@ import org.panda.tech.auth.authentication.token.SmsVerifyToken;
 import org.panda.tech.auth.authentication.token.UsernamePasswordToken;
 import org.panda.tech.auth.authority.AuthorizationInfo;
 import org.panda.tech.auth.authority.DefaultAuthorizationInfo;
+import org.panda.tech.auth.authority.PerConstants;
 import org.panda.tech.auth.realm.RememberMeRealm;
-import org.panda.tech.core.config.security.model.PerConstants;
-import org.panda.tech.core.config.security.model.enums.AuthRoleCode;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.exception.business.param.RequiredParamException;
@@ -112,14 +111,15 @@ public class HelperAppRealm implements RememberMeRealm<HelperUser> {
     @Override
     public AuthorizationInfo getAuthorizationInfo(HelperUser user) {
         DefaultAuthorizationInfo authorizationInfo = new DefaultAuthorizationInfo(true);
-        if (ObjectUtils.isEmpty(user) || ObjectUtils.isEmpty(user.getUserInfo())) { // 没有用户信息即为访客
-            authorizationInfo.addRole(AuthRoleCode.CUSTOMER.name());
-        } else {
-            // 添加用户角色
-            authorizationInfo.addRole(AuthRoleCode.ACCOUNT.name());
-            UserInfo userInfo = user.getUserInfo();
-            // 添加用户权限
-            authorizationInfo.addPermission(getPerRank(userInfo.getUserRank()));
+        authorizationInfo.addRole(PerConstants.ROLE_CUSTOMER);
+        if (ObjectUtils.isNotEmpty(user) && ObjectUtils.isNotEmpty(user.getUserInfo())) { // 没有用户信息即为访客
+            authorizationInfo.addRole(PerConstants.ROLE_ACCOUNT);
+        }
+        UserInfo userInfo = user.getUserInfo();
+        // 添加用户等级权限
+        Integer userRank = userInfo.getUserRank();
+        for (int i = 1; i <= userRank; i++) {
+            authorizationInfo.addPermission(getPerRank(i));
         }
         return authorizationInfo;
     }

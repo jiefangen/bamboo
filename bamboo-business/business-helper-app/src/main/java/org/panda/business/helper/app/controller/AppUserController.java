@@ -4,10 +4,12 @@ import io.swagger.annotations.Api;
 import org.panda.business.helper.app.model.params.UpdateUserParam;
 import org.panda.business.helper.app.model.vo.UserInfo;
 import org.panda.business.helper.app.service.AppUserService;
+import org.panda.tech.auth.annotation.Accessibility;
+import org.panda.tech.auth.authority.PerConstants;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.spec.log.ActionType;
-import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.spec.log.annotation.WebOperationLog;
+import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,7 @@ public class AppUserController {
 
     @GetMapping("/info")
     @WebOperationLog(actionType = ActionType.QUERY)
+    @Accessibility(role = PerConstants.ROLE_CUSTOMER, permission = PerConstants.RANK_2)
     public RestfulResult<?> info(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserInfo userInfo = appUserService.getUserByToken(token);
