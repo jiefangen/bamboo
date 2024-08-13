@@ -51,7 +51,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
             // 用户数据单体缓存
 //            sysUserCacheRepo.save(sysUserDto);
             // 文档数据库存储
-            SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
+//            SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
             return sysUserDto;
         }
         return null;

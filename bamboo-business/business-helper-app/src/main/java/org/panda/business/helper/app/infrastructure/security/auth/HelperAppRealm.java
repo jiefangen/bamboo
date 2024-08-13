@@ -21,6 +21,7 @@ import org.panda.tech.auth.authority.AuthorizationInfo;
 import org.panda.tech.auth.authority.DefaultAuthorizationInfo;
 import org.panda.tech.auth.authority.PerConstants;
 import org.panda.tech.auth.realm.RememberMeRealm;
+import org.panda.tech.core.config.security.model.enums.AuthRoleCode;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.exception.business.param.RequiredParamException;
@@ -111,16 +112,25 @@ public class HelperAppRealm implements RememberMeRealm<HelperUser> {
     @Override
     public AuthorizationInfo getAuthorizationInfo(HelperUser user) {
         DefaultAuthorizationInfo authorizationInfo = new DefaultAuthorizationInfo(true);
+        if (ObjectUtils.isNotEmpty(user) && ObjectUtils.isNotEmpty(user.getUserInfo())) {
+            UserInfo userInfo = user.getUserInfo();
+            if (AuthRoleCode.isManagerRole("")) {
+                // 管理员可添加*通配符权限，即可访问所有资源
+                authorizationInfo.addRole(Strings.ASTERISK);
+                authorizationInfo.addPermission(Strings.ASTERISK);
+            } else {
+                // 普通用户权限资源
+                authorizationInfo.addRole(PerConstants.ROLE_GENERAL);
+                authorizationInfo.addRole(PerConstants.ROLE_ACCOUNT);
+                // 添加用户等级权限
+                Integer userRank = userInfo.getUserRank();
+                for (int i = 1; i <= userRank; i++) {
+                    authorizationInfo.addPermission(getPerRank(i));
+                }
+            }
+        }
+        // 访客只需要登录过的用户即可拥有
         authorizationInfo.addRole(PerConstants.ROLE_CUSTOMER);
-        if (ObjectUtils.isNotEmpty(user) && ObjectUtils.isNotEmpty(user.getUserInfo())) { // 没有用户信息即为访客
-            authorizationInfo.addRole(PerConstants.ROLE_ACCOUNT);
-        }
-        UserInfo userInfo = user.getUserInfo();
-        // 添加用户等级权限
-        Integer userRank = userInfo.getUserRank();
-        for (int i = 1; i <= userRank; i++) {
-            authorizationInfo.addPermission(getPerRank(i));
-        }
         return authorizationInfo;
     }
 

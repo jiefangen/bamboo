@@ -33,7 +33,7 @@ public class AppUserController {
 
     @GetMapping("/info")
     @WebOperationLog(actionType = ActionType.QUERY)
-    @Accessibility(role = PerConstants.ROLE_CUSTOMER, permission = PerConstants.RANK_2)
+    @Accessibility(role = PerConstants.ROLE_ACCOUNT)
     public RestfulResult<?> info(HttpServletRequest request) {
         String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
         UserInfo userInfo = appUserService.getUserByToken(token);
