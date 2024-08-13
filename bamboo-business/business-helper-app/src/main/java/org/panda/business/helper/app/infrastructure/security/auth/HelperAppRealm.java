@@ -114,7 +114,7 @@ public class HelperAppRealm implements RememberMeRealm<HelperUser> {
         DefaultAuthorizationInfo authorizationInfo = new DefaultAuthorizationInfo(true);
         if (ObjectUtils.isNotEmpty(user) && ObjectUtils.isNotEmpty(user.getUserInfo())) {
             UserInfo userInfo = user.getUserInfo();
-            if (AuthRoleCode.isManagerRole("")) {
+            if (AuthRoleCode.isTopRole("")) {
                 // 管理员可添加*通配符权限，即可访问所有资源
                 authorizationInfo.addRole(Strings.ASTERISK);
                 authorizationInfo.addPermission(Strings.ASTERISK);
