@@ -35,9 +35,9 @@ public class ApplicationReadyListener implements ApplicationListener<Application
 //        rabbitMQConsumer.subscribe("headers-queue-B", "official.headers.consumer.two");
 //        rabbitMQConsumer.subscribe("headers-queue-C", "official.headers.consumer.three");
 
-        rabbitMQConsumer.subscribe("fanout-queue-one", "official.fanout.consumer.one");
-        rabbitMQConsumer.subscribe("fanout-queue-two", "official.fanout.consumer.two");
-        rabbitMQConsumer.subscribe("fanout-queue-three", "official.fanout.consumer.three");
+        rabbitMQConsumer.subscribe("fanout-queue-one", true,"official.fanout.consumer.one");
+        rabbitMQConsumer.subscribe("fanout-queue-two", true,"official.fanout.consumer.two");
+        rabbitMQConsumer.subscribe("fanout-queue-three", true,"official.fanout.consumer.three");
     }
 
 }

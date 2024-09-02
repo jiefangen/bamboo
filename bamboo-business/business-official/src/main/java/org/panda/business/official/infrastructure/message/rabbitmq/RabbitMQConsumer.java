@@ -20,5 +20,4 @@ public class RabbitMQConsumer extends MessageMQConsumerSupport {
         // do something
         return true;
     }
-
 }
