@@ -41,7 +41,7 @@ public class DictionaryDataController {
 
     @PostMapping("/page")
     @ConfigPermission
-    public RestfulResult page(@RequestBody @Valid DictDataQueryParam queryParam) {
+    public RestfulResult<?> page(@RequestBody @Valid DictDataQueryParam queryParam) {
         if (queryParam.getDictId() == null) {
             LambdaQueryWrapper<SysDictionary> queryWrapper = new LambdaQueryWrapper<>();
             String dictKey = queryParam.getDictKey();
@@ -59,7 +59,7 @@ public class DictionaryDataController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_dict_data_add")
     })
     @WebOperationLog(actionType = ActionType.ADD, intoStorage = true)
-    public RestfulResult add(@RequestBody @Valid DictDataParam dictDataParam) {
+    public RestfulResult<?> add(@RequestBody @Valid DictDataParam dictDataParam) {
         LambdaQueryWrapper<SysDictionary> queryWrapper = new LambdaQueryWrapper<>();
         String dictKey = dictDataParam.getDictKey();
         queryWrapper.eq(StringUtils.isNotBlank(dictKey), SysDictionary::getDictKey, dictKey);
@@ -80,7 +80,7 @@ public class DictionaryDataController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_dict_data_edit")
     })
     @WebOperationLog(actionType = ActionType.UPDATE, intoStorage = true)
-    public RestfulResult edit(@RequestBody @Valid DictDataParam dictDataParam) {
+    public RestfulResult<?> edit(@RequestBody @Valid DictDataParam dictDataParam) {
         LambdaQueryWrapper<SysDictionary> queryWrapper = new LambdaQueryWrapper<>();
         String dictKey = dictDataParam.getDictKey();
         queryWrapper.eq(StringUtils.isNotBlank(dictKey), SysDictionary::getDictKey, dictKey);
@@ -100,7 +100,7 @@ public class DictionaryDataController {
             @ConfigAuthority(type = Authority.TYPE_MANAGER, permission = "settings_dict_data_del")
     })
     @WebOperationLog(actionType = ActionType.DEL, intoStorage = true)
-    public RestfulResult del(@PathVariable Integer id) {
+    public RestfulResult<?> del(@PathVariable Integer id) {
         try {
             if (dictionaryDataService.deleteDictData(id)) {
                 return RestfulResult.success();

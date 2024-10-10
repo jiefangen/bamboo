@@ -2,7 +2,7 @@ server:
   port: 20001
 spring:
   datasource:
-    url: jdbc:mysql://198.19.249.243:3312/admin_system?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+    url: jdbc:mysql://198.19.249.159:3320/admin_system?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
     username: root
     password: P@ssw0rd123!
     driver-class-name: com.mysql.cj.jdbc.Driver
