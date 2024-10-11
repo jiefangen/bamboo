@@ -49,7 +49,7 @@ spring:
         reset-enable: false                                                    #是否启用重置按钮（禁用HTML中 Reset All按钮）
         login-username: admin                                                  #内置监控页面的登录页用户名
         login-password: 123456                                                 #内置监控页面的登录页密码
-        allow: bamboo-cloud-biz.orb.local                                      #IP白名单没有配置或者为空，则允许所有访问
+        allow: rocky-bamboo-frontend.orb.local                                      #IP白名单没有配置或者为空，则允许所有访问
         deny:                                                                  #IP黑名单若白名单也存在，则优先使用
       # Spring监控AOP切入点,配置多个英文逗号分隔
       aop-patterns: org.panda.business.admin.modules.*.service.repository
