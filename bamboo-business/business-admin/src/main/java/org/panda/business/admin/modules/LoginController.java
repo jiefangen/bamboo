@@ -1,10 +1,16 @@
 package org.panda.business.admin.modules;
 
 import io.swagger.annotations.Api;
+import org.panda.business.admin.infrastructure.security.authentication.LogoutAuthenticationHandler;
+import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.restful.RestfulResult;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 后台管理系统登录控制器
@@ -16,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
+    @Autowired
+    private LogoutAuthenticationHandler logoutAuthenticationHandler;
+
     @PostMapping("/login")
     public RestfulResult<?> login(@RequestParam String username, @RequestParam String password,
                                   @RequestParam(required = false) String loginMode) {
@@ -23,9 +32,12 @@ public class LoginController {
         return RestfulResult.success(username + password + loginMode);
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public RestfulResult<?> logout() {
-        // 用于登出流程引导，无需处理任何逻辑
+        HttpServletRequest request = SpringWebContext.getRequest();
+        if (request != null) {
+            logoutAuthenticationHandler.onLogout(request);
+        }
         return RestfulResult.success();
     }
 }

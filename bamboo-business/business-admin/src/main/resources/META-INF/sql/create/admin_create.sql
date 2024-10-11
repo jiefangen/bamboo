@@ -107,7 +107,7 @@ CREATE TABLE `sys_user_token` (
                                   `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
                                   `user_id` INT unsigned NOT NULL COMMENT '关联用户ID',
                                   `identity` VARCHAR(100) COMMENT '身份标识',
-                                  `token` VARCHAR(1000) NOT NULL COMMENT '交互凭证',
+                                  `token` VARCHAR(3000) NOT NULL COMMENT '交互凭证',
                                   `status` INT DEFAULT 1 NOT NULL COMMENT '状态：1-在线；2-离线；3-失效；4-登出',
                                   `expired_interval` INT COMMENT '失效时间间隔（单位秒）',
                                   `expiration_time` DATETIME COMMENT '失效时间',
