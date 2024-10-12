@@ -15,6 +15,8 @@
         <module>business-official</module>
         <!-- 雨竹小助手APP系统 -->
         <module>business-helper-app</module>
+        <!-- bamboo框架样例工程 -->
+        <module>business-example</module>
     </modules>
 
     <properties>

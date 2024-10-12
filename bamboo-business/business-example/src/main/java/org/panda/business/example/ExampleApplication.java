@@ -1,4 +1,4 @@
-package org.panda.business.official;
+package org.panda.business.example;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.panda.tech.core.CoreModule;
@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableRpcInvoker // 开启RPC组件调用
 @MapperScan("org.panda.business.official.modules.*.service.repository")
-public class OfficialApplication {
+public class ExampleApplication {
     public static void main(String[] args) {
-        SpringApplication.run(OfficialApplication.class, args);
+        SpringApplication.run(ExampleApplication.class, args);
     }
 }

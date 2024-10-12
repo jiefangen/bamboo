@@ -9,8 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>business-official</artifactId>
+    <artifactId>business-example</artifactId>
     <version>${business.version}</version>
+    <description>bamboo框架样例工程</description>
 
     <properties>
         <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
@@ -67,10 +68,10 @@
             <version>${technology.version}</version>
         </dependency>
         <!-- 非结构化数据库mongodb -->
-<!--        <dependency>-->
-<!--            <groupId>org.panda.tech</groupId>-->
-<!--            <artifactId>bamboo-data-mongo</artifactId>-->
-<!--            <version>${technology.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.panda.tech</groupId>
+            <artifactId>bamboo-data-mongo</artifactId>
+            <version>${technology.version}</version>
+        </dependency>
     </dependencies>
 </project>

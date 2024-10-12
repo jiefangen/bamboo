@@ -1,8 +1,8 @@
-package org.panda.business.official.modules.system.mongo;
-
-
-import org.panda.business.official.modules.system.service.dto.SysUserDto;
-import org.panda.tech.data.mongo.repository.MongoUnityRepository;
-
-public interface SysUserMongoRepox extends MongoUnityRepository<SysUserDto, String> {
-}
+//package org.panda.business.official.modules.system.mongo;
+//
+//
+//import org.panda.business.official.modules.system.service.dto.SysUserDto;
+//import org.panda.tech.data.mongo.repository.MongoUnityRepository;
+//
+//public interface SysUserMongoRepox extends MongoUnityRepository<SysUserDto, String> {
+//}

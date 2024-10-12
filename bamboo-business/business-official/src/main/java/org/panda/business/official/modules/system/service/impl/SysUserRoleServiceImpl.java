@@ -2,14 +2,13 @@ package org.panda.business.official.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
+import org.panda.business.official.modules.system.cache.SysUserCacheRepo;
 import org.panda.business.official.modules.system.service.SysUserRoleService;
 import org.panda.business.official.modules.system.service.dto.SysUserDto;
 import org.panda.business.official.modules.system.service.entity.SysRole;
 import org.panda.business.official.modules.system.service.entity.SysUser;
 import org.panda.business.official.modules.system.service.entity.SysUserRole;
 import org.panda.business.official.modules.system.service.repository.SysUserRoleMapper;
-import org.panda.business.official.modules.system.cache.SysUserCacheRepo;
-import org.panda.business.official.modules.system.mongo.SysUserMongoRepox;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,8 +29,8 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Resource
     private SysUserCacheRepo sysUserCacheRepo;
-    @Resource
-    private SysUserMongoRepox sysUserMongoRepox;
+//    @Resource
+//    private SysUserMongoRepox sysUserMongoRepox;
 
     @Override
 //    @DataSourceSwitch(Datasource.DATASOURCE_ADMIN)

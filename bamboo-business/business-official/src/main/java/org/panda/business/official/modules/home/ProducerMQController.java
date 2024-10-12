@@ -10,7 +10,6 @@ import org.panda.business.official.infrastructure.message.rabbitmq.RabbitMQProdu
 import org.panda.business.official.infrastructure.message.rocketmq.RocketMQConstants;
 import org.panda.business.official.infrastructure.message.rocketmq.RocketMQProducer;
 import org.panda.tech.core.web.restful.RestfulResult;
-import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,7 +37,6 @@ public class ProducerMQController {
     private RabbitMQDeclaredProducer rabbitMQDeclaredProducer;
 
     @GetMapping("/sendGeneralSync")
-    @ConfigAnonymous
     public RestfulResult<?> sendGeneralSync() {
         JSONObject msgJson = new JSONObject();
         msgJson.put("message", "Official say: Hello RocketMQ!");
@@ -51,7 +49,6 @@ public class ProducerMQController {
     }
 
     @GetMapping("/sendDirect")
-    @ConfigAnonymous
     public RestfulResult<?> sendDirect() {
         List<String> messages = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
@@ -64,7 +61,6 @@ public class ProducerMQController {
     }
 
     @GetMapping("/sendDelayed")
-    @ConfigAnonymous
     public RestfulResult<?> sendDelayed() {
         String message = "Official delayed say: Hello RabbitMQ!";
         String exchangeName = RabbitMQConstants.DELAY_KEY + "-ttl-exchange";
@@ -74,7 +70,6 @@ public class ProducerMQController {
     }
 
     @GetMapping("/sendTopic")
-    @ConfigAnonymous
     public RestfulResult<?> sendTopic(@RequestParam String routingKey) {
         String message = "Official topic say: Hello RabbitMQ!";
         rabbitMQProducer.sendTopic(routingKey, message);
@@ -82,7 +77,6 @@ public class ProducerMQController {
     }
 
     @GetMapping("/sendHeaders")
-    @ConfigAnonymous
     public RestfulResult<?> sendHeaders(@RequestParam Map<String, Object> format, @RequestParam Map<String, Object> type) {
         String message = "Official headers say: Hello RabbitMQ!";
         format.putAll(type);
@@ -91,7 +85,6 @@ public class ProducerMQController {
     }
 
     @GetMapping("/sendFanout")
-    @ConfigAnonymous
     public RestfulResult<?> sendFanout() {
         String message = "Official fanout say: Hello RabbitMQ!";
         rabbitMQDeclaredProducer.sendFanout(message);
@@ -99,7 +92,6 @@ public class ProducerMQController {
     }
 
     @GetMapping("/sendDirectTemp")
-    @ConfigAnonymous
     public RestfulResult<?> sendDirectTemp() {
         String message = "Official temporary say: Hello RabbitMQ!";
         rabbitMQProducer.sendDirectTemp(message);

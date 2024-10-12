@@ -1,7 +1,7 @@
-package org.panda.business.official.common.config;
+package org.panda.business.example.common.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.panda.business.official.common.constant.Datasource;
+import org.panda.business.example.common.constant.Datasource;
 import org.panda.tech.data.common.DataCommons;
 import org.panda.tech.data.mybatis.support.DynamicDataSourceSupport;
 import org.springframework.beans.factory.annotation.Value;
