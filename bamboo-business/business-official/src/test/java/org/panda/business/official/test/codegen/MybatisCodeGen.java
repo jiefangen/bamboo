@@ -16,14 +16,12 @@ public class MybatisCodeGen extends MybatisCodeGenConfigSupport {
 
     @Override
     protected DataSourceConnConfig getDataSourceConfig() {
-        DataSourceConnConfig dataSourceConnConfig = mybatisCodegenProperties.transformDataSource();
-        return dataSourceConnConfig;
+        return mybatisCodegenProperties.transformDataSource();
     }
 
     @Override
     protected ClassBasePackage getClassBasePackage() {
-        ClassBasePackage classBasePackage = mybatisCodegenProperties.transformClassPackage();
-        return classBasePackage;
+        return mybatisCodegenProperties.transformClassPackage();
     }
 
     public void codeGenerator(String... tableNames) {

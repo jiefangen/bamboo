@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: example
+  profiles:
+    active: @profiles.active@
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

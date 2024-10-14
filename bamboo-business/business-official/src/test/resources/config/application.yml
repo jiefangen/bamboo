@@ -8,7 +8,3 @@ server:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-
-logging:
-  level:
-    org.panda.business.official: info

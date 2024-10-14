@@ -97,5 +97,6 @@ management:
 
 logging:
   level:
-    org.panda.business.official: info
+    root: info
+    org.panda.business.official: debug
     

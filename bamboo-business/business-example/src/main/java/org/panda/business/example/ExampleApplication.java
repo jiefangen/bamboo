@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Import({CoreModule.class})
 @EnableTransactionManagement
 @EnableRpcInvoker // 开启RPC组件调用
-@MapperScan("org.panda.business.official.modules.*.service.repository")
+@MapperScan("org.panda.business.example.data.repository")
 public class ExampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(ExampleApplication.class, args);

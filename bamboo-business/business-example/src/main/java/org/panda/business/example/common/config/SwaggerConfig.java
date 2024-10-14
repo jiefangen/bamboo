@@ -68,7 +68,7 @@ public class SwaggerConfig {
         this.title += "【" + env + "】";
         return new ApiInfoBuilder()
                 .title(this.title)
-                .description("平台官网系统API指导")
+                .description("BAMBOO框架样例平台API指导")
                 .version(this.version)
                 .contact(new Contact(Framework.OWNER, "", Framework.EMAIL))
                 .license("Apache 2.0")

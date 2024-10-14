@@ -13,9 +13,12 @@
     1.技术内容管理
     2.技术文档库
     3.优秀案例和经验分享
-#### 2、business-helper-app（雨竹APP系统）
+#### 3、business-helper-app（雨竹APP系统）
 ###### 本地端口：10003；单元测试：10103；Demo环境：20003；生产环境：30003
     1.微信小程序登录授权
+#### 4、business-example（bamboo框架样例工程）
+###### 本地端口：10004；单元测试：10104；Demo环境：20004；生产环境：30004
+    1.bamboo框架集成能力最佳实践
 
 ### 二、业务系统项目目录结构
     `org.panda.business.{业务系统名}`: 业务系统项目的根包名。
@@ -24,7 +27,7 @@
             config - 公共配置
             constant - 常量定义
             exception - 异常处理
-            util - 工具类
+            utils - 工具类
         application - 应用层
             scheduler - 定时任务
             event - 事件

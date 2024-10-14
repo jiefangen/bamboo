@@ -53,24 +53,5 @@
             <artifactId>bamboo-data-redis</artifactId>
             <version>${technology.version}</version>
         </dependency>
-
-        <!-- 消息队列rocketmq -->
-        <dependency>
-            <groupId>org.panda.tech</groupId>
-            <artifactId>bamboo-mq-rocketmq</artifactId>
-            <version>${technology.version}</version>
-        </dependency>
-        <!-- 消息队列rabbitmq -->
-        <dependency>
-            <groupId>org.panda.tech</groupId>
-            <artifactId>bamboo-mq-rabbitmq</artifactId>
-            <version>${technology.version}</version>
-        </dependency>
-        <!-- 非结构化数据库mongodb -->
-<!--        <dependency>-->
-<!--            <groupId>org.panda.tech</groupId>-->
-<!--            <artifactId>bamboo-data-mongo</artifactId>-->
-<!--            <version>${technology.version}</version>-->
-<!--        </dependency>-->
     </dependencies>
 </project>
