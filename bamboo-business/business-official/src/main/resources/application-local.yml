@@ -12,13 +12,6 @@ spring:
     mongodb:
       uri: mongodb://198.19.249.114:27017/official
   datasource:
-    # 动态数据源切换-配置admin数据库（hikari数据源）
-#    admin:
-#      jdbc-url: jdbc:mysql://127.0.0.1:3306/bamboo_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
-#      username: root
-#      password: root123456
-#      driver-class-name: com.mysql.cj.jdbc.Driver
-    # 配置系统默认数据库
     url: jdbc:mysql://127.0.0.1:3306/bamboo_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root
     password: root123456

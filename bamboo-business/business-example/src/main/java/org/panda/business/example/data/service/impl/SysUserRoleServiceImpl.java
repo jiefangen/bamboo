@@ -36,9 +36,9 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     @Override
 //    @DataSourceSwitch(Datasource.DATASOURCE_ADMIN)
     public SysUserDto getUserAndRoles(String username) {
-//        if (sysUserCacheRepo.exists(username)) {
-//            return sysUserCacheRepo.find(username);
-//        }
+        if (sysUserCacheRepo.exists(username)) {
+            return sysUserCacheRepo.find(username);
+        }
         SysUser userParam = new SysUser();
         userParam.setUsername(username);
         SysUserDto sysUserDto = this.baseMapper.findUserAndRoles(userParam);
@@ -49,9 +49,10 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 sysUserDto.setRoleCodes(roleCodes);
             }
             // 用户数据单体缓存
-//            sysUserCacheRepo.save(sysUserDto);
+            sysUserCacheRepo.save(sysUserDto);
+
             // 文档数据库存储
-//            SysUserDto sysUserResult = sysUserMongoRepox.save(sysUserDto);
+            sysUserMongoRepox.save(sysUserDto);
             return sysUserDto;
         }
         return null;

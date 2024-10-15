@@ -8,6 +8,9 @@ spring:
     port: 6379
     password:
     timeout: 3000
+  data:
+    mongodb:
+      uri: mongodb://198.19.249.159:27017/bamboo-dev
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/bamboo_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root

@@ -10,7 +10,8 @@ spring:
     timeout: 3000
   data:
     mongodb:
-      uri: mongodb://198.19.249.114:27017/example-local
+      uri: mongodb://root:mongo123@198.19.249.159:27017/bamboo-local
+#      uri: mongodb://198.19.249.159:27017/admin
   datasource:
     # 动态数据源切换-配置admin数据库（hikari数据源）
 #    admin:
