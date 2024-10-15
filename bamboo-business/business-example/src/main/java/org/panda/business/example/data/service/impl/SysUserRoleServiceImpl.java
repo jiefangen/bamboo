@@ -5,11 +5,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.panda.business.example.data.entity.SysRole;
 import org.panda.business.example.data.entity.SysUser;
 import org.panda.business.example.data.entity.SysUserRole;
-import org.panda.business.example.data.service.SysUserRoleService;
-import org.panda.business.example.modules.system.model.dto.SysUserDto;
-import org.panda.business.example.modules.components.mongo.SysUserMongoRepox;
-import org.panda.business.example.modules.components.redis.SysUserCacheRepo;
 import org.panda.business.example.data.repository.SysUserRoleMapper;
+import org.panda.business.example.data.service.SysUserRoleService;
+import org.panda.business.example.modules.components.mongo.SysUserMongoService;
+import org.panda.business.example.modules.components.redis.SysUserCacheRepo;
+import org.panda.business.example.modules.system.model.dto.SysUserDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,8 +31,8 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Resource
     private SysUserCacheRepo sysUserCacheRepo;
-    @Resource
-    private SysUserMongoRepox sysUserMongoRepox;
+    @Autowired
+    private SysUserMongoService sysUserMongoService;
 
     @Override
 //    @DataSourceSwitch(Datasource.DATASOURCE_ADMIN)
@@ -48,14 +49,13 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 Set<String> roleCodes = roles.stream().map(SysRole::getRoleCode).collect(Collectors.toSet());
                 sysUserDto.setRoleCodes(roleCodes);
             }
+
             // 用户数据单体缓存
             sysUserCacheRepo.save(sysUserDto);
-
             // 文档数据库存储
-            sysUserMongoRepox.save(sysUserDto);
+            sysUserMongoService.save(sysUserDto);
             return sysUserDto;
         }
         return null;
     }
-
 }
