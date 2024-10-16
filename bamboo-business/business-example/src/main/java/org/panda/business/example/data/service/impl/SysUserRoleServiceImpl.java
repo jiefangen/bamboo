@@ -37,9 +37,9 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     @Override
 //    @DataSourceSwitch(Datasource.DATASOURCE_ADMIN)
     public SysUserDto getUserAndRoles(String username) {
-        if (sysUserCacheRepo.exists(username)) {
-            return sysUserCacheRepo.find(username);
-        }
+//        if (sysUserCacheRepo.exists(username)) {
+//            return sysUserCacheRepo.find(username);
+//        }
         SysUser userParam = new SysUser();
         userParam.setUsername(username);
         SysUserDto sysUserDto = this.baseMapper.findUserAndRoles(userParam);
