@@ -1,8 +1,8 @@
 package org.panda.business.official.application.event;
 
 import org.panda.bamboo.common.util.LogUtil;
-import org.panda.tech.core.boot.ApplicationContextRunner;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
  * @author fangen
  **/
 @Component
-public class ApplicationReadyListener implements ApplicationContextRunner {
+public class ApplicationReadyListener implements ApplicationListener<ApplicationReadyEvent> {
 
     @Override
-    public void run(ApplicationContext context) throws Exception {
-        LogUtil.info(getClass(), "Application startup message monitoring");
+    public void onApplicationEvent(ApplicationReadyEvent event) {
+        LogUtil.info(getClass(), "Application startup initialization");
     }
 }
