@@ -4,6 +4,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.mq.rabbitmq.config.ChannelDefinition;
 import org.panda.tech.mq.rabbitmq.config.QueueDefinition;
 import org.panda.tech.mq.rabbitmq.producer.MessageMQProducerSupport;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import java.util.Map;
  *
  * @author fangen
  **/
-//@Service
+@Service
 public class RabbitMQProducer extends MessageMQProducerSupport<Object> {
 
     public void sendDirect(String routingKey, Object payload) {

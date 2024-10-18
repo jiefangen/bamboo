@@ -2,6 +2,7 @@ package org.panda.business.example.infrastructure.message.rabbitmq;
 
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.mq.rabbitmq.consumer.MessageMQConsumerSupport;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 
@@ -10,7 +11,7 @@ import java.nio.charset.StandardCharsets;
  *
  * @author fangen
  **/
-//@Component
+@Component
 public class RabbitMQConsumer extends MessageMQConsumerSupport {
 
     @Override

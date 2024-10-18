@@ -6,6 +6,7 @@ import org.panda.tech.mq.rabbitmq.config.ChannelDefinition;
 import org.panda.tech.mq.rabbitmq.config.ExchangeEnum;
 import org.panda.tech.mq.rabbitmq.config.QueueDefinition;
 import org.panda.tech.mq.rabbitmq.producer.DeclaredMessageMQProducer;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author fangen
  **/
-//@Service
+@Service
 public class RabbitMQDeclaredProducer extends DeclaredMessageMQProducer<Object> {
 
     public static final String EXCHANGE_NAME = "fanout-exchange";

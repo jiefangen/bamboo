@@ -16,5 +16,4 @@ public class RocketMQProducer extends MessageMQProducerSupport<Object> {
     protected void sendResultCallback(SendResult sendResult) {
         LogUtil.info(getClass(), "Send result callback result: {}", sendResult.getMsgId());
     }
-
 }

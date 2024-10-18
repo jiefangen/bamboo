@@ -1,19 +1,15 @@
 package org.panda.business.example.modules.components.mq;
 
-import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.Api;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.panda.bamboo.common.util.lang.UUIDUtil;
 import org.panda.business.example.infrastructure.message.rabbitmq.RabbitMQConstants;
 import org.panda.business.example.infrastructure.message.rabbitmq.RabbitMQDeclaredProducer;
 import org.panda.business.example.infrastructure.message.rabbitmq.RabbitMQProducer;
-import org.panda.business.example.infrastructure.message.rocketmq.RocketMQConstants;
-import org.panda.business.example.infrastructure.message.rocketmq.RocketMQProducer;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,29 +20,15 @@ import java.util.Map;
  *
  * @author fangen
  **/
-@Api(tags = "消息队列消息生产器")
-//@RestController
-@RequestMapping(value = "/produce")
-public class ProducerMQController {
+@Api(tags = "RabbitMQ消息生产器")
+@RestController
+@RequestMapping(value = "/rabbitmq/produce")
+public class RabbitMQController {
 
-    @Autowired
-    private RocketMQProducer rocketMQProducer;
     @Autowired
     private RabbitMQProducer rabbitMQProducer;
     @Autowired
     private RabbitMQDeclaredProducer rabbitMQDeclaredProducer;
-
-    @GetMapping("/sendGeneralSync")
-    public RestfulResult<?> sendGeneralSync() {
-        JSONObject msgJson = new JSONObject();
-        msgJson.put("message", "Official say: Hello RocketMQ!");
-        SendResult sendResult = rocketMQProducer.sendGeneralSync(RocketMQConstants.OFFICIAL_MQ_TOPIC, msgJson,
-                "sync-msg", UUIDUtil.randomUUID32());
-        if (sendResult == null) {
-            return RestfulResult.failure();
-        }
-        return RestfulResult.success(sendResult);
-    }
 
     @GetMapping("/sendDirect")
     public RestfulResult<?> sendDirect() {

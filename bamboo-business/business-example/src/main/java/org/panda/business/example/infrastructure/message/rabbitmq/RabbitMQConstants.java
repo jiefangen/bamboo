@@ -22,7 +22,7 @@ public class RabbitMQConstants {
     /**
      * 默认生产者通道标签
      */
-    public static final String PRODUCER_CHANNEL = "official.producer";
+    public static final String PRODUCER_CHANNEL = "example.producer";
 
     /**
      * 延时键

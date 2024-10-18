@@ -5,13 +5,14 @@ import org.panda.business.example.infrastructure.message.rabbitmq.RabbitMQConsum
 import org.panda.tech.core.boot.ApplicationContextRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  * 消费者订阅事件监听
  *
  * @author fangen
  **/
-//@Component
+@Component
 public class RabbitMQEventListener implements ApplicationContextRunner {
 
     @Autowired
