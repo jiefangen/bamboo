@@ -3,8 +3,9 @@ package org.panda.business.example.application.listener;
 import com.rabbitmq.client.AMQP;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.mq.rabbitmq.producer.listener.AbstractReturnListener;
+import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class RabbitReturnListener extends AbstractReturnListener {
     @Override
     protected void manualHandleReturn(int replyCode, String replyText, String exchangeName, String routingKey,

@@ -19,6 +19,11 @@ import java.util.Map;
 @Service
 public class RabbitMQProducer extends MessageMQProducerSupport<Object> {
 
+    @Override
+    public String getConnectionName() {
+        return RabbitMQConstants.PRODUCER_CONNECT;
+    }
+
     public void sendDirect(String routingKey, Object payload) {
         for (int i = 0; i < 3; i++) {
             int finalI = i;

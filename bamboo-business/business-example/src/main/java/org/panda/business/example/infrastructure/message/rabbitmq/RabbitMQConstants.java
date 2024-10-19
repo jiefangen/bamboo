@@ -22,7 +22,19 @@ public class RabbitMQConstants {
     /**
      * 默认生产者通道标签
      */
-    public static final String PRODUCER_CHANNEL = "example.producer";
+    public static final String PRODUCER_CHANNEL = "example.producer_channel";
+    /**
+     * 消费者连接
+     */
+    public static final String CONSUMER_CONNECT = "example.consumer_connect";
+    /**
+     * 生产者连接
+     */
+    public static final String PRODUCER_CONNECT = "example.producer_connect";
+    /**
+     * 可预先声明的生产者连接
+     */
+    public static final String DECLARED_PRODUCER_CONNECT = "example.declared.producer_connect";
 
     /**
      * 延时键

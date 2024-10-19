@@ -7,13 +7,13 @@ public class RocketMQConstants {
     /**
      * 消费者组
      */
-    public static final String CONSUMER_GROUP = "official-consumer";
+    public static final String CONSUMER_GROUP = "example-consumer";
     /**
      * 普通消息主题
      */
-    public static final String OFFICIAL_MQ_TOPIC = "official-general-topic";
+    public static final String OFFICIAL_MQ_TOPIC = "example-general-topic";
     /**
      * 生产者组
      */
-    public static final String PRODUCER_GROUP = "official-producer";
+    public static final String PRODUCER_GROUP = "example-producer";
 }

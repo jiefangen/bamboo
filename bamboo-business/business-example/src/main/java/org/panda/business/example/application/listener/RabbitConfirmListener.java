@@ -2,8 +2,9 @@ package org.panda.business.example.application.listener;
 
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.mq.rabbitmq.producer.listener.AbstractConfirmListener;
+import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class RabbitConfirmListener extends AbstractConfirmListener {
     @Override
     protected void manualHandleAck(long seq, boolean multiple) {

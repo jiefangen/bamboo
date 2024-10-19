@@ -26,6 +26,11 @@ public class RabbitMQDeclaredProducer extends DeclaredMessageMQProducer<Object> 
     }
 
     @Override
+    public String getConnectionName() {
+        return RabbitMQConstants.DECLARED_PRODUCER_CONNECT;
+    }
+
+    @Override
     public String getName() {
         return RabbitMQConstants.PRODUCER_CHANNEL;
     }

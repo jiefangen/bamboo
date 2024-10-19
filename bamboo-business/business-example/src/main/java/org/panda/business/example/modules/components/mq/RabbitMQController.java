@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,19 +30,14 @@ public class RabbitMQController {
 
     @GetMapping("/sendDirect")
     public RestfulResult<?> sendDirect() {
-        List<String> messages = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            String message = "Official say: Hello RabbitMQ! Seq: ";
-            messages.add(message + i);
-        }
-        String message = "Official say: Hello RabbitMQ!";
+        String message = "Example say: Hello RabbitMQ!";
         rabbitMQProducer.sendDirect(RabbitMQConstants.ROUTING_KEY, message);
         return RestfulResult.success();
     }
 
     @GetMapping("/sendDelayed")
     public RestfulResult<?> sendDelayed() {
-        String message = "Official delayed say: Hello RabbitMQ!";
+        String message = "Example delayed say: Hello RabbitMQ!";
         String exchangeName = RabbitMQConstants.DELAY_KEY + "-ttl-exchange";
         rabbitMQDeclaredProducer.sendDelayed(exchangeName, 3000L,
                 RabbitMQConstants.DELAY_ROUTING_KEY, message);
@@ -53,14 +46,14 @@ public class RabbitMQController {
 
     @GetMapping("/sendTopic")
     public RestfulResult<?> sendTopic(@RequestParam String routingKey) {
-        String message = "Official topic say: Hello RabbitMQ!";
+        String message = "Example topic say: Hello RabbitMQ!";
         rabbitMQProducer.sendTopic(routingKey, message);
         return RestfulResult.success();
     }
 
     @GetMapping("/sendHeaders")
     public RestfulResult<?> sendHeaders(@RequestParam Map<String, Object> format, @RequestParam Map<String, Object> type) {
-        String message = "Official headers say: Hello RabbitMQ!";
+        String message = "Example headers say: Hello RabbitMQ!";
         format.putAll(type);
         rabbitMQProducer.sendHeaders(format, message);
         return RestfulResult.success();
@@ -68,14 +61,14 @@ public class RabbitMQController {
 
     @GetMapping("/sendFanout")
     public RestfulResult<?> sendFanout() {
-        String message = "Official fanout say: Hello RabbitMQ!";
+        String message = "Example fanout say: Hello RabbitMQ!";
         rabbitMQDeclaredProducer.sendFanout(message);
         return RestfulResult.success();
     }
 
     @GetMapping("/sendDirectTemp")
     public RestfulResult<?> sendDirectTemp() {
-        String message = "Official temporary say: Hello RabbitMQ!";
+        String message = "Example temporary say: Hello RabbitMQ!";
         rabbitMQProducer.sendDirectTemp(message);
         return RestfulResult.success();
     }
