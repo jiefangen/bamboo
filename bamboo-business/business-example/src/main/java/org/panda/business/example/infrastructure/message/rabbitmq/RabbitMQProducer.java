@@ -25,10 +25,15 @@ public class RabbitMQProducer extends MessageMQProducerSupport<Object> {
     }
 
     public void sendDirect(String routingKey, Object payload) {
+        super.sendDirect(getDirectChannelDefinition(), routingKey, null, payload, true);
+    }
+
+    public void batchSendDirect(String routingKey, Object payload) {
         for (int i = 0; i < 3; i++) {
             int finalI = i;
             new Thread(() -> {
                 LogUtil.info(getClass(), "Running serial number：{}", finalI);
+                // 异步多线程
                 super.sendDirect(getDirectChannelDefinition(), routingKey, null, payload, false);
             }).start();
         }

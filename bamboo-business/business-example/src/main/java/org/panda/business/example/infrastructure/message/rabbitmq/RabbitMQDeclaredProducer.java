@@ -49,7 +49,6 @@ public class RabbitMQDeclaredProducer extends DeclaredMessageMQProducer<Object> 
         List<QueueDefinition> queues = new ArrayList<>();
         queues.add(new QueueDefinition().addQueueName("fanout-queue-two"));
         queues.add(new QueueDefinition().addQueueName("fanout-queue-three"));
-        queues.add(new QueueDefinition().addQueueName("fanout-queue-four"));
         return queues;
     }
 

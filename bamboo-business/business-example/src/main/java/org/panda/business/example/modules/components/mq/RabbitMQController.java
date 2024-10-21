@@ -30,8 +30,15 @@ public class RabbitMQController {
 
     @GetMapping("/sendDirect")
     public RestfulResult<?> sendDirect() {
-        String message = "Example say: Hello RabbitMQ!";
+        String message = "Example direct say: Hello RabbitMQ!";
         rabbitMQProducer.sendDirect(RabbitMQConstants.ROUTING_KEY, message);
+        return RestfulResult.success();
+    }
+
+    @GetMapping("/batchSendDirect")
+    public RestfulResult<?> batchSendDirect() {
+        String message = "Example batch direct say: Hello RabbitMQ!";
+        rabbitMQProducer.batchSendDirect(RabbitMQConstants.ROUTING_KEY, message);
         return RestfulResult.success();
     }
 
