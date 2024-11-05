@@ -56,7 +56,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     @Autowired
     private MessageSourceResolver messageSourceResolver;
 
-    @Async("taskExecutor")
+    @Async
     @Override
     public void intoLogDb(WebLogData webLogData, Object res) {
         SysActionLog actionLog = new SysActionLog();
@@ -92,6 +92,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         this.save(actionLog);
     }
 
+    @Async
     @Override
     public void intoLoginLog(HttpServletRequest request, SysUserToken userToken) {
         SysActionLog actionLog = new SysActionLog();
