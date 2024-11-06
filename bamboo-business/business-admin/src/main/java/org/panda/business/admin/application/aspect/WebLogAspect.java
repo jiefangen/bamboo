@@ -1,12 +1,18 @@
 package org.panda.business.admin.application.aspect;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.panda.business.admin.common.model.WebLogData;
 import org.panda.business.admin.modules.monitor.service.SysActionLogService;
+import org.panda.business.admin.modules.monitor.service.SysUserTokenService;
+import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.tech.core.spec.log.annotation.WebOperationLog;
-import org.panda.tech.core.web.model.WebLogRange;
 import org.panda.tech.core.spec.log.support.WebLogSupport;
+import org.panda.tech.core.web.config.WebConstants;
+import org.panda.tech.core.web.context.SpringWebContext;
+import org.panda.tech.core.web.model.WebLogRange;
 import org.panda.tech.security.user.UserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 @Configuration
 public class WebLogAspect extends WebLogSupport {
 
+    @Autowired
+    private SysUserTokenService sysUserTokenService;
     @Autowired
     private SysActionLogService actionLogService;
 
@@ -58,6 +66,15 @@ public class WebLogAspect extends WebLogSupport {
         WebLogRange threadInfo = threadLocal.get();
         WebLogData webLogData = new WebLogData();
         webLogData.transform(threadInfo);
+        // 查询交互凭证绑定操作日志
+        LambdaQueryWrapper<SysUserToken> queryWrapper = Wrappers.lambdaQuery();
+        HttpServletRequest request = SpringWebContext.getRequest();
+        String token = request.getHeader(WebConstants.HEADER_AUTH_JWT);
+        queryWrapper.eq(SysUserToken::getToken, token);
+        SysUserToken sysUserToken = sysUserTokenService.getOne(queryWrapper, false);
+        if (sysUserToken != null) {
+            webLogData.setSourceId(String.valueOf(sysUserToken.getId()));
+        }
         // 异步写入数据库
         actionLogService.intoLogDb(webLogData, res);
     }

@@ -24,6 +24,7 @@ import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.model.IPAddress;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.restful.ResultEnum;
+import org.panda.tech.core.web.util.IP2RegionUtil;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.data.model.query.QueryResult;
@@ -63,7 +64,10 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         String remoteAddress = webLogData.getHost();
         actionLog.setHost(remoteAddress);
         actionLog.setIpAddress(this.getIpAttribution(remoteAddress));
+        actionLog.setTerminalDevice(webLogData.getTerminalDevice());
+        actionLog.setTerminalOs(webLogData.getTerminalOs());
         actionLog.setIdentity(webLogData.getIdentity());
+        actionLog.setSourceId(webLogData.getSourceId());
         long startTimeMillis = webLogData.getStartTimeMillis();
         LocalDateTime startDateTime = TemporalUtil.toLocalDateTime(Instant.ofEpochMilli(startTimeMillis));
         actionLog.setOperatingTime(startDateTime);
@@ -92,7 +96,6 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         this.save(actionLog);
     }
 
-    @Async
     @Override
     public void intoLoginLog(HttpServletRequest request, SysUserToken userToken) {
         SysActionLog actionLog = new SysActionLog();
@@ -106,7 +109,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         String userAgentHeader = request.getHeader(HttpHeaders.USER_AGENT);
         String remoteAddress = WebHttpUtil.getRemoteAddress(request);
         actionLog.setHost(remoteAddress);
-        actionLog.setIpAddress(this.getIpAttribution(remoteAddress));
+        actionLog.setIpAddress(IP2RegionUtil.getIPRegion(remoteAddress));
         UserAgent userAgent = WebHttpUtil.getUserAgent(userAgentHeader);
         if (userAgent != null) {
             actionLog.setTerminalDevice(userAgent.getBrowser().getName() + Strings.SPACE + userAgent.getVersion());

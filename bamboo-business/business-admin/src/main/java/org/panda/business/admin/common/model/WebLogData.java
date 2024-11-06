@@ -11,6 +11,10 @@ import org.panda.tech.core.web.model.WebLogRange;
 @Data
 public class WebLogData extends WebLogRange {
     private static final long serialVersionUID = -2302592404778182775L;
+    /**
+     * 日志来源，绑定用户登录token数据
+     */
+    private String sourceId;
 
     public void transform(WebLogRange webLogRange) {
         super.setStartTimeMillis(webLogRange.getStartTimeMillis());
@@ -21,5 +25,8 @@ public class WebLogData extends WebLogRange {
         super.setIdentity(webLogRange.getIdentity());
         super.setBodyStr(webLogRange.getBodyStr());
         super.setTakeTime(webLogRange.getTakeTime());
+
+        super.setTerminalDevice(webLogRange.getTerminalDevice());
+        super.setTerminalOs(webLogRange.getTerminalOs());
     }
 }
