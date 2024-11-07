@@ -57,6 +57,8 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
     @Autowired
     private MessageSourceResolver messageSourceResolver;
 
+    private final IP2RegionUtil ip2RegionUtil = new IP2RegionUtil();
+
     @Async
     @Override
     public void intoLogDb(WebLogData webLogData, Object res) {
@@ -109,7 +111,7 @@ public class SysActionLogServiceImpl extends ServiceImpl<SysActionLogMapper, Sys
         String userAgentHeader = request.getHeader(HttpHeaders.USER_AGENT);
         String remoteAddress = WebHttpUtil.getRemoteAddress(request);
         actionLog.setHost(remoteAddress);
-        actionLog.setIpAddress(IP2RegionUtil.getIPRegion(remoteAddress));
+        actionLog.setIpAddress(ip2RegionUtil.getIPRegionCache("198.19.249.3"));
         UserAgent userAgent = WebHttpUtil.getUserAgent(userAgentHeader);
         if (userAgent != null) {
             actionLog.setTerminalDevice(userAgent.getBrowser().getName() + Strings.SPACE + userAgent.getVersion());

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: official
+    name: example
   profiles:
     active: local
 server:
