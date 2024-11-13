@@ -5,11 +5,11 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.tech.core.web.util.IP2RegionUtil;
 
 /**
- * 工具测试类
+ * WEB工具测试类
  *
  * @author fangen
  **/
-public class ToolsTest {
+public class WebUtilTest {
 
     private final IP2RegionUtil ip2RegionUtil = new IP2RegionUtil();
 

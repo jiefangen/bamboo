@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * 文档微服务启动项
+ * 文档服务启动项
  *
  * @author fangen
  */
