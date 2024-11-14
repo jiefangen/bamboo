@@ -1,7 +1,7 @@
-package org.panda.service.doc.controller;
+package org.panda.service.doc.controller.sandbox;
 
 import io.swagger.annotations.Api;
-import org.panda.service.doc.common.util.DocUtil;
+import org.panda.service.doc.common.utils.DocumentUtils;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -15,10 +15,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Api(tags = "文档文件处理模拟")
+@Api(tags = "【沙箱】文档文件处理")
 @RestController
-@RequestMapping(value = "/file/process/mock")
-public class FileProcessMockController {
+@RequestMapping(value = "/sandbox/file/process")
+public class FileProcessSandboxController {
 
     @Autowired
     private FileProcessService fileProcessService;
@@ -26,15 +26,17 @@ public class FileProcessMockController {
     @PostMapping(value = "/upload/import", consumes = "multipart/form-data")
     public RestfulResult<?> uploadImport(@RequestPart("file") MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
-        String fileExtension = DocUtil.getExtension(filename);
+        String fileExtension = DocumentUtils.getExtension(filename);
         InputStream inputStream = file.getInputStream();
         DocFile docFile = new DocFile();
         docFile.setFilename(filename);
         docFile.setFileType(fileExtension);
         docFile.setFileSize(file.getSize());
+        docFile.setTags("sandbox");
         Object result = fileProcessService.importFle(docFile, inputStream);
-        if (result instanceof Long) {
-            return RestfulResult.success(result);
+        if (result instanceof DocFile) {
+            DocFile docFileRes = (DocFile) result;
+            return RestfulResult.success(docFileRes.getContent());
         } else {
             return RestfulResult.failure((String) result);
         }

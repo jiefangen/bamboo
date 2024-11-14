@@ -13,11 +13,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerSupport {
     /**
-     * web请求日志过滤器
+     * Web请求日志过滤器
      */
     @Bean
     public RequestLogFilter requestLogFilter() {
         return new RequestLogFilter("/file/**");
     }
-
 }

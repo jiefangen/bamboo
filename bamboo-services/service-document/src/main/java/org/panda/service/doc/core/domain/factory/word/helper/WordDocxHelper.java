@@ -10,7 +10,7 @@ import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.constant.file.FileExtensions;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.service.doc.common.DocExceptionCodes;
-import org.panda.service.doc.common.util.DocUtil;
+import org.panda.service.doc.common.utils.DocumentUtils;
 import org.panda.tech.core.exception.business.BusinessException;
 
 import java.io.ByteArrayOutputStream;
@@ -30,7 +30,7 @@ public class WordDocxHelper {
 		try {
 			this.origin = new XWPFDocument(in);
 		} catch (IOException e) {
-			throw new BusinessException(DocUtil.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.DOCX.toUpperCase());
+			throw new BusinessException(DocumentUtils.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.DOCX.toUpperCase());
 		}
 	}
 

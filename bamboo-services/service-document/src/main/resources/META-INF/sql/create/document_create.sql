@@ -1,4 +1,4 @@
-/* document文档服务表创建脚本 */
+/* Document文档服务表创建脚本 */
 DROP DATABASE IF EXISTS `service_document`;
 CREATE DATABASE IF NOT EXISTS `service_document` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `service_document`;

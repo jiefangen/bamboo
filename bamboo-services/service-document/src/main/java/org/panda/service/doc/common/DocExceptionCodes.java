@@ -17,5 +17,9 @@ public class DocExceptionCodes {
      * 文件类型不支持
      */
     public static final String TYPE_NOT_SUPPORT = "error.doc.type_not_support";
+    /**
+     * 文件已存在
+     */
+    public static final String FILE_EXISTS = "error.doc.file_exists";
 
 }

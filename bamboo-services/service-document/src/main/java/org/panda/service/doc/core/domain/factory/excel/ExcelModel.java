@@ -1,6 +1,7 @@
-package org.panda.service.doc.core.domain.document;
+package org.panda.service.doc.core.domain.factory.excel;
 
 import lombok.Data;
+import org.panda.service.doc.core.domain.document.DocModel;
 
 /**
  * Excel文档模型
@@ -9,7 +10,8 @@ import lombok.Data;
  **/
 @Data
 public class ExcelModel extends DocModel {
-
+    /**
+     * Sheet名称
+     */
     private String sheetName;
-
 }

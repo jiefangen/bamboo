@@ -8,7 +8,7 @@ import org.panda.bamboo.common.constant.file.FileExtensions;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.io.IOUtil;
 import org.panda.service.doc.common.DocExceptionCodes;
-import org.panda.service.doc.common.util.DocUtil;
+import org.panda.service.doc.common.utils.DocumentUtils;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.w3c.dom.Document;
 
@@ -34,7 +34,7 @@ public class WordDocHelper {
 		try {
 			this.origin = new HWPFDocument(in);
 		} catch (IOException e) {
-			throw new BusinessException(DocUtil.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.DOC.toUpperCase());
+			throw new BusinessException(DocumentUtils.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.DOC.toUpperCase());
 		}
 	}
 

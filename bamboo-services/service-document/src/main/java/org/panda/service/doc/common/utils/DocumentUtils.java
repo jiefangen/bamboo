@@ -1,4 +1,4 @@
-package org.panda.service.doc.common.util;
+package org.panda.service.doc.common.utils;
 
 import org.apache.commons.io.FilenameUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
@@ -17,9 +17,9 @@ import java.util.Properties;
  *
  * @author fangen
  */
-public class DocUtil {
+public class DocumentUtils {
 
-    private DocUtil() {
+    private DocumentUtils() {
     }
 
     private static final Properties MESSAGE = new Properties();
@@ -40,7 +40,7 @@ public class DocUtil {
                 ERROR.load(errorIn);
                 errorIn.close();
             } catch (IOException e) {
-                LogUtil.error(DocUtil.class, e);
+                LogUtil.error(DocumentUtils.class, e);
             }
         }
     }

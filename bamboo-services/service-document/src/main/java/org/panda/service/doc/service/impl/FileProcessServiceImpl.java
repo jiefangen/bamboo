@@ -3,7 +3,7 @@ package org.panda.service.doc.service.impl;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.DocExceptionCodes;
-import org.panda.service.doc.common.util.DocUtil;
+import org.panda.service.doc.common.utils.DocumentUtils;
 import org.panda.service.doc.core.DocumentFactoryProducer;
 import org.panda.service.doc.core.domain.document.DocModel;
 import org.panda.service.doc.core.domain.factory.excel.Excel;
@@ -40,7 +40,8 @@ public class FileProcessServiceImpl implements FileProcessService {
         String fileType = docFile.getFileType();
         if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
             docFile.setCategory(DocConstants.EXCEL);
-            return excelDoc.read(inputStream, fileType);
+//            return excelDoc.read(inputStream, fileType);
+            return excelDoc.readByEasyExcel(inputStream);
         } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
             docFile.setCategory(DocConstants.WORD);
             return wordDoc.read(inputStream, fileType);
@@ -58,7 +59,7 @@ public class FileProcessServiceImpl implements FileProcessService {
     public Object importFle(DocFile docFile, InputStream inputStream) {
         String fileType = docFile.getFileType();
         if (!DocConstants.checkFileType(fileType)) {
-            return DocUtil.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
+            return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
         Md5Encryptor encryptor = new Md5Encryptor();
         String fileMd5 = encryptor.encrypt(docFile);
@@ -67,14 +68,13 @@ public class FileProcessServiceImpl implements FileProcessService {
         docFileParams.setFileMd5(fileMd5);
         Example<DocFile> example = Example.of(docFileParams);
         if (docFileRepo.count(example) > 0) {
-            return "The file already exists";
+            return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
         }
         docFile.setFileMd5(fileMd5);
         Object content = readDocument(inputStream, docFile);
         docFile.setContent(JsonUtil.toJson(content));
         // 数据保存入库
-        DocFile file = save(docFile);
-        return file.getId();
+        return save(docFile);
     }
 
     private DocFile save(DocFile docFile) {

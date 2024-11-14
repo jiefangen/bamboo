@@ -11,8 +11,9 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.DocExceptionCodes;
-import org.panda.service.doc.common.util.DocUtil;
+import org.panda.service.doc.common.utils.DocumentUtils;
 import org.panda.service.doc.core.domain.document.DocModel;
+import org.panda.service.doc.core.domain.factory.excel.easyexcel.EasyExcelHelper;
 import org.panda.service.doc.core.domain.factory.excel.helper.ExcelDocHelper;
 import org.panda.service.doc.core.domain.factory.excel.helper.ExcelDocxHelper;
 import org.panda.tech.core.exception.business.BusinessException;
@@ -29,6 +30,8 @@ import java.util.Map;
  * Excel文档
  */
 public class ExcelDoc implements Excel {
+
+    private final EasyExcelHelper easyExcelHelper = new EasyExcelHelper();
 
     @Override
     public Object read(InputStream inputStream, String extension) {
@@ -52,7 +55,7 @@ public class ExcelDoc implements Excel {
                 excelDocxHelper.close();
             }
         } catch (Exception e) {
-            throw new BusinessException(DocUtil.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.XLSX.toUpperCase());
+            throw new BusinessException(DocumentUtils.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.XLSX.toUpperCase());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
@@ -143,4 +146,8 @@ public class ExcelDoc implements Excel {
     public void convert(InputStream inputStream, OutputStream outputStream, String extension) {
     }
 
+    @Override
+    public Object readByEasyExcel(InputStream inputStream) {
+        return easyExcelHelper.simpleRead(inputStream);
+    }
 }

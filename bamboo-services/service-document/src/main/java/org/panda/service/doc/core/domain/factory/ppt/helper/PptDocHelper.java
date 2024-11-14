@@ -20,7 +20,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.clazz.BeanUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.service.doc.common.DocExceptionCodes;
-import org.panda.service.doc.common.util.DocUtil;
+import org.panda.service.doc.common.utils.DocumentUtils;
 import org.panda.service.doc.core.domain.document.DocOutline;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.springframework.util.Assert;
@@ -46,7 +46,7 @@ public class PptDocHelper {
 	private String defaultFontFamily = "SimSun"; // 默认字体：宋体，改动时需为中文字体
 
 	public PptDocHelper(InputStream in, String extension) {
-		extension = DocUtil.standardizeExtension(extension);
+		extension = DocumentUtils.standardizeExtension(extension);
 		try {
 			if (FileExtensions.PPT.equals(extension)) {
 				this.origin = new HSLFSlideShow(in);
@@ -54,7 +54,7 @@ public class PptDocHelper {
 				this.origin = new XMLSlideShow(in);
 			}
 		} catch (IOException e) {
-			throw new BusinessException(DocUtil.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.PPTX.toUpperCase());
+			throw new BusinessException(DocumentUtils.getError(DocExceptionCodes.CAN_NOT_LOAD), FileExtensions.PPTX.toUpperCase());
 		}
 	}
 
@@ -211,7 +211,7 @@ public class PptDocHelper {
 		XSLFSheet sheet = templateShape.getSheet();
 		XSLFTextBox textBox = sheet.createTextBox();
 		textBox.setAnchor(templateShape.getAnchor());
-		textBox.setText(DocUtil.getMessage(messageKey));
+		textBox.setText(DocumentUtils.getMessage(messageKey));
 		textBox.setVerticalAlignment(VerticalAlignment.MIDDLE);
 		textBox.setLineColor(Color.GRAY);
 		XSLFTextParagraph textParagraph = textBox.getTextParagraphs().get(0);

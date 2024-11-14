@@ -31,8 +31,9 @@ public class FileProcessController {
         docFile.setFileType(docFileParam.getFileType());
         docFile.setFileSize(docFileParam.getFileSize());
         Object result = fileProcessService.importFle(docFile, inputStream);
-        if (result instanceof Long) {
-            return RestfulResult.success(result);
+        if (result instanceof DocFile) {
+            DocFile docFileRes = (DocFile) result;
+            return RestfulResult.success(docFileRes.getId());
         } else {
             return RestfulResult.failure((String) result);
         }
