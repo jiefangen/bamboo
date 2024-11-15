@@ -33,7 +33,7 @@ public class FileProcessSandboxController {
         docFile.setFileType(fileExtension);
         docFile.setFileSize(file.getSize());
         docFile.setTags("sandbox");
-        Object result = fileProcessService.importFle(docFile, inputStream);
+        Object result = fileProcessService.importFle(docFile, inputStream, false);
         if (result instanceof DocFile) {
             DocFile docFileRes = (DocFile) result;
             return RestfulResult.success(docFileRes.getContent());

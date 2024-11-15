@@ -147,7 +147,7 @@ public class ExcelDoc implements Excel {
     }
 
     @Override
-    public Object readByEasyExcel(InputStream inputStream) {
-        return easyExcelHelper.simpleRead(inputStream);
+    public Map<String, List<Map<Integer, String>>> readByEasyExcel(InputStream inputStream) {
+        return easyExcelHelper.read(inputStream);
     }
 }

@@ -13,7 +13,7 @@ import java.io.InputStream;
  **/
 public interface FileProcessService {
 
-    Object importFle(DocFile docFile, InputStream inputStream);
+    Object importFle(DocFile docFile, InputStream inputStream, boolean md5Verify);
 
     void fileExport(DocFile docFile, HttpServletResponse response) throws IOException;
 }

@@ -2,60 +2,62 @@ package org.panda.service.doc.core.domain.factory.excel.easyexcel;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
-import com.alibaba.excel.read.listener.ReadListener;
+import com.alibaba.excel.event.AnalysisEventListener;
+import com.alibaba.excel.metadata.data.ReadCellData;
+import com.alibaba.excel.util.ConverterUtils;
 import com.alibaba.excel.util.ListUtils;
+import org.panda.bamboo.common.util.LogUtil;
+import org.slf4j.Logger;
 
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * EasyExcel文档助手
  */
 public class EasyExcelHelper {
-
-	public List<ExcelBasicData> simpleRead(InputStream inputStream) {
-		// 这里 需要指定读用哪个class去读，然后读取第一个sheet 文件流会自动关闭
-		// 这里默认每次会读取100条数据 然后返回过来 直接调用使用数据就行
-		// 具体需要返回多少行可以在`PageReadListener`的构造函数设置
-//		EasyExcel.read(inputStream, ExcelBasicData.class, new PageReadListener<ExcelBasicData>(dataList -> {
-//			for (ExcelBasicData basicData : dataList) {
-//				LogUtil.info(getClass(), "读取到一条数据{}", JsonUtil.toJson(basicData));
-//			}
-//		})).sheet().doRead();
-
-
-		List<ExcelBasicData> dataList = new ArrayList<>();
-		// 这里需要指定读用哪个class去读，然后读取第一个sheet文件流会自动关闭
-		EasyExcel.read(inputStream, ExcelBasicData.class, new ReadListener<ExcelBasicData>() {
-			/**
-			 * 单次缓存的数据量
-			 */
-			public static final int BATCH_COUNT = 100;
+	/**
+	 * 日志工具
+	 */
+	private final Logger log = LogUtil.getLogger(getClass());
+	/**
+	 * 通用数据读取
+	 *
+	 * @param inputStream 文件流
+	 * @return 读取的数据
+	 */
+	public Map<String, List<Map<Integer, String>>> read(InputStream inputStream) {
+		// 读取所有数据容器
+		Map<String, List<Map<Integer, String>>> contentMap = new LinkedHashMap<>();
+		EasyExcel.read(inputStream, new AnalysisEventListener<Map<Integer, String>>() {
 			/**
 			 * 临时存储容器
 			 */
-			private List<ExcelBasicData> cachedDataList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
+			private List<Map<Integer, String>> cachedDataList = ListUtils.newArrayList();
 
 			@Override
-			public void invoke(ExcelBasicData data, AnalysisContext context) {
+			public void invokeHead(Map<Integer, ReadCellData<?>> headMap, AnalysisContext context) {
+				// 解析表头数据，默认第一行
+				cachedDataList.add(ConverterUtils.convertToStringMap(headMap, context));
+			}
+
+			@Override
+			public void invoke(Map<Integer, String> data, AnalysisContext context) {
+				// 单条数据解析
 				cachedDataList.add(data);
-				if (cachedDataList.size() >= BATCH_COUNT) {
-					saveData();
-					// 存储完成清理list
-					cachedDataList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
-				}
 			}
 
 			@Override
 			public void doAfterAllAnalysed(AnalysisContext context) {
-				saveData();
+				// 单个sheet数据解析完成
+				String sheetName = context.readSheetHolder().getSheetName();
+				contentMap.put(sheetName, cachedDataList);
+				// 重置缓存临时容器
+				cachedDataList = ListUtils.newArrayList();
 			}
-
-			private void saveData() {
-				dataList.addAll(cachedDataList);
-			}
-		}).sheet().doRead();
-		return dataList;
+		}).doReadAll();
+		return contentMap;
 	}
 }

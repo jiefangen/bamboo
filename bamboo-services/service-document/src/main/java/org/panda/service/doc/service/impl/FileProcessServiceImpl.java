@@ -12,6 +12,7 @@ import org.panda.service.doc.core.domain.factory.ppt.Ppt;
 import org.panda.service.doc.core.domain.factory.word.Word;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.repository.DocFileRepo;
+import org.panda.service.doc.service.DocExcelDataService;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.crypto.md5.Md5Encryptor;
 import org.panda.tech.core.web.util.WebHttpUtil;
@@ -23,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -35,6 +38,8 @@ public class FileProcessServiceImpl implements FileProcessService {
 
     @Autowired
     private DocFileRepo docFileRepo;
+    @Autowired
+    private DocExcelDataService docExcelDataService;
 
     private Object readDocument(InputStream inputStream, DocFile docFile) {
         String fileType = docFile.getFileType();
@@ -56,25 +61,31 @@ public class FileProcessServiceImpl implements FileProcessService {
     }
 
     @Override
-    public Object importFle(DocFile docFile, InputStream inputStream) {
+    public Object importFle(DocFile docFile, InputStream inputStream, boolean md5Verify) {
         String fileType = docFile.getFileType();
         if (!DocConstants.checkFileType(fileType)) {
             return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
         Md5Encryptor encryptor = new Md5Encryptor();
         String fileMd5 = encryptor.encrypt(docFile);
-        // 文件上传MD5验证
-        DocFile docFileParams = new DocFile();
-        docFileParams.setFileMd5(fileMd5);
-        Example<DocFile> example = Example.of(docFileParams);
-        if (docFileRepo.count(example) > 0) {
-            return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
+        if (md5Verify) { // 文件上传MD5验证
+            DocFile docFileParams = new DocFile();
+            docFileParams.setFileMd5(fileMd5);
+            Example<DocFile> example = Example.of(docFileParams);
+            if (docFileRepo.count(example) > 0) {
+                return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
+            }
         }
         docFile.setFileMd5(fileMd5);
         Object content = readDocument(inputStream, docFile);
         docFile.setContent(JsonUtil.toJson(content));
         // 数据保存入库
-        return save(docFile);
+        DocFile docFileRes = save(docFile);
+        if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
+            // 异步保存到EXCEL数据表
+            docExcelDataService.saveExcelDataAsync(docFileRes.getId(), (Map<String, List<Map<Integer, String>>>)content);
+        }
+        return docFileRes;
     }
 
     private DocFile save(DocFile docFile) {

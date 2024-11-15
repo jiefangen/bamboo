@@ -1,4 +1,4 @@
-package org.panda.service.doc.core.util;
+package org.panda.service.doc.core.utils;
 
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.core.domain.factory.Document;
@@ -12,7 +12,7 @@ import org.panda.service.doc.core.domain.factory.word.WordDoc;
  *
  * @author fangen
  **/
-public class DocFactoryUtil {
+public class DocFactoryUtils {
 
     public static Document getDocument(String docType){
         if(DocConstants.EXCEL.equalsIgnoreCase(docType)){
