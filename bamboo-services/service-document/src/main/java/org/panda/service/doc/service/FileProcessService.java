@@ -16,4 +16,6 @@ public interface FileProcessService {
     Object importFle(DocFile docFile, InputStream inputStream, boolean md5Verify);
 
     void fileExport(DocFile docFile, HttpServletResponse response) throws IOException;
+
+    Object excelReadBySheet(InputStream inputStream, String sheetName, String fileExtension);
 }

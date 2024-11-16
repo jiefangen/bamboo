@@ -6,10 +6,7 @@ import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,7 +14,7 @@ import java.io.InputStream;
 
 @Api(tags = "【沙箱】文档文件处理")
 @RestController
-@RequestMapping(value = "/sandbox/file/process")
+@RequestMapping(value = "/file/process/sandbox")
 public class FileProcessSandboxController {
 
     @Autowired
@@ -41,5 +38,4 @@ public class FileProcessSandboxController {
             return RestfulResult.failure((String) result);
         }
     }
-
 }

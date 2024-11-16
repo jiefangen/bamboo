@@ -14,4 +14,8 @@ public interface Excel extends Document {
      * @return 数据读取结果
      */
     Map<String, List<Map<Integer, String>>> readByEasyExcel(InputStream inputStream);
+
+    <T> Map<String, List<T>> readByEasyExcel(InputStream inputStream, Class<T> dataClass);
+
+    <T> List<T> readByEasyExcel(InputStream inputStream, String sheetName, Class<T> dataClass);
 }

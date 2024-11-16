@@ -1,5 +1,7 @@
 package org.panda.service.doc.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.DocExceptionCodes;
@@ -10,6 +12,7 @@ import org.panda.service.doc.core.domain.factory.excel.Excel;
 import org.panda.service.doc.core.domain.factory.pdf.Pdf;
 import org.panda.service.doc.core.domain.factory.ppt.Ppt;
 import org.panda.service.doc.core.domain.factory.word.Word;
+import org.panda.service.doc.model.excel.QuotaExcelData;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.repository.DocFileRepo;
 import org.panda.service.doc.service.DocExcelDataService;
@@ -24,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -37,15 +39,16 @@ public class FileProcessServiceImpl implements FileProcessService {
     private final Pdf pdfDoc = DocumentFactoryProducer.getPdfDoc();
 
     @Autowired
-    private DocFileRepo docFileRepo;
-    @Autowired
     private DocExcelDataService docExcelDataService;
+    @Autowired
+    private DocFileRepo docFileRepo;
 
     private Object readDocument(InputStream inputStream, DocFile docFile) {
         String fileType = docFile.getFileType();
         if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
-            docFile.setCategory(DocConstants.EXCEL);
+//            docFile.setCategory(DocConstants.EXCEL);
 //            return excelDoc.read(inputStream, fileType);
+            docFile.setCategory(DocConstants.EASY_EXCEL);
             return excelDoc.readByEasyExcel(inputStream);
         } else if (DocConstants.WORD_DOCX.equalsIgnoreCase(fileType) || DocConstants.WORD_DOC.equalsIgnoreCase(fileType)) {
             docFile.setCategory(DocConstants.WORD);
@@ -83,7 +86,7 @@ public class FileProcessServiceImpl implements FileProcessService {
         DocFile docFileRes = save(docFile);
         if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
             // 异步保存到EXCEL数据表
-            docExcelDataService.saveExcelDataAsync(docFileRes.getId(), (Map<String, List<Map<Integer, String>>>)content);
+            docExcelDataService.saveExcelDataAsync(docFileRes.getId(), (Map<String, Object>)content);
         }
         return docFileRes;
     }
@@ -98,6 +101,7 @@ public class FileProcessServiceImpl implements FileProcessService {
 
     @Override
     public void fileExport(DocFile docFile, HttpServletResponse response) throws IOException {
+        docFile.setAccessibility(true);
         Example<DocFile> example = Example.of(docFile);
         Optional<DocFile> docFileOptional = docFileRepo.findOne(example);
         if (docFileOptional.isPresent()) {
@@ -118,6 +122,23 @@ public class FileProcessServiceImpl implements FileProcessService {
             } else {
                 pdfDoc.create(response.getOutputStream(), docModel);
             }
+        }
+    }
+
+    @Override
+    public Object excelReadBySheet(InputStream inputStream, String sheetName, String fileExtension) {
+        if (!DocConstants.checkExcelFileType(fileExtension)) {
+            return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
+        }
+        try {
+            if (StringUtils.isEmpty(sheetName)) {
+                return excelDoc.readByEasyExcel(inputStream, QuotaExcelData.class);
+            } else {
+                return excelDoc.readByEasyExcel(inputStream, sheetName, QuotaExcelData.class);
+            }
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+            return e.getMessage();
         }
     }
 }

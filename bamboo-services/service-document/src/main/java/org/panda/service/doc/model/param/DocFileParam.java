@@ -14,4 +14,8 @@ public class DocFileParam extends DocModel {
      * 文件base64
      */
     private String fileBase64;
+    /**
+     * 文件标签
+     */
+    private String tags;
 }

@@ -17,6 +17,7 @@ public class DocConstants {
     }
 
     public static final String EXCEL = "EXCEL";
+    public static final String EASY_EXCEL = "EASY_EXCEL";
     public static final String WORD = "WORD";
     public static final String PPT = "PPT";
     public static final String PDF = "PDF";
@@ -52,4 +53,13 @@ public class DocConstants {
         return docFileExtensions.contains(type.toLowerCase());
     }
 
+    public static boolean checkExcelFileType(String type) {
+        List<String> docFileExtensions = new ArrayList<>();
+        docFileExtensions.add(EXCEL_XLS);
+        docFileExtensions.add(EXCEL_XLSX);
+        if (StringUtils.isBlank(type)) {
+            return false;
+        }
+        return docFileExtensions.contains(type.toLowerCase());
+    }
 }

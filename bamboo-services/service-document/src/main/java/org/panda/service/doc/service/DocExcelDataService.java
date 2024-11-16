@@ -1,6 +1,5 @@
 package org.panda.service.doc.service;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,5 +9,5 @@ import java.util.Map;
  **/
 public interface DocExcelDataService {
 
-    void saveExcelDataAsync(Long docId, Map<String, List<Map<Integer, String>>> contentMap);
+    void saveExcelDataAsync(Long docId, Map<String, Object> contentMap);
 }

@@ -150,4 +150,14 @@ public class ExcelDoc implements Excel {
     public Map<String, List<Map<Integer, String>>> readByEasyExcel(InputStream inputStream) {
         return easyExcelHelper.read(inputStream);
     }
+
+    @Override
+    public <T> Map<String, List<T>> readByEasyExcel(InputStream inputStream, Class<T> dataClass) {
+        return easyExcelHelper.read(inputStream, dataClass);
+    }
+
+    @Override
+    public <T> List<T> readByEasyExcel(InputStream inputStream, String sheetName, Class<T> dataClass) {
+        return easyExcelHelper.read(inputStream, sheetName, dataClass);
+    }
 }

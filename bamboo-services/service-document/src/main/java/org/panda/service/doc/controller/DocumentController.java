@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "文件数据服务")
+@Api(tags = "文档文件数据服务")
 @RestController
 @RequestMapping(value = "/file/data")
 public class DocumentController {

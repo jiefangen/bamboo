@@ -21,17 +21,17 @@ CREATE TABLE `doc_file` (
                         `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                          PRIMARY KEY (`id`) USING BTREE,
                          KEY `IDX_FILE_MD5` (`file_md5`)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档文件表' ROW_FORMAT=Compact;
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档文件' ROW_FORMAT=Compact;
 
 
 DROP TABLE IF EXISTS `doc_excel_data`;
 CREATE TABLE `doc_excel_data` (
                         `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                        `doc_id` int(11) NOT NULL COMMENT '文档文件ID',
+                        `doc_id` BIGINT unsigned NOT NULL COMMENT '文档文件ID',
                         `sheet_name` VARCHAR(300) NOT NULL COMMENT '工作表名称',
                         `row_index` INT(11) NOT NULL COMMENT '单元格行索引',
                         `column_index` INT(11) NOT NULL COMMENT '单元格列索引',
-                        `cell_value` VARCHAR(3000) NOT NULL COMMENT '单元格值',
+                        `cell_value` VARCHAR(1000) COMMENT '单元格值',
                          PRIMARY KEY (`id`) USING BTREE,
                          KEY `IDX_DOC_ID` (`doc_id`)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档EXCEL数据' ROW_FORMAT=Compact;

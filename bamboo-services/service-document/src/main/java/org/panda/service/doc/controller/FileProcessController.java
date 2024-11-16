@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Base64;
 
-@Api(tags = "文档文件处理")
+@Api(tags = "通用文档文件处理")
 @RestController
 @RequestMapping(value = "/file/process")
 public class FileProcessController {
