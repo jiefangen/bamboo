@@ -2,6 +2,7 @@ package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.service.doc.common.utils.DocumentUtils;
+import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,12 @@ public class ExcelProcessController {
                                       @RequestParam(required = false) String sheetName) throws IOException {
         String filename = excelFile.getOriginalFilename();
         String fileExtension = DocumentUtils.getExtension(filename);
-        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), sheetName, fileExtension);
+        // 文件基础信息组装
+        DocFileParam docFileParam = new DocFileParam();
+        docFileParam.setFilename(filename);
+        docFileParam.setFileType(fileExtension);
+        docFileParam.setFileSize(excelFile.getSize());
+        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, sheetName);
         if (result instanceof String) {
             return RestfulResult.failure((String) result);
         } else {

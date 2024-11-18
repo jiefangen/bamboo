@@ -1,6 +1,6 @@
 package org.panda.service.doc.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.service.doc.common.DocConstants;
@@ -12,8 +12,9 @@ import org.panda.service.doc.core.domain.factory.excel.Excel;
 import org.panda.service.doc.core.domain.factory.pdf.Pdf;
 import org.panda.service.doc.core.domain.factory.ppt.Ppt;
 import org.panda.service.doc.core.domain.factory.word.Word;
-import org.panda.service.doc.model.excel.QuotaExcelData;
 import org.panda.service.doc.model.entity.DocFile;
+import org.panda.service.doc.model.excel.QuotaExcelData;
+import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.repository.DocFileRepo;
 import org.panda.service.doc.service.DocExcelDataService;
 import org.panda.service.doc.service.FileProcessService;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -125,20 +127,49 @@ public class FileProcessServiceImpl implements FileProcessService {
         }
     }
 
+    private boolean fileMd5Verify(DocFile docFile, boolean md5Verify) {
+        if (md5Verify) { // 文件上传MD5验证
+            Md5Encryptor encryptor = new Md5Encryptor();
+            String fileMd5 = encryptor.encrypt(docFile);
+            docFile.setFileMd5(fileMd5);
+            Example<DocFile> example = Example.of(docFile);
+            return docFileRepo.count(example) > 0;
+        }
+        return false;
+    }
+
     @Override
-    public Object excelReadBySheet(InputStream inputStream, String sheetName, String fileExtension) {
-        if (!DocConstants.checkExcelFileType(fileExtension)) {
+    public Object excelReadBySheet(InputStream inputStream, DocFileParam docFileParam, String sheetName) {
+        if (!DocConstants.checkExcelFileType(docFileParam.getFileType())) {
             return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
+
+        // 文件MD5验证
+        DocFile docFile = new DocFile();
+        docFile.setFilename(docFileParam.getFilename());
+        docFile.setFileType(docFileParam.getFileType());
+        docFile.setFileSize(docFileParam.getFileSize());
+        if (fileMd5Verify(docFile,true)) {
+            return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
+        }
+
+        // 设定Excel解析数据模型
+        Class<QuotaExcelData> dataClass = QuotaExcelData.class;
         try {
-            if (StringUtils.isEmpty(sheetName)) {
-                return excelDoc.readByEasyExcel(inputStream, QuotaExcelData.class);
-            } else {
-                return excelDoc.readByEasyExcel(inputStream, sheetName, QuotaExcelData.class);
-            }
+            Map<String, List<QuotaExcelData>> contentRes = excelDoc.readByEasyExcel(inputStream, sheetName, dataClass);
+            // 文档文件数据保存入库
+            docFile.setContent(JsonUtil.toJson(contentRes));
+            docFile.setCategory(DocConstants.EASY_EXCEL);
+            docFile.setTags(docFileParam.getTags());
+            this.save(docFile);
+            return contentRes;
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
             return e.getMessage();
+        } finally {
+            if (inputStream != null) {
+                IOUtils.closeQuietly(inputStream);
+            }
         }
     }
 }

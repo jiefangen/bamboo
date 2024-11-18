@@ -1,5 +1,6 @@
 package org.panda.service.doc.core.domain.factory.excel;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,12 +154,17 @@ public class ExcelDoc implements Excel {
     }
 
     @Override
-    public <T> Map<String, List<T>> readByEasyExcel(InputStream inputStream, Class<T> dataClass) {
-        return easyExcelHelper.read(inputStream, dataClass);
-    }
-
-    @Override
-    public <T> List<T> readByEasyExcel(InputStream inputStream, String sheetName, Class<T> dataClass) {
-        return easyExcelHelper.read(inputStream, sheetName, dataClass);
+    public <T> Map<String, List<T>> readByEasyExcel(InputStream inputStream, String sheetName, Class<T> dataClass) {
+        if (StringUtils.isEmpty(sheetName)) {
+            return easyExcelHelper.read(inputStream, dataClass);
+        } else {
+            List<T> dataList = easyExcelHelper.read(inputStream, sheetName, dataClass);
+            if (CollectionUtils.isEmpty(dataList)) {
+                throw new BusinessException(String.format("%s sheet page parsing data is empty", sheetName));
+            }
+            Map<String, List<T>> dataMapRes = new HashMap<>(1);
+            dataMapRes.put(sheetName, dataList);
+            return dataMapRes;
+        }
     }
 }

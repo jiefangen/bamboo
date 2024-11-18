@@ -1,6 +1,7 @@
 package org.panda.service.doc.service;
 
 import org.panda.service.doc.model.entity.DocFile;
+import org.panda.service.doc.model.param.DocFileParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,5 +18,5 @@ public interface FileProcessService {
 
     void fileExport(DocFile docFile, HttpServletResponse response) throws IOException;
 
-    Object excelReadBySheet(InputStream inputStream, String sheetName, String fileExtension);
+    Object excelReadBySheet(InputStream inputStream, DocFileParam docFileParam, String sheetName);
 }

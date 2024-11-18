@@ -15,7 +15,14 @@ public interface Excel extends Document {
      */
     Map<String, List<Map<Integer, String>>> readByEasyExcel(InputStream inputStream);
 
-    <T> Map<String, List<T>> readByEasyExcel(InputStream inputStream, Class<T> dataClass);
-
-    <T> List<T> readByEasyExcel(InputStream inputStream, String sheetName, Class<T> dataClass);
+    /**
+     * 指定读取映射class
+     *
+     * @param inputStream 文件流
+     * @param sheetName Sheet名称
+     * @param dataClass 指定映射类
+     * @return 读取结果
+     * @param <T> 泛型
+     */
+    <T> Map<String, List<T>> readByEasyExcel(InputStream inputStream, String sheetName, Class<T> dataClass);
 }
