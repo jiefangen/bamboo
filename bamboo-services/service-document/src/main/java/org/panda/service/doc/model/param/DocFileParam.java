@@ -18,4 +18,9 @@ public class DocFileParam extends DocModel {
      * 文件标签
      */
     private String tags;
+
+    /**
+     * Sheet页名称
+     */
+    private String sheetName;
 }

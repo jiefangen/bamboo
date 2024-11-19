@@ -32,6 +32,9 @@ public class DocConstants {
 
     public static final String DEFAULT_SHEET_NAME = "Sheet1";
 
+    public static final String EXCEL_QUOTA_TAGS = "excelQuota";
+    public static final String FILE_DOCUMENT_TAGS = "document";
+
     /**
      * 检查文档文件类型
      *

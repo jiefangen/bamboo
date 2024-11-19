@@ -14,9 +14,9 @@ import java.io.InputStream;
  **/
 public interface FileProcessService {
 
-    Object importFle(DocFile docFile, InputStream inputStream, boolean md5Verify);
+    Object importFile(DocFileParam docFileParam, InputStream inputStream, boolean md5Verify);
 
     void fileExport(DocFile docFile, HttpServletResponse response) throws IOException;
 
-    Object excelReadBySheet(InputStream inputStream, DocFileParam docFileParam, String sheetName);
+    <T> Object excelReadBySheet(InputStream inputStream, DocFileParam docFileParam, Class<T> dataClass);
 }

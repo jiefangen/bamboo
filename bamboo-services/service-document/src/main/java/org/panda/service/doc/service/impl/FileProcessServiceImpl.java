@@ -13,7 +13,6 @@ import org.panda.service.doc.core.domain.factory.pdf.Pdf;
 import org.panda.service.doc.core.domain.factory.ppt.Ppt;
 import org.panda.service.doc.core.domain.factory.word.Word;
 import org.panda.service.doc.model.entity.DocFile;
-import org.panda.service.doc.model.excel.QuotaExcelData;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.repository.DocFileRepo;
 import org.panda.service.doc.service.DocExcelDataService;
@@ -66,22 +65,21 @@ public class FileProcessServiceImpl implements FileProcessService {
     }
 
     @Override
-    public Object importFle(DocFile docFile, InputStream inputStream, boolean md5Verify) {
-        String fileType = docFile.getFileType();
+    public Object importFile(DocFileParam docFileParam, InputStream inputStream, boolean md5Verify) {
+        String fileType = docFileParam.getFileType();
         if (!DocConstants.checkFileType(fileType)) {
             return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
-        Md5Encryptor encryptor = new Md5Encryptor();
-        String fileMd5 = encryptor.encrypt(docFile);
-        if (md5Verify) { // 文件上传MD5验证
-            DocFile docFileParams = new DocFile();
-            docFileParams.setFileMd5(fileMd5);
-            Example<DocFile> example = Example.of(docFileParams);
-            if (docFileRepo.count(example) > 0) {
-                return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
-            }
+        // 文件MD5验证
+        DocFile docFile = new DocFile();
+        docFile.setFilename(docFileParam.getFilename());
+        docFile.setFileType(docFileParam.getFileType());
+        docFile.setFileSize(docFileParam.getFileSize());
+        if (fileMd5Verify(docFile, md5Verify)) {
+            return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
         }
-        docFile.setFileMd5(fileMd5);
+        docFile.setTags(docFileParam.getTags());
+
         Object content = readDocument(inputStream, docFile);
         docFile.setContent(JsonUtil.toJson(content));
         // 数据保存入库
@@ -128,10 +126,9 @@ public class FileProcessServiceImpl implements FileProcessService {
     }
 
     private boolean fileMd5Verify(DocFile docFile, boolean md5Verify) {
+        Md5Encryptor encryptor = new Md5Encryptor();
+        docFile.setFileMd5(encryptor.encrypt(docFile));
         if (md5Verify) { // 文件上传MD5验证
-            Md5Encryptor encryptor = new Md5Encryptor();
-            String fileMd5 = encryptor.encrypt(docFile);
-            docFile.setFileMd5(fileMd5);
             Example<DocFile> example = Example.of(docFile);
             return docFileRepo.count(example) > 0;
         }
@@ -139,11 +136,10 @@ public class FileProcessServiceImpl implements FileProcessService {
     }
 
     @Override
-    public Object excelReadBySheet(InputStream inputStream, DocFileParam docFileParam, String sheetName) {
+    public <T> Object excelReadBySheet(InputStream inputStream, DocFileParam docFileParam, Class<T> dataClass) {
         if (!DocConstants.checkExcelFileType(docFileParam.getFileType())) {
             return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
-
         // 文件MD5验证
         DocFile docFile = new DocFile();
         docFile.setFilename(docFileParam.getFilename());
@@ -153,10 +149,8 @@ public class FileProcessServiceImpl implements FileProcessService {
             return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
         }
 
-        // 设定Excel解析数据模型
-        Class<QuotaExcelData> dataClass = QuotaExcelData.class;
         try {
-            Map<String, List<QuotaExcelData>> contentRes = excelDoc.readByEasyExcel(inputStream, sheetName, dataClass);
+            Map<String, List<T>> contentRes = excelDoc.readByEasyExcel(inputStream, docFileParam.getSheetName(), dataClass);
             // 文档文件数据保存入库
             docFile.setContent(JsonUtil.toJson(contentRes));
             docFile.setCategory(DocConstants.EASY_EXCEL);
