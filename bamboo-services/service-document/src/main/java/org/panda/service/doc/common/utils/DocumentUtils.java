@@ -1,7 +1,5 @@
 package org.panda.service.doc.common.utils;
 
-import org.apache.commons.io.FilenameUtils;
-import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.constant.file.FileExtensions;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.io.IOUtil;
@@ -52,16 +50,4 @@ public class DocumentUtils {
     public static String getError(String key) {
         return ERROR.getProperty(key);
     }
-
-    public static String standardizeExtension(String extension) {
-        if (extension.startsWith(Strings.DOT)) {
-            extension = extension.substring(1);
-        }
-        return extension.toLowerCase();
-    }
-
-    public static String getExtension(String filename) {
-        return FilenameUtils.getExtension(filename);
-    }
-
 }

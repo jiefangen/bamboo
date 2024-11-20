@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ExcelIgnoreUnannotated
+@ExcelIgnoreUnannotated // 忽略没有注解的字段
 public class ExcelBasicData {
     @ExcelProperty(index = 0)
     private String idx0;

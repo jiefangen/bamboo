@@ -28,4 +28,8 @@ public class QuotaExcelData {
     private Integer displayDays;
     @ExcelProperty("备注")
     private String remark;
+
+    public String getRemark() {
+        return "0";
+    }
 }

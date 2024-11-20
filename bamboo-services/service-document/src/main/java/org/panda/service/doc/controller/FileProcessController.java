@@ -2,7 +2,7 @@ package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.service.doc.common.DocConstants;
-import org.panda.service.doc.common.utils.DocumentUtils;
+import org.panda.service.doc.common.utils.DocFileUtils;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.service.FileProcessService;
@@ -28,7 +28,7 @@ public class FileProcessController {
     @PostMapping(value = "/upload/read", consumes = "multipart/form-data")
     public RestfulResult<?> uploadRead(@RequestPart("file") MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
-        String fileExtension = DocumentUtils.getExtension(filename);
+        String fileExtension = DocFileUtils.getExtension(filename);
         InputStream inputStream = file.getInputStream();
         DocFileParam docFileParam = new DocFileParam();
         docFileParam.setFilename(filename);
@@ -44,8 +44,8 @@ public class FileProcessController {
         }
     }
 
-    @PostMapping(value = "/read")
-    public RestfulResult<?> fileRead(@RequestBody DocFileParam docFileParam) {
+    @PostMapping(value = "/import")
+    public RestfulResult<?> fileImport(@RequestBody DocFileParam docFileParam) {
         byte[] decodedBytes = Base64.getDecoder().decode(docFileParam.getFileBase64());
         InputStream inputStream = new ByteArrayInputStream(decodedBytes);
         docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
@@ -59,9 +59,7 @@ public class FileProcessController {
     }
 
     @GetMapping("/export")
-    public void export(@RequestParam Long fileId, HttpServletResponse response) throws IOException {
-        DocFile docFile = new DocFile();
-        docFile.setId(fileId);
-        fileProcessService.fileExport(docFile, response);
+    public void fileExport(@RequestParam Long fileId, HttpServletResponse response) throws IOException {
+        fileProcessService.fileExport(fileId, response);
     }
 }

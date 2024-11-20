@@ -20,6 +20,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.clazz.BeanUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.service.doc.common.DocExceptionCodes;
+import org.panda.service.doc.common.utils.DocFileUtils;
 import org.panda.service.doc.common.utils.DocumentUtils;
 import org.panda.service.doc.core.domain.document.DocOutline;
 import org.panda.tech.core.exception.business.BusinessException;
@@ -46,7 +47,7 @@ public class PptDocHelper {
 	private String defaultFontFamily = "SimSun"; // 默认字体：宋体，改动时需为中文字体
 
 	public PptDocHelper(InputStream in, String extension) {
-		extension = DocumentUtils.standardizeExtension(extension);
+		extension = DocFileUtils.standardizeExtension(extension);
 		try {
 			if (FileExtensions.PPT.equals(extension)) {
 				this.origin = new HSLFSlideShow(in);
