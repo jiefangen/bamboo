@@ -1,9 +1,8 @@
 package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
-import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.utils.DocFileUtils;
-import org.panda.service.doc.model.excel.QuotaExcelData;
+import org.panda.service.doc.model.excel.ExcelDataEnum;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -19,6 +18,9 @@ import java.io.IOException;
 @RequestMapping(value = "/excel/process")
 public class ExcelProcessController {
 
+    // 设定额度数据模型枚举
+    private final ExcelDataEnum quotaDataEnum = ExcelDataEnum.QUOTA_DATA;
+
     @Autowired
     private FileProcessService fileProcessService;
 
@@ -32,11 +34,8 @@ public class ExcelProcessController {
         docFileParam.setFilename(filename);
         docFileParam.setFileType(fileExtension);
         docFileParam.setFileSize(excelFile.getSize());
-        docFileParam.setTags(DocConstants.EXCEL_QUOTA_TAGS);
         docFileParam.setSheetName(sheetName);
-        // 设定Excel解析数据模型
-        Class<QuotaExcelData> dataClass = QuotaExcelData.class;
-        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, dataClass, false);
+        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, quotaDataEnum, false);
         if (result instanceof String) {
             return RestfulResult.failure((String) result);
         } else {
@@ -46,8 +45,6 @@ public class ExcelProcessController {
 
     @GetMapping("/export/quota/{fileId}")
     public void exportQuota(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
-        // 设定Excel解析数据模型
-        Class<QuotaExcelData> dataClass = QuotaExcelData.class;
-        fileProcessService.excelExport(response, fileId, dataClass, DocConstants.EXCEL_QUOTA_TAGS);
+        fileProcessService.excelExport(response, fileId, quotaDataEnum);
     }
 }

@@ -1,5 +1,6 @@
 package org.panda.service.doc.service;
 
+import org.panda.service.doc.model.excel.ExcelDataEnum;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 
@@ -18,7 +19,7 @@ public interface FileProcessService {
 
     void fileExport(Long fileId, HttpServletResponse response) throws IOException;
 
-    <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, Class<T> dataClass, boolean docVerify);
+    <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, ExcelDataEnum dataEnum, boolean docVerify);
 
-    <T> void excelExport(HttpServletResponse response, Long fileId, Class<T> dataClass, String tags) throws IOException;
+    <T> void excelExport(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException;
 }

@@ -15,6 +15,7 @@ import org.panda.service.doc.core.domain.factory.pdf.Pdf;
 import org.panda.service.doc.core.domain.factory.ppt.Ppt;
 import org.panda.service.doc.core.domain.factory.word.Word;
 import org.panda.service.doc.model.entity.DocFile;
+import org.panda.service.doc.model.excel.ExcelDataEnum;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 import org.panda.service.doc.repository.DocFileRepo;
@@ -31,7 +32,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class FileProcessServiceImpl implements FileProcessService {
@@ -139,8 +143,10 @@ public class FileProcessServiceImpl implements FileProcessService {
         return false;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, Class<T> dataClass, boolean docVerify) {
+    public <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, ExcelDataEnum dataEnum,
+                                       boolean docVerify) {
         if (!DocConstants.checkExcelFileType(docFileParam.getFileType())) {
             return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
@@ -153,11 +159,12 @@ public class FileProcessServiceImpl implements FileProcessService {
             return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
         }
         try {
+            Class<T> dataClass = (Class<T>) dataEnum.getClazz();
             Map<String, List<T>> contentRes = excelDoc.readByEasyExcel(inputStream, docFileParam.getSheetName(), dataClass);
             // 文档文件数据保存入库
             docFile.setContent(JsonUtil.toJson(contentRes));
             docFile.setCategory(DocConstants.EASY_EXCEL);
-            docFile.setTags(docFileParam.getTags());
+            docFile.setTags(dataEnum.getTags());
             DocFile docFileRes = this.save(docFile);
             return docFileRes.getId();
         } catch (Exception e) {
@@ -170,11 +177,13 @@ public class FileProcessServiceImpl implements FileProcessService {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public <T> void excelExport(HttpServletResponse response, Long fileId, Class<T> dataClass, String tags) throws IOException {
+    public <T> void excelExport(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException {
         Optional<DocFile> docFileOptional = docFileRepo.findById(fileId);
         if (docFileOptional.isPresent()) {
             DocFile docFile = docFileOptional.get();
+            String tags = dataEnum.getTags();
             tags = tags == null ? Strings.EMPTY : tags;
             if (!docFile.getAccessibility() || !tags.equals(docFile.getTags())) {
                 WebHttpUtil.buildJsonResponse(response, DocumentUtils.getError(DocExceptionCodes.CAN_NOT_LOAD));
@@ -184,6 +193,7 @@ public class FileProcessServiceImpl implements FileProcessService {
             String content = docFile.getContent();
             Map<String, List<T>> dataMap = new LinkedHashMap<>();
             Map<String, Object> contentMap = JsonUtil.json2Map(content);
+            Class<T> dataClass = (Class<T>) dataEnum.getClazz();
             if (!contentMap.isEmpty()) {
                 for (Map.Entry<String, Object> entry : contentMap.entrySet()) {
                     String valueJson = JsonUtil.toJson(entry.getValue());
