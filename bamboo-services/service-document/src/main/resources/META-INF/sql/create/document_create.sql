@@ -35,3 +35,11 @@ CREATE TABLE `doc_excel_data` (
                          PRIMARY KEY (`id`) USING BTREE,
                          KEY `IDX_DOC_ID` (`doc_id`)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档EXCEL数据' ROW_FORMAT=Compact;
+
+
+DROP TABLE IF EXISTS `doc_file_data`;
+CREATE TABLE `doc_file_data` (
+                              `id` BIGINT unsigned AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                              `doc_id` BIGINT unsigned NOT NULL COMMENT '文档文件ID',
+                              KEY `IDX_DOC_ID` (`doc_id`)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档文件存储' ROW_FORMAT=Compact;

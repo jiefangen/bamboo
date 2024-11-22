@@ -31,9 +31,4 @@ public class PdfDoc implements Pdf {
     @Override
     public void create(OutputStream outputStream, DocModel docModel) {
     }
-
-    @Override
-    public void convert(InputStream inputStream, OutputStream outputStream, String extension) {
-    }
-
 }

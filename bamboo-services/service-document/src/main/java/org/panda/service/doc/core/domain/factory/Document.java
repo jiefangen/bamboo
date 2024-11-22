@@ -23,13 +23,4 @@ public interface Document {
      * @param docModel 文档源数据
      */
     void create(OutputStream outputStream, DocModel docModel);
-
-    /**
-     * 文档转换
-     *
-     * @param inputStream 文件资源输入流
-     * @param outputStream 输出响应流
-     * @param extension 文件后缀
-     */
-    void convert(InputStream inputStream, OutputStream outputStream, String extension);
 }

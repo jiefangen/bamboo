@@ -42,7 +42,7 @@ public class WordDoc implements Word {
     }
 
     @Override
-    public void convert(InputStream inputStream, OutputStream outputStream, String extension) {
+    public void convertToHtml(InputStream inputStream, OutputStream outputStream, String extension) {
         try {
             if (DocConstants.WORD_DOC.equalsIgnoreCase(extension)) {
                 WordDocxHelper wordDocxHelper = new WordDocxHelper(inputStream);
@@ -59,5 +59,4 @@ public class WordDoc implements Word {
             IOUtils.closeQuietly(inputStream);
         }
     }
-
 }
