@@ -19,7 +19,7 @@ import org.panda.service.doc.model.excel.ExcelDataEnum;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 import org.panda.service.doc.repository.DocFileRepo;
-import org.panda.service.doc.service.DocExcelDataService;
+import org.panda.service.doc.service.DocFileStorageService;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.crypto.md5.Md5Encryptor;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -46,7 +46,7 @@ public class FileProcessServiceImpl implements FileProcessService {
     private final Pdf pdfDoc = DocumentFactoryProducer.getPdfDoc();
 
     @Autowired
-    private DocExcelDataService docExcelDataService;
+    private DocFileStorageService fileStorageService;
     @Autowired
     private DocFileRepo docFileRepo;
 
@@ -70,6 +70,7 @@ public class FileProcessServiceImpl implements FileProcessService {
         return new Object();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Object importFile(DocFileParam docFileParam, InputStream inputStream, boolean docVerify) {
         String fileType = docFileParam.getFileType();
@@ -90,10 +91,13 @@ public class FileProcessServiceImpl implements FileProcessService {
         docFile.setContent(JsonUtil.toJson(content));
         // 数据保存入库
         DocFile docFileRes = save(docFile);
+        Long docFileId = docFileRes.getId();
         if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
             // 异步保存到EXCEL数据表
-            docExcelDataService.saveExcelDataAsync(docFileRes.getId(), (Map<String, Object>)content);
+            fileStorageService.saveExcelDataAsync(docFileId, (Map<String, Object>)content);
         }
+        // 异步保存原文件资源
+        fileStorageService.saveFileAsync(docFileId, docFileParam.getFileBytes());
         return docFileRes;
     }
 
@@ -166,6 +170,8 @@ public class FileProcessServiceImpl implements FileProcessService {
             docFile.setCategory(DocConstants.EASY_EXCEL);
             docFile.setTags(dataEnum.getTags());
             DocFile docFileRes = this.save(docFile);
+            // 异步保存原文件资源
+            fileStorageService.saveFileAsync(docFileRes.getId(), docFileParam.getFileBytes());
             return docFileRes.getId();
         } catch (Exception e) {
             LogUtil.error(getClass(), e);

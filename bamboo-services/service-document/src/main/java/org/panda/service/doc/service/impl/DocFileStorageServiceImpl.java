@@ -3,8 +3,10 @@ package org.panda.service.doc.service.impl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.service.doc.model.entity.DocExcelData;
+import org.panda.service.doc.model.entity.DocFileStorage;
 import org.panda.service.doc.repository.DocExcelDataRepo;
-import org.panda.service.doc.service.DocExcelDataService;
+import org.panda.service.doc.repository.DocFileStorageRepo;
+import org.panda.service.doc.service.DocFileStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,23 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class DocExcelDataServiceImpl implements DocExcelDataService {
+public class DocFileStorageServiceImpl implements DocFileStorageService {
 
     @Autowired
     private DocExcelDataRepo docExcelDataRepo;
+    @Autowired
+    private DocFileStorageRepo docFileStorageRepo;
+
+    private void buildExcelData(List<DocExcelData> excelDataList, String cellValue, Long docId, String sheetName,
+                                int rowIndex, int columnIndex) {
+        DocExcelData excelData = new DocExcelData();
+        excelData.setDocFileId(docId);
+        excelData.setSheetName(sheetName);
+        excelData.setRowIndex(rowIndex);
+        excelData.setColumnIndex(columnIndex);
+        excelData.setCellValue(cellValue);
+        excelDataList.add(excelData);
+    }
 
     @Async
     @Override
@@ -53,17 +68,21 @@ public class DocExcelDataServiceImpl implements DocExcelDataService {
                 }
             }
         }
-        LogUtil.info(getClass(), "Storing Excel data completed, docId is {}", docId);
+        LogUtil.info(getClass(), "Storing Excel data completed, docFileId is {}", docId);
     }
 
-    private void buildExcelData(List<DocExcelData> excelDataList, String cellValue, Long docId, String sheetName,
-                                int rowIndex, int columnIndex) {
-        DocExcelData excelData = new DocExcelData();
-        excelData.setDocId(docId);
-        excelData.setSheetName(sheetName);
-        excelData.setRowIndex(rowIndex);
-        excelData.setColumnIndex(columnIndex);
-        excelData.setCellValue(cellValue);
-        excelDataList.add(excelData);
+    @Async
+    @Override
+    public void saveFileAsync(Long docFileId, byte[] fileBytes) {
+        DocFileStorage fileStorage = new DocFileStorage();
+        if (fileBytes == null || fileBytes.length < 1) {
+            fileStorage.setStatus(0);
+        } else {
+            fileStorage.setStatus(1);
+        }
+        fileStorage.setDocFileId(docFileId);
+        fileStorage.setFileBinary(fileBytes);
+        docFileStorageRepo.save(fileStorage);
+        LogUtil.info(getClass(), "Storing File completed, docFileId is {}", docFileId);
     }
 }

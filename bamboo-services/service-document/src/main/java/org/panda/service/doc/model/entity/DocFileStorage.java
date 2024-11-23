@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "doc_excel_data")
-public class DocExcelData extends BaseEntity {
+@Table(name = "doc_file_storage")
+public class DocFileStorage extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,27 +28,22 @@ public class DocExcelData extends BaseEntity {
     private Long docFileId;
 
     /**
-     * 工作表名称
+     * 二进制文件
      */
-    @Column(name = "sheet_name")
-    private String sheetName;
+    @Lob
+    @Column(name = "file_binary", columnDefinition = "LONGBLOB")
+    private byte[] fileBinary;
 
     /**
-     * 单元格行索引
+     * 0-异常/损坏；1-正常；2-删除；
      */
-    @Column(name = "row_index")
-    private Integer rowIndex;
+    @Column(name = "status")
+    private Integer status;
 
     /**
-     * 单元格列索引
+     * 文件存储路径
      */
-    @Column(name = "column_index")
-    private Integer columnIndex;
-
-    /**
-     * 单元格值
-     */
-    @Column(name = "cell_value")
-    private String cellValue;
+    @Column(name = "storage_path")
+    private String storagePath;
 
 }

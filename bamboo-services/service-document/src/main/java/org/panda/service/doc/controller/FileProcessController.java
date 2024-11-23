@@ -35,10 +35,11 @@ public class FileProcessController {
         docFileParam.setFileType(fileExtension);
         docFileParam.setFileSize(file.getSize());
         docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
+        docFileParam.setFileBytes(file.getBytes());
         Object result = fileProcessService.importFile(docFileParam, inputStream, false);
         if (result instanceof DocFile) {
             DocFile docFileRes = (DocFile) result;
-            return RestfulResult.success(docFileRes.getContent());
+            return RestfulResult.success(docFileRes.getId());
         } else {
             return RestfulResult.failure((String) result);
         }
@@ -49,6 +50,7 @@ public class FileProcessController {
         byte[] decodedBytes = Base64.getDecoder().decode(docFileParam.getFileBase64());
         InputStream inputStream = new ByteArrayInputStream(decodedBytes);
         docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
+        docFileParam.setFileBytes(decodedBytes);
         Object result = fileProcessService.importFile(docFileParam, inputStream, true);
         if (result instanceof DocFile) {
             DocFile docFileRes = (DocFile) result;

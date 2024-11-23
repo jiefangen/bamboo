@@ -106,17 +106,17 @@ ALTER TABLE `sys_role_menu` ADD CONSTRAINT FK_ROLE_MENU_MENU_ID_MENU FOREIGN KEY
 
 DROP TABLE IF EXISTS `sys_user_token`;
 CREATE TABLE `sys_user_token` (
-                                  `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                  `user_id` INT unsigned NOT NULL COMMENT '关联用户ID',
-                                  `identity` VARCHAR(100) COMMENT '身份标识',
-                                  `token` VARCHAR(3000) NOT NULL COMMENT '交互凭证',
-                                  `status` INT DEFAULT 1 NOT NULL COMMENT '状态：1-在线；2-离线；3-失效；4-登出',
-                                  `expired_interval` INT COMMENT '失效时间间隔（单位秒）',
-                                  `expiration_time` DATETIME COMMENT '失效时间',
-                                  `logout_time` DATETIME COMMENT '登出时间',
-                                  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建/登录时间',
-                                  `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                  PRIMARY KEY (`id`) USING BTREE
+                              `id` BIGINT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                              `user_id` INT unsigned NOT NULL COMMENT '关联用户ID',
+                              `identity` VARCHAR(100) COMMENT '身份标识',
+                              `token` VARCHAR(3000) NOT NULL COMMENT '交互凭证',
+                              `status` INT DEFAULT 1 NOT NULL COMMENT '状态：1-在线；2-离线；3-失效；4-登出',
+                              `expired_interval` INT COMMENT '失效时间间隔（单位秒）',
+                              `expiration_time` DATETIME COMMENT '失效时间',
+                              `logout_time` DATETIME COMMENT '登出时间',
+                              `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建/登录时间',
+                              `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统用户token' ROW_FORMAT=Compact;
 
 

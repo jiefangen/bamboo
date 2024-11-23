@@ -9,7 +9,7 @@ public class JpaCodeGenTest extends ApplicationTest {
 
     @Test
     void jpaEntityGen() {
-        jpaCodeGenerator.docEntityGenerator("doc_excel_data");
+        jpaCodeGenerator.docEntityGenerator("doc_file_storage");
     }
 
     @Test

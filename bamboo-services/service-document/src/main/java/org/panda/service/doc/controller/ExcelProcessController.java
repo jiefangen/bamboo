@@ -35,6 +35,7 @@ public class ExcelProcessController {
         docFileParam.setFileType(fileExtension);
         docFileParam.setFileSize(excelFile.getSize());
         docFileParam.setSheetName(sheetName);
+        docFileParam.setFileBytes(excelFile.getBytes());
         Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, quotaDataEnum, false);
         if (result instanceof String) {
             return RestfulResult.failure((String) result);
