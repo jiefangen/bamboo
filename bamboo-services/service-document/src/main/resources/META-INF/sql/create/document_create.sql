@@ -26,12 +26,12 @@ CREATE TABLE `doc_file` (
 
 DROP TABLE IF EXISTS `doc_file_storage`;
 CREATE TABLE `doc_file_storage` (
-                             `id` BIGINT unsigned AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
-                             `doc_file_id` BIGINT unsigned NOT NULL COMMENT '文档文件ID',
-                             `file_binary` LONGBLOB NOT NULL COMMENT '二进制文件', /* TINYBLOB(255B)；BLOB(64KB)；MEDIUMBLOB(16MB)；LONGBLOB(4GB) */
-                             `status` INT DEFAULT 1 NOT NULL COMMENT '0-异常/损坏；1-正常；2-删除；',
-                             `storage_path` VARCHAR(500) COMMENT '文件存储路径',
-                             UNIQUE KEY `UQ_DOC_FILE_ID` (`doc_file_id`)
+                                    `id` BIGINT unsigned AUTO_INCREMENT PRIMARY KEY COMMENT '主键ID',
+                                    `doc_file_id` BIGINT unsigned NOT NULL COMMENT '文档文件ID',
+                                    `file_binary` LONGBLOB NOT NULL COMMENT '二进制文件', /* TINYBLOB(255B)；BLOB(64KB)；MEDIUMBLOB(16MB)；LONGBLOB(4GB) */
+                                    `status` INT DEFAULT 1 NOT NULL COMMENT '0-异常/损坏；1-正常；2-删除；',
+                                    `storage_location` VARCHAR(500) DEFAULT 'db' COMMENT '文件存储位置：db-数据库；其他-第三方链接',
+                                    UNIQUE KEY `UQ_DOC_FILE_ID` (`doc_file_id`)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文档文件存储' ROW_FORMAT=Compact;
 
 

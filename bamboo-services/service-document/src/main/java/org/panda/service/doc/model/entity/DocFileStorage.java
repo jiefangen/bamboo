@@ -41,9 +41,9 @@ public class DocFileStorage extends BaseEntity {
     private Integer status;
 
     /**
-     * 文件存储路径
+     * 文件存储位置
      */
-    @Column(name = "storage_path")
-    private String storagePath;
+    @Column(name = "storage_location")
+    private String storageLocation;
 
 }

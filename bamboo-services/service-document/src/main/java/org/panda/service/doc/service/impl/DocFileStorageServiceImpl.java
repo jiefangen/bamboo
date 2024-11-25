@@ -82,6 +82,7 @@ public class DocFileStorageServiceImpl implements DocFileStorageService {
         }
         fileStorage.setDocFileId(docFileId);
         fileStorage.setFileBinary(fileBytes);
+        fileStorage.setStorageLocation("db");
         docFileStorageRepo.save(fileStorage);
         LogUtil.info(getClass(), "Storing File completed, docFileId is {}", docFileId);
     }

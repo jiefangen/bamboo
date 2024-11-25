@@ -60,8 +60,13 @@ public class FileProcessController {
         }
     }
 
-    @GetMapping("/export")
-    public void fileExport(@RequestParam Long fileId, HttpServletResponse response) throws IOException {
+    @GetMapping("/export/{fileId}")
+    public void fileExport(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
         fileProcessService.fileExport(fileId, response);
+    }
+
+    @GetMapping("/create/{fileId}")
+    public void createFile(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
+        fileProcessService.createFile(fileId, response);
     }
 }

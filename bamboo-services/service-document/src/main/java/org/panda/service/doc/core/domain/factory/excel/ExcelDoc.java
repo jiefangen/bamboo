@@ -13,7 +13,6 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.DocExceptionCodes;
 import org.panda.service.doc.common.utils.DocumentUtils;
-import org.panda.service.doc.core.domain.document.DocModel;
 import org.panda.service.doc.core.domain.factory.excel.easyexcel.EasyExcelHelper;
 import org.panda.service.doc.core.domain.factory.excel.helper.ExcelDocHelper;
 import org.panda.service.doc.core.domain.factory.excel.helper.ExcelDocxHelper;
@@ -114,10 +113,9 @@ public class ExcelDoc implements Excel {
     }
 
     @Override
-    public void create(OutputStream outputStream, DocModel docModel) {
+    public void create(OutputStream outputStream, String content) {
         try {
             Workbook workbook = WorkbookFactory.create(true);
-            String content = docModel.getContent();
             if (StringUtils.isNotBlank(content)) {
                 Map<String, Object> contentMap = JsonUtil.json2Map(content);
                 for (Map.Entry<String, Object> entry : contentMap.entrySet()) {

@@ -2,7 +2,6 @@ package org.panda.service.doc.core.domain.factory.ppt;
 
 import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.service.doc.core.domain.document.DocModel;
 import org.panda.service.doc.core.domain.factory.ppt.helper.PptDocHelper;
 
 import java.io.InputStream;
@@ -29,6 +28,6 @@ public class PptDoc implements Ppt {
     }
 
     @Override
-    public void create(OutputStream outputStream, DocModel docModel) {
+    public void create(OutputStream outputStream, String content) {
     }
 }

@@ -19,6 +19,8 @@ public interface FileProcessService {
 
     void fileExport(Long fileId, HttpServletResponse response) throws IOException;
 
+    void createFile(Long fileId, HttpServletResponse response) throws IOException;
+
     <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, ExcelDataEnum dataEnum, boolean docVerify);
 
     <T> void excelExport(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException;

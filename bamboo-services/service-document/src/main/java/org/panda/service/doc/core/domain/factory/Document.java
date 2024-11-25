@@ -1,7 +1,5 @@
 package org.panda.service.doc.core.domain.factory;
 
-import org.panda.service.doc.core.domain.document.DocModel;
-
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -20,7 +18,7 @@ public interface Document {
      * 文档创建生成
      *
      * @param outputStream 输出响应文件流
-     * @param docModel 文档源数据
+     * @param content 文档源数据内容
      */
-    void create(OutputStream outputStream, DocModel docModel);
+    void create(OutputStream outputStream, String content);
 }

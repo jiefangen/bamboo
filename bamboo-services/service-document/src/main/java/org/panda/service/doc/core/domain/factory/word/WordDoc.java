@@ -4,7 +4,6 @@ import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.service.doc.common.DocConstants;
-import org.panda.service.doc.core.domain.document.DocModel;
 import org.panda.service.doc.core.domain.factory.word.helper.WordDocHelper;
 import org.panda.service.doc.core.domain.factory.word.helper.WordDocxHelper;
 
@@ -38,7 +37,7 @@ public class WordDoc implements Word {
     }
 
     @Override
-    public void create(OutputStream outputStream, DocModel docModel) {
+    public void create(OutputStream outputStream, String content) {
     }
 
     @Override

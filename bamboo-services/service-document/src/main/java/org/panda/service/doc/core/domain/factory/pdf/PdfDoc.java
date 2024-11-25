@@ -2,7 +2,6 @@ package org.panda.service.doc.core.domain.factory.pdf;
 
 import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.service.doc.core.domain.document.DocModel;
 import org.panda.service.doc.core.domain.factory.pdf.helper.PdfDocHelper;
 
 import java.io.InputStream;
@@ -29,6 +28,6 @@ public class PdfDoc implements Pdf {
     }
 
     @Override
-    public void create(OutputStream outputStream, DocModel docModel) {
+    public void create(OutputStream outputStream, String content) {
     }
 }
