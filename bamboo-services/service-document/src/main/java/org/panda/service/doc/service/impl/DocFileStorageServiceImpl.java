@@ -23,10 +23,10 @@ public class DocFileStorageServiceImpl implements DocFileStorageService {
     @Autowired
     private DocFileStorageRepo docFileStorageRepo;
 
-    private void buildExcelData(List<DocExcelData> excelDataList, String cellValue, Long docId, String sheetName,
+    private void buildExcelData(List<DocExcelData> excelDataList, String cellValue, Long fileId, String sheetName,
                                 int rowIndex, int columnIndex) {
         DocExcelData excelData = new DocExcelData();
-        excelData.setDocFileId(docId);
+        excelData.setFileId(fileId);
         excelData.setSheetName(sheetName);
         excelData.setRowIndex(rowIndex);
         excelData.setColumnIndex(columnIndex);
@@ -36,7 +36,7 @@ public class DocFileStorageServiceImpl implements DocFileStorageService {
 
     @Async
     @Override
-    public void saveExcelDataAsync(Long docId, Map<String, Object> contentMap) {
+    public void saveExcelDataAsync(Long fileId, Map<String, Object> contentMap) {
         if (!contentMap.isEmpty()) {
             for (Map.Entry<String, Object> entry : contentMap.entrySet()) {
                 String sheetName = entry.getKey();
@@ -49,7 +49,7 @@ public class DocFileStorageServiceImpl implements DocFileStorageService {
                             Map<Integer, String> map = valueList.get(i);
                             if (!map.isEmpty()) {
                                 for (Map.Entry<Integer, String> valueEntry : map.entrySet()) {
-                                    buildExcelData(excelDataList, valueEntry.getValue(), docId, sheetName, i,
+                                    buildExcelData(excelDataList, valueEntry.getValue(), fileId, sheetName, i,
                                             valueEntry.getKey());
                                 }
                             }
@@ -61,29 +61,29 @@ public class DocFileStorageServiceImpl implements DocFileStorageService {
                     List<DocExcelData> excelDataList = new ArrayList<>();
                     for (int i = 0; i < valueArr.length; i++) { // 遍历行
                         for (int j = 0; j < valueArr[i].length; j++) {  // 遍历列
-                            buildExcelData(excelDataList, valueArr[i][j], docId, sheetName, i, j);
+                            buildExcelData(excelDataList, valueArr[i][j], fileId, sheetName, i, j);
                         }
                     }
                     docExcelDataRepo.saveAll(excelDataList);
                 }
             }
         }
-        LogUtil.info(getClass(), "Storing Excel data completed, docFileId is {}", docId);
+        LogUtil.info(getClass(), "Storing Excel data completed, fileId is {}", fileId);
     }
 
     @Async
     @Override
-    public void saveFileAsync(Long docFileId, byte[] fileBytes) {
+    public void saveFileAsync(Long fileId, byte[] fileBytes) {
         DocFileStorage fileStorage = new DocFileStorage();
         if (fileBytes == null || fileBytes.length < 1) {
             fileStorage.setStatus(0);
         } else {
             fileStorage.setStatus(1);
         }
-        fileStorage.setDocFileId(docFileId);
+        fileStorage.setFileId(fileId);
         fileStorage.setFileBinary(fileBytes);
         fileStorage.setStorageLocation("db");
         docFileStorageRepo.save(fileStorage);
-        LogUtil.info(getClass(), "Storing File completed, docFileId is {}", docFileId);
+        LogUtil.info(getClass(), "Storing File completed, fileId is {}", fileId);
     }
 }

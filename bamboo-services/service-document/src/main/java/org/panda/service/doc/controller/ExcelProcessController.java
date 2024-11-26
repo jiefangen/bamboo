@@ -1,6 +1,7 @@
 package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.panda.service.doc.common.utils.DocFileUtils;
 import org.panda.service.doc.model.excel.ExcelDataEnum;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
@@ -19,11 +20,12 @@ import java.io.IOException;
 public class ExcelProcessController {
 
     // 设定额度数据模型枚举
-    private final ExcelDataEnum quotaDataEnum = ExcelDataEnum.QUOTA_DATA;
+    private final ExcelDataEnum dataEnum = ExcelDataEnum.QUOTA_DATA;
 
     @Autowired
     private FileProcessService fileProcessService;
 
+    @ApiOperation("Excel文件上传读取")
     @PostMapping(value = "/upload/read/quota", consumes = "multipart/form-data")
     public RestfulResult<?> uploadReadQuota(@RequestPart("excelFile") MultipartFile excelFile,
                                             @RequestParam(required = false) String sheetName) throws IOException {
@@ -36,7 +38,7 @@ public class ExcelProcessController {
         docFileParam.setFileSize(excelFile.getSize());
         docFileParam.setSheetName(sheetName);
         docFileParam.setFileBytes(excelFile.getBytes());
-        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, quotaDataEnum, false);
+        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, dataEnum, false);
         if (result instanceof String) {
             return RestfulResult.failure((String) result);
         } else {
@@ -44,8 +46,9 @@ public class ExcelProcessController {
         }
     }
 
+    @ApiOperation("Excel文件导出")
     @GetMapping("/export/quota/{fileId}")
     public void exportQuota(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
-        fileProcessService.excelExport(response, fileId, quotaDataEnum);
+        fileProcessService.excelExport(response, fileId, dataEnum);
     }
 }

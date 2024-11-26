@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assumptions.assumeTrue;
  * 标准单元测试用例
  */
 public class StandardTest {
-    private Logger logger = LogUtil.getLogger(getClass());
+    // 日志组件
+    private final Logger logger = LogUtil.getLogger(getClass());
 
     @BeforeAll
     static void initAll() {

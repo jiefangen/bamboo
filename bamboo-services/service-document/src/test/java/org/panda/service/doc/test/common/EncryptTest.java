@@ -1,4 +1,4 @@
-package org.panda.service.doc.test.crypto;
+package org.panda.service.doc.test.common;
 
 import org.junit.jupiter.api.Test;
 import org.panda.tech.core.crypto.aes.AesEncryptor;

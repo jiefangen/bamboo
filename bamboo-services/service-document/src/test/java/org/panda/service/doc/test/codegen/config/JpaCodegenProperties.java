@@ -1,4 +1,4 @@
-package org.panda.service.doc.test.config;
+package org.panda.service.doc.test.codegen.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

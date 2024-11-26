@@ -24,8 +24,8 @@ public class DocExcelData extends BaseEntity {
     /**
      * 文档文件ID
      */
-    @Column(name = "doc_file_id")
-    private Long docFileId;
+    @Column(name = "file_id")
+    private Long fileId;
 
     /**
      * 工作表名称

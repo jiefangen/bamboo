@@ -2,7 +2,7 @@ package org.panda.service.doc.test.codegen;
 
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.core.context.SpringContextHolder;
-import org.panda.service.doc.test.config.JpaCodegenProperties;
+import org.panda.service.doc.test.codegen.config.JpaCodegenProperties;
 import org.panda.tech.data.jpa.codegen.JpaCodeGenConfigSupport;
 import org.panda.tech.data.jpa.codegen.JpaEntityGenerator;
 import org.panda.tech.data.jpa.codegen.JpaRepoGenerator;

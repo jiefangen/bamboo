@@ -1,6 +1,7 @@
 package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.utils.DocFileUtils;
 import org.panda.service.doc.model.entity.DocFile;
@@ -25,8 +26,9 @@ public class FileProcessController {
     @Autowired
     private FileProcessService fileProcessService;
 
-    @PostMapping(value = "/upload/read", consumes = "multipart/form-data")
-    public RestfulResult<?> uploadRead(@RequestPart("file") MultipartFile file) throws IOException {
+    @ApiOperation("文件上传存储")
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public RestfulResult<?> upload(@RequestPart("file") MultipartFile file) throws IOException {
         String filename = file.getOriginalFilename();
         String fileExtension = DocFileUtils.getExtension(filename);
         InputStream inputStream = file.getInputStream();
@@ -45,8 +47,9 @@ public class FileProcessController {
         }
     }
 
-    @PostMapping(value = "/import")
-    public RestfulResult<?> fileImport(@RequestBody DocFileParam docFileParam) {
+    @ApiOperation("文件读取存储")
+    @PostMapping(value = "/read")
+    public RestfulResult<?> fileRead(@RequestBody DocFileParam docFileParam) {
         byte[] decodedBytes = Base64.getDecoder().decode(docFileParam.getFileBase64());
         InputStream inputStream = new ByteArrayInputStream(decodedBytes);
         docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
@@ -60,11 +63,13 @@ public class FileProcessController {
         }
     }
 
+    @ApiOperation("存储原文件导出")
     @GetMapping("/export/{fileId}")
     public void fileExport(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
         fileProcessService.fileExport(fileId, response);
     }
 
+    @ApiOperation("文件创建下载")
     @GetMapping("/create/{fileId}")
     public void createFile(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
         fileProcessService.createFile(fileId, response);

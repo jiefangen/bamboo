@@ -3,6 +3,7 @@ package org.panda.service.doc.service.impl;
 import org.apache.commons.io.IOUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.date.TemporalUtil;
 import org.panda.bamboo.common.util.io.IOUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.service.doc.common.DocConstants;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -71,7 +73,7 @@ public class FileProcessServiceImpl implements FileProcessService {
             docFile.setCategory(DocConstants.PDF);
             return pdfDoc.read(inputStream, fileType);
         }
-        return new Object();
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -92,11 +94,13 @@ public class FileProcessServiceImpl implements FileProcessService {
         docFile.setTags(docFileParam.getTags());
 
         Object content = readDocument(inputStream, docFile);
-        docFile.setContent(JsonUtil.toJson(content));
+        if (content != null) {
+            docFile.setContent(JsonUtil.toJson(content));
+        }
         // 数据保存入库
         DocFile docFileRes = save(docFile);
         Long docFileId = docFileRes.getId();
-        if (DocConstants.EXCEL_XLSX.equalsIgnoreCase(fileType) || DocConstants.EXCEL_XLS.equalsIgnoreCase(fileType)) {
+        if (DocConstants.checkExcelFileType(fileType) && content != null) {
             // 异步保存到EXCEL数据表
             fileStorageService.saveExcelDataAsync(docFileId, (Map<String, Object>)content);
         }
@@ -116,14 +120,15 @@ public class FileProcessServiceImpl implements FileProcessService {
     @Override
     public void fileExport(Long fileId, HttpServletResponse response) throws IOException {
         DocFileStorage docFileStorage = new DocFileStorage();
-        docFileStorage.setDocFileId(fileId);
+        docFileStorage.setFileId(fileId);
         docFileStorage.setStatus(1);
         Example<DocFileStorage> example = Example.of(docFileStorage);
         Optional<DocFileStorage> fileStorageOptional = docFileStorageRepo.findOne(example);
         if (fileStorageOptional.isPresent()) {
             DocFileStorage fileStorage = fileStorageOptional.get();
             DocFile file = docFileRepo.findById(fileId).get();
-            String filename = DocFileUtils.appendFilename(file.getFilename(), Strings.UNDERLINE + file.getTags());
+            String filename = DocFileUtils.appendFilename(file.getFilename(),
+                    Strings.UNDERLINE + TemporalUtil.formatLongNoDelimiter(Instant.now()));
             WebHttpUtil.buildFileResponse(response, filename);
             byte[] fileBinary = fileStorage.getFileBinary();
             response.setContentLength(fileBinary.length);
@@ -228,7 +233,8 @@ public class FileProcessServiceImpl implements FileProcessService {
                     dataMap.put(entry.getKey(), dataList);
                 }
             }
-            String filename = DocFileUtils.appendFilename(docFile.getFilename(), Strings.UNDERLINE + tags);
+            String filename = DocFileUtils.appendFilename(docFile.getFilename(),
+                    Strings.UNDERLINE + TemporalUtil.formatLongNoDelimiter(Instant.now()));
             WebHttpUtil.buildFileResponse(response, filename);
             excelDoc.writeByEasyExcel(response.getOutputStream(), dataMap, dataClass);
             return;
