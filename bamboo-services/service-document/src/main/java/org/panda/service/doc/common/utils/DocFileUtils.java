@@ -2,6 +2,10 @@ package org.panda.service.doc.common.utils;
 
 import org.apache.commons.io.FilenameUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.service.doc.model.param.DocFileParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * 文档文件工具类
@@ -33,5 +37,14 @@ public class DocFileUtils {
         String baseName = originalName.substring(0, lastDotIndex);
         String extension = originalName.substring(lastDotIndex);
         return baseName + suffix + extension;
+    }
+
+    public static void transformDocFile(MultipartFile file, DocFileParam docFileParam) throws IOException {
+        String filename = file.getOriginalFilename();
+        String fileExtension = DocFileUtils.getExtension(filename);
+        docFileParam.setFilename(filename);
+        docFileParam.setFileType(fileExtension);
+        docFileParam.setFileSize(file.getSize());
+        docFileParam.setFileBytes(file.getBytes());
     }
 }

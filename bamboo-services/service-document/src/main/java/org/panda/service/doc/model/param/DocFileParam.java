@@ -18,9 +18,12 @@ public class DocFileParam extends DocModel {
      * 文件标签
      */
     private String tags;
-
     /**
      * 文件二进制
      */
     private byte[] fileBytes;
+    /**
+     * 业务属性
+     */
+    private String bizAttributes;
 }

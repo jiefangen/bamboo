@@ -2,8 +2,11 @@ package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.utils.DocFileUtils;
+import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.model.excel.ExcelDataEnum;
+import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -13,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Api(tags = "文件Excel处理")
 @RestController
@@ -50,5 +54,29 @@ public class ExcelProcessController {
     @GetMapping("/export/quota/{fileId}")
     public void exportQuota(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
         fileProcessService.excelExport(response, fileId, dataEnum);
+    }
+
+    @ApiOperation("Excel文件模版上传")
+    @PostMapping(value = "/upload/template", consumes = "multipart/form-data")
+    public RestfulResult<?> uploadExcelTemplate(@RequestPart("excelTemplate") MultipartFile excelTemplate) throws IOException {
+        DocFileParam docFileParam = new DocFileParam();
+        docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
+        docFileParam.setBizAttributes(DocConstants.BIZ_TEMPLATE);
+        DocFileUtils.transformDocFile(excelTemplate, docFileParam);
+
+        InputStream inputStream = excelTemplate.getInputStream();
+        Object result = fileProcessService.importFile(docFileParam, inputStream, true);
+        if (result instanceof DocFile) {
+            DocFile docFileRes = (DocFile) result;
+            return RestfulResult.success(docFileRes.getId());
+        } else {
+            return RestfulResult.failure((String) result);
+        }
+    }
+
+    @ApiOperation("导出填充Excel文件")
+    @GetMapping("/export/fill/{fileId}")
+    public void exportFill(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
+        fileProcessService.exportFill(response, fileId, dataEnum);
     }
 }

@@ -29,15 +29,11 @@ public class FileProcessController {
     @ApiOperation("文件上传存储")
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public RestfulResult<?> upload(@RequestPart("file") MultipartFile file) throws IOException {
-        String filename = file.getOriginalFilename();
-        String fileExtension = DocFileUtils.getExtension(filename);
-        InputStream inputStream = file.getInputStream();
         DocFileParam docFileParam = new DocFileParam();
-        docFileParam.setFilename(filename);
-        docFileParam.setFileType(fileExtension);
-        docFileParam.setFileSize(file.getSize());
         docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
-        docFileParam.setFileBytes(file.getBytes());
+        DocFileUtils.transformDocFile(file, docFileParam);
+
+        InputStream inputStream = file.getInputStream();
         Object result = fileProcessService.importFile(docFileParam, inputStream, false);
         if (result instanceof DocFile) {
             DocFile docFileRes = (DocFile) result;

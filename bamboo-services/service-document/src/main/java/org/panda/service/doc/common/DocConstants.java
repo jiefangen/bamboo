@@ -32,6 +32,10 @@ public class DocConstants {
 
     public static final String DEFAULT_SHEET_NAME = "Sheet1";
     public static final String FILE_DOCUMENT_TAGS = "document";
+    // 业务含义标识
+    public static final String BIZ_NORMAL = "normal";
+    public static final String BIZ_TEMPLATE = "template";
+
 
     /**
      * 检查文档文件类型

@@ -1,4 +1,4 @@
-package org.panda.service.doc.controller.sandbox;
+package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.service.doc.model.entity.DocFile;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(tags = "【沙箱】文档文件数据服务")
+@Api(tags = "文档文件数据服务")
 @RestController
-@RequestMapping(value = "/file/data/sandbox")
+@RequestMapping(value = "/file/data")
 public class DocumentController {
 
     @Autowired

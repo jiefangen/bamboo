@@ -24,4 +24,6 @@ public interface FileProcessService {
     <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, ExcelDataEnum dataEnum, boolean docVerify);
 
     <T> void excelExport(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException;
+
+    <T> void exportFill(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException;
 }

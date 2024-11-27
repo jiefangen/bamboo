@@ -71,6 +71,12 @@ public class DocFile extends BaseEntity {
     private String category;
 
     /**
+     * 业务属性
+     */
+    @Column(name = "biz_attributes")
+    private String bizAttributes;
+
+    /**
      * 创建时间
      */
     @Column(name = "create_time")

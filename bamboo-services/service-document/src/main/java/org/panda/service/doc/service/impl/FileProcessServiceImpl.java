@@ -1,6 +1,7 @@
 package org.panda.service.doc.service.impl;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.date.TemporalUtil;
@@ -97,8 +98,9 @@ public class FileProcessServiceImpl implements FileProcessService {
         if (content != null) {
             docFile.setContent(JsonUtil.toJson(content));
         }
+        docFile.setBizAttributes(docFileParam.getBizAttributes());
         // 数据保存入库
-        DocFile docFileRes = save(docFile);
+        DocFile docFileRes = this.save(docFile);
         Long docFileId = docFileRes.getId();
         if (DocConstants.checkExcelFileType(fileType) && content != null) {
             // 异步保存到EXCEL数据表
@@ -111,6 +113,9 @@ public class FileProcessServiceImpl implements FileProcessService {
 
     private DocFile save(DocFile docFile) {
         docFile.setAccessibility(true);
+        if (StringUtils.isEmpty(docFile.getBizAttributes())) {
+            docFile.setBizAttributes(DocConstants.BIZ_NORMAL);
+        }
         LocalDateTime currentTime = LocalDateTime.now();
         docFile.setCreateTime(currentTime);
         docFile.setUpdateTime(currentTime);
@@ -240,5 +245,10 @@ public class FileProcessServiceImpl implements FileProcessService {
             return;
         }
         WebHttpUtil.buildJsonResponse(response, RestfulResult.failure());
+    }
+
+    @Override
+    public <T> void exportFill(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException {
+
     }
 }
