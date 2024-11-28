@@ -37,4 +37,15 @@ public interface Excel extends Document {
      * @param <T> 泛型
      */
     <T> void writeByEasyExcel(OutputStream outputStream, Map<String, List<T>> dataMap, Class<T> dataClass);
+
+    /**
+     * 指定模版填充
+     *
+     * @param outputStream 输出流
+     * @param inputStream 模版资源
+     * @param dataList 数据列表变量
+     * @param map 普通变量
+     * @param <T> 泛型
+     */
+    <T> void fillByEasyExcel(OutputStream outputStream, InputStream inputStream, List<T> dataList, Map<String, Object> map);
 }

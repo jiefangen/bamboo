@@ -58,9 +58,13 @@ public class ExcelProcessController {
 
     @ApiOperation("Excel文件模版上传")
     @PostMapping(value = "/upload/template", consumes = "multipart/form-data")
-    public RestfulResult<?> uploadExcelTemplate(@RequestPart("excelTemplate") MultipartFile excelTemplate) throws IOException {
+    public RestfulResult<?> uploadExcelTemplate(@RequestPart("excelTemplate") MultipartFile excelTemplate,
+                                                @RequestParam String tags) throws IOException {
+        if (ExcelDataEnum.getExelEnumByTags(tags) == null) {
+            return RestfulResult.failure("The Excel file template tags is invalid.");
+        }
         DocFileParam docFileParam = new DocFileParam();
-        docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
+        docFileParam.setTags(tags);
         docFileParam.setBizAttributes(DocConstants.BIZ_TEMPLATE);
         DocFileUtils.transformDocFile(excelTemplate, docFileParam);
 
@@ -69,14 +73,13 @@ public class ExcelProcessController {
         if (result instanceof DocFile) {
             DocFile docFileRes = (DocFile) result;
             return RestfulResult.success(docFileRes.getId());
-        } else {
-            return RestfulResult.failure((String) result);
         }
+        return RestfulResult.failure((String) result);
     }
 
     @ApiOperation("导出填充Excel文件")
     @GetMapping("/export/fill/{fileId}")
     public void exportFill(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
-        fileProcessService.exportFill(response, fileId, dataEnum);
+        fileProcessService.exportFill(response, fileId);
     }
 }

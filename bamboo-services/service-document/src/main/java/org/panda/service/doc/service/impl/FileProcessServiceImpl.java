@@ -19,6 +19,7 @@ import org.panda.service.doc.core.domain.factory.word.Word;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.model.entity.DocFileStorage;
 import org.panda.service.doc.model.excel.ExcelDataEnum;
+import org.panda.service.doc.model.excel.SampleExcelFill;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 import org.panda.service.doc.repository.DocFileRepo;
@@ -33,14 +34,12 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class FileProcessServiceImpl implements FileProcessService {
@@ -248,7 +247,45 @@ public class FileProcessServiceImpl implements FileProcessService {
     }
 
     @Override
-    public <T> void exportFill(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException {
+    public <T> void exportFill(HttpServletResponse response, Long fileId) throws IOException {
+        Optional<DocFile> docFileOptional = docFileRepo.findById(fileId);
+        if (docFileOptional.isPresent()) {
+            DocFile docFile = docFileOptional.get();
+            ExcelDataEnum dataEnum = ExcelDataEnum.getExelEnumByTags(docFile.getTags());
+            if (!docFile.getAccessibility() || dataEnum == null) {
+                WebHttpUtil.buildJsonResponse(response, DocumentUtils.getError(DocExceptionCodes.CAN_NOT_LOAD));
+                return;
+            }
+            DocFileStorage docFileStorage = new DocFileStorage();
+            docFileStorage.setFileId(fileId);
+            docFileStorage.setStatus(1);
+            Example<DocFileStorage> example = Example.of(docFileStorage);
+            Optional<DocFileStorage> fileStorageOptional = docFileStorageRepo.findOne(example);
+            if (fileStorageOptional.isPresent()) {
+                DocFileStorage fileStorage = fileStorageOptional.get();
+                byte[] fileBinary = fileStorage.getFileBinary();
+                InputStream inputStream = new ByteArrayInputStream(fileBinary);
 
+                String filename = DocFileUtils.appendFilename(docFile.getFilename(),
+                        Strings.UNDERLINE + TemporalUtil.formatLongNoDelimiter(Instant.now()));
+                WebHttpUtil.buildFileResponse(response, filename);
+
+                // 数据组装
+                List<SampleExcelFill> dataList = new LinkedList<>();
+                for (int i = 0; i < 10; i++) {
+                    SampleExcelFill sampleExcel = new SampleExcelFill();
+                    sampleExcel.setName("张三");
+                    sampleExcel.setPhone("13255667" + i);
+                    sampleExcel.setAge(i);
+                    dataList.add(sampleExcel);
+                }
+                Map<String, Object> map = new HashMap<>();
+                map.put("date", LocalDateTime.now());
+                map.put("total", 100);
+                excelDoc.fillByEasyExcel(response.getOutputStream(), inputStream, dataList, map);
+                // 关闭文件输入流
+                IOUtils.closeQuietly(inputStream);
+            }
+        }
     }
 }

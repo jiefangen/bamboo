@@ -166,4 +166,9 @@ public class ExcelDoc implements Excel {
     public <T> void writeByEasyExcel(OutputStream outputStream, Map<String, List<T>> dataMap, Class<T> dataClass) {
         easyExcelHelper.write(outputStream, dataMap, dataClass);
     }
+
+    @Override
+    public <T> void fillByEasyExcel(OutputStream outputStream, InputStream inputStream, List<T> dataList, Map<String, Object> map) {
+        easyExcelHelper.fill(outputStream, inputStream, dataList, map);
+    }
 }

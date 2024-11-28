@@ -4,8 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 /**
  * Excel填充样例
  **/
@@ -15,5 +13,5 @@ import java.time.LocalDateTime;
 public class SampleExcelFill {
     private String name;
     private String phone;
-    private LocalDateTime date;
+    private int age;
 }

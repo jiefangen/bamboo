@@ -25,5 +25,5 @@ public interface FileProcessService {
 
     <T> void excelExport(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException;
 
-    <T> void exportFill(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException;
+    <T> void exportFill(HttpServletResponse response, Long fileId) throws IOException;
 }
