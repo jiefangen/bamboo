@@ -9,7 +9,7 @@ import com.alibaba.excel.read.listener.ReadListener;
 import com.alibaba.excel.util.ConverterUtils;
 import com.alibaba.excel.util.ListUtils;
 import com.alibaba.excel.write.metadata.WriteSheet;
-import org.apache.commons.collections4.CollectionUtils;
+import com.alibaba.excel.write.metadata.fill.FillConfig;
 import org.panda.bamboo.common.util.LogUtil;
 import org.slf4j.Logger;
 
@@ -156,14 +156,12 @@ public class EasyExcelHelper {
 	public <T> void fill(OutputStream outputStream, InputStream inputStream, List<T> dataList, Map<String, Object> map) {
 		try (ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build()) {
 			WriteSheet writeSheet = EasyExcel.writerSheet().build();
+			FillConfig fillConfig = FillConfig.builder().forceNewRow(Boolean.TRUE).build();
 			// 填充list变量（{.}代表是list的变量）
-			if (CollectionUtils.isNotEmpty(dataList)) {
-				for (int i = 0; i < dataList.size(); i++) {
-					excelWriter.fill(dataList.get(0), writeSheet);
-				}
-			}
+			excelWriter.fill(dataList, fillConfig, writeSheet);
 			// 填充普通变量（{} 代表普通变量）
 			excelWriter.fill(map, writeSheet);
+//			excelWriter.finish();
 		}
 	}
 }

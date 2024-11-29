@@ -246,6 +246,7 @@ public class FileProcessServiceImpl implements FileProcessService {
         WebHttpUtil.buildJsonResponse(response, RestfulResult.failure());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> void exportFill(HttpServletResponse response, Long fileId) throws IOException {
         Optional<DocFile> docFileOptional = docFileRepo.findById(fileId);
@@ -282,6 +283,7 @@ public class FileProcessServiceImpl implements FileProcessService {
                 Map<String, Object> map = new HashMap<>();
                 map.put("date", LocalDateTime.now());
                 map.put("total", 100);
+
                 excelDoc.fillByEasyExcel(response.getOutputStream(), inputStream, dataList, map);
                 // 关闭文件输入流
                 IOUtils.closeQuietly(inputStream);
