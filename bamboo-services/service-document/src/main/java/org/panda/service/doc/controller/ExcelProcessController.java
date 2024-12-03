@@ -6,6 +6,7 @@ import org.panda.service.doc.common.DocConstants;
 import org.panda.service.doc.common.utils.DocFileUtils;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.model.excel.ExcelDataEnum;
+import org.panda.service.doc.model.excel.SampleExcelFill;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 import org.panda.service.doc.service.FileProcessService;
@@ -17,6 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Api(tags = "文件Excel处理")
 @RestController
@@ -80,6 +86,18 @@ public class ExcelProcessController {
     @ApiOperation("导出填充Excel文件")
     @GetMapping("/export/fill/{fileId}")
     public void exportFill(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
-        fileProcessService.exportFill(response, fileId);
+        // 数据组装
+        List<SampleExcelFill> dataList = new LinkedList<>();
+        for (int i = 0; i < 9999; i++) {
+            SampleExcelFill sampleExcel = new SampleExcelFill();
+            sampleExcel.setName("izhuyuu");
+            sampleExcel.setPhone("phone:112233" + i);
+            sampleExcel.setAge(i);
+            dataList.add(sampleExcel);
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("date", LocalDateTime.now());
+        map.put("total", dataList.size());
+        fileProcessService.exportFill(response, fileId, dataList, map);
     }
 }

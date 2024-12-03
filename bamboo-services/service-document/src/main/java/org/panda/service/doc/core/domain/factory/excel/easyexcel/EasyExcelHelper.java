@@ -139,6 +139,14 @@ public class EasyExcelHelper {
 		return contentList;
 	}
 
+	/**
+	 * 通过指定数据模型写入数据
+	 *
+	 * @param outputStream 输出流
+	 * @param dataMap 数据集
+	 * @param dataClass 数据类型
+	 * @param <T> 泛型
+	 */
 	public <T> void write(OutputStream outputStream, Map<String, List<T>> dataMap, Class<T> dataClass) {
 		try (ExcelWriter excelWriter = EasyExcel.write(outputStream, dataClass).build()) {
 			if (!dataMap.isEmpty()) {
@@ -153,7 +161,16 @@ public class EasyExcelHelper {
 		}
 	}
 
-	public <T> void fill(OutputStream outputStream, InputStream inputStream, List<T> dataList, Map<String, Object> map) {
+	/**
+	 * 复杂的数据填充（兼容性，适合小批量数据）
+	 *
+	 * @param outputStream 文件输出流
+	 * @param inputStream 文件模版输入流
+	 * @param dataList list变量
+	 * @param map 普通变量集
+	 * @param <T> list变量类型
+	 */
+	public <T> void fillNormalData(OutputStream outputStream, InputStream inputStream, List<T> dataList, Map<String, Object> map) {
 		try (ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build()) {
 			WriteSheet writeSheet = EasyExcel.writerSheet().build();
 			FillConfig fillConfig = FillConfig.builder().forceNewRow(Boolean.TRUE).build();
@@ -161,7 +178,27 @@ public class EasyExcelHelper {
 			excelWriter.fill(dataList, fillConfig, writeSheet);
 			// 填充普通变量（{} 代表普通变量）
 			excelWriter.fill(map, writeSheet);
-//			excelWriter.finish();
+			excelWriter.finish();
+		}
+	}
+
+	/**
+	 * 复杂的数据填充，大数据量
+	 *
+	 * @param outputStream 文件输出流
+	 * @param inputStream 文件模版输入流
+	 * @param dataList list变量
+	 * @param map 普通变量集
+	 * @param <T> list变量类型
+	 */
+	public <T> void fillLargeData(OutputStream outputStream, InputStream inputStream, List<T> dataList, Map<String, Object> map) {
+		try (ExcelWriter excelWriter = EasyExcel.write(outputStream).withTemplate(inputStream).build()) {
+			WriteSheet writeSheet = EasyExcel.writerSheet().build();
+			// 填充list变量（{.}代表是list的变量）
+			excelWriter.fill(dataList, writeSheet);
+			// 填充普通变量（{} 代表普通变量）
+			excelWriter.fill(map, writeSheet);
+			excelWriter.finish();
 		}
 	}
 }

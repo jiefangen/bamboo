@@ -19,7 +19,6 @@ import org.panda.service.doc.core.domain.factory.word.Word;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.model.entity.DocFileStorage;
 import org.panda.service.doc.model.excel.ExcelDataEnum;
-import org.panda.service.doc.model.excel.SampleExcelFill;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.model.param.ExcelDocFileParam;
 import org.panda.service.doc.repository.DocFileRepo;
@@ -39,7 +38,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class FileProcessServiceImpl implements FileProcessService {
@@ -248,7 +250,7 @@ public class FileProcessServiceImpl implements FileProcessService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> void exportFill(HttpServletResponse response, Long fileId) throws IOException {
+    public <T> void exportFill(HttpServletResponse response, Long fileId, List<T> dataList, Map<String, Object> map) throws IOException {
         Optional<DocFile> docFileOptional = docFileRepo.findById(fileId);
         if (docFileOptional.isPresent()) {
             DocFile docFile = docFileOptional.get();
@@ -270,23 +272,7 @@ public class FileProcessServiceImpl implements FileProcessService {
                 String filename = DocFileUtils.appendFilename(docFile.getFilename(),
                         Strings.UNDERLINE + TemporalUtil.formatLongNoDelimiter(Instant.now()));
                 WebHttpUtil.buildFileResponse(response, filename);
-
-                // 数据组装
-                List<SampleExcelFill> dataList = new LinkedList<>();
-                for (int i = 0; i < 10; i++) {
-                    SampleExcelFill sampleExcel = new SampleExcelFill();
-                    sampleExcel.setName("张三");
-                    sampleExcel.setPhone("13255667" + i);
-                    sampleExcel.setAge(i);
-                    dataList.add(sampleExcel);
-                }
-                Map<String, Object> map = new HashMap<>();
-                map.put("date", LocalDateTime.now());
-                map.put("total", 100);
-
                 excelDoc.fillByEasyExcel(response.getOutputStream(), inputStream, dataList, map);
-                // 关闭文件输入流
-                IOUtils.closeQuietly(inputStream);
             }
         }
     }

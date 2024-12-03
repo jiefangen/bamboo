@@ -169,6 +169,10 @@ public class ExcelDoc implements Excel {
 
     @Override
     public <T> void fillByEasyExcel(OutputStream outputStream, InputStream inputStream, List<T> dataList, Map<String, Object> map) {
-        easyExcelHelper.fill(outputStream, inputStream, dataList, map);
+        if (dataList.size() < 10000) { // 可由具体业务指定数据量分界数量
+            easyExcelHelper.fillNormalData(outputStream, inputStream, dataList, map);
+        } else {
+            easyExcelHelper.fillLargeData(outputStream, inputStream, dataList, map);
+        }
     }
 }
