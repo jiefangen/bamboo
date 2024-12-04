@@ -29,15 +29,13 @@ import java.util.Map;
 @RequestMapping(value = "/excel/process")
 public class ExcelProcessController {
 
-    // 设定额度数据模型枚举
-    private final ExcelDataEnum dataEnum = ExcelDataEnum.QUOTA_DATA;
-
     @Autowired
     private FileProcessService fileProcessService;
 
     @ApiOperation("Excel文件上传读取")
-    @PostMapping(value = "/upload/read/quota", consumes = "multipart/form-data")
-    public RestfulResult<?> uploadReadQuota(@RequestPart("excelFile") MultipartFile excelFile,
+    @PostMapping(value = "/upload/read", consumes = "multipart/form-data")
+    public RestfulResult<?> uploadRead(@RequestPart("excelFile") MultipartFile excelFile,
+                                            @RequestParam String tags,
                                             @RequestParam(required = false) String sheetName) throws IOException {
         String filename = excelFile.getOriginalFilename();
         String fileExtension = DocFileUtils.getExtension(filename);
@@ -48,7 +46,8 @@ public class ExcelProcessController {
         docFileParam.setFileSize(excelFile.getSize());
         docFileParam.setSheetName(sheetName);
         docFileParam.setFileBytes(excelFile.getBytes());
-        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, dataEnum, false);
+        docFileParam.setTags(tags);
+        Object result = fileProcessService.excelReadBySheet(excelFile.getInputStream(), docFileParam, false);
         if (result instanceof String) {
             return RestfulResult.failure((String) result);
         } else {
@@ -57,9 +56,9 @@ public class ExcelProcessController {
     }
 
     @ApiOperation("Excel文件导出")
-    @GetMapping("/export/quota/{fileId}")
-    public void exportQuota(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
-        fileProcessService.excelExport(response, fileId, dataEnum);
+    @GetMapping("/export/{fileId}")
+    public void export(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
+        fileProcessService.excelExport(response, fileId);
     }
 
     @ApiOperation("Excel文件模版上传")
@@ -86,13 +85,14 @@ public class ExcelProcessController {
     @ApiOperation("导出填充Excel文件")
     @GetMapping("/export/fill/{fileId}")
     public void exportFill(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
-        // 数据组装
+        // 填充数据组装
         List<SampleExcelFill> dataList = new LinkedList<>();
-        for (int i = 0; i < 9999; i++) {
+        for (int i = 0; i < 10000; i++) {
             SampleExcelFill sampleExcel = new SampleExcelFill();
             sampleExcel.setName("izhuyuu");
-            sampleExcel.setPhone("phone:112233" + i);
-            sampleExcel.setAge(i);
+            sampleExcel.setPhone("phone:112233" + (i+1));
+            sampleExcel.setAge(i*10);
+            sampleExcel.setNo(i);
             dataList.add(sampleExcel);
         }
         Map<String, Object> map = new HashMap<>();

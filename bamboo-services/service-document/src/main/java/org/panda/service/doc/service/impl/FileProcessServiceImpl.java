@@ -181,8 +181,7 @@ public class FileProcessServiceImpl implements FileProcessService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, ExcelDataEnum dataEnum,
-                                       boolean docVerify) {
+    public <T> Object excelReadBySheet(InputStream inputStream, ExcelDocFileParam docFileParam, boolean docVerify) {
         if (!DocConstants.checkExcelFileType(docFileParam.getFileType())) {
             return DocumentUtils.getError(DocExceptionCodes.TYPE_NOT_SUPPORT);
         }
@@ -193,6 +192,10 @@ public class FileProcessServiceImpl implements FileProcessService {
         docFile.setFileSize(docFileParam.getFileSize());
         if (docFileVerify(docFile, docVerify)) {
             return DocumentUtils.getError(DocExceptionCodes.FILE_EXISTS);
+        }
+        ExcelDataEnum dataEnum = ExcelDataEnum.getExelEnumByTags(docFileParam.getTags());
+        if (dataEnum == null) {
+            return "The Excel file mapping tags is invalid.";
         }
         try {
             Class<T> dataClass = (Class<T>) dataEnum.getClazz();
@@ -217,16 +220,16 @@ public class FileProcessServiceImpl implements FileProcessService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> void excelExport(HttpServletResponse response, Long fileId, ExcelDataEnum dataEnum) throws IOException {
+    public <T> void excelExport(HttpServletResponse response, Long fileId) throws IOException {
         Optional<DocFile> docFileOptional = docFileRepo.findById(fileId);
         if (docFileOptional.isPresent()) {
             DocFile docFile = docFileOptional.get();
-            String tags = dataEnum.getTags();
-            tags = tags == null ? Strings.EMPTY : tags;
-            if (!docFile.getAccessibility() || !tags.equals(docFile.getTags())) {
+            ExcelDataEnum dataEnum = ExcelDataEnum.getExelEnumByTags(docFile.getTags());
+            if (!docFile.getAccessibility() || dataEnum == null) {
                 WebHttpUtil.buildJsonResponse(response, DocumentUtils.getError(DocExceptionCodes.CAN_NOT_LOAD));
                 return;
             }
+
             // 存储的json字符串转换映射对象集
             String content = docFile.getContent();
             Map<String, List<T>> dataMap = new LinkedHashMap<>();

@@ -13,4 +13,8 @@ public class ExcelDocFileParam extends DocFileParam {
      * Sheet页名称
      */
     private String sheetName;
+    /**
+     * 文件标签
+     */
+    private String tags;
 }
