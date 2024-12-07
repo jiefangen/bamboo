@@ -23,6 +23,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 public class AdminApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AdminApplication.class,args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 }

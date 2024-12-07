@@ -49,9 +49,9 @@ CREATE TABLE `auth_role` (
 
 DROP TABLE IF EXISTS `auth_role_permission`;
 CREATE TABLE `auth_role_permission` (
-                                     `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
-                                     `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
-                                     PRIMARY KEY (`role_id`, `permission_id`)
+                                 `role_id` INT unsigned NOT NULL COMMENT '角色表关联ID',
+                                 `permission_id` INT unsigned NOT NULL COMMENT '权限表关联ID',
+                                 PRIMARY KEY (`role_id`, `permission_id`)
 ) ENGINE=InnoDB CHARACTER SET=utf8 COLLATE=utf8_general_ci COMMENT='角色权限关系' ROW_FORMAT=Compact;
 
 

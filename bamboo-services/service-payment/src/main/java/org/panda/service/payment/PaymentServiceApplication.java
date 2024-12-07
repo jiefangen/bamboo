@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * 支付微服务启动项
+ * 支付服务启动项
  *
  * @author fangen
  */

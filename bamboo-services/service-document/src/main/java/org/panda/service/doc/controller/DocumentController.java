@@ -21,13 +21,13 @@ public class DocumentController {
     private DocFileService docFileService;
 
     @PostMapping(value = "/doc/page")
-    public RestfulResult<?> documentPage(@RequestBody DocFileQueryParam queryParam) {
+    public RestfulResult<QueryResult<DocFile>> documentPage(@RequestBody DocFileQueryParam queryParam) {
         QueryResult<DocFile> docFilePage = docFileService.getDocFileByPage(queryParam);
         return RestfulResult.success(docFilePage);
     }
 
     @PostMapping(value = "/getDocPage")
-    public RestfulResult<?> getDocPage(@RequestBody DocFileQueryParam queryParam) {
+    public RestfulResult<QueryResult<DocFile>> getDocPage(@RequestBody DocFileQueryParam queryParam) {
         QueryResult<DocFile> docFilePage = docFileService.getDocument(queryParam);
         return RestfulResult.success(docFilePage);
     }

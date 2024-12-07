@@ -17,5 +17,4 @@ public class AuthServerLogoutHandlerImpl implements AuthServerLogoutHandler {
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         LogUtil.warn(getClass(), "AuthServerLogoutHandler...");
     }
-
 }

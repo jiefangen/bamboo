@@ -1,4 +1,4 @@
-package org.panda.service.doc.controller.home;
+package org.panda.service.doc.controller;
 
 import io.swagger.annotations.Api;
 import org.panda.tech.core.web.controller.HomeControllerSupport;
