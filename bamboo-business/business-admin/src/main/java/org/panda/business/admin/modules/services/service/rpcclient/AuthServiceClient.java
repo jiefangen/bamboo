@@ -1,5 +1,6 @@
 package org.panda.business.admin.modules.services.service.rpcclient;
 
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AppServerVO;
 import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
@@ -23,6 +24,11 @@ import java.util.List;
 @Component
 @RpcClient
 public class AuthServiceClient {
+
+    @RpcMethod(value = "/home", method = HttpMethod.GET)
+    public String home() {
+        return Strings.EMPTY;
+    }
 
     @RpcMethod(value = "/authService/account/page", subTypes = AuthAccountVO.class)
     public QueryResult<AuthAccountVO> accountPage(@RequestBody AccountQueryParam queryParam) {

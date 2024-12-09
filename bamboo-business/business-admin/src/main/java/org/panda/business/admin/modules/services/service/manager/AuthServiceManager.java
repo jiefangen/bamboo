@@ -9,6 +9,8 @@ import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
+import org.panda.business.admin.modules.services.api.vo.AppServerVO;
+import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
 import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
 import org.panda.business.admin.modules.system.api.param.AddUserParam;
@@ -19,6 +21,7 @@ import org.panda.business.admin.modules.system.service.entity.SysUser;
 import org.panda.business.admin.modules.system.service.repository.SysUserMapper;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.spec.user.UsernamePassword;
+import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,12 +54,21 @@ public class AuthServiceManager {
         this.authServiceClient = authServiceClient;
     }
 
-    public Object accountPage(AccountQueryParam queryParam) {
+    public String authHome() {
+        try {
+            return authServiceClient.home();
+        } catch (Exception e) {
+            LogUtil.error(getClass(), e);
+            return null;
+        }
+    }
+
+    public QueryResult<AuthAccountVO> accountPage(AccountQueryParam queryParam) {
         try {
             return authServiceClient.accountPage(queryParam);
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
-            return e.getMessage() == null ? null : e.getMessage();
+            return null;
         }
     }
 
@@ -134,12 +146,12 @@ public class AuthServiceManager {
         return accountDetails;
     }
 
-    public Object servicePage(ServiceQueryParam queryParam) {
+    public QueryResult<AppServerVO> servicePage(ServiceQueryParam queryParam) {
         try {
             return authServiceClient.servicePage(queryParam);
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
-            return e.getMessage() == null ? null : e.getMessage();
+            return null;
         }
     }
 
