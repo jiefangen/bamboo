@@ -118,5 +118,4 @@ public class SwaggerConfig {
         return webEndpointProperties.getDiscovery().isEnabled() && (StringUtils.hasText(basePath)
                 || ManagementPortType.get(environment).equals(ManagementPortType.DIFFERENT));
     }
-
 }

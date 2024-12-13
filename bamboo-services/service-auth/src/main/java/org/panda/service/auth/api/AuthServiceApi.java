@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author fangen
  **/
-@Api(tags = "认证服务API")
+@Api(tags = "【API】认证授权服务")
 @RestController
 @RequestMapping("/authService")
 public class AuthServiceApi {
