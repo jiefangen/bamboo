@@ -9,9 +9,13 @@ if [ $# -ne 3 ]; then
 fi
 
 # 从命令行参数中获取变量值
-TARGET_DIR="$1"             # 启动目录
+TARGET_DIR="$1"             # 目标目录
 JAR_NAME="$2"               # JAR 包名称
 SOURCE_JAR_PATH="/root/.jenkins/workspace$3/target/$2"        # 源 JAR 文件路径
+
+echo "目标目录: $TARGET_DIR"
+echo "JAR文件名: $JAR_NAME"
+echo "源JAR路径: $SOURCE_JAR_PATH"
 
 # 检查目标目录是否存在
 if [ ! -d "$TARGET_DIR" ]; then
