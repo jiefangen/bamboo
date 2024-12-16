@@ -1,7 +1,7 @@
 #!/bin/bash
 source /etc/profile
 pid=`ps -ef|grep service-auth-demo.jar| grep -v grep | awk '{print $2}'`
-echo "部署前的pid进程 :$pid"
+echo "部署前的pid进程: $pid"
 # 关闭已经启动的jar进程
 if [ -n "$pid" ]
   then
@@ -21,7 +21,7 @@ pid=`ps -ef|grep service-auth-demo.jar | grep -v grep | awk '{print $2}'`
 # 检验进程是否启动
 if [ -n "$pid" ]
   then
-        echo "部署后的pid进程 :$pid"
+        echo "部署后的pid进程: $pid"
                 echo "启动成功"
 else
     echo "进程没有启动"
