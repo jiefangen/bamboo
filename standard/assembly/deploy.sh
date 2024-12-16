@@ -24,7 +24,10 @@ if [ ! -d "$TARGET_DIR" ]; then
 fi
 
 # 获取进程ID
-pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
+#pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
+#echo "部署前的pid进程: $pid"
+
+pid=`ps -ef|grep service-auth-demo.jar| grep -v grep | awk '{print $2}'`
 echo "部署前的pid进程: $pid"
 
 # 关闭已经启动的jar进程
