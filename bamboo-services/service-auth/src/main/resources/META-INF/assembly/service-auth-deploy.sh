@@ -11,6 +11,14 @@ else
     echo "进程没有启动"
 fi
 sleep 5s
+
+# 检查目标目录是否存在，如果不存在则创建
+TARGET_DIR="/home/service-auth"
+if [ ! -d "$TARGET_DIR" ]; then
+    echo "目录 $TARGET_DIR 不存在，正在创建..."
+    mkdir -p "$TARGET_DIR"
+fi
+
 # 复制jar包到启动目录
 \cp -rf /root/.jenkins/workspace/bamboo-service-auth-demo/bamboo-services/service-auth/target/service-auth-demo.jar /home/service-auth/service-auth-demo.jar
 
