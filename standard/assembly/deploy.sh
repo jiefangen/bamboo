@@ -13,9 +13,9 @@ TARGET_DIR="$1"             # 目标目录
 JAR_NAME="$2"               # JAR 包名称
 SOURCE_JAR_PATH="/root/.jenkins/workspace$3/target/$2"        # 源 JAR 文件路径
 
-echo "目标目录: $TARGET_DIR"
-echo "JAR文件名: $JAR_NAME"
-echo "源JAR路径: $SOURCE_JAR_PATH"
+#echo "目标目录: $TARGET_DIR"
+#echo "JAR文件名: $JAR_NAME"
+#echo "源JAR路径: $SOURCE_JAR_PATH"
 
 # 检查目标目录是否存在
 if [ ! -d "$TARGET_DIR" ]; then
@@ -24,15 +24,16 @@ if [ ! -d "$TARGET_DIR" ]; then
 fi
 
 # 获取进程ID
-#pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
-#echo "部署前的pid进程: $pid"
-
-pid=`ps -ef|grep service-auth-demo.jar| grep -v grep | awk '{print $2}'`
+pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
 echo "部署前的pid进程: $pid"
+
+echo "pid: $pid"
 
 # 关闭已经启动的jar进程
 if [ -n "$pid" ]; then
-  kill -9 $pid
+#  kill -9 $pid
+  echo "尝试关闭进程 $pid"
+  kill -15 $pid   # 使用 -15 进行正常关闭，而不是 -9 强制杀死
 else
   echo "进程没有启动"
 fi
