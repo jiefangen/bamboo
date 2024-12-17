@@ -11,12 +11,12 @@ SCRIPT_PREFIX="[deploy]" # 脚本前缀
 #fi
 
 # 从命令行参数中获取变量值
-JAR_NAME="${1:-unknown.jar}"               # JAR 包名称
-#TARGET_DIR="$2"             # 目标目录
-#SOURCE_JAR_PATH="/root/.jenkins/workspace$3/target/$1"        # 源 JAR 文件路径
+JAR_NAME="${1:-unknown.jar}" # JAR包名称
+SOURCE_DIR="${2:-/bamboo-service-auth-demo/bamboo-services/service-auth}" # 源JAR包文件目录
+#TARGET_DIR="$3" # 目标目录
 
 #JAR_NAME="service-auth-demo.jar" # JAR 包名称
-SOURCE_JAR_PATH="/root/.jenkins/workspace/bamboo-service-auth-demo/bamboo-services/service-auth/target/$JAR_NAME" # 源 JAR 文件路径
+SOURCE_JAR_PATH="/root/.jenkins/workspace$SOURCE_DIR/target/$JAR_NAME" # 源JAR文件路径
 TARGET_DIR="/home/service-auth" # 目标目录
 
 echo "$SCRIPT_PREFIX JAR_NAME: $JAR_NAME"
