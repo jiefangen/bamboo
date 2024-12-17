@@ -25,19 +25,19 @@ echo "$SCRIPT_PREFIX TARGET_DIR: $TARGET_DIR"
 
 # 检查目标目录是否存在
 if [ ! -d "$TARGET_DIR" ]; then
-  echo "$SCRIPT_PREFIX 目录 $TARGET_DIR 不存在，正在创建..."
+  echo "$SCRIPT_PREFIX 【提示】目录 $TARGET_DIR 不存在，正在创建..."
   mkdir -p "$TARGET_DIR"
 fi
 
 # 获取进程ID
 pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
-echo "$SCRIPT_PREFIX 部署前的pid进程: $pid"
+echo "$SCRIPT_PREFIX 【信息】旧服务的pid进程: $pid"
 
 # 关闭已经启动的jar进程
 if [ -n "$pid" ]; then
   kill -9 $pid
 else
-  echo "$SCRIPT_PREFIX 原有服务未启动！"
+  echo "$SCRIPT_PREFIX 【警告】旧服务未启动！"
 fi
 sleep 5s
 
@@ -47,13 +47,13 @@ sleep 5s
 # 进入目标目录
 cd "$TARGET_DIR"
 nohup java -jar "$TARGET_DIR/$JAR_NAME" --spring.profiles.active=demo > "$TARGET_DIR/nohup.out" 2>&1 &
-echo "$SCRIPT_PREFIX 脚本执行完毕"
+echo "$SCRIPT_PREFIX 【信息】部署脚本执行完毕"
 sleep 5s
 
 # 检查进程是否启动
 pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
 if [ -n "$pid" ]; then
-  echo "$SCRIPT_PREFIX 服务启动成功，部署后的pid进程: $pid"
+  echo "$SCRIPT_PREFIX 【信息】启动成功，新服务的pid进程: $pid"
 else
-  echo "$SCRIPT_PREFIX 服务启动失败！！！"
+  echo "$SCRIPT_PREFIX 【错误】新服务启动失败！！！"
 fi
