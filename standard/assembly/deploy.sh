@@ -11,7 +11,7 @@ SCRIPT_PREFIX="[deploy]" # 脚本前缀
 #fi
 
 # 从命令行参数中获取变量值
-JAR_NAME="${1:-unknown.jar}"               # JAR 包名称
+JAR_NAME="${1:-unknown}"               # JAR 包名称
 #TARGET_DIR="$2"             # 目标目录
 #SOURCE_JAR_PATH="/root/.jenkins/workspace$3/target/$1"        # 源 JAR 文件路径
 
@@ -37,7 +37,7 @@ echo "$SCRIPT_PREFIX 部署前的pid进程: $pid"
 if [ -n "$pid" ]; then
   kill -9 $pid
 else
-  echo "$SCRIPT_PREFIX 进程没有启动"
+  echo "$SCRIPT_PREFIX 原有服务进程未启动"
 fi
 sleep 5s
 
@@ -53,8 +53,7 @@ sleep 5s
 # 检查进程是否启动
 pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
 if [ -n "$pid" ]; then
-  echo "$SCRIPT_PREFIX 部署后的pid进程: $pid"
-  echo "$SCRIPT_PREFIX 启动成功"
+  echo "$SCRIPT_PREFIX 服务启动成功，部署后的pid进程: $pid"
 else
-  echo "$SCRIPT_PREFIX 进程没有启动"
+  echo "$SCRIPT_PREFIX 服务启动失败"
 fi
