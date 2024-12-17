@@ -15,7 +15,8 @@ public class HomeController extends HomeControllerSupport {
 
     @ConfigAnonymous
     public RestfulResult<String> home() {
-        return super.home();
+        RestfulResult<String> result = super.home();
+        return RestfulResult.success(result.getData() + " Enable");
     }
 
     @ConfigAnonymous

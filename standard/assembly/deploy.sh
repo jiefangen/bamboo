@@ -4,20 +4,19 @@ source /etc/profile
 SCRIPT_PREFIX="[deploy]" # 脚本前缀
 
 # 检查是否传递了正确的参数
-#if [ $# -ne 3 ]; then
-#  echo "$SCRIPT_PREFIX 错误：必须提供三个参数"
-#  echo "$SCRIPT_PREFIX 用法: $0 <目标目录> <JAR包名称> <源JAR文件路径>"
-#  exit 1
-#fi
+if [ $# -ne 3 ]; then
+  echo "$SCRIPT_PREFIX 错误：必须提供三个参数"
+  echo "$SCRIPT_PREFIX 用法: $0 <JAR包名称> <源JAR包文件目录> <目标目录>"
+  exit 1
+fi
 
 # 从命令行参数中获取变量值
 JAR_NAME="${1:-unknown.jar}" # JAR包名称
 SOURCE_DIR="${2:-/bamboo-service-auth-demo/bamboo-services/service-auth}" # 源JAR包文件目录
-#TARGET_DIR="$3" # 目标目录
+TARGET_DIR="${1:-/home/service-auth}" # 目标目录
 
 #JAR_NAME="service-auth-demo.jar" # JAR 包名称
 SOURCE_JAR_PATH="/root/.jenkins/workspace$SOURCE_DIR/target/$JAR_NAME" # 源JAR文件路径
-TARGET_DIR="/home/service-auth" # 目标目录
 
 echo "$SCRIPT_PREFIX JAR_NAME: $JAR_NAME"
 echo "$SCRIPT_PREFIX SOURCE_JAR_PATH: $SOURCE_JAR_PATH"
