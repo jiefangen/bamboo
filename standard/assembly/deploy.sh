@@ -13,25 +13,27 @@ source /etc/profile
 #JAR_NAME="$2"               # JAR 包名称
 #SOURCE_JAR_PATH="/root/.jenkins/workspace$3/target/$2"        # 源 JAR 文件路径
 
-TARGET_DIR="/home/service-auth"             # 目标目录
-JAR_NAME="service-auth-demo.jar"               # JAR 包名称
-SOURCE_JAR_PATH="/root/.jenkins/workspace/bamboo-service-auth-demo/bamboo-services/service-auth/target/service-auth-demo.jar"        # 源 JAR 文件路径
+SCRIPT_PREFIX="[deploy]" # 脚本前缀
+
+TARGET_DIR="/home/service-auth" # 目标目录
+JAR_NAME="service-auth-demo.jar" # JAR 包名称
+SOURCE_JAR_PATH="/root/.jenkins/workspace/bamboo-service-auth-demo/bamboo-services/service-auth/target/service-auth-demo.jar" # 源 JAR 文件路径
 
 # 检查目标目录是否存在
 if [ ! -d "$TARGET_DIR" ]; then
-  echo "目录 $TARGET_DIR 不存在，正在创建..."
+  echo "$SCRIPT_PREFIX 目录 $TARGET_DIR 不存在，正在创建..."
   mkdir -p "$TARGET_DIR"
 fi
 
 # 获取进程ID
 pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
-echo "部署前的pid进程: $pid"
+echo "$SCRIPT_PREFIX 部署前的pid进程: $pid"
 
 # 关闭已经启动的jar进程
 if [ -n "$pid" ]; then
   kill -9 $pid
 else
-  echo "进程没有启动"
+  echo "$SCRIPT_PREFIX 进程没有启动"
 fi
 sleep 5s
 
@@ -41,14 +43,14 @@ sleep 5s
 # 进入目标目录
 cd "$TARGET_DIR"
 nohup java -jar "$TARGET_DIR/$JAR_NAME" --spring.profiles.active=demo > "$TARGET_DIR/nohup.out" 2>&1 &
-echo "脚本执行完毕"
+echo "$SCRIPT_PREFIX 脚本执行完毕"
 sleep 5s
 
 # 检查进程是否启动
 pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
 if [ -n "$pid" ]; then
-  echo "部署后的pid进程: $pid"
-  echo "启动成功"
+  echo "$SCRIPT_PREFIX 部署后的pid进程: $pid"
+  echo "$SCRIPT_PREFIX 启动成功"
 else
-  echo "进程没有启动"
+  echo "$SCRIPT_PREFIX 进程没有启动"
 fi
