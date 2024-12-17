@@ -16,12 +16,12 @@ JAR_NAME="${1:-unknown}"               # JAR 包名称
 #SOURCE_JAR_PATH="/root/.jenkins/workspace$3/target/$1"        # 源 JAR 文件路径
 
 #JAR_NAME="service-auth-demo.jar" # JAR 包名称
+SOURCE_JAR_PATH="/root/.jenkins/workspace/bamboo-service-auth-demo/bamboo-services/service-auth/target/$JAR_NAME" # 源 JAR 文件路径
 TARGET_DIR="/home/service-auth" # 目标目录
-SOURCE_JAR_PATH="/root/.jenkins/workspace/bamboo-service-auth-demo/bamboo-services/service-auth/target/service-auth-demo.jar" # 源 JAR 文件路径
 
 echo "$SCRIPT_PREFIX JAR_NAME: $JAR_NAME"
-echo "$SCRIPT_PREFIX TARGET_DIR: $TARGET_DIR"
 echo "$SCRIPT_PREFIX SOURCE_JAR_PATH: $SOURCE_JAR_PATH"
+echo "$SCRIPT_PREFIX TARGET_DIR: $TARGET_DIR"
 
 # 检查目标目录是否存在
 if [ ! -d "$TARGET_DIR" ]; then
@@ -37,7 +37,7 @@ echo "$SCRIPT_PREFIX 部署前的pid进程: $pid"
 if [ -n "$pid" ]; then
   kill -9 $pid
 else
-  echo "$SCRIPT_PREFIX 原有服务进程未启动"
+  echo "$SCRIPT_PREFIX 原有服务未启动！"
 fi
 sleep 5s
 
@@ -55,5 +55,5 @@ pid=`ps -ef | grep "$JAR_NAME" | grep -v grep | awk '{print $2}'`
 if [ -n "$pid" ]; then
   echo "$SCRIPT_PREFIX 服务启动成功，部署后的pid进程: $pid"
 else
-  echo "$SCRIPT_PREFIX 服务启动失败"
+  echo "$SCRIPT_PREFIX 服务启动失败！！！"
 fi
