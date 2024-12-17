@@ -11,7 +11,7 @@ SCRIPT_PREFIX="[deploy]" # 脚本前缀
 #fi
 
 # 从命令行参数中获取变量值
-JAR_NAME="${1:-unknown}"               # JAR 包名称
+JAR_NAME="${1:-unknown.jar}"               # JAR 包名称
 #TARGET_DIR="$2"             # 目标目录
 #SOURCE_JAR_PATH="/root/.jenkins/workspace$3/target/$1"        # 源 JAR 文件路径
 
