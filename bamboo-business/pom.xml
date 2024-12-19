@@ -73,6 +73,31 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <finalName>${project.artifactId}-assembly</finalName>
+                        <appendAssemblyId>false</appendAssemblyId>
+                        <descriptors>
+                            <descriptor>src/main/assembly/assembly.xml</descriptor>
+                        </descriptors>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <!-- 编译时指定JDK版本 -->
             <plugin>
@@ -80,6 +105,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <release>${oracle-jdk.version}</release>
                 </configuration>
             </plugin>
