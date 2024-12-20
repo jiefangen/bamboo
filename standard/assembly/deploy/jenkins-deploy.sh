@@ -8,19 +8,24 @@
 # 本地调试目录（绝对路径）
 LOCAL_DIR="/Users/fangen/Documents/IntelliJ_IDEA/projects/github/bamboo/bamboo-business/business-admin/target"
 
-# 目标目录，根据参数决定（默认为本地目录）
+# 执行环境，默认为本地环境
+EXEC_ENV="${1:-local}"
+# 目标目录，默认为本地目录
 TARGET_DIR=""
 
 # 判断参数，如果第一个参数是 "jenkins"，则切换到 Jenkins 部署的目标目录
-if [ "${1:-local}" = "jenkins" ]; then
-    TARGET_DIR=`pwd`
-else
+if [ "$EXEC_ENV" = "local" ]; then
     TARGET_DIR="$LOCAL_DIR"
+elif [ "$EXEC_ENV" = "jenkins" ]; then
+    TARGET_DIR=$(pwd)
+else
+    echo "错误：环境参数 $EXEC_ENV 不合法！"
+    exit 1
 fi
 
 # 输出配置信息
 echo "---------------------------------"
-echo "环境参数：${1:-local}"
+echo "环境参数：$EXEC_ENV"
 echo "目标目录：$TARGET_DIR"
 echo "---------------------------------"
 
