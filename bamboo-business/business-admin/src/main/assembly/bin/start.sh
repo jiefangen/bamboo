@@ -7,22 +7,31 @@ DEPLOY_DIR="$(pwd)"
 CONF_DIR="$DEPLOY_DIR/conf"
 LOGS_DIR="$DEPLOY_DIR/logs"
 
-# 获取配置文件中的 server name 和端口等信息
-#SERVER_NAME=`sed '/dubbo.application.name/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-#SERVER_PROTOCOL=`sed '/dubbo.protocol.name/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-#SERVER_HOST=`sed '/dubbo.protocol.host/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-#SERVER_PORT=`sed '/dubbo.protocol.port/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-#LOGS_FILE=`sed '/dubbo.log4j.file/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+# 从配置文件中提取服务运行的配置信息
+SERVER_NAME=$(awk -F '=' '/application.name/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+SERVER_ENV=$(awk -F '=' '/profiles.active/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+SERVER_PORT=$(awk -F '=' '/server.port/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 
-# 设置默认值
-SERVER_HOST="${SERVER_HOST:-127.0.0.1}"
-SERVER_NAME="${SERVER_NAME:-$(hostname)}"
+# 检查是否有为空的变量
+if [ -z "$SERVER_NAME" ]; then
+    echo "Error: SERVER_NAME (application.name) is missing or empty!"
+    exit 1
+fi
+if [ -z "$SERVER_ENV" ]; then
+    echo "Error: SERVER_ENV (profiles.active) is missing or empty!"
+    exit 1
+fi
+if [ -z "$SERVER_PORT" ]; then
+    echo "Error: SERVER_PORT (server.port) is missing or empty!"
+    exit 1
+fi
 
 # 输出配置信息
 echo "---------------------------------"
 echo "DEPLOY_DIR: $DEPLOY_DIR"
 echo "SERVER_NAME: $SERVER_NAME"
-echo "SERVER_HOST: $SERVER_HOST"
+echo "SERVER_ENV: $SERVER_ENV"
+echo "SERVER_PORT: $SERVER_PORT"
 echo "---------------------------------"
 
 # 检查服务是否已经启动
@@ -54,7 +63,7 @@ JVM_HEAP_SIZE="512"
 # 判断参数是否有效（128MB到6144MB之间）最小约128MB最大约6G
 if [[ -n "$JVM_HEAP_SIZE" && "$JVM_HEAP_SIZE" -ge 128 && "$JVM_HEAP_SIZE" -le 6144 ]]; then
     JVM_HEAP_SIZE="${JVM_HEAP_SIZE}m"
-    echo "Using external JVM_HEAP_SIZE: ${JVM_HEAP_SIZE}"
+    echo "Using service configuration JVM_HEAP_SIZE: ${JVM_HEAP_SIZE}"
 else
   # 获取宿主机器的内存大小（单位：MB）
   HOST_MEMORY=$(free -m | grep Mem | awk '{print $2}')
@@ -70,22 +79,24 @@ else
   fi
 fi
 JAVA_MEM_OPTS=""
-JAVA_VERSION=$(java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}') # 获取 Java 版本号
-if [[ "$JAVA_VERSION" =~ ^1\.[1-9][1-9]*$ || "$JAVA_VERSION" =~ ^[1-9][1-9]*$ ]]; then
-    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -Xlog:gc:$LOGS_DIR/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
-else
+JAVA_VERSION=$(java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}')
+if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
     JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$LOGS_DIR/gc-${POD_IP}-$(date '+%s').log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
+elif [[ "$JAVA_VERSION" =~ ^11\..*$ ]]; then
+    JAVA_MEM_OPTS="-Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -Xlog:gc:$LOGS_DIR/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
+else
+    echo "The JAVA_MEM_OPTS parameter does not support setting in this Java version $JAVA_VERSION."
 fi
 
 # 配置调试和JMX参数
 JAVA_DEBUG_OPTS=""
+JAVA_JMX_OPTS=""
 if [ "$1" = "debug" ]; then
     JAVA_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
+    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=47.116.33.28 -Dcom.sun.management.jmxremote.rmi.port=1199"
 fi
-JAVA_JMX_OPTS=""
 if [ "$1" = "jmx" ]; then
     JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
-    JAVA_JMX_OPTS="-Djava.rmi.server.hostname=47.116.33.28 -Dcom.sun.management.jmxremote.port=5777 -Dcom.sun.management.jmxremote.rmi.port=5779 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 fi
 
 # 打印服务启动参数配置信息
@@ -95,9 +106,13 @@ echo "JAVA_DEBUG_OPTS: $JAVA_DEBUG_OPTS"
 echo "JAVA_JMX_OPTS: $JAVA_JMX_OPTS"
 echo "---------------------------------"
 
+JAR_NAME="$SERVER_NAME-$SERVER_ENV.jar" # JAR包名称
+echo "JAR_NAME: $JAR_NAME"
+exit 1
 # 启动服务
 echo -e "Starting the $SERVER_NAME ...\c"
-nohup java "$JAVA_OPTS" "$JAVA_MEM_OPTS" "$JAVA_DEBUG_OPTS" "$JAVA_JMX_OPTS" -jar "$DEPLOY_DIR/$JAR_NAME" > "$DEPLOY_DIR/nohup.out" 2>&1 &
+
+nohup java "$JAVA_OPTS" "$JAVA_MEM_OPTS" "$JAVA_DEBUG_OPTS" "$JAVA_JMX_OPTS" -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" --server.port="$SERVER_PORT" > "$DEPLOY_DIR/nohup.out" 2>&1 &
 
 # 等待服务启动
 COUNT=0
@@ -105,11 +120,7 @@ while [ "$COUNT" -lt 1 ]; do
     echo -e ".\c"
     sleep 1
     if [ -n "$SERVER_PORT" ]; then
-        if [ "$SERVER_PROTOCOL" == "dubbo" ]; then
-            COUNT=$(echo status | nc -i 1 "$SERVER_HOST" "$SERVER_PORT" | grep -c OK)
-        else
-            COUNT=$(netstat -an | grep -c "$SERVER_PORT")
-        fi
+        COUNT=$(netstat -an | grep -c "$SERVER_PORT")
     else
         COUNT=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}' | wc -l`
     fi
