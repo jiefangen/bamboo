@@ -11,33 +11,35 @@ LOGS_DIR="$DEPLOY_DIR/logs"
 SERVER_NAME=$(awk -F '=' '/application.name/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 SERVER_ENV=$(awk -F '=' '/profiles.active/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 SERVER_PORT=$(awk -F '=' '/server.port/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+HEAP_SIZE_MB=$(awk -F '=' '/heap.size/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 
 # 检查是否有为空的变量
 if [ -z "$SERVER_NAME" ]; then
-    echo "Error: SERVER_NAME (application.name) is missing or empty!"
+    echo "ERROR: SERVER_NAME (application.name) is missing or empty!"
     exit 1
 fi
 if [ -z "$SERVER_ENV" ]; then
-    echo "Error: SERVER_ENV (profiles.active) is missing or empty!"
+    echo "ERROR: SERVER_ENV (profiles.active) is missing or empty!"
     exit 1
 fi
 if [ -z "$SERVER_PORT" ]; then
-    echo "Error: SERVER_PORT (server.port) is missing or empty!"
+    echo "ERROR: SERVER_PORT (server.port) is missing or empty!"
     exit 1
 fi
 
 # 输出配置信息
-echo "---------------------------------"
+echo "-------------- Configuration Information -------------------"
 echo "DEPLOY_DIR: $DEPLOY_DIR"
 echo "SERVER_NAME: $SERVER_NAME"
 echo "SERVER_ENV: $SERVER_ENV"
 echo "SERVER_PORT: $SERVER_PORT"
-echo "---------------------------------"
+echo "HEAP_SIZE_MB: $HEAP_SIZE_MB"
+echo "-------------- Configuration Information -------------------"
 
 # 检查服务是否已经启动
-PIDS=$(pgrep -f "$CONF_DIR" | grep -v grep)
+PIDS=$(pgrep -f "$DEPLOY_DIR" | grep -v grep)
 if [ -n "$PIDS" ]; then
-    echo "ERROR: The $SERVER_NAME is already running with PID(s): $PIDS"
+    echo "ERROR: The $SERVER_NAME is already running with PID: $PIDS"
     exit 1
 fi
 
@@ -58,8 +60,8 @@ STDOUT_FILE="$LOGS_DIR/stdout.log"
 
 # 配置JVM参数
 JAVA_OPTS="-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true"
-# 获取项目服务配置HEAP_SIZE参数（单位：MB）HEAP_SIZE_MB
-JVM_HEAP_SIZE="512"
+# 获取项目服务配置HEAP_SIZE参数（单位：MB）
+JVM_HEAP_SIZE="$HEAP_SIZE_MB"
 # 判断参数是否有效（128MB到6144MB之间）最小约128MB最大约6G
 if [[ -n "$JVM_HEAP_SIZE" && "$JVM_HEAP_SIZE" -ge 128 && "$JVM_HEAP_SIZE" -le 6144 ]]; then
     JVM_HEAP_SIZE="${JVM_HEAP_SIZE}m"
@@ -83,7 +85,7 @@ JAVA_VERSION=$(java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}')
 if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
     JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$LOGS_DIR/gc-${POD_IP}-$(date '+%s').log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
 elif [[ "$JAVA_VERSION" =~ ^11\..*$ ]]; then
-    JAVA_MEM_OPTS="-Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -Xlog:gc:$LOGS_DIR/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
+    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -Xlog:gc:$LOGS_DIR/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
 else
     echo "The JAVA_MEM_OPTS parameter does not support setting in this Java version $JAVA_VERSION."
 fi
@@ -106,17 +108,23 @@ echo "JAVA_DEBUG_OPTS: $JAVA_DEBUG_OPTS"
 echo "JAVA_JMX_OPTS: $JAVA_JMX_OPTS"
 echo "---------------------------------"
 
-JAR_NAME="$SERVER_NAME-$SERVER_ENV.jar" # JAR包名称
-echo "JAR_NAME: $JAR_NAME"
-exit 1
 # 启动服务
 echo -e "Starting the $SERVER_NAME ...\c"
-
-nohup java "$JAVA_OPTS" "$JAVA_MEM_OPTS" "$JAVA_DEBUG_OPTS" "$JAVA_JMX_OPTS" -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" --server.port="$SERVER_PORT" > "$DEPLOY_DIR/nohup.out" 2>&1 &
+JAR_NAME="$SERVER_NAME-$SERVER_ENV.jar" # JAR包名称
+nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" --server.port="$SERVER_PORT" > "$DEPLOY_DIR/nohup.out" 2>&1 &
 
 # 等待服务启动
 COUNT=0
+START_TIME=$(date +%s)  # 记录开始时间
+TIMEOUT=60              # 设置超时时间
 while [ "$COUNT" -lt 1 ]; do
+    ELAPSED_TIME=$(( $(date +%s) - $START_TIME ))
+    # 如果超出了指定时间，则退出循环
+    if [ "$ELAPSED_TIME" -ge "$TIMEOUT" ]; then
+        echo "INTERRUPT(${TIMEOUT}s)"
+        exit 1
+    fi
+    # 开始进行服务启动轮询监听
     echo -e ".\c"
     sleep 1
     if [ -n "$SERVER_PORT" ]; then
@@ -125,11 +133,11 @@ while [ "$COUNT" -lt 1 ]; do
         COUNT=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}' | wc -l`
     fi
     if [ "$COUNT" -gt 0 ]; then
+        echo "OK(${ELAPSED_TIME}s)"
         break
     fi
 done
 
-echo "Startup Success!"
 PIDS=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}'`
-echo "PID(s): $PIDS"
-echo "STDOUT: $STDOUT_FILE"
+echo "PID: $PIDS"
+echo "NOHUP_OUT: $DEPLOY_DIR/nohup.out"
