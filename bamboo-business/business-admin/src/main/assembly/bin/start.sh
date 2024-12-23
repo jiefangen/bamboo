@@ -28,18 +28,18 @@ if [ -z "$SERVER_PORT" ]; then
 fi
 
 # 输出配置信息
-echo "-------------- Configuration Information -------------------"
+echo "-------------- Startup Configuration -------------------"
 echo "DEPLOY_DIR: $DEPLOY_DIR"
 echo "SERVER_NAME: $SERVER_NAME"
 echo "SERVER_ENV: $SERVER_ENV"
 echo "SERVER_PORT: $SERVER_PORT"
 echo "HEAP_SIZE_MB: $HEAP_SIZE_MB"
-echo "-------------- Configuration Information -------------------"
+echo "-------------- Startup Configuration -------------------"
 
 # 检查服务是否已经启动
 PIDS=$(pgrep -f "$DEPLOY_DIR" | grep -v grep)
 if [ -n "$PIDS" ]; then
-    echo "ERROR: The $SERVER_NAME is already running with PID: $PIDS"
+    echo "WARN: The $SERVER_NAME is already running with PID: $PIDS"
     exit 1
 fi
 
@@ -102,11 +102,11 @@ if [ "$1" = "jmx" ]; then
 fi
 
 # 打印服务启动参数配置信息
-echo "---------------------------------"
+echo "-------------- Startup Configuration -------------------"
 echo "JAVA_MEM_OPTS: $JAVA_MEM_OPTS"
 echo "JAVA_DEBUG_OPTS: $JAVA_DEBUG_OPTS"
 echo "JAVA_JMX_OPTS: $JAVA_JMX_OPTS"
-echo "---------------------------------"
+echo "-------------- Startup Configuration -------------------"
 
 # 启动服务
 echo -e "Starting the $SERVER_NAME ...\c"
@@ -133,7 +133,7 @@ while [ "$COUNT" -lt 1 ]; do
         COUNT=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}' | wc -l`
     fi
     if [ "$COUNT" -gt 0 ]; then
-        echo "OK(${ELAPSED_TIME}s)"
+        echo "OK!(${ELAPSED_TIME}s)"
         break
     fi
 done

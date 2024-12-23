@@ -6,6 +6,7 @@ cd .. || exit 1
 DEPLOY_DIR="$(pwd)"
 
 SERVER_NAME=`sed '/application.name/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
+SERVER_PORT=`sed '/server.port/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
 
 if [ -z "$SERVER_NAME" ]; then
 	SERVER_NAME=`hostname`
@@ -13,7 +14,7 @@ fi
 
 PIDS=`ps -ef | grep java | grep -v grep | grep "$DEPLOY_DIR" |awk '{print $2}'`
 if [ -z "$PIDS" ]; then
-    echo "ERROR: The $SERVER_NAME does not started!"
+    echo "WARN: The $SERVER_NAME does not started!"
     exit 1
 fi
 
@@ -27,7 +28,7 @@ for PID in $PIDS ; do
 done
 
 COUNT=0
-while [ $COUNT -lt 1 ]; do    
+while [ $COUNT -lt 1 ]; do
     echo -e ".\c"
     sleep 1
     COUNT=1
@@ -36,6 +37,14 @@ while [ $COUNT -lt 1 ]; do
         if [ -n "$PID_EXIST" ]; then
             COUNT=0
             break
+        else
+          if [ -n "$SERVER_PORT" ]; then
+              SERVER_PORT_COUNT=$(netstat -tln | grep -c "$SERVER_PORT")
+              if [ "$SERVER_PORT_COUNT" -gt 0 ]; then
+                   COUNT=0
+                   break
+              fi
+          fi
         fi
     done
 done
