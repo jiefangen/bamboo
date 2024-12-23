@@ -16,7 +16,7 @@ else
 					./dump.sh
 				else
 					echo "ERROR: Please input argument: start or stop or debug or restart or dump"
-				    exit 1
+				  exit 1
 				fi
 			fi
 		fi

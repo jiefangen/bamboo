@@ -1,29 +1,23 @@
 #!/bin/bash
-cd `dirname $0`
-BIN_DIR=`pwd`
-cd ..
-DEPLOY_DIR=`pwd`
-CONF_DIR=$DEPLOY_DIR/conf
 
-SERVER_NAME=`sed '/dubbo.application.name/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-LOGS_FILE=`sed '/dubbo.log4j.file/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+cd "$(dirname "$0")" || exit 1
+BIN_DIR="$(pwd)"
+cd .. || exit 1
+DEPLOY_DIR="$(pwd)"
+
+SERVER_NAME=`sed '/application.name/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
 
 if [ -z "$SERVER_NAME" ]; then
 	SERVER_NAME=`hostname`
 fi
 
-PIDS=`ps -ef | grep java | grep -v grep | grep "$CONF_DIR" |awk '{print $2}'`
+PIDS=`ps -ef | grep java | grep -v grep | grep "$DEPLOY_DIR" |awk '{print $2}'`
 if [ -z "$PIDS" ]; then
     echo "ERROR: The $SERVER_NAME does not started!"
     exit 1
 fi
 
-LOGS_DIR=""
-if [ -n "$LOGS_FILE" ]; then
-	LOGS_DIR=`dirname $LOGS_FILE`
-else
-	LOGS_DIR=$DEPLOY_DIR/logs
-fi
+LOGS_DIR="$DEPLOY_DIR/logs"
 if [ ! -d $LOGS_DIR ]; then
 	mkdir $LOGS_DIR
 fi

@@ -121,7 +121,7 @@ while [ "$COUNT" -lt 1 ]; do
     ELAPSED_TIME=$(( $(date +%s) - $START_TIME ))
     # 如果超出了指定时间，则退出循环
     if [ "$ELAPSED_TIME" -ge "$TIMEOUT" ]; then
-        echo "INTERRUPT(${TIMEOUT}s)"
+        echo "INTERRUPT(${ELAPSED_TIME}s)"
         exit 1
     fi
     # 开始进行服务启动轮询监听
