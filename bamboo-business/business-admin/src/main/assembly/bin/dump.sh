@@ -1,7 +1,6 @@
 #!/bin/bash
 
 cd "$(dirname "$0")" || exit 1
-BIN_DIR="$(pwd)"
 cd .. || exit 1
 DEPLOY_DIR="$(pwd)"
 

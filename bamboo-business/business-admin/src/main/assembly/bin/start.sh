@@ -10,6 +10,7 @@ LOGS_DIR="$DEPLOY_DIR/logs"
 SERVER_NAME=$(awk -F '=' '/application.name/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 SERVER_ENV=$(awk -F '=' '/profiles.active/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 JAR_NAME=$(awk -F '=' '/application.jar/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+SERVER_PORT=$(grep -A 1 'server:' "conf/application-$SERVER_ENV.yml" | grep 'port' | sed 's/.*: *//')
 HEAP_SIZE_MB=$(awk -F '=' '/heap.size/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 
 # 检查是否有为空的变量
@@ -28,10 +29,10 @@ fi
 
 # 输出配置信息
 echo "-------------- Startup Configuration -------------------"
-echo "DEPLOY_DIR: $DEPLOY_DIR"
 echo "SERVER_NAME: $SERVER_NAME"
 echo "SERVER_ENV: $SERVER_ENV"
 echo "JAR_NAME: $JAR_NAME"
+echo "SERVER_PORT: $SERVER_PORT"
 echo "HEAP_SIZE_MB: $HEAP_SIZE_MB"
 echo "-------------- Startup Configuration -------------------"
 
@@ -135,7 +136,7 @@ while [ "$COUNT" -lt 1 ]; do
         COUNT=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}' | wc -l`
     fi
     if [ "$COUNT" -gt 0 ]; then
-        echo "OK!(${ELAPSED_TIME}s)"
+        echo "OK!"
         break
     fi
 done

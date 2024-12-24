@@ -114,7 +114,7 @@ echo "---------------------------------"
 
 # 执行服务重启脚本
 cd "$TARGET_BIN_DIR" || { echo "错误：无法进入目录 $TARGET_BIN_DIR！"; exit 1; }
-#./server.sh restart
+./server.sh restart
 
 echo "---------------------------------"
 echo "服务重启脚本执行完成！"

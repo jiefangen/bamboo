@@ -6,7 +6,8 @@ cd .. || exit 1
 DEPLOY_DIR="$(pwd)"
 
 SERVER_NAME=`sed '/application.name/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
-SERVER_PORT=`sed '/server.port/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
+SERVER_ENV=`sed '/profiles.active/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
+SERVER_PORT=$(grep -A 1 'server:' "conf/application-$SERVER_ENV.yml" | grep 'port' | sed 's/.*: *//')
 
 if [ -z "$SERVER_NAME" ]; then
 	SERVER_NAME=`hostname`
