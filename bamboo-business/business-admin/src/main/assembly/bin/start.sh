@@ -4,13 +4,12 @@
 cd "$(dirname "$0")" || exit 1
 cd .. || exit 1
 DEPLOY_DIR="$(pwd)"
-CONF_DIR="$DEPLOY_DIR/conf"
 LOGS_DIR="$DEPLOY_DIR/logs"
 
 # 从配置文件中提取服务运行的配置信息
 SERVER_NAME=$(awk -F '=' '/application.name/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 SERVER_ENV=$(awk -F '=' '/profiles.active/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
-SERVER_PORT=$(awk -F '=' '/server.port/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+JAR_NAME=$(awk -F '=' '/application.jar/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 HEAP_SIZE_MB=$(awk -F '=' '/heap.size/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 
 # 检查是否有为空的变量
@@ -22,8 +21,8 @@ if [ -z "$SERVER_ENV" ]; then
     echo "ERROR: SERVER_ENV (profiles.active) is missing or empty!"
     exit 1
 fi
-if [ -z "$SERVER_PORT" ]; then
-    echo "ERROR: SERVER_PORT (server.port) is missing or empty!"
+if [ -z "$JAR_NAME" ]; then
+    echo "ERROR: JAR_NAME (application.jar) is missing or empty!"
     exit 1
 fi
 
@@ -32,7 +31,7 @@ echo "-------------- Startup Configuration -------------------"
 echo "DEPLOY_DIR: $DEPLOY_DIR"
 echo "SERVER_NAME: $SERVER_NAME"
 echo "SERVER_ENV: $SERVER_ENV"
-echo "SERVER_PORT: $SERVER_PORT"
+echo "JAR_NAME: $JAR_NAME"
 echo "HEAP_SIZE_MB: $HEAP_SIZE_MB"
 echo "-------------- Startup Configuration -------------------"
 
@@ -110,8 +109,11 @@ echo "-------------- Startup Configuration -------------------"
 
 # 启动服务
 echo -e "Starting the $SERVER_NAME ...\c"
-JAR_NAME="$SERVER_NAME-$SERVER_ENV.jar" # JAR包名称
-nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" --server.port="$SERVER_PORT" > "$DEPLOY_DIR/nohup.out" 2>&1 &
+if [ -n "$SERVER_PORT" ]; then
+  nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" --server.port="$SERVER_PORT" > "$DEPLOY_DIR/nohup.out" 2>&1 &
+else
+  nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" > "$DEPLOY_DIR/nohup.out" 2>&1 &
+fi
 
 # 等待服务启动
 COUNT=0

@@ -22,29 +22,33 @@
 	<fileSets>
 		<fileSet>
 			<directory>src/main/assembly/bin</directory>
+			<includes>
+				<include>*.sh</include>
+			</includes>
 			<outputDirectory>bin</outputDirectory>
 			<fileMode>0755</fileMode>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/config</directory>
-			<outputDirectory>conf</outputDirectory>
 			<includes>
 				<include>*.properties</include>
 				<include>*.yml</include>
 			</includes>
+			<outputDirectory>conf</outputDirectory>
+			<filtered>true</filtered>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources</directory>
-			<outputDirectory>conf</outputDirectory>
 			<includes>
 				<include>*.properties</include>
-				<include>*.yml</include>
 			</includes>
+			<outputDirectory>conf</outputDirectory>
+			<filtered>true</filtered>
 		</fileSet>
 		<!-- 只包含项目可执行的jar文件 -->
 		<fileSet>
 			<directory>${project.build.directory}</directory>
-			<outputDirectory>jar</outputDirectory>
+			<outputDirectory>lib</outputDirectory>
 			<includes>
 				<include>*-${profiles.active}.jar</include>
 			</includes>

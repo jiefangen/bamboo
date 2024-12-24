@@ -65,7 +65,7 @@ else
 fi
 
 # 查询遍历要复制的JAR文件
-JAR_FILES_TO_COPY=$(find "$TARGET_DIR/$PROJECT_NAME-assembly/jar" -name "*.jar")
+JAR_FILES_TO_COPY=$(find "$TARGET_DIR/$PROJECT_NAME-assembly/lib" -name "*.jar")
 # 判断是否存在JAR文件
 if [ -z "$JAR_FILES_TO_COPY" ]; then
     echo "警告：未找到任何.jar文件，跳过复制。"
@@ -114,7 +114,7 @@ echo "---------------------------------"
 
 # 执行服务重启脚本
 cd "$TARGET_BIN_DIR" || { echo "错误：无法进入目录 $TARGET_BIN_DIR！"; exit 1; }
-./server.sh restart
+#./server.sh restart
 
 echo "---------------------------------"
 echo "服务重启脚本执行完成！"

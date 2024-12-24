@@ -73,6 +73,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+        <!-- assembly打包插件管理 -->
         <pluginManagement>
             <plugins>
                 <plugin>
