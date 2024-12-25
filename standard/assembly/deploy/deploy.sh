@@ -43,7 +43,7 @@ sleep 5s
 
 # 进入目标目录
 cd "$TARGET_DIR"
-nohup java -jar "$TARGET_DIR/$JAR_NAME" --spring.profiles.active=demo > "$TARGET_DIR/nohup.out" 2>&1 &
+nohup java -jar "$TARGET_DIR/$JAR_NAME" > "$TARGET_DIR/nohup.out" 2>&1 &
 echo "$SCRIPT_PREFIX 【信息】部署脚本执行完毕"
 sleep 5s
 
