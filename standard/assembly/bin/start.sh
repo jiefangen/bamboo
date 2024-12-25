@@ -6,6 +6,18 @@ cd .. || exit 1
 DEPLOY_DIR="$(pwd)"
 LOGS_DIR="$DEPLOY_DIR/logs"
 
+# 设置日志文件夹
+if [ ! -d "$LOGS_DIR" ]; then
+    mkdir -p "$LOGS_DIR" || { echo "ERROR: Failed to create log directory"; exit 1; }
+fi
+STDOUT_FILE="$LOGS_DIR/stdout.log"
+get_timestamp() { # 获取当前时间的函数
+    date "+%Y-%m-%d %H:%M:%S"
+}
+# 记录脚本开始的时间
+START_TIME=$(date +%s)
+echo "$(get_timestamp) - Script: $(basename $0) started" >> "$STDOUT_FILE"
+
 # 从配置文件中提取服务运行的配置信息
 SERVER_NAME=$(awk -F '=' '/application.name/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 SERVER_ENV=$(awk -F '=' '/profiles.active/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
@@ -28,18 +40,19 @@ if [ -z "$JAR_NAME" ]; then
 fi
 
 # 输出配置信息
-echo "-------------- Startup Configuration -------------------"
+echo "-------------- MAVEN_CONFIG -------------------"
 echo "SERVER_NAME: $SERVER_NAME"
 echo "SERVER_ENV: $SERVER_ENV"
 echo "JAR_NAME: $JAR_NAME"
 echo "SERVER_PORT: $SERVER_PORT"
 echo "HEAP_SIZE_MB: $HEAP_SIZE_MB"
-echo "-------------- Startup Configuration -------------------"
+echo "-------------- MAVEN_CONFIG -------------------"
 
 # 检查服务是否已经启动
 PIDS=$(pgrep -f "$DEPLOY_DIR" | grep -v grep)
 if [ -n "$PIDS" ]; then
     echo "WARN: The $SERVER_NAME is already running with PID: $PIDS"
+    echo "$(get_timestamp) - [$(basename $0)]WARN: The $SERVER_NAME is already running with PID: $PIDS" >> "$STDOUT_FILE"
     exit 1
 fi
 
@@ -48,15 +61,10 @@ if [ -n "$SERVER_PORT" ]; then
     SERVER_PORT_COUNT=$(netstat -tln | grep -c "$SERVER_PORT")
     if [ "$SERVER_PORT_COUNT" -gt 0 ]; then
         echo "ERROR: The $SERVER_NAME port $SERVER_PORT is already in use!"
+        echo "$(get_timestamp) - [$(basename $0)]ERROR: The $SERVER_NAME port $SERVER_PORT is already in use!" >> "$STDOUT_FILE"
         exit 1
     fi
 fi
-
-# 设置日志文件夹
-if [ ! -d "$LOGS_DIR" ]; then
-    mkdir -p "$LOGS_DIR" || { echo "ERROR: Failed to create log directory"; exit 1; }
-fi
-STDOUT_FILE="$LOGS_DIR/stdout.log"
 
 # 配置JVM参数
 JAVA_OPTS="-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true"
@@ -102,11 +110,11 @@ if [ "$1" = "jmx" ]; then
 fi
 
 # 打印服务启动参数配置信息
-echo "-------------- Startup Configuration -------------------"
+echo "-------------- JAVA_OPTS -------------------"
 echo "JAVA_MEM_OPTS: $JAVA_MEM_OPTS"
 echo "JAVA_DEBUG_OPTS: $JAVA_DEBUG_OPTS"
 echo "JAVA_JMX_OPTS: $JAVA_JMX_OPTS"
-echo "-------------- Startup Configuration -------------------"
+echo "-------------- JAVA_OPTS -------------------"
 
 # 启动服务
 echo -e "Starting the $SERVER_NAME ...\c"
@@ -144,3 +152,9 @@ done
 PIDS=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}'`
 echo "PID: $PIDS"
 echo "NOHUP_OUT: $DEPLOY_DIR/nohup.out"
+
+# 记录脚本结束的时间
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+echo "$(get_timestamp) - Script: $(basename $0) ended" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - [$(basename $0)]Total execution time: $DURATION seconds" >> "$STDOUT_FILE"
