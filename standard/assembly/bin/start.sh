@@ -91,9 +91,9 @@ fi
 JAVA_MEM_OPTS=""
 JAVA_VERSION=$(java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}')
 if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
-    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$LOGS_DIR/gc-${POD_IP}-$(date '+%s').log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
+    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$LOGS_DIR/gc-$(date '+%s').log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-$(date '+%s').hprof"
 elif [[ "$JAVA_VERSION" =~ ^11\..*$ ]]; then
-    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -Xlog:gc:$LOGS_DIR/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
+    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -Xlog:gc:$LOGS_DIR/gc-$(date '+%s').log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-$(date '+%s').hprof"
 else
     echo "The JAVA_MEM_OPTS parameter does not support setting in this Java version $JAVA_VERSION."
 fi
