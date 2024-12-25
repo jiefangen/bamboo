@@ -1,92 +1,146 @@
 #!/bin/bash
-cd `dirname $0`
-BIN_DIR=`pwd`
-cd ..
-DEPLOY_DIR=`pwd`
-CONF_DIR=$DEPLOY_DIR/conf
 
-SERVER_NAME=`sed '/dubbo.application.name/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-SERVER_PROTOCOL=`sed '/dubbo.protocol.name/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-SERVER_HOST=`sed '/dubbo.protocol.host/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-SERVER_PORT=`sed '/dubbo.protocol.port/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
-LOGS_FILE=`sed '/dubbo.log4j.file/!d;s/.*=//' conf/dubbo.properties | tr -d '\r'`
+# 获取当前脚本所在路径，并设定部署目录、配置目录
+cd "$(dirname "$0")" || exit 1
+cd .. || exit 1
+DEPLOY_DIR="$(pwd)"
+LOGS_DIR="$DEPLOY_DIR/logs"
 
-if [ -z "$SERVER_HOST" ]; then
-    SERVER_HOST='127.0.0.1'
-fi
+# 从配置文件中提取服务运行的配置信息
+SERVER_NAME=$(awk -F '=' '/application.name/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+SERVER_ENV=$(awk -F '=' '/profiles.active/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+JAR_NAME=$(awk -F '=' '/application.jar/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+SERVER_PORT=$(grep -A 1 'server:' "conf/application-$SERVER_ENV.yml" | grep 'port' | sed 's/.*: *//')
+HEAP_SIZE_MB=$(awk -F '=' '/heap.size/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 
+# 检查是否有为空的变量
 if [ -z "$SERVER_NAME" ]; then
-    SERVER_NAME=`hostname`
+    echo "ERROR: SERVER_NAME (application.name) is missing or empty!"
+    exit 1
 fi
-
-PIDS=`ps -ef | grep java | grep -v grep | grep "$CONF_DIR" |awk '{print $2}'`
-if [ -n "$PIDS" ]; then
-    echo "ERROR: The $SERVER_NAME already started!"
-    echo "PID: $PIDS"
+if [ -z "$SERVER_ENV" ]; then
+    echo "ERROR: SERVER_ENV (profiles.active) is missing or empty!"
+    exit 1
+fi
+if [ -z "$JAR_NAME" ]; then
+    echo "ERROR: JAR_NAME (application.jar) is missing or empty!"
     exit 1
 fi
 
+# 输出配置信息
+echo "-------------- Startup Configuration -------------------"
+echo "SERVER_NAME: $SERVER_NAME"
+echo "SERVER_ENV: $SERVER_ENV"
+echo "JAR_NAME: $JAR_NAME"
+echo "SERVER_PORT: $SERVER_PORT"
+echo "HEAP_SIZE_MB: $HEAP_SIZE_MB"
+echo "-------------- Startup Configuration -------------------"
+
+# 检查服务是否已经启动
+PIDS=$(pgrep -f "$DEPLOY_DIR" | grep -v grep)
+if [ -n "$PIDS" ]; then
+    echo "WARN: The $SERVER_NAME is already running with PID: $PIDS"
+    exit 1
+fi
+
+# 检查端口是否被占用
 if [ -n "$SERVER_PORT" ]; then
-    SERVER_PORT_COUNT=`netstat -tln | grep $SERVER_PORT | wc -l`
-    if [ $SERVER_PORT_COUNT -gt 0 ]; then
-        echo "ERROR: The $SERVER_NAME port $SERVER_PORT already used!"
+    SERVER_PORT_COUNT=$(netstat -tln | grep -c "$SERVER_PORT")
+    if [ "$SERVER_PORT_COUNT" -gt 0 ]; then
+        echo "ERROR: The $SERVER_NAME port $SERVER_PORT is already in use!"
         exit 1
     fi
 fi
 
-LOGS_DIR=""
-if [ -n "$LOGS_FILE" ]; then
-    LOGS_DIR=`dirname $LOGS_FILE`
+# 设置日志文件夹
+if [ ! -d "$LOGS_DIR" ]; then
+    mkdir -p "$LOGS_DIR" || { echo "ERROR: Failed to create log directory"; exit 1; }
+fi
+STDOUT_FILE="$LOGS_DIR/stdout.log"
+
+# 配置JVM参数
+JAVA_OPTS="-Djava.awt.headless=true -Djava.net.preferIPv4Stack=true"
+# 获取项目服务配置HEAP_SIZE参数（单位：MB）
+JVM_HEAP_SIZE="$HEAP_SIZE_MB"
+# 判断参数是否有效（128MB到6144MB之间）最小约128MB最大约6G
+if [[ -n "$JVM_HEAP_SIZE" && "$JVM_HEAP_SIZE" -ge 128 && "$JVM_HEAP_SIZE" -le 6144 ]]; then
+    JVM_HEAP_SIZE="${JVM_HEAP_SIZE}m"
+    echo "Using service configuration JVM_HEAP_SIZE: ${JVM_HEAP_SIZE}"
 else
-    LOGS_DIR=$DEPLOY_DIR/logs
-fi
-if [ ! -d $LOGS_DIR ]; then
-    mkdir $LOGS_DIR
-fi
-STDOUT_FILE=$LOGS_DIR/stdout.log
-
-LIB_DIR=$DEPLOY_DIR/lib
-LIB_JARS=`ls $LIB_DIR|grep .jar|awk '{print "'$LIB_DIR'/"$0}'|tr "\n" ":"`
-
-JAVA_OPTS=" -Djava.awt.headless=true -Djava.net.preferIPv4Stack=true "
-JAVA_DEBUG_OPTS=""
-if [ "$1" = "debug" ]; then
-    JAVA_DEBUG_OPTS=" -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n "
-fi
-JAVA_JMX_OPTS=""
-if [ "$1" = "jmx" ]; then
-    JAVA_JMX_OPTS=" -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false "
+  # 获取宿主机器的内存大小（单位：MB）
+  HOST_MEMORY=$(free -m | grep Mem | awk '{print $2}')
+  # 根据宿主内存大小动态设置JVM堆大小
+  if [ "$HOST_MEMORY" -le 1024 ]; then
+      JVM_HEAP_SIZE="600m"
+  elif [ "$HOST_MEMORY" -le 2048 ]; then
+      JVM_HEAP_SIZE="1434m"
+  elif [ "$HOST_MEMORY" -le 4096 ]; then
+      JVM_HEAP_SIZE="2867m"
+  else
+      JVM_HEAP_SIZE="2867m"  # For machines with more than 4 GB of memory, use the same size as 4 GB
+  fi
 fi
 JAVA_MEM_OPTS=""
-BITS=`java -version 2>&1 | grep -i 64-bit`
-if [ -n "$BITS" ]; then
-    JAVA_MEM_OPTS=" -server -Xmx2g -Xms2g -Xmn256m -XX:PermSize=128m -Xss256k -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSCompactAtFullCollection -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 "
+JAVA_VERSION=$(java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}')
+if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
+    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:$LOGS_DIR/gc-${POD_IP}-$(date '+%s').log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
+elif [[ "$JAVA_VERSION" =~ ^11\..*$ ]]; then
+    JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -Xlog:gc:$LOGS_DIR/gc.log -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-${POD_IP}-$(date '+%s').hprof"
 else
-    JAVA_MEM_OPTS=" -server -Xms1g -Xmx1g -XX:PermSize=128m -XX:SurvivorRatio=2 -XX:+UseParallelGC "
+    echo "The JAVA_MEM_OPTS parameter does not support setting in this Java version $JAVA_VERSION."
 fi
 
-echo -e "Starting the $SERVER_NAME ...\c"
-nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -classpath $CONF_DIR:$LIB_JARS com.alibaba.dubbo.container.Main > $STDOUT_FILE 2>&1 &
+# 配置调试和JMX参数
+JAVA_DEBUG_OPTS=""
+JAVA_JMX_OPTS=""
+if [ "$1" = "debug" ]; then
+    JAVA_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
+    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=47.116.33.28 -Dcom.sun.management.jmxremote.rmi.port=1199"
+fi
+if [ "$1" = "jmx" ]; then
+    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+fi
 
+# 打印服务启动参数配置信息
+echo "-------------- Startup Configuration -------------------"
+echo "JAVA_MEM_OPTS: $JAVA_MEM_OPTS"
+echo "JAVA_DEBUG_OPTS: $JAVA_DEBUG_OPTS"
+echo "JAVA_JMX_OPTS: $JAVA_JMX_OPTS"
+echo "-------------- Startup Configuration -------------------"
+
+# 启动服务
+echo -e "Starting the $SERVER_NAME ...\c"
+if [ -n "$SERVER_PORT" ]; then
+  nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" --server.port="$SERVER_PORT" > "$DEPLOY_DIR/nohup.out" 2>&1 &
+else
+  nohup java $JAVA_OPTS $JAVA_MEM_OPTS $JAVA_DEBUG_OPTS $JAVA_JMX_OPTS -jar "$DEPLOY_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" > "$DEPLOY_DIR/nohup.out" 2>&1 &
+fi
+
+# 等待服务启动
 COUNT=0
-while [ $COUNT -lt 1 ]; do    
-    echo -e ".\c"
-    sleep 1 
-    if [ -n "$SERVER_PORT" ]; then
-        if [ "$SERVER_PROTOCOL" == "dubbo" ]; then
-    	    COUNT=`echo status | nc -i 1 $SERVER_HOST $SERVER_PORT | grep -c OK`
-        else
-            COUNT=`netstat -an | grep $SERVER_PORT | wc -l`
-        fi
-    else
-    	COUNT=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}' | wc -l`
+START_TIME=$(date +%s)  # 记录开始时间
+TIMEOUT=60              # 设置超时时间
+while [ "$COUNT" -lt 1 ]; do
+    ELAPSED_TIME=$(( $(date +%s) - $START_TIME ))
+    # 如果超出了指定时间，则退出循环
+    if [ "$ELAPSED_TIME" -ge "$TIMEOUT" ]; then
+        echo "INTERRUPT(${ELAPSED_TIME}s)"
+        exit 1
     fi
-    if [ $COUNT -gt 0 ]; then
+    # 开始进行服务启动轮询监听
+    echo -e ".\c"
+    sleep 1
+    if [ -n "$SERVER_PORT" ]; then
+        COUNT=$(netstat -an | grep -c "$SERVER_PORT")
+    else
+        COUNT=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}' | wc -l`
+    fi
+    if [ "$COUNT" -gt 0 ]; then
+        echo "OK!"
         break
     fi
 done
 
-echo "OK!"
 PIDS=`ps -f | grep java | grep -v grep | grep "$DEPLOY_DIR" | awk '{print $2}'`
 echo "PID: $PIDS"
-echo "STDOUT: $STDOUT_FILE"
+echo "NOHUP_OUT: $DEPLOY_DIR/nohup.out"
