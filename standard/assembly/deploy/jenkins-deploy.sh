@@ -6,16 +6,16 @@
 # ------------------------------
 
 # 本地调试目录（绝对路径）
-LOCAL_DIR="/Users/fangen/Documents/IntelliJ_IDEA/projects/github/bamboo/bamboo-business/business-admin/target"
+DEFAULT_LOCAL_DIR="/Users/fangen/Documents/IntelliJ_IDEA/projects/github/bamboo/bamboo-business/business-admin/target"
 
 # 执行环境，默认为本地环境
-EXEC_ENV="${1:-local}"
+EXEC_ENV="${1}"
 # 目标目录，默认为本地目录
 TARGET_DIR=""
 
-# 判断参数，如果第一个参数是 "jenkins"，则切换到 Jenkins 部署的目标目录
+# 执行环境判断流转
 if [ "$EXEC_ENV" = "local" ]; then
-    TARGET_DIR="$LOCAL_DIR"
+    TARGET_DIR="${2:-$DEFAULT_LOCAL_DIR}"
 elif [ "$EXEC_ENV" = "jenkins" ]; then
     TARGET_DIR=$(pwd)
 else
@@ -109,7 +109,7 @@ echo "清理assembly文件夹：$PROJECT_NAME-assembly"
 rm -rf "$PROJECT_NAME-assembly"
 
 echo "---------------------------------"
-echo "部署脚本执行完成！"
+echo "项目解压脚本执行完成！"
 echo "---------------------------------"
 
 # 执行服务重启脚本
