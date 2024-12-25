@@ -49,10 +49,6 @@ fi
 # 从压缩包文件名中提取项目名称
 PROJECT_NAME=$(echo "$ARCHIVE_NAME" | sed -E 's/-assembly//;s/.tar.gz//')
 
-# 解压前清理旧文件夹
-echo "清理旧文件夹：$PROJECT_NAME-assembly"
-rm -rf "$PROJECT_NAME-assembly"
-
 # 解压压缩包
 echo "开始解压 $ARCHIVE_NAME..."
 tar -zxvf "$ARCHIVE_NAME"
@@ -107,6 +103,10 @@ TARGET_CONF_DIR="$TARGET_DIR/conf"
 # 调用函数复制 bin 和 conf 目录
 copy_files "$BIN_DIR" "$TARGET_BIN_DIR"
 copy_files "$CONF_DIR" "$TARGET_CONF_DIR"
+
+# 解压复制后清理文件夹
+echo "清理assembly文件夹：$PROJECT_NAME-assembly"
+rm -rf "$PROJECT_NAME-assembly"
 
 echo "---------------------------------"
 echo "部署脚本执行完成！"
