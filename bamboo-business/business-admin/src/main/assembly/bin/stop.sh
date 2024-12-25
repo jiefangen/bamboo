@@ -5,6 +5,19 @@ BIN_DIR="$(pwd)"
 cd .. || exit 1
 DEPLOY_DIR="$(pwd)"
 
+# 设置日志文件夹
+LOGS_DIR="$DEPLOY_DIR/logs"
+if [ ! -d "$LOGS_DIR" ]; then
+    mkdir -p "$LOGS_DIR"
+fi
+STDOUT_FILE="$LOGS_DIR/stdout.log"
+get_timestamp() {
+    date "+%Y-%m-%d %H:%M:%S"
+}
+# 记录脚本开始的时间
+START_TIME=$(date +%s)
+echo "$(get_timestamp) - Script: $(basename $0) started" >> "$STDOUT_FILE"
+
 SERVER_NAME=`sed '/application.name/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
 SERVER_ENV=`sed '/profiles.active/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
 SERVER_PORT=$(grep -A 1 'server:' "conf/application-$SERVER_ENV.yml" | grep 'port' | sed 's/.*: *//')
@@ -16,6 +29,7 @@ fi
 PIDS=`ps -ef | grep java | grep -v grep | grep "$DEPLOY_DIR" |awk '{print $2}'`
 if [ -z "$PIDS" ]; then
     echo "WARN: The $SERVER_NAME does not started!"
+    echo "$(get_timestamp) - [$(basename $0)]WARN: The $SERVER_NAME does not started!" >> "$STDOUT_FILE"
     exit 1
 fi
 
@@ -52,3 +66,9 @@ done
 
 echo "OK!"
 echo "PID: $PIDS"
+
+# 记录脚本结束的时间
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+echo "$(get_timestamp) - Script: $(basename $0) ended" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - [$(basename $0)]Total execution time: $DURATION seconds" >> "$STDOUT_FILE"

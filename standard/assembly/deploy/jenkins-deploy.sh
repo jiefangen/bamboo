@@ -38,6 +38,19 @@ fi
 # 进入目标目录
 cd "$TARGET_DIR" || { echo "错误：无法进入目录 $TARGET_DIR！"; exit 1; }
 
+# 设置日志文件夹
+LOGS_DIR="$TARGET_DIR/logs"
+if [ ! -d "$LOGS_DIR" ]; then
+    mkdir -p "$LOGS_DIR"
+fi
+STDOUT_FILE="$LOGS_DIR/stdout.log"
+get_timestamp() { # 获取当前时间的函数
+    date "+%Y-%m-%d %H:%M:%S"
+}
+# 记录脚本开始的时间
+START_TIME=$(date +%s)
+echo "$(get_timestamp) - [main]Script: $(basename $0) started" >> "$STDOUT_FILE"
+
 # 获取压缩包文件名（假设只有一个压缩包）
 ARCHIVE_NAME=$(ls *-assembly.tar.gz 2>/dev/null)
 # 检查压缩文件是否存在
@@ -107,9 +120,6 @@ copy_files "$CONF_DIR" "$TARGET_CONF_DIR"
 # 解压复制后清理文件夹
 echo "清理assembly文件夹：$PROJECT_NAME-assembly"
 rm -rf "$PROJECT_NAME-assembly"
-
-echo "---------------------------------"
-echo "项目解压脚本执行完成！"
 echo "---------------------------------"
 
 # 执行服务重启脚本
@@ -117,5 +127,11 @@ cd "$TARGET_BIN_DIR" || { echo "错误：无法进入目录 $TARGET_BIN_DIR！";
 ./server.sh restart
 
 echo "---------------------------------"
-echo "服务重启脚本执行完成！"
+echo "部署脚本执行完成！"
 echo "---------------------------------"
+
+# 记录脚本结束的时间
+END_TIME=$(date +%s)
+DURATION=$((END_TIME - START_TIME))
+echo "$(get_timestamp) - [main]Script: $(basename $0) ended" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - [$(basename $0)]Total execution time: $DURATION seconds" >> "$STDOUT_FILE"
