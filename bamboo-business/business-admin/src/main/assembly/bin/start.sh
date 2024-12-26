@@ -103,7 +103,7 @@ JAVA_DEBUG_OPTS=""
 if [ "$1" = "debug" ]; then
   DEBUG_SERVER_PORT="8000" # 默认调试端口为8000
   if [ -n "$SERVER_PORT" ]; then
-    DEBUG_SERVER_PORT="1$SERVER_PORT"
+    DEBUG_SERVER_PORT="5${SERVER_PORT:1}"
   fi
   if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
       JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$DEBUG_SERVER_PORT"
@@ -142,6 +142,7 @@ while [ "$COUNT" -lt 1 ]; do
     # 如果超出了指定时间，则退出循环
     if [ "$ELAPSED_TIME" -ge "$TIMEOUT" ]; then
         echo "INTERRUPT(${ELAPSED_TIME}s)"
+        echo "$(get_timestamp) - [$(basename $0)]WARN: Start timeout interrupt(${ELAPSED_TIME}s)" >> "$STDOUT_FILE"
         exit 1
     fi
     # 开始进行服务启动轮询监听
