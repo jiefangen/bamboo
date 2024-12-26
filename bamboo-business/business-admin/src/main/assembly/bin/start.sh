@@ -98,14 +98,23 @@ else
     JAVA_MEM_OPTS="-server -Xms$JVM_HEAP_SIZE -Xmx$JVM_HEAP_SIZE -XX:+DisableExplicitGC -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$LOGS_DIR/dump-$(date '+%s').hprof"
 fi
 
-# 配置调试和JMX参数
+# 配置debug调试参数
 JAVA_DEBUG_OPTS=""
-JAVA_JMX_OPTS=""
 if [ "$1" = "debug" ]; then
-    JAVA_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n"
-    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=47.116.33.28 -Dcom.sun.management.jmxremote.rmi.port=1199"
+  DEBUG_SERVER_PORT="8000" # 默认调试端口为8000
+  if [ -n "$SERVER_PORT" ]; then
+    DEBUG_SERVER_PORT="1$SERVER_PORT"
+  fi
+  if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
+      JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$DEBUG_SERVER_PORT"
+  else
+      JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_SERVER_PORT"
+  fi
 fi
+# 配置JMX参数
+JAVA_JMX_OPTS=""
 if [ "$1" = "jmx" ]; then
+#    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=47.116.33.28 -Dcom.sun.management.jmxremote.rmi.port=1199"
     JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
 fi
 
