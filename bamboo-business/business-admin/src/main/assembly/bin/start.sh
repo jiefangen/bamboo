@@ -104,7 +104,7 @@ JAVA_DEBUG_OPTS=""
 if [ "$1" = "debug" ]; then
   DEBUG_PORT="8000" # 默认DEBUG端口为8000
   if [ -n "$SERVER_PORT" ]; then
-    DEBUG_PORT="5${SERVER_PORT:1}"
+    DEBUG_PORT=$((SERVER_PORT + 500))
   fi
   if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
       JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$DEBUG_PORT"
@@ -118,8 +118,8 @@ if [ "$1" = "jmx" ]; then
     JMX_PORT="1099"
     RMI_PORT="1199"
     if [ -n "$SERVER_PORT" ]; then
-      JMX_PORT="3${SERVER_PORT:1}"
-      RMI_PORT=$((JMX_PORT + 100))
+      JMX_PORT=$((SERVER_PORT + 100))
+      RMI_PORT=$((JMX_PORT + 200))
     fi
     JAVA_JMX="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
     if [ -n "$JMX_RMI_IP" ]; then
