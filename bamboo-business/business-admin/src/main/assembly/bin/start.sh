@@ -24,6 +24,7 @@ SERVER_ENV=$(awk -F '=' '/profiles.active/ {gsub(/\r/, ""); print $2}' conf/mave
 JAR_NAME=$(awk -F '=' '/application.jar/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 SERVER_PORT=$(grep -A 1 'server:' "conf/application-$SERVER_ENV.yml" | grep 'port' | sed 's/.*: *//')
 HEAP_SIZE_MB=$(awk -F '=' '/heap.size/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
+JMX_RMI_IP=$(awk -F '=' '/rmi.hostname/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
 
 # 检查是否有为空的变量
 if [ -z "$SERVER_NAME" ]; then
@@ -101,21 +102,32 @@ fi
 # 配置debug调试参数
 JAVA_DEBUG_OPTS=""
 if [ "$1" = "debug" ]; then
-  DEBUG_SERVER_PORT="8000" # 默认调试端口为8000
+  DEBUG_PORT="8000" # 默认DEBUG端口为8000
   if [ -n "$SERVER_PORT" ]; then
-    DEBUG_SERVER_PORT="5${SERVER_PORT:1}"
+    DEBUG_PORT="5${SERVER_PORT:1}"
   fi
   if [[ "$JAVA_VERSION" =~ ^1\.8\..*$ ]]; then
-      JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$DEBUG_SERVER_PORT"
+      JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=$DEBUG_PORT"
   else
-      JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_SERVER_PORT"
+      JAVA_DEBUG_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:$DEBUG_PORT"
   fi
 fi
 # 配置JMX参数
 JAVA_JMX_OPTS=""
 if [ "$1" = "jmx" ]; then
-#    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=47.116.33.28 -Dcom.sun.management.jmxremote.rmi.port=1199"
-    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false"
+    JMX_PORT="1099"
+    RMI_PORT="1199"
+    if [ -n "$SERVER_PORT" ]; then
+      JMX_PORT="3${SERVER_PORT:1}"
+      RMI_PORT=$((JMX_PORT + 100))
+    fi
+    JAVA_JMX="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+    if [ -n "$JMX_RMI_IP" ]; then
+        JAVA_JMX_RMI="-Djava.rmi.server.hostname=$JMX_RMI_IP -Dcom.sun.management.jmxremote.rmi.port=$RMI_PORT"
+        JAVA_JMX_OPTS=$JAVA_JMX $JAVA_JMX_RMI
+    else
+        JAVA_JMX_OPTS=$JAVA_JMX
+    fi
 fi
 
 # 打印服务启动参数配置信息
