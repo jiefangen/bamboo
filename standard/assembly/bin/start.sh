@@ -121,13 +121,10 @@ if [ "$1" = "jmx" ]; then
       JMX_PORT=$((SERVER_PORT + 100))
       RMI_PORT=$((JMX_PORT + 200))
     fi
-    JAVA_JMX="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+    JAVA_JMX_OPTS="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
     if [ -n "$JMX_RMI_IP" ]; then
         JAVA_JMX_RMI="-Djava.rmi.server.hostname=$JMX_RMI_IP -Dcom.sun.management.jmxremote.rmi.port=$RMI_PORT"
-        JAVA_JMX_OPTS=$JAVA_JMX $JAVA_JMX_RMI
-    else
-        JAVA_JMX_OPTS=$JAVA_JMX
-    fi
+        JAVA_JMX_OPTS="$JAVA_JMX_OPTS $JAVA_JMX_RMI"
 fi
 
 # 打印服务启动参数配置信息
