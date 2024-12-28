@@ -124,7 +124,7 @@ if [ "$1" = "jmx" ]; then
     JAVA_JMX="-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=$JMX_PORT -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
     if [ -n "$JMX_RMI_IP" ]; then
         JAVA_JMX_RMI="-Djava.rmi.server.hostname=$JMX_RMI_IP -Dcom.sun.management.jmxremote.rmi.port=$RMI_PORT"
-        JAVA_JMX_OPTS=$JAVA_JMX $JAVA_JMX_RMI
+        JAVA_JMX_OPTS="$JAVA_JMX $JAVA_JMX_RMI"
     else
         JAVA_JMX_OPTS=$JAVA_JMX
     fi
