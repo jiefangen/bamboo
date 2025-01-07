@@ -277,13 +277,13 @@
 2. 【推荐】其它配置文件，如果没有特殊要求，默认均位于maven工程的src/main/resources源代码目录中的META-INF目录下。
 3. 【强制】每个微服务都有自己的sql脚本文件，位于微服务级maven工程repo模块的src/main/resources源代码目录中的META-INF/sql目录下，以v开头，后接版本号，通过flyway执行脚本。
   > 例如：[bamboo-admin]/bamboo-admin-repo/src/main/resources/META-INF/sql/v2.2.1.sql
-4. 【强制】所有sql文件中的sql脚本均使用小写字母，更多数据库相关规约见[《数据库开发设计规约》](./database.md)。
+4. 【强制】所有sql文件中的sql脚本均使用小写字母，更多数据库相关规约见[《数据库开发设计规约》](database.md)。
 5. 【强制】JPA配置均通过实体映射（entity-mappings）文件进行配置，不在实体类中使用JPA注解。
   > 说明：我们采用贫血模型，实体类仅仅用于表示业务领域实体，不关心自身如何被持久化，持久化由repo模块负责。
 6. 【强制】JPA实体映射配置文件位于repo模块的src/main/resources源代码目录的/META-INF/jpa目录中，每个实体类一个配置文件。
 
 ## 四、Web开发规约
-详见[《Web开发代码规约》](./web.md)。
+详见[《Web开发代码规约》](web.md)。
 
 ## 五、单元测试规约
 单元测试代码仍需遵守上述规约，本章节在其基础上对单元测试提出了更高的要求。
