@@ -16,7 +16,7 @@ get_timestamp() { # 获取当前时间的函数
 }
 # 记录脚本开始的时间
 START_TIME=$(date +%s)
-echo "$(get_timestamp) - Script: $(basename $0) started" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - INFO $(basename $0) execution start..." >> "$STDOUT_FILE"
 
 # 从配置文件中提取服务运行的配置信息
 SERVER_NAME=$(awk -F '=' '/application.name/ {gsub(/\r/, ""); print $2}' conf/maven.properties)
@@ -53,7 +53,7 @@ echo "-------------- MAVEN_CONFIG -------------------"
 PIDS=$(pgrep -f "$DEPLOY_DIR" | grep -v grep)
 if [ -n "$PIDS" ]; then
     echo "WARN: The $SERVER_NAME is already running with PID: $PIDS"
-    echo "$(get_timestamp) - [$(basename $0)]WARN: The $SERVER_NAME is already running with PID: $PIDS" >> "$STDOUT_FILE"
+    echo "$(get_timestamp) - WARN [$(basename $0)] The $SERVER_NAME is already running with PID: $PIDS" >> "$STDOUT_FILE"
     exit 1
 fi
 
@@ -62,7 +62,7 @@ if [ -n "$SERVER_PORT" ]; then
     SERVER_PORT_COUNT=$(netstat -tln | grep -c "$SERVER_PORT")
     if [ "$SERVER_PORT_COUNT" -gt 0 ]; then
         echo "ERROR: The $SERVER_NAME port $SERVER_PORT is already in use!"
-        echo "$(get_timestamp) - [$(basename $0)]ERROR: The $SERVER_NAME port $SERVER_PORT is already in use!" >> "$STDOUT_FILE"
+        echo "$(get_timestamp) - ERROR [$(basename $0)] The $SERVER_NAME port $SERVER_PORT is already in use!" >> "$STDOUT_FILE"
         exit 1
     fi
 fi
@@ -152,7 +152,7 @@ while [ "$COUNT" -lt 1 ]; do
     # 如果超出了指定时间，则退出循环
     if [ "$ELAPSED_TIME" -ge "$TIMEOUT" ]; then
         echo "INTERRUPT(${ELAPSED_TIME}s)"
-        echo "$(get_timestamp) - [$(basename $0)]WARN: Start timeout interrupt(${ELAPSED_TIME}s)" >> "$STDOUT_FILE"
+        echo "$(get_timestamp) - WARN [$(basename $0)] Start timeout interrupt(${ELAPSED_TIME}s)" >> "$STDOUT_FILE"
         exit 1
     fi
     # 开始进行服务启动轮询监听
@@ -176,5 +176,4 @@ echo "NOHUP_OUT: $DEPLOY_DIR/nohup.out"
 # 记录脚本结束的时间
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))
-echo "$(get_timestamp) - Script: $(basename $0) ended" >> "$STDOUT_FILE"
-echo "$(get_timestamp) - [$(basename $0)]Total execution time: $DURATION seconds" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - INFO $(basename $0) execution ended. Total execution time: $DURATION seconds." >> "$STDOUT_FILE"

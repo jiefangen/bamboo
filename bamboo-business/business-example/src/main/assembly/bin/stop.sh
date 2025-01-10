@@ -16,7 +16,7 @@ get_timestamp() {
 }
 # 记录脚本开始的时间
 START_TIME=$(date +%s)
-echo "$(get_timestamp) - Script: $(basename $0) started" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - INFO $(basename $0) execution start..." >> "$STDOUT_FILE"
 
 SERVER_NAME=`sed '/application.name/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
 SERVER_ENV=`sed '/profiles.active/!d;s/.*=//' conf/maven.properties | tr -d '\r'`
@@ -29,7 +29,7 @@ fi
 PIDS=`ps -ef | grep java | grep -v grep | grep "$DEPLOY_DIR" |awk '{print $2}'`
 if [ -z "$PIDS" ]; then
     echo "WARN: The $SERVER_NAME does not started!"
-    echo "$(get_timestamp) - [$(basename $0)]WARN: The $SERVER_NAME does not started!" >> "$STDOUT_FILE"
+    echo "$(get_timestamp) - WARN [$(basename $0)] The $SERVER_NAME does not started!" >> "$STDOUT_FILE"
     exit 1
 fi
 
@@ -70,5 +70,4 @@ echo "PID: $PIDS"
 # 记录脚本结束的时间
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))
-echo "$(get_timestamp) - Script: $(basename $0) ended" >> "$STDOUT_FILE"
-echo "$(get_timestamp) - [$(basename $0)]Total execution time: $DURATION seconds" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - INFO $(basename $0) execution ended. Total execution time: $DURATION seconds." >> "$STDOUT_FILE"
