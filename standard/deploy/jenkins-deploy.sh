@@ -49,9 +49,9 @@ get_timestamp() { # 获取当前时间的函数
 }
 
 # 记录脚本开始的时间
-echo "------------------------------- Deployment -----------------------------------" >> "$STDOUT_FILE"
+echo "------------------------------- DEPLOY SCRIPT -----------------------------------" >> "$STDOUT_FILE"
 START_TIME=$(date +%s)
-echo "$(get_timestamp) - INFO $(basename $0) execution start..." >> "$STDOUT_FILE"
+echo "$(get_timestamp) - INFO [$(basename $0)] execution start..." >> "$STDOUT_FILE"
 
 # 获取压缩包文件名（假设只有一个压缩包）
 ARCHIVE_NAME=$(ls *-assembly.tar.gz 2>/dev/null)
@@ -135,5 +135,5 @@ echo "---------------------------------"
 # 记录脚本结束的时间
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))
-echo "$(get_timestamp) - INFO $(basename $0) execution ended. Total execution time: $DURATION seconds." >> "$STDOUT_FILE"
-echo "------------------------------- Deployment -----------------------------------" >> "$STDOUT_FILE"
+echo "$(get_timestamp) - INFO [$(basename $0)] execution ended. Total execution time: $DURATION seconds." >> "$STDOUT_FILE"
+echo "------------------------------- DEPLOY SCRIPT -----------------------------------" >> "$STDOUT_FILE"
