@@ -74,7 +74,7 @@
             <version>${technology.version}</version>
         </dependency>
     </dependencies>
-
+    <!-- assembly打包插件 -->
     <build>
         <plugins>
             <plugin>

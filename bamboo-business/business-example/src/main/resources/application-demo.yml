@@ -1,7 +1,5 @@
 server:
   port: 20004
-  servlet:
-    context-path: /biz-example
 spring:
   redis:
     host: 198.19.249.159

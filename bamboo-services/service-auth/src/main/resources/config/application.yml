@@ -4,7 +4,6 @@ spring:
   profiles:
     active: @profiles.active@
 server:
-  port: 11006
   servlet:
     context-path: /auth
 
