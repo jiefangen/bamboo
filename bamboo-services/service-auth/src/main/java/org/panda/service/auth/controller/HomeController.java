@@ -14,9 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeController extends HomeControllerSupport {
 
     @ConfigAnonymous
-    public RestfulResult<String> home() {
-        RestfulResult<String> result = super.home();
-        return RestfulResult.success(result.getData() + " Enable");
+    public RestfulResult<Object> home() {
+        return super.home();
     }
 
     @ConfigAnonymous

@@ -12,12 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class HomeController extends HomeControllerSupport {
 
-    public RestfulResult<String> home() {
+    public RestfulResult<Object> home() {
         return super.home();
     }
 
     public ModelAndView index(HttpServletRequest request) {
         return super.index(request);
     }
-
 }

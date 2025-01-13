@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 public class HomeController extends HomeControllerSupport {
 
     @ConfigAnonymous
-    public RestfulResult<String> home() {
+    public RestfulResult<Object> home() {
         return super.home();
     }
 

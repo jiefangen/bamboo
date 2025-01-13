@@ -1,6 +1,6 @@
 spring:
   application:
-    name: official
+    name: business-official
   profiles:
     active: local
 

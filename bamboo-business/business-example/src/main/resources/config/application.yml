@@ -1,6 +1,6 @@
 spring:
   application:
-    name: example
+    name: business-example
   profiles:
     active: @profiles.active@
 server:
