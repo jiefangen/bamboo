@@ -1,7 +1,5 @@
 server:
   port: 10002
-  servlet:
-    context-path: /biz-official
 spring:
   redis:
     host: 127.0.0.1

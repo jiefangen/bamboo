@@ -3,6 +3,9 @@ spring:
     name: business-official
   profiles:
     active: local
+server:
+  servlet:
+    context-path: /biz-official
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

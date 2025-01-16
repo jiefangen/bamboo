@@ -1,12 +1,12 @@
 spring:
   application:
-    name: helper-app
+    name: business-helper-app
   profiles:
     active: @profiles.active@
 server:
   port: 10003
   servlet:
-    context-path: /helper-app
+    context-path: /biz-helper-app
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

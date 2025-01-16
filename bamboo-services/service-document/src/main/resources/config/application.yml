@@ -2,7 +2,7 @@ spring:
   application:
     name: document-service
   profiles:
-    active: local
+    active: @profiles.active@
   servlet:
     multipart:
       max-file-size: 100MB

@@ -6,8 +6,5 @@ spring:
   messages:
     basename: message/error/notice-error,message/info/notice-info
 server:
-  port: 11002
-
-logging:
-  level:
-    org.panda.ms.notice: debug
+  servlet:
+    context-path: /notice
