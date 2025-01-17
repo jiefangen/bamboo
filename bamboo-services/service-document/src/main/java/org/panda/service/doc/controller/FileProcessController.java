@@ -26,13 +26,12 @@ public class FileProcessController {
     @Autowired
     private FileProcessService fileProcessService;
 
-    @ApiOperation("文件上传存储")
+    @ApiOperation("文件导入上传")
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public RestfulResult<?> upload(@RequestPart("file") MultipartFile file) throws IOException {
         DocFileParam docFileParam = new DocFileParam();
         docFileParam.setTags(DocConstants.FILE_DOCUMENT_TAGS);
         DocFileUtils.transformDocFile(file, docFileParam);
-
         InputStream inputStream = file.getInputStream();
         Object result = fileProcessService.importFile(docFileParam, inputStream, false);
         if (result instanceof DocFile) {
@@ -41,6 +40,12 @@ public class FileProcessController {
         } else {
             return RestfulResult.failure((String) result);
         }
+    }
+
+    @ApiOperation("文件导出下载")
+    @GetMapping("/export/{fileId}")
+    public void fileExport(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
+        fileProcessService.fileExport(fileId, response);
     }
 
     @ApiOperation("文件读取存储")
@@ -57,12 +62,6 @@ public class FileProcessController {
         } else {
             return RestfulResult.failure((String) result);
         }
-    }
-
-    @ApiOperation("存储原文件导出")
-    @GetMapping("/export/{fileId}")
-    public void fileExport(@PathVariable Long fileId, HttpServletResponse response) throws IOException {
-        fileProcessService.fileExport(fileId, response);
     }
 
     @ApiOperation("文件创建下载")
