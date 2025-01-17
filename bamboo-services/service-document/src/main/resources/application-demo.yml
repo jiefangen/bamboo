@@ -14,11 +14,3 @@ spring:
       idle-timeout: 60000 # 空闲的连接的生命时长（毫秒）
       max-lifetime: 60000 # 连接的生命时长（毫秒）
       validation-timeout: 3000 # 验证连接有效性（毫秒）
-    jpa:
-      hibernate:
-        ddl-auto: update
-      show-sql: true
-
-logging:
-  level:
-    org.panda.ms.doc: info

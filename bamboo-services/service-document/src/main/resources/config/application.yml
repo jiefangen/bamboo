@@ -10,7 +10,3 @@ spring:
 server:
   servlet:
     context-path: /document
-
-logging:
-  level:
-    org.panda.service.doc: debug
