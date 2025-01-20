@@ -21,7 +21,7 @@ import org.panda.tech.auth.authority.AuthorizationInfo;
 import org.panda.tech.auth.authority.DefaultAuthorizationInfo;
 import org.panda.tech.auth.authority.PerConstants;
 import org.panda.tech.auth.realm.RememberMeRealm;
-import org.panda.tech.core.config.security.model.enums.AuthRoleCode;
+import org.panda.tech.auth.authentication.enums.AuthRoleCode;
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.exception.business.param.RequiredParamException;

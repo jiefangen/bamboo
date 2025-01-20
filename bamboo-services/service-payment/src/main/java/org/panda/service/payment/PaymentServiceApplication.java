@@ -1,7 +1,7 @@
 package org.panda.service.payment;
 
+import org.panda.support.security.annotation.EnableAuthServer;
 import org.panda.tech.core.CoreModule;
-import org.panda.tech.core.config.annotation.EnableAuthServer;
 import org.panda.tech.core.rpc.annotation.EnableRpcInvoker;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

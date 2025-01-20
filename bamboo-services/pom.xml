@@ -19,6 +19,7 @@
         <bamboo-core.version>1.3.0</bamboo-core.version>
 
         <service.version>1.0.0</service.version>
+        <support.version>1.0.0</support.version>
         <technology.version>1.0.0</technology.version>
 
         <spring-boot.version>2.6.13</spring-boot.version>

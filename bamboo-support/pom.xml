@@ -9,6 +9,8 @@
     <packaging>pom</packaging>
     <description>分布式框架扩展支撑层</description>
     <modules>
+        <!-- 分布式服务认证鉴权支持 -->
+        <module>support-security-auth</module>
         <!-- 上层服务支持模块-提供国内常用openapi的封装使用 -->
         <module>support-openapi</module>
     </modules>

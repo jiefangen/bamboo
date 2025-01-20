@@ -21,6 +21,12 @@
     </properties>
 
     <dependencies>
+        <!-- 分布式服务认证鉴权支持 -->
+        <dependency>
+            <groupId>org.panda.support</groupId>
+            <artifactId>support-security-auth</artifactId>
+            <version>${support.version}</version>
+        </dependency>
         <!-- 技术框架jpa扩展支持 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
@@ -59,6 +65,7 @@
             <version>1.14.0</version>
         </dependency>
     </dependencies>
+
     <!-- assembly打包插件 -->
     <build>
         <plugins>
