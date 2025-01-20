@@ -17,5 +17,4 @@ import java.util.List;
 public interface AuthRolePermissionService extends IService<AuthRolePermission> {
 
     void initPermissions(List<AppServiceModel.Permission> permissions, Integer appServerId, String appName);
-
 }

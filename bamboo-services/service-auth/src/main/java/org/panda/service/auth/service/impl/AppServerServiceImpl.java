@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
 import org.panda.service.auth.infrastructure.security.app.authority.AppConfigAuthority;
@@ -98,9 +99,10 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
         String appName = appServiceModel.getAppName();
         String appCode = appName.toUpperCase();
         LambdaQueryWrapper<AppServer> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(AppServer::getAppName, appName);
         queryWrapper.eq(AppServer::getAppCode, appCode);
         String env = appServiceModel.getEnv();
+        appName += Strings.MINUS + env;
+        queryWrapper.eq(AppServer::getAppName, appName);
         queryWrapper.eq(AppServer::getEnv, env);
         AppServer appServer = this.getOne(queryWrapper, false);
         // 组装应用服务参数

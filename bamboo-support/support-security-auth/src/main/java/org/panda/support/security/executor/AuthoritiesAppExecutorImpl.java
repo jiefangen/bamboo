@@ -2,7 +2,6 @@ package org.panda.support.security.executor;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.core.context.SpringContextHolder;
@@ -62,10 +61,10 @@ public class AuthoritiesAppExecutorImpl implements AuthoritiesAppExecutor {
         try {
             String env = SpringContextHolder.getActiveProfile();
             appServiceModel.setEnv(env);
-            appServiceModel.setAppName(appName + Strings.MINUS + env);
+            appServiceModel.setAppName(appName);
             appServiceModel.setHost(NetUtil.getLocalHost());
             RestfulResult<?> result = authServerClient.authorize(appServiceModel);
-            LogUtil.info(getClass(), "{} service permissions loading completed, authorize result: {}", appName,
+            LogUtil.info(getClass(), "{} permissions loading completed, authorize result: {}", appName,
                     JsonUtil.toJson(result));
         } catch (Exception e) {
             LogUtil.error(getClass(), e);
