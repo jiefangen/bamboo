@@ -79,17 +79,17 @@ ALTER TABLE `auth_account_role` ADD CONSTRAINT fk_auth_account_role_role_id_role
 
 DROP TABLE IF EXISTS `app_service`;
 CREATE TABLE `app_service` (
-                               `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                               `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
-                               `app_code` VARCHAR(60) NOT NULL COMMENT '应用服务编码',
-                               `env` VARCHAR(30) COMMENT '应用运行环境',
-                               `host` VARCHAR(50) COMMENT '运行服务器地址',
-                               `caption` VARCHAR(500) COMMENT '标题',
-                               `context_path` VARCHAR(100) COMMENT '上下文路径',
-                               `status` INT NOT NULL COMMENT '状态：0-故障；1-正常；2-维护中',
-                               `scope` VARCHAR(300) COMMENT '应用服务范围',
-                               PRIMARY KEY (`id`) USING BTREE,
-                               KEY `IDX_APP_NAME` (`app_name`)
+                           `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                           `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
+                           `app_code` VARCHAR(60) NOT NULL COMMENT '应用服务编码',
+                           `env` VARCHAR(30) COMMENT '应用运行环境',
+                           `caption` VARCHAR(500) COMMENT '标题',
+                           `gateway_uri` VARCHAR(50) COMMENT '服务网关URI',
+                           `context_path` VARCHAR(100) COMMENT '上下文路径',
+                           `status` INT NOT NULL COMMENT '状态：0-故障；1-正常；2-维护中',
+                           `scope` VARCHAR(300) COMMENT '应用服务范围',
+                           PRIMARY KEY (`id`) USING BTREE,
+                           KEY `IDX_APP_NAME` (`app_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用服务' ROW_FORMAT=Compact;
 
 DROP TABLE IF EXISTS `app_service_node`;

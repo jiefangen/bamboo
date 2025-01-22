@@ -7,9 +7,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.util.clazz.ClassParse;
 import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.service.auth.common.constant.enums.ServiceStatus;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
 import org.panda.service.auth.infrastructure.security.app.authority.AppConfigAuthority;
 import org.panda.service.auth.model.entity.AppService;
@@ -33,6 +36,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Set;
 
@@ -108,40 +112,61 @@ public class AppServiceServiceImpl extends ServiceImpl<AppServiceMapper, AppServ
         appName += Strings.MINUS + env;
         queryWrapper.eq(AppService::getAppName, appName);
         queryWrapper.eq(AppService::getEnv, env);
-        AppService appServer = this.getOne(queryWrapper, false);
-        // 组装应用服务参数
-        AppService appServerParam = new AppService();
-        appServerParam.setAppName(appName);
-        appServerParam.setAppCode(appCode);
-        appServerParam.setEnv(env);
-//        appServerParam.setHost(appServiceModel.getHost());
-        appServerParam.setStatus(1);
-        appServerParam.setCaption(appServiceModel.getCaption());
-        appServerParam.setContextPath(appServiceModel.getContextPath());
-        appServerParam.setScope(appServiceModel.getScope());
-        if (appServer == null) { // 应用服务注册激活
-            if (this.save(appServerParam)) {
-                appServer = this.getOne(Wrappers.lambdaQuery(appServerParam));
-
+        AppService appService = this.getOne(queryWrapper, false);
+        // 应用服务注册激活
+        if (appService == null) {
+            // 组装应用服务参数
+            AppService appServiceParam = new AppService();
+            appServiceParam.setAppName(appName);
+            appServiceParam.setAppCode(appCode);
+            appServiceParam.setEnv(env);
+            appServiceParam.setStatus(ClassParse.visit(EnumValueHelper.getValue(ServiceStatus.UP), Integer.class));
+            appServiceParam.setCaption(appServiceModel.getCaption());
+            appServiceParam.setGatewayUri(appServiceModel.getGatewayUri());
+            appServiceParam.setContextPath(appServiceModel.getContextPath());
+            appServiceParam.setScope(appServiceModel.getScope());
+            if (this.save(appServiceParam)) {
+                appService = this.getOne(Wrappers.lambdaQuery(appServiceParam));
                 // 添加服务节点
-                AppServiceNode appServiceNodeParam = new AppServiceNode();
-                appServiceNodeParam.setServiceId(appServer.getId());
-                appServiceNodeParam.setAppName(appName);
-                appServiceNodeParam.setStatus(1);
-                appServiceNodeParam.setHost(appServiceModel.getHost());
-                appServiceNodeParam.setDirectUri(appServiceModel.getDirectUri());
-                appServiceNodeService.save(appServiceNodeParam);
+                addServiceNode(appService.getId(), appName, appServiceModel.getHost(), appServiceModel.getDirectUri());
             }
         } else { // 已注册过的更新
-            appServerParam.setId(appServer.getId());
-            // 集群环境下多节点
-            this.updateById(appServerParam);
+            appService.setCaption(appServiceModel.getCaption());
+            appService.setGatewayUri(appServiceModel.getGatewayUri());
+            appService.setContextPath(appServiceModel.getContextPath());
+            appService.setScope(appServiceModel.getScope());
+            this.updateById(appService);
+            // 集群环境下添加服务多节点
+            addServiceNode(appService.getId(), appName, appServiceModel.getHost(), appServiceModel.getDirectUri());
         }
-        if (appServer == null) { // 还未获取到应用服务则本次初始化失败
+        if (appService == null) { // 还未获取到应用服务则本次初始化失败
             return appName + " service registration and save failed";
         }
-        authRolePermissionService.initPermissions(appServiceModel.getPermissions(), appServer.getId(), appName);
+        authRolePermissionService.initPermissions(appServiceModel.getPermissions(), appService.getId(), appName);
         return Commons.RESULT_SUCCESS;
+    }
+
+    private void addServiceNode(Integer serviceId, String appName, String host, String directUri) {
+        LambdaQueryWrapper<AppServiceNode> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AppServiceNode::getServiceId, serviceId);
+        queryWrapper.eq(AppServiceNode::getAppName, appName);
+        queryWrapper.eq(AppServiceNode::getHost, host);
+        AppServiceNode appServiceNode = appServiceNodeService.getOne(queryWrapper, false);
+        Integer upStatus = ClassParse.visit(EnumValueHelper.getValue(ServiceStatus.UP), Integer.class);
+        if (appServiceNode == null) {
+            AppServiceNode appServiceNodeParam = new AppServiceNode();
+            appServiceNodeParam.setServiceId(serviceId);
+            appServiceNodeParam.setAppName(appName);
+            appServiceNodeParam.setStatus(upStatus);
+            appServiceNodeParam.setHost(host);
+            appServiceNodeParam.setDirectUri(directUri);
+            appServiceNodeService.save(appServiceNodeParam);
+        } else {
+            appServiceNode.setDirectUri(directUri);
+            appServiceNode.setStatus(upStatus);
+            appServiceNode.setUpdateTime(LocalDateTime.now());
+            appServiceNodeService.updateById(appServiceNode);
+        }
     }
 
     @Override

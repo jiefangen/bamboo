@@ -1,14 +1,15 @@
 package org.panda.service.auth.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -42,13 +43,13 @@ public class AppService implements Serializable {
     @TableField("env")
     private String env;
 
-    @ApiModelProperty(value = "运行服务器地址")
-    @TableField("host")
-    private String host;
-
     @ApiModelProperty(value = "标题")
     @TableField("caption")
     private String caption;
+
+    @ApiModelProperty(value = "服务网关URI")
+    @TableField("gateway_uri")
+    private String gatewayUri;
 
     @ApiModelProperty(value = "上下文路径")
     @TableField("context_path")

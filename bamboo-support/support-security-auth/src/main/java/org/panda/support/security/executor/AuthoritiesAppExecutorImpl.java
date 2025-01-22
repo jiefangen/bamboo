@@ -53,7 +53,7 @@ public class AuthoritiesAppExecutorImpl implements AuthoritiesAppExecutor {
         AppFacade appFacade = commonProperties.getAppFacade(appName, true);
         AppServiceModel appServiceModel = new AppServiceModel();
         if (appFacade != null) {
-            String contextPath = appFacade.getContextPath();
+            String contextPath = appFacade.getContextUri();
             if (StringUtils.isEmpty(contextPath)) {
                 ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
                 Environment environment = applicationContext.getEnvironment();
@@ -79,6 +79,7 @@ public class AuthoritiesAppExecutorImpl implements AuthoritiesAppExecutor {
             String host = NetUtil.getLocalHost();
             appServiceModel.setHost(host);
             if (appFacade != null) {
+                appServiceModel.setGatewayUri(appFacade.getGatewayUri());
                 String directUri = appFacade.getDirectUri();
                 if (StringUtils.isEmpty(directUri)) {
                     appServiceModel.setDirectUri(StringUtil.joinObj(NetUtil.PROTOCOL_HTTP, host, Strings.COLON, port,

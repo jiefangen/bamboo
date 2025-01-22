@@ -31,13 +31,17 @@ public class AppServiceModel implements DomainModel {
      */
     private String caption;
     /**
-     * 上下文路径
+     * 服务网关URI
      */
-    private String contextPath;
+    private String gatewayUri;
     /**
      * 服务直连URI
      */
     private String directUri;
+    /**
+     * 上下文路径
+     */
+    private String contextPath;
     /**
      * 应用服务范围
      */
