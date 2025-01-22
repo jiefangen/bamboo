@@ -2,7 +2,7 @@ package org.panda.service.auth.controller;
 
 import io.swagger.annotations.Api;
 import org.apache.commons.collections4.CollectionUtils;
-import org.panda.service.auth.service.AppServerService;
+import org.panda.service.auth.service.AppServiceService;
 import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
@@ -28,7 +28,7 @@ import java.util.Collection;
 public class AccessController {
 
     @Autowired
-    private AppServerService appServerService;
+    private AppServiceService appServiceService;
 
     /**
      * 服务资源访问验证
@@ -44,7 +44,7 @@ public class AccessController {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return RestfulResult.getFailure(ExceptionEnum.UNAUTHORIZED);
         } else {
-            boolean isGranted = appServerService.permissionVerification(service, grantedAuthorities);
+            boolean isGranted = appServiceService.permissionVerification(service, grantedAuthorities);
             if (!isGranted) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return RestfulResult.getFailure(ExceptionEnum.AUTH_NO_OPERA);

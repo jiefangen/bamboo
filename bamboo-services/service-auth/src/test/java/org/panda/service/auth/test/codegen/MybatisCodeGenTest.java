@@ -9,6 +9,6 @@ public class MybatisCodeGenTest extends AuthServiceApplicationTest {
     void codeGen() {
         MybatisCodeGen mybatisCodeGen = new MybatisCodeGen();
 //        mybatisCodeGen.codeGenerator("auth_account", "auth_role", "auth_permission", "app_server");
-        mybatisCodeGen.codeGenerator("auth_role_permission", true);
+        mybatisCodeGen.codeGenerator("app_service_node", true);
     }
 }

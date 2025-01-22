@@ -2,8 +2,10 @@ package org.panda.support.security.executor;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
+import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.bamboo.core.context.SpringContextHolder;
 import org.panda.support.security.authority.AppConfigAuthority;
 import org.panda.support.security.authority.AuthoritiesAppExecutor;
@@ -16,6 +18,8 @@ import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.NetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 
 import java.util.*;
 
@@ -33,6 +37,9 @@ public class AuthoritiesAppExecutorImpl implements AuthoritiesAppExecutor {
     @Value(AppConstants.EL_SPRING_APP_NAME)
     private String appName;
 
+    @Value(AppConstants.EL_SERVER_PORT)
+    private String port;
+
     @Autowired
     private CommonProperties commonProperties;
     @Autowired
@@ -46,8 +53,15 @@ public class AuthoritiesAppExecutorImpl implements AuthoritiesAppExecutor {
         AppFacade appFacade = commonProperties.getAppFacade(appName, true);
         AppServiceModel appServiceModel = new AppServiceModel();
         if (appFacade != null) {
+            String contextPath = appFacade.getContextPath();
+            if (StringUtils.isEmpty(contextPath)) {
+                ApplicationContext applicationContext = SpringContextHolder.getApplicationContext();
+                Environment environment = applicationContext.getEnvironment();
+                contextPath = environment.getProperty("server.servlet.context-path");
+            }
+            appServiceModel.setContextPath(contextPath);
             appServiceModel.setCaption(appFacade.getCaption());
-            appServiceModel.setBusiness(appFacade.getBusiness());
+            appServiceModel.setScope(appFacade.getBusiness());
         }
         List<AppServiceModel.Permission> permissions = new ArrayList<>();
         for (Map.Entry<String, Collection<AppConfigAuthority>> authorityEntry : this.apiConfigAuthoritiesMapping.entrySet()) {
@@ -62,7 +76,17 @@ public class AuthoritiesAppExecutorImpl implements AuthoritiesAppExecutor {
             String env = SpringContextHolder.getActiveProfile();
             appServiceModel.setEnv(env);
             appServiceModel.setAppName(appName);
-            appServiceModel.setHost(NetUtil.getLocalHost());
+            String host = NetUtil.getLocalHost();
+            appServiceModel.setHost(host);
+            if (appFacade != null) {
+                String directUri = appFacade.getDirectUri();
+                if (StringUtils.isEmpty(directUri)) {
+                    appServiceModel.setDirectUri(StringUtil.joinObj(NetUtil.PROTOCOL_HTTP, host, Strings.COLON, port,
+                            appServiceModel.getContextPath()));
+                } else {
+                    appServiceModel.setDirectUri(directUri);
+                }
+            }
             RestfulResult<?> result = authServerClient.authorize(appServiceModel);
             LogUtil.info(getClass(), "{} permissions loading completed, authorize result: {}", appName,
                     JsonUtil.toJson(result));

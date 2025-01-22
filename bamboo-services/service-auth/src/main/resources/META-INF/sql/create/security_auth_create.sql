@@ -77,17 +77,31 @@ ALTER TABLE `auth_account_role` ADD CONSTRAINT fk_auth_account_role_role_id_role
 -- ALTER TABLE `auth_role_permission` ADD CONSTRAINT fk_auth_role_permission_role_id_role FOREIGN KEY (`role_id`) REFERENCES auth_role (`id`);
 
 
-DROP TABLE IF EXISTS `app_server`;
-CREATE TABLE `app_server` (
-                           `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                           `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
-                           `app_code` VARCHAR(60) NOT NULL COMMENT '应用服务编码',
-                           `env` VARCHAR(30) COMMENT '应用运行环境',
-                           `host` VARCHAR(50) COMMENT '运行服务器地址',
-                           `caption` VARCHAR(500) COMMENT '标题',
-                           `business` VARCHAR(300) COMMENT '业务',
-                           `status` INT NOT NULL COMMENT '状态：0-停用；1-正常；2-维护中；4-故障',
-                           `scope` VARCHAR(100) COMMENT '应用服务范围',
-                           PRIMARY KEY (`id`) USING BTREE,
-                           KEY `IDX_APP_NAME` (`app_name`)
+DROP TABLE IF EXISTS `app_service`;
+CREATE TABLE `app_service` (
+                               `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                               `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
+                               `app_code` VARCHAR(60) NOT NULL COMMENT '应用服务编码',
+                               `env` VARCHAR(30) COMMENT '应用运行环境',
+                               `host` VARCHAR(50) COMMENT '运行服务器地址',
+                               `caption` VARCHAR(500) COMMENT '标题',
+                               `context_path` VARCHAR(100) COMMENT '上下文路径',
+                               `status` INT NOT NULL COMMENT '状态：0-故障；1-正常；2-维护中',
+                               `scope` VARCHAR(300) COMMENT '应用服务范围',
+                               PRIMARY KEY (`id`) USING BTREE,
+                               KEY `IDX_APP_NAME` (`app_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用服务' ROW_FORMAT=Compact;
+
+DROP TABLE IF EXISTS `app_service_node`;
+CREATE TABLE `app_service_node` (
+                                    `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                                    `service_id` INT unsigned NOT NULL COMMENT '应用服务ID',
+                                    `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
+                                    `host` VARCHAR(50) COMMENT '运行服务器地址',
+                                    `direct_uri` VARCHAR(500) COMMENT '服务直连URI',
+                                    `status` INT DEFAULT 1 NOT NULL COMMENT '状态：0-故障；1-正常',
+                                    `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                    `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    KEY `IDX_APP_NAME` (`app_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用服务节点' ROW_FORMAT=Compact;

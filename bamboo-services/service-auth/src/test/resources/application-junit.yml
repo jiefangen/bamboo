@@ -2,5 +2,5 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/bamboo_system?useUnicode=true&characterEncoding=utf8
     username: root
-    password: P@ssw0rd123!
+    password: root123456
     driver-class-name: com.mysql.cj.jdbc.Driver

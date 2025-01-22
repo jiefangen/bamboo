@@ -1,11 +1,9 @@
 package org.panda.service.auth.api;
 
 import io.swagger.annotations.Api;
-import org.panda.service.auth.model.entity.AppServer;
 import org.panda.service.auth.model.entity.AuthAccount;
 import org.panda.service.auth.model.param.*;
 import org.panda.service.auth.model.vo.PermissionInfoVO;
-import org.panda.service.auth.service.AppServerService;
 import org.panda.service.auth.service.AuthAccountService;
 import org.panda.service.auth.service.AuthPermissionService;
 import org.panda.tech.data.model.query.QueryResult;

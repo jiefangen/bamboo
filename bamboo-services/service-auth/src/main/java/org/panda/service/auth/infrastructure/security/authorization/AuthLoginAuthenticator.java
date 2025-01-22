@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.panda.service.auth.common.constant.AuthConstants;
 import org.panda.service.auth.infrastructure.security.authentication.AuthServerLoginAuthenticator;
 import org.panda.service.auth.infrastructure.security.service.AuthServerExceptionCodes;
-import org.panda.service.auth.model.entity.AppServer;
-import org.panda.service.auth.service.AppServerService;
 import org.panda.tech.security.authentication.DefaultAuthenticationToken;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetails;

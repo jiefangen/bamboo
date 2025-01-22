@@ -1,6 +1,5 @@
 package org.panda.service.auth.repository;
 
-import org.panda.service.auth.model.entity.AppServer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

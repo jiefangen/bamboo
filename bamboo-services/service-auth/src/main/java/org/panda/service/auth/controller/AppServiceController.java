@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
-import org.panda.service.auth.service.AppServerService;
+import org.panda.service.auth.service.AppServiceService;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppServiceController {
 
     @Autowired
-    private AppServerService appServerService;
+    private AppServiceService appServiceService;
 
     @PostMapping("/authorize")
     @ConfigAnonymous
@@ -32,7 +32,7 @@ public class AppServiceController {
         if (appServiceModel == null || StringUtils.isEmpty(appServiceModel.getAppName())) {
             return RestfulResult.failure();
         }
-        String result = appServerService.initServicePermission(appServiceModel);
+        String result = appServiceService.initServicePermission(appServiceModel);
         if (Commons.RESULT_SUCCESS.equals(result)) {
             return RestfulResult.success();
         } else {

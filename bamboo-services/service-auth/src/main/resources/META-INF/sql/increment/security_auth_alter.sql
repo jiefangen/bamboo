@@ -6,26 +6,6 @@
 
 ===============这是模块格式如下：=================
 */
-begin by fangen 01
-ALTER TABLE auth_account ADD UNIQUE `UQ_MERCHANT_NUM` (merchant_num);
-ALTER TABLE auth_permission MODIFY permission_code VARCHAR(100);
-
-ALTER TABLE auth_account ADD `credentials` VARCHAR(150) COMMENT '账户凭证' AFTER `password`;
-ALTER TABLE auth_account ADD `secret_key` VARCHAR(100) NOT NULL COMMENT '密钥' AFTER `password`;
-ALTER TABLE auth_account MODIFY credentials VARCHAR(300) COMMENT '账户凭证';
-
-ALTER TABLE auth_permission ADD UNIQUE `UQ_PERMISSION_CODE` (`permission_code`);
-ALTER TABLE auth_permission ADD `scope` VARCHAR(100) COMMENT '权限范围' AFTER `resources`;
-ALTER TABLE auth_permission ADD `description` VARCHAR(200) COMMENT '描述';
-ALTER TABLE app_server ADD UNIQUE `UQ_APP_CODE` (`app_code`);
-end by fangen 01
-
-begin by fangen 02
-SHOW INDEX FROM auth_permission;
-DROP INDEX UQ_PERMISSION_CODE ON auth_permission;
--- 删除指定表的指定字段
-ALTER TABLE auth_permission DROP COLUMN `description`;
--- 删除指定表的外键约束
-ALTER TABLE auth_role_permission DROP FOREIGN KEY fk_auth_role_permission_permission_id_permission;
-
-end by fangen 02
+begin by fangen 2025
+--     ALTER TABLE app_server MODIFY host varchar(100) comment '运行服务器地址';
+end by fangen 2025
