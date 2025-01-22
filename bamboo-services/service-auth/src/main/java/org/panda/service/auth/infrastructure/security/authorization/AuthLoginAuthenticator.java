@@ -1,9 +1,14 @@
 package org.panda.service.auth.infrastructure.security.authorization;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
+import org.panda.bamboo.common.util.clazz.ClassParse;
 import org.panda.service.auth.common.constant.AuthConstants;
+import org.panda.service.auth.common.constant.enums.ServiceStatus;
 import org.panda.service.auth.infrastructure.security.authentication.AuthServerLoginAuthenticator;
 import org.panda.service.auth.infrastructure.security.service.AuthServerExceptionCodes;
+import org.panda.service.auth.model.entity.AppService;
+import org.panda.service.auth.service.AppServiceService;
 import org.panda.tech.security.authentication.DefaultAuthenticationToken;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.user.UserSpecificDetails;
@@ -28,7 +33,7 @@ public class AuthLoginAuthenticator implements AuthServerLoginAuthenticator<Defa
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private AppServerService appServerService;
+    private AppServiceService appServiceService;
 
     @Override
     public UserSpecificDetails<?> authenticate(String appName, String scope, DefaultAuthenticationToken token) {
@@ -60,9 +65,9 @@ public class AuthLoginAuthenticator implements AuthServerLoginAuthenticator<Defa
      * @return true-验证通过；false-验证失败
      */
     private boolean appServerVerification(String appName, String scope) {
-        LambdaQueryWrapper<AppServer> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(AppServer::getAppName, appName);
-        queryWrapper.eq(AppServer::getStatus, 1);
-        return appServerService.count(queryWrapper) > 0;
+        LambdaQueryWrapper<AppService> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(AppService::getAppName, appName);
+        queryWrapper.eq(AppService::getStatus, ClassParse.visit(EnumValueHelper.getValue(ServiceStatus.UP), Integer.class));
+        return appServiceService.count(queryWrapper) > 0;
     }
 }

@@ -1,9 +1,11 @@
 package org.panda.service.auth.api;
 
 import io.swagger.annotations.Api;
+import org.panda.service.auth.model.entity.AppService;
 import org.panda.service.auth.model.entity.AuthAccount;
 import org.panda.service.auth.model.param.*;
 import org.panda.service.auth.model.vo.PermissionInfoVO;
+import org.panda.service.auth.service.AppServiceService;
 import org.panda.service.auth.service.AuthAccountService;
 import org.panda.service.auth.service.AuthPermissionService;
 import org.panda.tech.data.model.query.QueryResult;
@@ -26,7 +28,7 @@ public class AuthServiceApi {
     @Autowired
     private AuthAccountService accountService;
     @Autowired
-    private AppServerService appServerService;
+    private AppServiceService appServiceService;
     @Autowired
     private AuthPermissionService permissionService;
 
@@ -46,8 +48,8 @@ public class AuthServiceApi {
     }
 
     @PostMapping("/service/page")
-    public QueryResult<AppServer> servicePage(@RequestBody ServiceQueryParam queryParam) {
-        return appServerService.getServicePage(queryParam);
+    public QueryResult<AppService> servicePage(@RequestBody ServiceQueryParam queryParam) {
+        return appServiceService.getServicePage(queryParam);
     }
 
     @PostMapping("/service/permission/info")
