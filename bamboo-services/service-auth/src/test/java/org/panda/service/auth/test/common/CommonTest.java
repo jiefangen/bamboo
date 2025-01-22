@@ -1,8 +1,12 @@
 package org.panda.service.auth.test.common;
 
 import org.junit.jupiter.api.Test;
+import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.basic.Strings;
+import org.panda.bamboo.common.util.LogUtil;
+import org.panda.bamboo.common.util.clazz.ClassParse;
 import org.panda.bamboo.common.util.lang.StringUtil;
+import org.panda.service.auth.common.constant.enums.ServiceStatus;
 import org.panda.tech.core.util.CommonUtil;
 
 import java.util.HashSet;
@@ -35,4 +39,9 @@ public class CommonTest {
         System.out.println(bool);
     }
 
+    @Test
+    void getEnumValue() {
+        Integer value = ClassParse.visit(EnumValueHelper.getValue(ServiceStatus.UP), Integer.class);
+        LogUtil.info(getClass(), "enumValue: " + value);
+    }
 }
