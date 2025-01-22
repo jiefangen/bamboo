@@ -12,10 +12,12 @@ import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
 import org.panda.service.auth.infrastructure.security.app.authority.AppConfigAuthority;
-import org.panda.service.auth.model.entity.AppServer;
+import org.panda.service.auth.model.entity.AppService;
+import org.panda.service.auth.model.entity.AppServiceNode;
 import org.panda.service.auth.model.param.ServiceQueryParam;
-import org.panda.service.auth.repository.AppServerMapper;
-import org.panda.service.auth.service.AppServerService;
+import org.panda.service.auth.repository.AppServiceMapper;
+import org.panda.service.auth.service.AppServiceNodeService;
+import org.panda.service.auth.service.AppServiceService;
 import org.panda.service.auth.service.AuthPermissionService;
 import org.panda.service.auth.service.AuthRolePermissionService;
 import org.panda.tech.core.config.annotation.GrantAuthority;
@@ -40,15 +42,17 @@ import java.util.Set;
  * </p>
  *
  * @author bamboo-code-generator
- * @since 2023-10-25
+ * @since 2025-01-21
  */
 @Service
-public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer> implements AppServerService {
+public class AppServiceServiceImpl extends ServiceImpl<AppServiceMapper, AppService> implements AppServiceService {
 
     @Autowired
     private AuthPermissionService authPermissionService;
     @Autowired
     private AuthRolePermissionService authRolePermissionService;
+    @Autowired
+    private AppServiceNodeService appServiceNodeService;
 
     @Override
     public boolean permissionVerification(String service, Collection<? extends GrantedAuthority> grantedAuthorities) {
@@ -98,29 +102,39 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
     public String initServicePermission(AppServiceModel appServiceModel) {
         String appName = appServiceModel.getAppName();
         String appCode = appName.toUpperCase();
-        LambdaQueryWrapper<AppServer> queryWrapper = Wrappers.lambdaQuery();
-        queryWrapper.eq(AppServer::getAppCode, appCode);
+        LambdaQueryWrapper<AppService> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AppService::getAppCode, appCode);
         String env = appServiceModel.getEnv();
         appName += Strings.MINUS + env;
-        queryWrapper.eq(AppServer::getAppName, appName);
-        queryWrapper.eq(AppServer::getEnv, env);
-        AppServer appServer = this.getOne(queryWrapper, false);
+        queryWrapper.eq(AppService::getAppName, appName);
+        queryWrapper.eq(AppService::getEnv, env);
+        AppService appServer = this.getOne(queryWrapper, false);
         // 组装应用服务参数
-        AppServer appServerParam = new AppServer();
+        AppService appServerParam = new AppService();
         appServerParam.setAppName(appName);
         appServerParam.setAppCode(appCode);
         appServerParam.setEnv(env);
-        appServerParam.setHost(appServiceModel.getHost());
+//        appServerParam.setHost(appServiceModel.getHost());
         appServerParam.setStatus(1);
         appServerParam.setCaption(appServiceModel.getCaption());
-        appServerParam.setBusiness(appServiceModel.getBusiness());
+        appServerParam.setContextPath(appServiceModel.getContextPath());
         appServerParam.setScope(appServiceModel.getScope());
         if (appServer == null) { // 应用服务注册激活
             if (this.save(appServerParam)) {
                 appServer = this.getOne(Wrappers.lambdaQuery(appServerParam));
+
+                // 添加服务节点
+                AppServiceNode appServiceNodeParam = new AppServiceNode();
+                appServiceNodeParam.setServiceId(appServer.getId());
+                appServiceNodeParam.setAppName(appName);
+                appServiceNodeParam.setStatus(1);
+                appServiceNodeParam.setHost(appServiceModel.getHost());
+                appServiceNodeParam.setDirectUri(appServiceModel.getDirectUri());
+                appServiceNodeService.save(appServiceNodeParam);
             }
         } else { // 已注册过的更新
             appServerParam.setId(appServer.getId());
+            // 集群环境下多节点
             this.updateById(appServerParam);
         }
         if (appServer == null) { // 还未获取到应用服务则本次初始化失败
@@ -131,14 +145,14 @@ public class AppServerServiceImpl extends ServiceImpl<AppServerMapper, AppServer
     }
 
     @Override
-    public QueryResult<AppServer> getServicePage(ServiceQueryParam queryParam) {
-        Page<AppServer> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
-        LambdaQueryWrapper<AppServer> queryWrapper = Wrappers.lambdaQuery();
+    public QueryResult<AppService> getServicePage(ServiceQueryParam queryParam) {
+        Page<AppService> page = new Page<>(queryParam.getPageNo(), queryParam.getPageSize());
+        LambdaQueryWrapper<AppService> queryWrapper = Wrappers.lambdaQuery();
         if (StringUtils.isNotBlank(queryParam.getKeyword())) {
-            queryWrapper.like(AppServer::getAppName, queryParam.getKeyword()).or()
-                        .like(AppServer::getAppCode, queryParam.getKeyword());
+            queryWrapper.like(AppService::getAppName, queryParam.getKeyword()).or()
+                    .like(AppService::getAppCode, queryParam.getKeyword());
         }
-        IPage<AppServer> servicePage = this.page(page, queryWrapper);
+        IPage<AppService> servicePage = this.page(page, queryWrapper);
         return QueryPageHelper.convertQueryResult(servicePage);
     }
 }

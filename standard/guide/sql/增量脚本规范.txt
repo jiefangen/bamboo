@@ -72,8 +72,8 @@ drop table T_MANAGER;
 -------------------------------------
 
 增加一列：
-ALTER TABLE T_MANAGER ADD ENAME VARCHAR(10); --无默认值
-ALTER TABLE T_MANAGER ADD (NAME VARCHAR(30) DEFAULT '无名氏' NOT NULL); --有默认值
+ALTER TABLE T_MANAGER ADD ENAME VARCHAR(10) AFTER `NAME`; --无默认值
+ALTER TABLE T_MANAGER ADD (NAME VARCHAR(30) DEFAULT '无名氏' NOT NULL) AFTER `NAME`; --有默认值
 
 修改一列：
 ALTER TABLE T_MANAGER MODIFY ENAME VARCHAR(20);
@@ -91,6 +91,30 @@ ALTER TABLE T_MANAGER MODIFY (ENAME VARCHAR(20),JOB VARCHAR(20));
 
 删除多列：
 ALTER TABLE T_MANAGER DROP (ENAME,JOB);
+
+-------------------------------------
+
+创建唯一约束：
+alter table T_MANAGER
+add constraint UNI_MANAGER_EMAIL unique (EMAIL)
+using index;
+
+UNI_MANAGER_EMAIL: 是自定义约束名，
+命名格式：UNI_表名_字段名
+
+注意：
+1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母
+
+-------------------------------------
+
+创建索引：
+create index IDX_MRR_MID on T_MANAGER_R_ROLE(MANAGER_ID)；
+
+IDX_MRR_MID：自定义索引名，
+命名格式：IDX_表名_字段名
+
+注意：
+1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母,如本例
 
 -------------------------------------
 
@@ -119,7 +143,6 @@ USING INDEX;
 PK_MANAGER_EID_MID : 主键名，
 命名格式：PK_表名_主键字段名1_主键字段名2;
 
-
 -------------------------------------
 
 增加外键：
@@ -137,30 +160,6 @@ create index IDX_MRR_MID on T_MANAGER_R_ROLE(MANAGER_ID)；
 
 -------------------------------------
 
-创建唯一约束：
-alter table T_MANAGER
-add constraint UNI_MANAGER_EMAIL unique (EMAIL)
-using index;
-
-UNI_MANAGER_EMAIL: 是自定义约束名，
-命名格式：UNI_表名_字段名
-
-注意：
-1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母
-  
--------------------------------------
-
-创建索引：
-create index IDX_MRR_MID on T_MANAGER_R_ROLE(MANAGER_ID)；
-
-IDX_MRR_MID：自定义索引名，
-命名格式：IDX_表名_字段名
-
-注意：
-1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母,如本例
-
--------------------------------------
-
 创建序列：
 CREATE SEQUENCE SEQ_MANAGER_ID
 MINVALUE 1
@@ -174,10 +173,3 @@ ORDER;
 SEQ_MANAGER_ID：自定义序列名，命名格式：SEQ_表名_字段名
 注意：
 1) 如果表名由多个下划线隔开成的多个单词，取每个单词的首字母
-
-
-
-
-
-
-

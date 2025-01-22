@@ -1,15 +1,14 @@
 package org.panda.service.auth.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.io.Serializable;
 
 /**
  * <p>
@@ -17,13 +16,13 @@ import java.io.Serializable;
  * </p>
  *
  * @author bamboo-code-generator
- * @since 2023-10-25
+ * @since 2025-01-21
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("app_server")
-@ApiModel(value="AppServer对象", description="应用服务")
-public class AppServer implements Serializable {
+@TableName("app_service")
+@ApiModel(value="AppService对象", description="应用服务")
+public class AppService implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,11 +50,11 @@ public class AppServer implements Serializable {
     @TableField("caption")
     private String caption;
 
-    @ApiModelProperty(value = "业务")
-    @TableField("business")
-    private String business;
+    @ApiModelProperty(value = "上下文路径")
+    @TableField("context_path")
+    private String contextPath;
 
-    @ApiModelProperty(value = "状态：0-停用；1-正常；2-维护中；4-故障")
+    @ApiModelProperty(value = "状态：0-故障；1-正常；2-维护中")
     @TableField("status")
     private Integer status;
 

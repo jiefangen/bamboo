@@ -1,8 +1,8 @@
 package org.panda.service.auth.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
-import org.panda.service.auth.model.entity.AppServer;
+import org.panda.service.auth.model.entity.AppService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.service.auth.model.param.ServiceQueryParam;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,9 +15,9 @@ import java.util.Collection;
  * </p>
  *
  * @author bamboo-code-generator
- * @since 2023-10-25
+ * @since 2025-01-21
  */
-public interface AppServerService extends IService<AppServer> {
+public interface AppServiceService extends IService<AppService> {
     /**
      * 服务权限验证
      *
@@ -29,5 +29,5 @@ public interface AppServerService extends IService<AppServer> {
 
     String initServicePermission(AppServiceModel appServiceModel);
 
-    QueryResult<AppServer> getServicePage(ServiceQueryParam queryParam);
+    QueryResult<AppService> getServicePage(ServiceQueryParam queryParam);
 }
