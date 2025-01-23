@@ -84,24 +84,25 @@ CREATE TABLE `app_service` (
                            `app_code` VARCHAR(60) NOT NULL COMMENT '应用服务编码',
                            `env` VARCHAR(30) COMMENT '应用运行环境',
                            `caption` VARCHAR(500) COMMENT '标题',
+                           `context_path` VARCHAR(50) COMMENT '上下文路径',
                            `gateway_uri` VARCHAR(50) COMMENT '服务网关URI',
-                           `context_path` VARCHAR(100) COMMENT '上下文路径',
                            `status` INT NOT NULL COMMENT '状态：0-故障；1-正常；2-维护中',
                            `scope` VARCHAR(300) COMMENT '应用服务范围',
                            PRIMARY KEY (`id`) USING BTREE,
                            KEY `IDX_APP_NAME` (`app_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用服务' ROW_FORMAT=Compact;
 
+
 DROP TABLE IF EXISTS `app_service_node`;
 CREATE TABLE `app_service_node` (
-                                    `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
-                                    `service_id` INT unsigned NOT NULL COMMENT '应用服务ID',
-                                    `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
-                                    `host` VARCHAR(50) COMMENT '运行服务器地址',
-                                    `direct_uri` VARCHAR(500) COMMENT '服务直连URI',
-                                    `status` INT DEFAULT 1 NOT NULL COMMENT '状态：0-故障；1-正常',
-                                    `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                                    `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                                    PRIMARY KEY (`id`) USING BTREE,
-                                    KEY `IDX_APP_NAME` (`app_name`)
+                                `id` INT unsigned AUTO_INCREMENT NOT NULL COMMENT '主键ID',
+                                `service_id` INT unsigned NOT NULL COMMENT '应用服务ID',
+                                `app_name` VARCHAR(60) NOT NULL COMMENT '应用服务名称',
+                                `host` VARCHAR(50) COMMENT '运行服务器地址',
+                                `direct_uri` VARCHAR(500) COMMENT '服务直连URI',
+                                `status` INT DEFAULT 1 NOT NULL COMMENT '状态：0-故障；1-正常',
+                                `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `update_time` DATETIME ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                PRIMARY KEY (`id`) USING BTREE,
+                                KEY `IDX_APP_NAME` (`app_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1000 CHARACTER SET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='应用服务节点' ROW_FORMAT=Compact;
