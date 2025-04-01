@@ -1,4 +1,4 @@
-package org.panda.business.example.common.config;
+package org.panda.service.auth.common.config;
 
 import org.panda.tech.core.concurrent.ExecutorConfigSupport;
 import org.springframework.context.annotation.Configuration;

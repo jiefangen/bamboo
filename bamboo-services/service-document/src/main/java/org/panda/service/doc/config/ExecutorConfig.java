@@ -13,9 +13,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Configuration
 public class ExecutorConfig extends ExecutorConfigSupport {
     /**
-     * 服务器可支持的最佳线程池核心数
+     * 服务可支持的最佳线程池核心数
+     * 2核心4G的服务器配置
      */
-    public static final int CORE_POOL_SIZE = 10;
+    public static final int CORE_POOL_SIZE = 4;
 
     @Override
     protected int getCorePoolSize() {
