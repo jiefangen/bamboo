@@ -33,7 +33,7 @@
         <!-- 服务安全认证授权模块 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
-            <artifactId>bamboo-security-auth</artifactId>
+            <artifactId>bamboo-security-shiro</artifactId>
             <version>${technology.version}</version>
         </dependency>
         <!-- MySQL连接驱动 -->

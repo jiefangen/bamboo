@@ -1,8 +1,8 @@
 package org.panda.business.helper.app.infrastructure.security.auth;
 
 import org.panda.bamboo.core.util.SpringUtil;
-import org.panda.tech.auth.mgt.SubjectManager;
-import org.panda.tech.auth.subject.Subject;
+import org.panda.tech.shiro.mgt.SubjectManager;
+import org.panda.tech.shiro.subject.Subject;
 import org.panda.tech.core.web.context.SpringWebContext;
 import org.springframework.context.ApplicationContext;
 

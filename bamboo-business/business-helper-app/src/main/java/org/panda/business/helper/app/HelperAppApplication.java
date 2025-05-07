@@ -1,7 +1,7 @@
 package org.panda.business.helper.app;
 
 import org.mybatis.spring.annotation.MapperScan;
-import org.panda.tech.auth.AuthModule;
+import org.panda.tech.shiro.ShiroModule;
 import org.panda.tech.core.CoreModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author fangen
  * @since 2024/6/5
  */
-@Import({CoreModule.class, AuthModule.class})
+@Import({CoreModule.class, ShiroModule.class})
 @SpringBootApplication
 @EnableScheduling
 @EnableTransactionManagement
