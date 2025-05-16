@@ -13,7 +13,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public RestfulResult<?> login(@RequestParam String username, @RequestParam String password,
-                               @RequestParam(required = false) String loginMode) {
+                                  @RequestParam(required = false) String loginMode) {
         // 用于安全认证登录引导，无需处理任何逻辑
         return RestfulResult.success(username + password + loginMode);
     }
@@ -22,5 +22,4 @@ public class LoginController {
     public RestfulResult<?> logout() {
         return RestfulResult.success();
     }
-
 }

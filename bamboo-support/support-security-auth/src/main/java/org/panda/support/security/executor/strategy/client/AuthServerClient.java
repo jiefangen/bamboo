@@ -34,13 +34,13 @@ public class AuthServerClient {
         return RestfulResult.success();
     }
 
-    @RpcMethod(value = "/access/validate", method = HttpMethod.GET)
+    @RpcMethod(value = "/app/service/access/validate", method = HttpMethod.GET)
     public RestfulResult<?> validate(@RequestHeader(WebConstants.HEADER_AUTH_JWT) String authToken,
                                      @RequestParam("service") String service) {
         return RestfulResult.success();
     }
 
-    @RpcMethod("/service/authorize")
+    @RpcMethod("/app/service/authorize")
     public RestfulResult<?> authorize(@RequestBody AppServiceModel appServiceModel) {
         return RestfulResult.success();
     }

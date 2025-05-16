@@ -1,6 +1,7 @@
 package org.panda.service.auth.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
+    @ApiOperation("认证服务登录引导")
     @PostMapping("/login")
     public void login(@RequestParam String username, @RequestParam String password, @RequestParam String service) {
         // 用于安全认证登录引导，无需处理任何逻辑
