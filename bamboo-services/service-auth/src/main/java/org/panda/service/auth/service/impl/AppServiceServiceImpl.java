@@ -142,7 +142,9 @@ public class AppServiceServiceImpl extends ServiceImpl<AppServiceMapper, AppServ
         if (appService == null) { // 还未获取到应用服务则本次初始化失败
             return appName + " service registration and save failed";
         }
-        authRolePermissionService.initPermissions(appServiceModel.getPermissions(), appService.getId(), appName);
+        if (CollectionUtils.isNotEmpty(appServiceModel.getPermissions())) {
+            authRolePermissionService.initPermissions(appServiceModel.getPermissions(), appService.getId(), appName);
+        }
         return Commons.RESULT_SUCCESS;
     }
 

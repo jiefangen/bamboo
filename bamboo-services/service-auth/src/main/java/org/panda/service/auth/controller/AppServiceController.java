@@ -32,12 +32,6 @@ public class AppServiceController {
     @Autowired
     private AppServiceService appServiceService;
 
-    /**
-     * 应用服务资源授权
-     *
-     * @param appServiceModel 应用服务资源模型
-     * @return 授权结果
-     */
     @ApiOperation("应用服务资源授权")
     @PostMapping("/authorize")
     @ConfigAnonymous
@@ -53,12 +47,6 @@ public class AppServiceController {
         }
     }
 
-    /**
-     * 应用服务资源访问验证
-     *
-     * @param service  服务资源
-     * @param response 响应
-     */
     @ApiOperation("应用服务资源访问验证")
     @GetMapping("/access/validate")
     @ConfigAuthority

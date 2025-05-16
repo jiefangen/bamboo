@@ -27,6 +27,12 @@ public interface AppServiceService extends IService<AppService> {
      */
     boolean permissionVerification(String service, Collection<? extends GrantedAuthority> grantedAuthorities);
 
+    /**
+     * 应用服务资源授权
+     *
+     * @param appServiceModel 应用服务资源模型
+     * @return 授权结果
+     */
     String initServicePermission(AppServiceModel appServiceModel);
 
     QueryResult<AppService> getServicePage(ServiceQueryParam queryParam);
