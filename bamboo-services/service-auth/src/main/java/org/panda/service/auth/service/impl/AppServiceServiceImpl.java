@@ -202,7 +202,7 @@ public class AppServiceServiceImpl extends ServiceImpl<AppServiceMapper, AppServ
                     // 服务节点检测
                     for (AppServiceNode appServiceNode : appServiceNodes) {
                         String uri = appServiceNode.getDirectUri();
-                        int serviceNodeStatus = appServiceNode.getStatus();
+                        int serviceNodeStatus = 0;
                         try {
                             String reqResult = RestTemplateClient.requestByGet(uri + "/home");
                             if (StringUtils.isNotEmpty(reqResult)) {
