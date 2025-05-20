@@ -24,7 +24,7 @@ public class AuthServiceScheduler {
     /**
      * 分布式服务心跳定时器
      */
-    @Scheduled(fixedDelay = 5*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
+    @Scheduled(fixedDelay = 10*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
     public void heartbeat() {
         LogUtil.info(getClass(), "Service heartbeat scheduler start...");
         String lockKey = "heartbeat-task-lock";
