@@ -1,6 +1,11 @@
 server:
   port: 21000
 spring:
+  redis:
+    host: 198.19.249.159
+    port: 7389
+    password: redis123456
+    timeout: 3000
   datasource:
     url: jdbc:mysql://198.19.249.159:3320/bamboo_system?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&allowMultiQueries=true
     username: root

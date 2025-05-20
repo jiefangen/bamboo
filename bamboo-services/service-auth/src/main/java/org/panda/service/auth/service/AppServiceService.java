@@ -36,4 +36,9 @@ public interface AppServiceService extends IService<AppService> {
     String initServicePermission(AppServiceModel appServiceModel);
 
     QueryResult<AppService> getServicePage(ServiceQueryParam queryParam);
+
+    /**
+     * 服务节点健康检测
+     */
+    void checkServiceHealth();
 }

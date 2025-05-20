@@ -11,6 +11,7 @@ import org.panda.bamboo.common.annotation.helper.EnumValueHelper;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.clazz.ClassParse;
+import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.service.auth.common.constant.enums.ServiceStatus;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
@@ -25,7 +26,9 @@ import org.panda.service.auth.service.AuthPermissionService;
 import org.panda.service.auth.service.AuthRolePermissionService;
 import org.panda.tech.core.config.annotation.GrantAuthority;
 import org.panda.tech.core.util.CommonUtil;
+import org.panda.tech.core.util.http.client.RestTemplateClient;
 import org.panda.tech.core.web.context.SpringWebContext;
+import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.util.QueryPageHelper;
@@ -38,6 +41,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -181,5 +185,56 @@ public class AppServiceServiceImpl extends ServiceImpl<AppServiceMapper, AppServ
         }
         IPage<AppService> servicePage = this.page(page, queryWrapper);
         return QueryPageHelper.convertQueryResult(servicePage);
+    }
+
+    @Override
+    public void checkServiceHealth() {
+        List<AppService> serviceList = this.list();
+        if (CollectionUtils.isNotEmpty(serviceList)) {
+            for (AppService appService : serviceList) {
+                int serviceStatus = appService.getStatus();
+                LambdaQueryWrapper<AppServiceNode> queryWrapper = Wrappers.lambdaQuery();
+                queryWrapper.eq(AppServiceNode::getServiceId, appService.getId());
+                queryWrapper.eq(AppServiceNode::getAppName, appService.getAppName());
+                List<AppServiceNode> appServiceNodes = appServiceNodeService.list(queryWrapper);
+                if (CollectionUtils.isNotEmpty(appServiceNodes)) {
+                    int serviceNodeNormalCount = 0; // 正常服务节点统计
+                    // 服务节点检测
+                    for (AppServiceNode appServiceNode : appServiceNodes) {
+                        String uri = appServiceNode.getDirectUri();
+                        int serviceNodeStatus = appServiceNode.getStatus();
+                        try {
+                            String reqResult = RestTemplateClient.requestByGet(uri + "/home");
+                            if (StringUtils.isNotEmpty(reqResult)) {
+                                RestfulResult<?> result = JsonUtil.json2Bean(reqResult, RestfulResult.class);
+                                if (result != null) {
+                                    serviceNodeStatus = result.isSuccess()?1:0;
+                                }
+                            }
+                        } catch (Exception e) {
+                            // do nothing
+                        }
+                        appServiceNode.setStatus(serviceNodeStatus);
+                        appServiceNode.setUpdateTime(LocalDateTime.now());
+                        appServiceNodeService.updateById(appServiceNode);
+                        if (serviceNodeStatus == 1) {
+                            serviceNodeNormalCount++;
+                        }
+                    }
+
+                    // 主服务状态判定
+                    if (serviceNodeNormalCount == appServiceNodes.size()) { // 所有服务节点都正常
+                        serviceStatus = 1;
+                    } else if (serviceNodeNormalCount == 0) { // 所有服务节点都故障
+                        serviceStatus = 0;
+                    } else { // 部分服务节点正常
+                        serviceStatus = 2;
+                    }
+                }
+                // 更新服务主表状态
+                appService.setStatus(serviceStatus);
+                this.updateById(appService);
+            }
+        }
     }
 }

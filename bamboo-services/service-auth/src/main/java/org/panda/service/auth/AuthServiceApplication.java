@@ -6,9 +6,11 @@ import org.panda.tech.security.SecurityModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
+@EnableScheduling
 @Import({CoreModule.class, SecurityModule.class})
 @EnableTransactionManagement
 @MapperScan("org.panda.service.auth.repository")

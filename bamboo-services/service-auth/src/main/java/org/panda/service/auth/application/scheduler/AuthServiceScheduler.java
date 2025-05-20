@@ -1,0 +1,41 @@
+package org.panda.service.auth.application.scheduler;
+
+import org.panda.bamboo.common.constant.basic.Times;
+import org.panda.bamboo.common.util.LogUtil;
+import org.panda.service.auth.service.AppServiceService;
+import org.panda.tech.data.redis.lock.RedisDistributedLock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+/**
+ * 认证服务定时任务
+ *
+ * @author fangen
+ */
+@Component
+public class AuthServiceScheduler {
+
+    @Autowired
+    private RedisDistributedLock redisDistributedLock;
+    @Autowired
+    private AppServiceService appServiceService;
+
+    /**
+     * 分布式服务心跳定时器
+     */
+    @Scheduled(fixedDelay = 5*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
+    public void heartbeat() {
+        LogUtil.info(getClass(), "Service heartbeat scheduler start...");
+        String lockKey = "heartbeat-task-lock";
+        try {
+            boolean acquired = redisDistributedLock.tryLock(lockKey);
+            if (acquired) { // 服务检测逻辑
+                appServiceService.checkServiceHealth();
+            }
+        } finally {
+            redisDistributedLock.unlock(lockKey);
+        }
+        LogUtil.info(getClass(), "Service heartbeat scheduler end.");
+    }
+}
