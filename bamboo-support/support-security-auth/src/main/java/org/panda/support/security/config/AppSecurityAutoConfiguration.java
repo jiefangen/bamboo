@@ -35,5 +35,4 @@ public class AppSecurityAutoConfiguration {
     public AuthorizationInterceptor authorizationInterceptor() {
         return new AuthorizationInterceptor(IndependentAuthStrategy.class);
     }
-
 }
