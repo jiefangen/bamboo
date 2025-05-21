@@ -18,8 +18,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Import({CoreModule.class, SecurityModule.class})
 @EnableScheduling
 @EnableTransactionManagement
-@MapperScan("org.panda.business.admin.modules.*.service.repository")
 @EnableRpcInvoker // 开启RPC组件调用
+@MapperScan("org.panda.business.admin.modules.*.service.repository")
 @SpringBootApplication
 public class AdminApplication {
     public static void main(String[] args) {

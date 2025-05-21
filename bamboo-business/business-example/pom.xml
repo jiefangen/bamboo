@@ -49,6 +49,12 @@
             <version>${knife4j-openapi2.version}</version>
         </dependency>
 
+        <!-- 分布式服务安全扩展支持 -->
+        <dependency>
+            <groupId>org.panda.support</groupId>
+            <artifactId>support-security-auth</artifactId>
+            <version>${support.version}</version>
+        </dependency>
         <!-- 缓存redis -->
         <dependency>
             <groupId>org.panda.tech</groupId>

@@ -8,11 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
 @Import({CoreModule.class})
 @EnableTransactionManagement
 @EnableRpcInvoker // 开启RPC组件调用
 @MapperScan("org.panda.business.example.data.repository")
+@SpringBootApplication
 public class ExampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(ExampleApplication.class, args);
