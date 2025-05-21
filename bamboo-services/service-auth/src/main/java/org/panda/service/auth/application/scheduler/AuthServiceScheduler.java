@@ -24,15 +24,14 @@ public class AuthServiceScheduler {
     /**
      * 分布式服务心跳定时器
      */
-    @Scheduled(fixedDelay = 10*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
+    @Scheduled(fixedDelay = 5*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
     public void heartbeat() {
         LogUtil.info(getClass(), "Service heartbeat scheduler start...");
         String lockKey = "heartbeat-task-lock";
         try {
-            boolean acquired = redisDistributedLock.tryLock(lockKey);
-            if (acquired) { // 服务检测逻辑
-                appServiceService.checkServiceHealth();
-            }
+            // 多节点阻塞式服务健康检测
+            redisDistributedLock.lock(lockKey);
+            appServiceService.checkServiceHealth();
         } finally {
             redisDistributedLock.unlock(lockKey);
         }
