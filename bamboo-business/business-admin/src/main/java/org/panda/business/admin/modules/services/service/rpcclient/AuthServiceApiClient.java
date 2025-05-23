@@ -22,35 +22,35 @@ import java.util.List;
  * @author fangen
  **/
 @Component
-@RpcClient
-public class AuthServiceClient {
+@RpcClient(serviceName = "auth-service")
+public class AuthServiceApiClient {
 
     @RpcMethod(value = "/home", method = HttpMethod.GET)
     public String home() {
         return Strings.EMPTY;
     }
 
-    @RpcMethod(value = "/authService/account/page", subTypes = AuthAccountVO.class)
+    @RpcMethod(value = "/api/account/page", subTypes = AuthAccountVO.class)
     public QueryResult<AuthAccountVO> accountPage(@RequestBody AccountQueryParam queryParam) {
         return QueryResult.empty(new Pagination());
     }
 
-    @RpcMethod("/authService/account/add")
+    @RpcMethod("/api/account/add")
     public boolean addAccount(@RequestBody AddAccountParam addAccountParam) {
         return false;
     }
 
-    @RpcMethod(value = "/authService/account/update", method = HttpMethod.PUT)
+    @RpcMethod(value = "/api/account/update", method = HttpMethod.PUT)
     public boolean updateAccount(@RequestBody UpdateAuthAccountParam authAccountParam) {
         return false;
     }
 
-    @RpcMethod(value = "/authService/service/page", subTypes = AppServerVO.class)
+    @RpcMethod(value = "/api/service/page", subTypes = AppServerVO.class)
     public QueryResult<AppServerVO> servicePage(@RequestBody ServiceQueryParam queryParam) {
         return QueryResult.empty(new Pagination());
     }
 
-    @RpcMethod(value = "/authService/service/permission/info", subTypes = PermissionInfoVO.class)
+    @RpcMethod(value = "/api/service/permission/info", subTypes = PermissionInfoVO.class)
     public List<PermissionInfoVO> permissionInfo(@RequestBody GetPermissionParam permissionParam) {
         return new ArrayList<>();
     }

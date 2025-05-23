@@ -1,9 +1,10 @@
 package org.panda.service.auth.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
 import org.panda.service.auth.model.entity.AppService;
-import com.baomidou.mybatisplus.extension.service.IService;
 import org.panda.service.auth.model.param.ServiceQueryParam;
+import org.panda.service.auth.model.vo.ServiceNodeVO;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -35,10 +36,24 @@ public interface AppServiceService extends IService<AppService> {
      */
     String initServicePermission(AppServiceModel appServiceModel);
 
+    /**
+     * 获取服务信息
+     *
+     * @param queryParam 查询参数
+     * @return 结果
+     */
     QueryResult<AppService> getServicePage(ServiceQueryParam queryParam);
 
     /**
      * 服务节点健康检测
      */
     void checkServiceHealth();
+
+    /**
+     * 获取服务节点信息
+     *
+     * @param appName 应用名称
+     * @return 节点信息
+     */
+    ServiceNodeVO getServiceNodes(String appName);
 }

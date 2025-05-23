@@ -5,6 +5,7 @@ import org.panda.service.auth.model.entity.AppService;
 import org.panda.service.auth.model.entity.AuthAccount;
 import org.panda.service.auth.model.param.*;
 import org.panda.service.auth.model.vo.PermissionInfoVO;
+import org.panda.service.auth.model.vo.ServiceNodeVO;
 import org.panda.service.auth.service.AppServiceService;
 import org.panda.service.auth.service.AuthAccountService;
 import org.panda.service.auth.service.AuthPermissionService;
@@ -22,7 +23,7 @@ import java.util.List;
  **/
 @Api(tags = "【API】认证授权服务")
 @RestController
-@RequestMapping("/authService")
+@RequestMapping("/api")
 public class AuthServiceApi {
 
     @Autowired
@@ -55,5 +56,10 @@ public class AuthServiceApi {
     @PostMapping("/service/permission/info")
     public List<PermissionInfoVO> permissionInfo(@RequestBody GetPermissionParam permissionParam) {
         return permissionService.getPermissionInfo(permissionParam);
+    }
+
+    @GetMapping("/service/getServiceNodes")
+    public ServiceNodeVO getServiceNodes(@RequestParam String appName) {
+        return appServiceService.getServiceNodes(appName);
     }
 }

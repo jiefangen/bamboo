@@ -1,13 +1,11 @@
-package org.panda.support.security.executor.strategy.client;
+package org.panda.business.example.modules.rpcclient;
 
 import org.panda.support.security.model.AppServiceModel;
 import org.panda.support.security.model.ServiceNodeVO;
-import org.panda.tech.core.rpc.annotation.RpcClient;
 import org.panda.tech.core.rpc.annotation.RpcMethod;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author fangen
  **/
-@Component
-@RpcClient(serviceName = "auth-service")
-public class AuthServerClient {
+//@Component
+//@RpcClient(serviceName = "auth-service")
+public class AuthServiceClient {
 
     @RpcMethod("/login")
     public RestfulResult<String> login(@RequestParam("username") String username,

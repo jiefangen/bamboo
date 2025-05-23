@@ -19,6 +19,7 @@ import org.panda.service.auth.infrastructure.security.app.authority.AppConfigAut
 import org.panda.service.auth.model.entity.AppService;
 import org.panda.service.auth.model.entity.AppServiceNode;
 import org.panda.service.auth.model.param.ServiceQueryParam;
+import org.panda.service.auth.model.vo.ServiceNodeVO;
 import org.panda.service.auth.repository.AppServiceMapper;
 import org.panda.service.auth.service.AppServiceNodeService;
 import org.panda.service.auth.service.AppServiceService;
@@ -43,6 +44,7 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -236,5 +238,29 @@ public class AppServiceServiceImpl extends ServiceImpl<AppServiceMapper, AppServ
                 this.updateById(appService);
             }
         }
+    }
+
+    @Override
+    public ServiceNodeVO getServiceNodes(String appName) {
+        LambdaQueryWrapper<AppService> queryWrapper = Wrappers.lambdaQuery();
+        queryWrapper.eq(AppService::getAppName, appName);
+        // 服务状态不等于0的查询结果
+        queryWrapper.ne(AppService::getStatus, 0);
+        AppService appService = this.getOne(queryWrapper, false);
+        ServiceNodeVO serviceNodeVO = null;
+        if (appService != null) {
+            serviceNodeVO = JsonUtil.json2Bean(JsonUtil.toJson(appService), ServiceNodeVO.class);
+            // 查询服务节点注册信息
+            LambdaQueryWrapper<AppServiceNode> serviceNodWrapper = Wrappers.lambdaQuery();
+            serviceNodWrapper.eq(AppServiceNode::getServiceId, appService.getId());
+            serviceNodWrapper.eq(AppServiceNode::getAppName, appService.getAppName());
+            serviceNodWrapper.eq(AppServiceNode::getStatus, 1);
+            List<AppServiceNode> appServiceNodes = appServiceNodeService.list(serviceNodWrapper);
+            if (CollectionUtils.isNotEmpty(appServiceNodes) && serviceNodeVO != null) {
+                List<String> directUris = appServiceNodes.stream().map(AppServiceNode::getDirectUri).collect(Collectors.toList());
+                serviceNodeVO.setDirectUris(directUris);
+            }
+        }
+        return serviceNodeVO;
     }
 }

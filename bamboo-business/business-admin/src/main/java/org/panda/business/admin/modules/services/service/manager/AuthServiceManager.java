@@ -12,7 +12,7 @@ import org.panda.business.admin.modules.services.api.vo.AccountDetailsVO;
 import org.panda.business.admin.modules.services.api.vo.AppServerVO;
 import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
 import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
-import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceClient;
+import org.panda.business.admin.modules.services.service.rpcclient.AuthServiceApiClient;
 import org.panda.business.admin.modules.system.api.param.AddUserParam;
 import org.panda.business.admin.modules.system.service.SysRoleService;
 import org.panda.business.admin.modules.system.service.SysUserService;
@@ -48,9 +48,9 @@ public class AuthServiceManager {
     @Autowired
     private SysUserMapper userMapper;
 
-    private final AuthServiceClient authServiceClient;
+    private final AuthServiceApiClient authServiceClient;
 
-    public AuthServiceManager(AuthServiceClient authServiceClient) {
+    public AuthServiceManager(AuthServiceApiClient authServiceClient) {
         this.authServiceClient = authServiceClient;
     }
 

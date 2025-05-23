@@ -9,7 +9,6 @@ import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
 import org.panda.service.auth.service.AppServiceService;
 import org.panda.tech.core.exception.ExceptionEnum;
 import org.panda.tech.core.web.restful.RestfulResult;
-import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +31,11 @@ public class AppServiceController {
     @Autowired
     private AppServiceService appServiceService;
 
+    /**
+     * 禁止外部资源调用
+     */
     @ApiOperation("应用服务资源授权")
     @PostMapping("/authorize")
-    @ConfigAnonymous
     public RestfulResult<?> authorize(@RequestBody AppServiceModel appServiceModel) {
         if (appServiceModel == null || StringUtils.isEmpty(appServiceModel.getAppName())) {
             return RestfulResult.failure();
