@@ -48,5 +48,4 @@ public class WebJwtConfig extends AbstractInternalJwtConfiguration {
     public boolean isValid() {
         return super.isValid();
     }
-
 }

@@ -20,5 +20,4 @@ public class WebMvcConfig extends WebMvcConfigurerSupport {
     public InternalJwtResolver internalJwtResolver() {
         return new DefaultInternalJwtResolver();
     }
-
 }

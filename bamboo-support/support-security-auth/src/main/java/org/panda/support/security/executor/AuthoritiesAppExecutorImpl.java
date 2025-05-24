@@ -42,12 +42,12 @@ public class AuthoritiesAppExecutorImpl implements AuthoritiesAppExecutor {
 
     @Autowired
     private CommonProperties commonProperties;
-    @Autowired
+    @Autowired(required = false)
     private AuthServerClient authServerClient;
 
     @Override
     public void execute() {
-        if (this.apiConfigAuthoritiesMapping.isEmpty()) {
+        if (this.apiConfigAuthoritiesMapping.isEmpty() || authServerClient == null) {
             return;
         }
         AppFacade appFacade = commonProperties.getAppFacade(appName, true);

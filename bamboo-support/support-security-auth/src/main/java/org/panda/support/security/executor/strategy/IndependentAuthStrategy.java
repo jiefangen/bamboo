@@ -13,25 +13,33 @@ import org.springframework.beans.factory.annotation.Autowired;
  **/
 public class IndependentAuthStrategy implements AuthManagerStrategy {
 
-    @Autowired
+    @Autowired(required = false)
     private AuthServerClient authServerClient;
 
     @Override
     public RestfulResult<String> getAuthToken(String username, String password, String service) {
+        if (authServerClient == null) {
+            return RestfulResult.failure("AuthServerClient not configured.");
+        }
         return authServerClient.login(username, password, service);
     }
 
     @Override
     public RestfulResult<String> getTokenByCredentials(String secretKey, String credentials, String serviceName) {
+        if (authServerClient == null) {
+            return RestfulResult.failure("AuthServerClient not configured.");
+        }
         return authServerClient.loginByCredentials(secretKey, credentials, serviceName);
     }
 
     @Override
     public boolean verification(String token, String service) {
-        RestfulResult<?> verifyResult = authServerClient.validate(token, service);
-        if (verifyResult != null) {
-            return Commons.RESULT_SUCCESS_CODE == verifyResult.getCode()
-                    && Commons.RESULT_SUCCESS.equals(verifyResult.getMessage());
+        if (authServerClient != null) {
+            RestfulResult<?> verifyResult = authServerClient.validate(token, service);
+            if (verifyResult != null) {
+                return Commons.RESULT_SUCCESS_CODE == verifyResult.getCode()
+                        && Commons.RESULT_SUCCESS.equals(verifyResult.getMessage());
+            }
         }
         return false;
     }

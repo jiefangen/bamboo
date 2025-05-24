@@ -1,7 +1,6 @@
 package org.panda.support.security;
 
 import org.apache.commons.lang3.StringUtils;
-import org.panda.bamboo.common.constant.Commons;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.core.context.SpringContextHolder;
@@ -51,7 +50,7 @@ public class AuthenticationFilter extends AbstractAuthSupport implements Filter 
                     String serviceName = appName + Strings.MINUS + SpringContextHolder.getActiveProfile();
                     RestfulResult<String> tokenResult = super.getAuthStrategy().getTokenByCredentials(secretKey,
                             credentials, serviceName);
-                    if (Commons.RESULT_SUCCESS.equals(tokenResult.getMessage())) {
+                    if (tokenResult.isSuccess()) {
                         request.setAttribute(WebConstants.HEADER_AUTH_JWT, tokenResult.getData());
                     } else {
                         WebHttpUtil.buildJsonResponse((HttpServletResponse) resp, tokenResult);

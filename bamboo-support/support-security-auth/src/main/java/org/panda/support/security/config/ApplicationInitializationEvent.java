@@ -35,7 +35,7 @@ public class ApplicationInitializationEvent implements ApplicationContextDelayRu
 
     @Autowired
     private CommonProperties commonProperties;
-    @Autowired
+    @Autowired(required = false)
     private AuthServerClient authServerClient;
 
     @Override
@@ -46,10 +46,18 @@ public class ApplicationInitializationEvent implements ApplicationContextDelayRu
     @Override
     public void run(ApplicationContext context) throws Exception {
         // 应用服务信息初始化
-        LogUtil.info(getClass(), "Initialize the application service result: {}", JsonUtil.toJson(initService()));
+        RestfulResult<?> result = initService();
+        if (result.isSuccess()) {
+            LogUtil.info(getClass(), "Initialize the application service result: {}", JsonUtil.toJson(result));
+        } else {
+            LogUtil.warn(getClass(), "Initialize the application service result: {}", JsonUtil.toJson(result));
+        }
     }
 
     private RestfulResult<?> initService() {
+        if (authServerClient == null) {
+            return RestfulResult.failure("AuthServerClient not configured.");
+        }
         AppFacade appFacade = commonProperties.getAppFacade(appName, true);
         AppServiceModel appServiceModel = new AppServiceModel();
         String env = SpringContextHolder.getActiveProfile();
