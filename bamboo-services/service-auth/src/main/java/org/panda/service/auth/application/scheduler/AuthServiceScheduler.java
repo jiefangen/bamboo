@@ -8,13 +8,14 @@ import org.panda.tech.data.redis.lock.RedisDistributedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 /**
  * 认证服务定时任务
  *
  * @author fangen
  */
-//@Component
+@Component
 public class AuthServiceScheduler {
 
     @Autowired
