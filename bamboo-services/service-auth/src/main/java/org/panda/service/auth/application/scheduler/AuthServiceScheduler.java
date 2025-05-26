@@ -8,14 +8,13 @@ import org.panda.tech.data.redis.lock.RedisDistributedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 /**
  * 认证服务定时任务
  *
  * @author fangen
  */
-@Component
+//@Component
 public class AuthServiceScheduler {
 
     @Autowired
@@ -27,16 +26,18 @@ public class AuthServiceScheduler {
      * 分布式服务心跳定时器
      */
     @Async(ExecutorUtil.SCHEDULED_EXECUTOR_BEAN_NAME)
-    @Scheduled(fixedDelay = 5*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
+    @Scheduled(fixedDelay = 10*Times.MS_ONE_SECOND, initialDelay = Times.MS_ONE_SECOND)
     public void heartbeat() {
         LogUtil.info(getClass(), "Service heartbeat scheduler start...");
         String lockKey = "heartbeat-task-lock";
-        try {
-            // 多节点阻塞式服务健康检测
-            redisDistributedLock.lock(lockKey);
-            appServiceService.checkServiceHealth();
-        } finally {
-            redisDistributedLock.unlock(lockKey);
+        if (redisDistributedLock.tryLock(lockKey)) { // 多节点非阻塞服务健康检测
+            try {
+                appServiceService.checkServiceHealth();
+            } finally {
+                redisDistributedLock.unlock(lockKey);
+            }
+        } else {
+            LogUtil.warn(getClass(), "The lock was not acquired, skipping this execution.");
         }
         LogUtil.info(getClass(), "Service heartbeat scheduler end.");
     }

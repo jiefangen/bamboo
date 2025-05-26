@@ -10,6 +10,8 @@ import org.panda.support.security.model.ServiceNodeVO;
 import org.panda.tech.core.config.CommonProperties;
 import org.panda.tech.core.rpc.client.RpcClientReq;
 import org.panda.tech.core.rpc.filter.RpcInvokeInterceptor;
+import org.panda.tech.core.rpc.lb.LoadBalancer;
+import org.panda.tech.core.rpc.lb.RoundRobinLoadBalancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,7 +54,8 @@ public class RpcActionInterceptor implements RpcInvokeInterceptor {
             // 服务节点路由算法
             if (CollectionUtils.isNotEmpty(serverUrlRoots)) {
                 RpcClientReq targetProxy = (RpcClientReq) proxy;
-                targetProxy.setServerUrlRoot(serverUrlRoots.get(0));
+                LoadBalancer<String> lb = new RoundRobinLoadBalancer<>(serverUrlRoots);
+                targetProxy.setServerUrlRoot(lb.select());
             }
         }
         LogUtil.info(getClass(), "beanId: {}, methodName: {}, args: {}", beanId, method.getName(), args);
