@@ -35,9 +35,8 @@ public class AuthServiceController {
     @GetMapping("/auth/home")
     @ConfigAnonymous
     @WebOperationLog(actionType = ActionType.OTHER)
-    public RestfulResult<String> authHome() {
-        String authHomeResult = authServiceManager.authHome();
-        return authHomeResult == null ? RestfulResult.failure() : RestfulResult.success(authHomeResult);
+    public RestfulResult<Object> authHome() {
+        return authServiceManager.authHome();
     }
 
     @PostMapping("/account/page")

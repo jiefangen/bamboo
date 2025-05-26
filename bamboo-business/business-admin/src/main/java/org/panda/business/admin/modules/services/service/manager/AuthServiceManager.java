@@ -21,6 +21,7 @@ import org.panda.business.admin.modules.system.service.entity.SysUser;
 import org.panda.business.admin.modules.system.service.repository.SysUserMapper;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.spec.user.UsernamePassword;
+import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,7 +55,7 @@ public class AuthServiceManager {
         this.authServiceClient = authServiceClient;
     }
 
-    public String authHome() {
+    public RestfulResult<Object> authHome() {
         try {
             return authServiceClient.home();
         } catch (Exception e) {

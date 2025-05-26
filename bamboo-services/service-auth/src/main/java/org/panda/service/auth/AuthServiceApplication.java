@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@SpringBootApplication
-@EnableScheduling
 @Import({CoreModule.class, SecurityModule.class})
+@EnableScheduling
 @EnableTransactionManagement
 @MapperScan("org.panda.service.auth.repository")
+@SpringBootApplication
 public class AuthServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthServiceApplication.class,args);

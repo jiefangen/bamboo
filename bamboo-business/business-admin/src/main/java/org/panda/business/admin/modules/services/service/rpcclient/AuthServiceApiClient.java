@@ -1,12 +1,12 @@
 package org.panda.business.admin.modules.services.service.rpcclient;
 
-import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.business.admin.modules.services.api.param.*;
 import org.panda.business.admin.modules.services.api.vo.AppServerVO;
 import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
 import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.tech.core.rpc.annotation.RpcClient;
 import org.panda.tech.core.rpc.annotation.RpcMethod;
+import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.data.model.query.Pagination;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.http.HttpMethod;
@@ -26,8 +26,8 @@ import java.util.List;
 public class AuthServiceApiClient {
 
     @RpcMethod(value = "/home", method = HttpMethod.GET)
-    public String home() {
-        return Strings.EMPTY;
+    public RestfulResult<Object> home() {
+        return RestfulResult.success();
     }
 
     @RpcMethod(value = "/api/account/page", subTypes = AuthAccountVO.class)
