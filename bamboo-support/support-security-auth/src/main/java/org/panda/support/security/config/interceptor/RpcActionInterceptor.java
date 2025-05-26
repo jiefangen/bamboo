@@ -27,6 +27,8 @@ import java.util.Map;
  **/
 @Component
 public class RpcActionInterceptor implements RpcInvokeInterceptor {
+    // 负载均衡节点路由器
+    private final LoadBalancer<String> lb = new RoundRobinLoadBalancer<>();
 
     @Autowired
     private CommonProperties commonProperties;
@@ -54,8 +56,7 @@ public class RpcActionInterceptor implements RpcInvokeInterceptor {
             // 服务节点路由算法
             if (CollectionUtils.isNotEmpty(serverUrlRoots)) {
                 RpcClientReq targetProxy = (RpcClientReq) proxy;
-                LoadBalancer<String> lb = new RoundRobinLoadBalancer<>(serverUrlRoots);
-                targetProxy.setServerUrlRoot(lb.select());
+                targetProxy.setServerUrlRoot(lb.select(serverUrlRoots));
             }
         }
         LogUtil.info(getClass(), "beanId: {}, methodName: {}, args: {}", beanId, method.getName(), args);
