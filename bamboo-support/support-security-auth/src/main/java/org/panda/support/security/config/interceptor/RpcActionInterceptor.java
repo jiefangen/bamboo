@@ -3,7 +3,6 @@ package org.panda.support.security.config.interceptor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.panda.bamboo.common.constant.basic.Strings;
-import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.jackson.JsonUtil;
 import org.panda.support.security.executor.strategy.client.AuthServerClient;
 import org.panda.support.security.model.ServiceNodeVO;
@@ -12,6 +11,7 @@ import org.panda.tech.core.rpc.client.RpcClientReq;
 import org.panda.tech.core.rpc.filter.RpcInvokeInterceptor;
 import org.panda.tech.core.rpc.lb.LoadBalancer;
 import org.panda.tech.core.rpc.lb.RoundRobinLoadBalancer;
+import org.panda.tech.core.spec.log.util.DynamicLoggerUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,11 +59,13 @@ public class RpcActionInterceptor implements RpcInvokeInterceptor {
                 targetProxy.setServerUrlRoot(lb.select(serverUrlRoots));
             }
         }
-        LogUtil.info(getClass(), "beanId: {}, methodName: {}, args: {}", beanId, method.getName(), args);
+        DynamicLoggerUtil.writerContent(getClass(), "beanId: {}, methodName: {}, args: {}", beanId,
+                method.getName(), JsonUtil.toJson(args));
     }
 
     @Override
     public void afterInvoke(String beanId, Method method, Object[] args, Object result) {
-        LogUtil.info(getClass(), "beanId: {}, methodName: {}, result: {}", beanId, method.getName(), JsonUtil.toJson(result));
+        DynamicLoggerUtil.writerContent(getClass(), "beanId: {}, methodName: {}, result: {}", beanId,
+                method.getName(), JsonUtil.toJson(result));
     }
 }
