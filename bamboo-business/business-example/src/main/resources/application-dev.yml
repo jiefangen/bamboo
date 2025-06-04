@@ -94,4 +94,6 @@ management:
 logging:
   level:
     org.panda.business.example: info
+  dynamic:
+    enable: false # 动态日志启用配置
     

@@ -84,4 +84,5 @@ spring:
 logging:
   level:
     org.panda.business.example: info
-    
+  dynamic:
+    enable: true # 动态日志启用配置

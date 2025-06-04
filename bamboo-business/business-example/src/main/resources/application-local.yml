@@ -104,3 +104,5 @@ logging:
   level:
     root: info
     org.panda.business.example: debug
+  dynamic:
+    enable: true # 动态日志启用配置
