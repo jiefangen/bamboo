@@ -11,7 +11,7 @@ import org.panda.tech.core.rpc.client.RpcClientReq;
 import org.panda.tech.core.rpc.filter.RpcInvokeInterceptor;
 import org.panda.tech.core.rpc.lb.LoadBalancer;
 import org.panda.tech.core.rpc.lb.RoundRobinLoadBalancer;
-import org.panda.tech.core.spec.log.util.DynamicLoggerUtil;
+import org.panda.tech.core.spec.log.util.DynamicLogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,13 +59,13 @@ public class RpcActionInterceptor implements RpcInvokeInterceptor {
                 targetProxy.setServerUrlRoot(lb.select(serverUrlRoots));
             }
         }
-        DynamicLoggerUtil.writerContent(getClass(), "beanId: {}, methodName: {}, args: {}", beanId,
+        DynamicLogUtil.writerContent(getClass(), "beanId: {}, methodName: {}, args: {}", beanId,
                 method.getName(), JsonUtil.toJson(args));
     }
 
     @Override
     public void afterInvoke(String beanId, Method method, Object[] args, Object result) {
-        DynamicLoggerUtil.writerContent(getClass(), "beanId: {}, methodName: {}, result: {}", beanId,
+        DynamicLogUtil.writerContent(getClass(), "beanId: {}, methodName: {}, result: {}", beanId,
                 method.getName(), JsonUtil.toJson(result));
     }
 }

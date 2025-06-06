@@ -2,7 +2,7 @@ package org.panda.business.example.modules;
 
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
-import org.panda.tech.core.spec.log.util.DynamicLoggerUtil;
+import org.panda.tech.core.spec.log.util.DynamicLogUtil;
 import org.panda.tech.core.web.context.SpringWebContext;
 import org.panda.tech.core.web.controller.HomeControllerSupport;
 import org.panda.tech.core.web.restful.RestfulResult;
@@ -21,9 +21,9 @@ public class HomeController extends HomeControllerSupport {
     @ResponseBody
     public RestfulResult<Map<String, Object>> application() {
         HttpServletRequest request = SpringWebContext.getRequest();
-        DynamicLoggerUtil.writerContent(getClass(), "application request start...");
+        DynamicLogUtil.writerContent(getClass(), "application request start...");
         RestfulResult<Map<String, Object>> result = RestfulResult.success(getApplicationMap(request));
-        DynamicLoggerUtil.writerContent(getClass(), "application info: {}", JSONObject.toJSONString(result, true));
+        DynamicLogUtil.writerContent(getClass(), "application info: {}", JSONObject.toJSONString(result, true));
         return result;
     }
 }
