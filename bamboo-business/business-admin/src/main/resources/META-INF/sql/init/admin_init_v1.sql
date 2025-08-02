@@ -46,22 +46,22 @@ insert into `sys_role_menu` (`role_id`, `menu_id`) values
 
 /* 系统参数初始化 */
 insert into `sys_parameter` (`id`, `param_name`, `param_key`, `param_value`, `param_type`, `app_range`, `remark`, `creator`) values
-(101, 'admin系统-生成token签名密钥key', 'admin:app:tokenKey', 'FBQ8x8pMuvX' ,'internal', 'admin', '随机生成字符串，可定期更换', 'systemInit'),
-(102, 'admin系统-token失效时间间隔', 'admin:app:tokenInterval', '3600' ,'internal', 'admin', '时间间隔，单位秒', 'systemInit'),
-(103, 'admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**,/common/**' ,'internal', 'admin', '匹配模式数组格式存储', 'systemInit'),
-(104, 'admin系统-同时在线用户限制', 'admin:user:onlineLimit', '3' ,'internal', 'admin', '统计限制在线和离线用户', 'systemInit'),
-(105, '用户管理-账号初始化密码', 'admin:user:initPassword', '123456' ,'internal', 'admin', '默认用户密码', 'systemInit');
+(101, 'admin系统-生成token签名密钥key', 'admin:app:tokenKey', 'FBQ8x8pMuvX' ,'internal', 'business-admin', '随机生成字符串，可定期更换', 'systemInit'),
+(102, 'admin系统-token失效时间间隔', 'admin:app:tokenInterval', '3600' ,'internal', 'business-admin', '时间间隔，单位秒', 'systemInit'),
+(103, 'admin系统-权限加载url通配符', 'admin:app:authUrlPatterns', '/system/**,/monitor/**,/settings/**,/common/**' ,'internal', 'business-admin', '匹配模式数组格式存储', 'systemInit'),
+(104, 'admin系统-同时在线用户限制', 'admin:user:onlineLimit', '3' ,'internal', 'business-admin', '统计限制在线和离线用户', 'systemInit'),
+(105, '用户管理-账号初始化密码', 'admin:user:initPassword', '123456' ,'internal', 'business-admin', '默认用户密码', 'systemInit');
 
 /* 系统字典初始化 */
 insert into `sys_dictionary` (`id`, `dict_name`, `dict_key`, `dict_type`, `app_range`, `remark`, `creator`) values
-(101, '用户类型', 'sys_user_type', 'userType' ,'admin', '用户类型列表', 'systemInit'),
-(102, '用户级别', 'sys_user_rank', 'userRank' ,'admin', '用户级别列表', 'systemInit'),
-(103, '系统角色', 'sys_role_code', 'roleCode' ,'admin', '系统角色列表', 'systemInit'),
-(104, '系统api状态', 'sys_api_status', 'apiStatus' ,'admin', '接口请求返回状态枚举', 'systemInit'),
-(105, '日志操作类型', 'sys_operator_type', 'operatorType' ,'admin', '日志操作类型枚举', 'systemInit'),
-(106, '数据标签', 'sys_echo_class', 'echoClass' ,'admin', '数据标签回显样式', 'systemInit'),
-(107, '通用文案（中文）', 'common_language_zh', 'i18n' ,'admin', 'admin管理后台通用文案（中文）', 'systemInit'),
-(108, '通用文案（英文）', 'common_language_en', 'i18n' ,'admin', 'admin管理后台通用文案（英文）', 'systemInit');
+(101, '用户类型', 'sys_user_type', 'userType' ,'business-admin', '用户类型列表', 'systemInit'),
+(102, '用户级别', 'sys_user_rank', 'userRank' ,'business-admin', '用户级别列表', 'systemInit'),
+(103, '系统角色', 'sys_role_code', 'roleCode' ,'business-admin', '系统角色列表', 'systemInit'),
+(104, '系统api状态', 'sys_api_status', 'apiStatus' ,'business-admin', '接口请求返回状态枚举', 'systemInit'),
+(105, '日志操作类型', 'sys_operator_type', 'operatorType' ,'business-admin', '日志操作类型枚举', 'systemInit'),
+(106, '数据标签', 'sys_echo_class', 'echoClass' ,'business-admin', '数据标签回显样式', 'systemInit'),
+(107, '通用文案（中文）', 'common_language_zh', 'i18n' ,'business-admin', 'admin管理后台通用文案（中文）', 'systemInit'),
+(108, '通用文案（英文）', 'common_language_en', 'i18n' ,'business-admin', 'admin管理后台通用文案（英文）', 'systemInit');
 
 /* 系统字典初始化 */
 insert into `sys_dictionary_data` (`id`, `dict_id`, `dict_label`, `dict_value`, `is_default`, `remark`, `sort`, `creator`) values

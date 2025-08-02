@@ -24,7 +24,7 @@ public class KeyGeneratorTest extends AdminApplicationTest {
 
     @Test
     void fixedKeyGenerator() {
-        String key = StringUtil.randomNormalMixeds(11);
+        String key = StringUtil.randomNormalMixeds(16);
         System.out.println("key: " + key);
         AesEncryptor aesEncryptor = new AesEncryptor();
         String encryptedText = aesEncryptor.encrypt(appName, key);

@@ -50,5 +50,4 @@ public class CommonUtils {
         }
         return Locale.forLanguageTag(language);
     }
-
 }
