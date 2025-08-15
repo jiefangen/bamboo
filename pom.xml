@@ -25,14 +25,19 @@
     <properties>
         <bamboo.version>1.0.RELEASE</bamboo.version>
 
-        <!-- 旧版备用稳定spring套件，最低JDK8版本 -->
-        <spring-boot1.version>2.3.12.RELEASE</spring-boot1.version>
-        <spring1.version>5.2.15.RELEASE</spring1.version>
+        <!-- JDK8版本稳定SpringBoot套件版本 -->
+        <spring-boot.version.jdk8>2.3.12.RELEASE</spring-boot.version.jdk8>
+        <spring.version.jdk8>5.2.15.RELEASE</spring.version.jdk8>
 
-        <!-- 新版稳定spring套件，最低JDK11版本 -->
-        <spring-boot.version>2.6.13</spring-boot.version>
-        <spring.version>5.3.23</spring.version>
+        <!-- JDK11版本稳定SpringBoot套件版本 -->
+        <spring-boot.version.jdk11>2.6.13</spring-boot.version.jdk11>
+        <spring.version.jdk11>5.3.23</spring.version.jdk11>
 
+        <!-- JDK17版本稳定SpringBoot套件版本 -->
+        <spring-boot.version.jdk17>3.2.4</spring-boot.version.jdk17>
+        <spring.version.jdk17>6.1.5</spring.version.jdk17>
+
+        <!-- 当前项目使用的JDK版本 -->
         <oracle-jdk.version>11</oracle-jdk.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

@@ -38,5 +38,4 @@ public class KeyGeneratorTest extends AdminApplicationTest {
         String encodedPassword = passwordEncoder.encode("123456");
         System.out.println("encodedPassword: " + encodedPassword);
     }
-
 }
