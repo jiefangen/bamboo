@@ -15,7 +15,7 @@
 
     <properties>
         <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
-        <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
+        <knife4j.version>4.1.0</knife4j.version>
     </properties>
 
     <dependencies>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-            <version>${knife4j-openapi2.version}</version>
+            <version>${knife4j.version}</version>
         </dependency>
 
         <!-- 分布式服务安全扩展支持 -->
