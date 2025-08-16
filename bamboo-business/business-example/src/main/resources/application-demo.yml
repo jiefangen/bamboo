@@ -94,7 +94,7 @@ knife4j:
     enable: true
     routes:
       - name: business-example
-        uri: http://localhost:10004/biz-example
+        uri: http://rocky-bamboo-business.orb.local:20004/biz-example
         location: /v2/api-docs
       - name: business-admin
         uri: http://rocky-bamboo-business.orb.local:20001
