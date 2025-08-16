@@ -106,3 +106,26 @@ logging:
     org.panda.business.example: debug
   dynamic:
     enable: true # 动态日志启用配置
+
+
+# Knife4j聚合服务API文档
+knife4j:
+  enableAggregation: true
+  cloud:
+    enable: true
+    routes:
+      - name: business-example
+        uri: http://localhost:10004/biz-example
+        location: /v2/api-docs
+      - name: business-admin
+        uri: http://rocky-bamboo-business.orb.local:20001
+        location: /v2/api-docs
+      - name: service-auth
+        uri: http://rocky-bamboo-services-1.orb.local:21000/auth
+        location: /v2/api-docs
+      - name: service-payment
+        uri: http://rocky-bamboo-services-1.orb.local:21003/payment
+        location: /v2/api-docs
+      - name: service-document
+        uri: http://rocky-bamboo-services-1.orb.local:21001/document
+        location: /v2/api-docs
