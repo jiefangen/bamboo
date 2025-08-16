@@ -117,15 +117,20 @@ knife4j:
       - name: business-example
         uri: http://localhost:10004/biz-example
         location: /v2/api-docs
+        order: 1
       - name: business-admin
         uri: http://rocky-bamboo-business.orb.local:20001
         location: /v2/api-docs
+        order: 2
       - name: service-auth
         uri: http://rocky-bamboo-services-1.orb.local:21000/auth
         location: /v2/api-docs
+        order: 3
       - name: service-payment
         uri: http://rocky-bamboo-services-1.orb.local:21003/payment
         location: /v2/api-docs
+        order: 4
       - name: service-document
         uri: http://rocky-bamboo-services-1.orb.local:21001/document
         location: /v2/api-docs
+        order: 5
