@@ -20,11 +20,11 @@
     </modules>
 
     <properties>
-        <bamboo-technology.version>2.0.0</bamboo-technology.version>
-        <bamboo-core.version>2.3.0</bamboo-core.version>
-        <bamboo-support.version>2.0.0</bamboo-support.version>
         <bamboo-business.version>2.0.0</bamboo-business.version>
-        <spring-boot.version>2.6.13</spring-boot.version>
+
+        <bamboo-support.version>2.0.0</bamboo-support.version>
+        <bamboo-core.version>2.3.0</bamboo-core.version>
+        <bamboo-technology.version>2.0.0</bamboo-technology.version>
 
         <spring-boot.version>2.6.13</spring-boot.version>
         <oracle-jdk.version>11</oracle-jdk.version>
