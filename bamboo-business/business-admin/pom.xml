@@ -5,12 +5,12 @@
     <parent>
         <artifactId>bamboo-business</artifactId>
         <groupId>org.panda.business</groupId>
-        <version>1.0.RELEASE</version>
+        <version>2.0.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>business-admin</artifactId>
-    <version>2.0.0</version>
+    <version>${bamboo-business.version}</version>
 
     <properties>
         <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
@@ -28,13 +28,13 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-security</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-technology.version}</version>
         </dependency>
         <!-- 技术框架mybatis扩展支持 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-data-mybatis</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-technology.version}</version>
         </dependency>
         <!-- MySQL连接驱动 -->
         <dependency>
@@ -57,7 +57,7 @@
         <dependency>
             <groupId>org.panda.support</groupId>
             <artifactId>support-security-auth</artifactId>
-            <version>${support.version}</version>
+            <version>${bamboo-support.version}</version>
         </dependency>
     </dependencies>
     <!-- assembly打包插件 -->

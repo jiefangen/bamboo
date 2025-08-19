@@ -5,12 +5,12 @@
     <parent>
         <artifactId>bamboo-services</artifactId>
         <groupId>org.panda.service</groupId>
-        <version>1.0.RELEASE</version>
+        <version>2.0.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>service-auth</artifactId>
-    <version>${service.version}</version>
+    <version>${bamboo-services.version}</version>
     <description>应用api认证授权服务</description>
 
     <properties>
@@ -41,13 +41,13 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-security</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-technology.version}</version>
         </dependency>
         <!-- 技术框架mybatis扩展支持 -->
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-data-mybatis</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-technology.version}</version>
         </dependency>
         <!-- MySQL连接驱动 -->
         <dependency>
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-data-redis</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-technology.version}</version>
         </dependency>
     </dependencies>
     <!-- assembly打包插件 -->

@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.panda.service</groupId>
         <artifactId>bamboo-services</artifactId>
-        <version>1.0.RELEASE</version>
+        <version>2.0.RELEASE</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>service-notice</artifactId>
-    <version>${service.version}</version>
+    <version>${bamboo-services.version}</version>
 
     <properties>
         <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>org.panda.tech</groupId>
             <artifactId>bamboo-data-jpa</artifactId>
-            <version>${technology.version}</version>
+            <version>${bamboo-technology.version}</version>
         </dependency>
         <!-- MySQL连接驱动 -->
         <dependency>

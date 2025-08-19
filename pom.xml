@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.panda</groupId>
     <artifactId>bamboo</artifactId>
-    <version>1.0.RELEASE</version>
+    <version>2.0.RELEASE</version>
     <packaging>pom</packaging>
     <organization>
         <name>bamboo</name>
@@ -23,19 +23,26 @@
     </modules>
 
     <properties>
-        <bamboo.version>1.0.RELEASE</bamboo.version>
+        <!-- 当前项目系统版本 -->
+<!--        <bamboo.version>2.0.RELEASE</bamboo.version>-->
+<!--        <bamboo-technology.version>2.0.0</bamboo-technology.version>-->
+<!--        <bamboo-core.version>2.3.0</bamboo-core.version>-->
 
-        <!-- JDK8版本稳定SpringBoot套件版本 -->
-        <spring-boot.version.jdk8>2.3.12.RELEASE</spring-boot.version.jdk8>
-        <spring.version.jdk8>5.2.15.RELEASE</spring.version.jdk8>
+        <!-- 适配JDK11和8的最后一个稳定版本（建议） -->
+        <spring-boot.version.jdk8-11>2.7.18</spring-boot.version.jdk8-11>
+        <spring.version.jdk8-11>5.3.31</spring.version.jdk8-11>
 
-        <!-- JDK11版本稳定SpringBoot套件版本 -->
+        <!-- 适配JDK17的稳定SpringBoot版本 -->
+        <spring-boot.version.jdk17>3.2.4</spring-boot.version.jdk17>
+        <spring.version.jdk17>6.1.5</spring.version.jdk17>
+
+        <!-- 适配JDK11的稳定SpringBoot版本 -->
         <spring-boot.version.jdk11>2.6.13</spring-boot.version.jdk11>
         <spring.version.jdk11>5.3.23</spring.version.jdk11>
 
-        <!-- JDK17版本稳定SpringBoot套件版本 -->
-        <spring-boot.version.jdk17>3.2.4</spring-boot.version.jdk17>
-        <spring.version.jdk17>6.1.5</spring.version.jdk17>
+        <!-- 适配JDK8的稳定SpringBoot版本 -->
+        <spring-boot.version.jdk8>2.3.12.RELEASE</spring-boot.version.jdk8>
+        <spring.version.jdk8>5.2.15.RELEASE</spring.version.jdk8>
 
         <!-- 当前项目使用的JDK版本 -->
         <oracle-jdk.version>11</oracle-jdk.version>
