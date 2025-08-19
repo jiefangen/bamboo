@@ -14,3 +14,4 @@ gen
 *.log
 .DS_Store
 *.lock
+dynamicLogs/
