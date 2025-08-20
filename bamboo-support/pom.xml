@@ -21,7 +21,7 @@
         <bamboo-core.version>2.3.0</bamboo-core.version>
         <bamboo-technology.version>2.0.0</bamboo-technology.version>
 
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <spring-boot.version>2.6.13</spring-boot.version>
         <oracle-jdk.version>11</oracle-jdk.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

@@ -30,7 +30,7 @@
         <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
         <knife4j-aggregation.version>4.1.0</knife4j-aggregation.version>
 
-        <spring-boot.version>2.7.18</spring-boot.version>
+        <spring-boot.version>2.6.13</spring-boot.version>
         <oracle-jdk.version>11</oracle-jdk.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

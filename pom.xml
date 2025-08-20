@@ -23,7 +23,7 @@
     </modules>
 
     <properties>
-        <!-- 适配JDK11和8的最后一个稳定版本（建议） -->
+        <!-- 适配JDK11和8的最后一个稳定版本 -->
         <spring-boot.version.jdk8-11>2.7.18</spring-boot.version.jdk8-11>
         <spring.version.jdk8-11>5.3.31</spring.version.jdk8-11>
 
@@ -31,7 +31,7 @@
         <spring-boot.version.jdk17>3.2.4</spring-boot.version.jdk17>
         <spring.version.jdk17>6.1.5</spring.version.jdk17>
 
-        <!-- 适配JDK11的稳定SpringBoot版本 -->
+        <!-- 适配JDK11的稳定SpringBoot版本（稳定优选） -->
         <spring-boot.version.jdk11>2.6.13</spring-boot.version.jdk11>
         <spring.version.jdk11>5.3.23</spring.version.jdk11>
 
