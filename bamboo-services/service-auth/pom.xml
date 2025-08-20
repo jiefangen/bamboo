@@ -14,8 +14,6 @@
     <description>应用api认证授权服务</description>
 
     <properties>
-        <knife4j-openapi2.version>4.1.0</knife4j-openapi2.version>
-
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -51,8 +49,8 @@
         </dependency>
         <!-- MySQL连接驱动 -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
         <!-- 缓存redis -->

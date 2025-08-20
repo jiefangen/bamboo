@@ -14,8 +14,9 @@
     <description>bamboo框架样例工程</description>
 
     <properties>
-        <!-- 该版本对应的SpringBoot版本建议2.4.0~3.0.0之间 -->
-        <knife4j.version>4.1.0</knife4j.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
@@ -33,8 +34,8 @@
         </dependency>
         <!-- MySQL连接驱动 -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
         <!-- 监控和管理应用程序的生产级特性 -->
@@ -46,13 +47,13 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi2-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version>
+            <version>${knife4j-openapi2.version}</version>
         </dependency>
         <!-- knife4j聚合文档 -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-aggregation-spring-boot-starter</artifactId>
-            <version>${knife4j.version}</version>
+            <version>${knife4j-aggregation.version}</version>
         </dependency>
 
         <!-- 分布式服务安全扩展支持 -->
