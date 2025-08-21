@@ -82,6 +82,7 @@ spring:
             multi-statement-allow: true                                        #允许一次执行多条sql
 
 logging:
+  config: classpath:config/logback.xml
   level:
     org.panda.business.example: info
   dynamic:

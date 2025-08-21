@@ -17,8 +17,8 @@
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<file></file>-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名-->
-            <FileNamePattern>${LOG_PATH}\%d{yyyyMMdd}.log</FileNamePattern>
+            <!--日志文件输出的文件名，时间格式：yyyyMMdd（年月日）-->
+            <FileNamePattern>${LOG_PATH}\%d{yyyy-MM-dd}.log</FileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>${FILE_LOG_PATTERN}</pattern>

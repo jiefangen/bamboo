@@ -78,7 +78,7 @@ management:
     health:
       show-details: always
 
-# 自定义相关配置
+# 自定义注册中心相关配置
 bamboo:
   common:
     serviceRoot:

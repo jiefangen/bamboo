@@ -70,11 +70,11 @@ spring:
 
 # 日志格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符
 pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS} |-%-5level [%thread] %c [%L] -| %msg%n"
-contextName: business-admin
+contextName: ${spring.application.name}
 logging:
   config: classpath:config/logback-spring.xml
   pattern:
     console: ${pattern}
     file: ${pattern}
   file:
-    path: /home/${contextName}/logs
+    path: ./logback/${contextName}/logs
