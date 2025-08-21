@@ -159,7 +159,7 @@
 
     <profiles>
         <profile>
-            <id>local</id>
+            <id>svc-local</id>
             <properties>
                 <profiles.active>local</profiles.active>
             </properties>
@@ -167,26 +167,26 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+<!--        <profile>-->
+<!--            <id>svc-dev</id>-->
+<!--            <properties>-->
+<!--                <profiles.active>dev</profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>svc-test</id>-->
+<!--            <properties>-->
+<!--                <profiles.active>test</profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
         <profile>
-            <id>dev</id>
-            <properties>
-                <profiles.active>dev</profiles.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>test</id>
-            <properties>
-                <profiles.active>test</profiles.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>demo</id>
+            <id>svc-demo</id>
             <properties>
                 <profiles.active>demo</profiles.active>
             </properties>
         </profile>
         <profile>
-            <id>prod</id>
+            <id>svc-prod</id>
             <properties>
                 <profiles.active>prod</profiles.active>
             </properties>

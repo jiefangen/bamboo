@@ -148,7 +148,7 @@
     <profiles>
         <profile>
             <!-- 本地开发环境 -->
-            <id>local</id>
+            <id>biz-local</id>
             <properties>
                 <profiles.active>local</profiles.active>
             </properties>
@@ -156,26 +156,26 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+<!--        <profile>-->
+<!--            <id>biz-dev</id>-->
+<!--            <properties>-->
+<!--                <profiles.active>dev</profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
+<!--        <profile>-->
+<!--            <id>biz-test</id>-->
+<!--            <properties>-->
+<!--                <profiles.active>test</profiles.active>-->
+<!--            </properties>-->
+<!--        </profile>-->
         <profile>
-            <id>dev</id>
-            <properties>
-                <profiles.active>dev</profiles.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>test</id>
-            <properties>
-                <profiles.active>test</profiles.active>
-            </properties>
-        </profile>
-        <profile>
-            <id>demo</id>
+            <id>biz-demo</id>
             <properties>
                 <profiles.active>demo</profiles.active>
             </properties>
         </profile>
         <profile>
-            <id>prod</id>
+            <id>biz-prod</id>
             <properties>
                 <profiles.active>prod</profiles.active>
             </properties>

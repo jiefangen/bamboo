@@ -77,4 +77,4 @@ logging:
     console: ${pattern}
     file: ${pattern}
   file:
-    path: ./logback/${contextName}/logs
+    path: ./logback/logs
