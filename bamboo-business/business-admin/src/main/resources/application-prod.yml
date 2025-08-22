@@ -78,4 +78,4 @@ logging:
     console: ${pattern}
     file: ${pattern}
   file:
-    path: /home/${contextName}/logs
+    path: ./logback/logs

@@ -81,13 +81,6 @@ spring:
             delete-allow: true                                                 #允许删除数据操作
             multi-statement-allow: true                                        #允许一次执行多条sql
 
-logging:
-  config: classpath:config/logback.xml
-  level:
-    org.panda.business.example: info
-  dynamic:
-    enable: true # 动态日志启用配置
-
 # Knife4j聚合服务API文档
 knife4j:
   enableAggregation: true

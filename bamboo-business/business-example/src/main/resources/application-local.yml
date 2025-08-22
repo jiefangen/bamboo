@@ -100,13 +100,11 @@ management:
     health:
       show-details: always
 
+# 日志相关配置
 logging:
   level:
     root: info
     org.panda.business.example: debug
-  dynamic:
-    enable: true # 动态日志启用配置
-
 
 # Knife4j聚合服务API文档
 knife4j:
