@@ -15,7 +15,7 @@ spring:
       password: mongo123
       authentication-database: admin
   datasource:
-    url: jdbc:mysql://198.19.249.159:3320/bamboo_system?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true
+    url: jdbc:mysql://198.19.249.159:3320/bamboo_system?useUnicode=true&characterEncoding=utf8&useSSL=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: root
     password: P@ssw0rd123!
     driver-class-name: com.mysql.cj.jdbc.Driver

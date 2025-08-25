@@ -17,6 +17,8 @@
         <module>business-helper-app</module>
         <!-- bamboo框架样例工程 -->
         <module>business-example</module>
+        <!-- XXL-JOB任务调度中心 -->
+        <module>business-xxl-job</module>
     </modules>
 
     <properties>
@@ -53,6 +55,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!-- starter-test：junit + spring-test + mockito -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -63,6 +66,7 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <!-- Import dependency management from Spring Boot (依赖管理：继承一些默认的依赖，工程需要依赖的jar包的管理，申明其他dependency的时候就不需要version) -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
