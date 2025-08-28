@@ -53,7 +53,7 @@ if [ -n "$pid" ]; then
 else
   echo "$SCRIPT_PREFIX 【警告】旧服务未启动！" >> "$STDOUT_FILE"
 fi
-sleep 5s
+sleep 3s
 
 # 复制jar包到目标目录
 \cp -rf "$SOURCE_JAR_PATH" "$TARGET_DIR/$JAR_NAME"
