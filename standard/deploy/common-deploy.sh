@@ -60,7 +60,7 @@ sleep 3s
 
 # 进入目标目录
 cd "$TARGET_DIR"
-nohup java -Xms512m -Xmx512m -jar "$TARGET_DIR/$JAR_NAME" --spring.profiles.active="$SERVER_ENV" > "$TARGET_DIR/nohup.out" 2>&1 &
+nohup java -Xms512m -Xmx512m -jar "$TARGET_DIR/$JAR_NAME" --spring.config.location=./conf/application-"$SERVER_ENV".properties > "$TARGET_DIR/nohup.out" 2>&1 &
 echo "$SCRIPT_PREFIX 【信息】部署脚本执行完毕" >> "$STDOUT_FILE"
 sleep 5s
 
