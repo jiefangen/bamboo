@@ -44,52 +44,12 @@
 		<groovy.version>4.0.24</groovy.version>
 	</properties>
 
-<!--	<build>-->
-<!--		<plugins>-->
-<!--			&lt;!&ndash; Source &ndash;&gt;-->
-<!--			<plugin>-->
-<!--				<groupId>org.apache.maven.plugins</groupId>-->
-<!--				<artifactId>maven-source-plugin</artifactId>-->
-<!--				<version>${maven-source-plugin.version}</version>-->
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<phase>package</phase>-->
-<!--						<goals>-->
-<!--							<goal>jar-no-fork</goal>-->
-<!--						</goals>-->
-<!--					</execution>-->
-<!--				</executions>-->
-<!--			</plugin>-->
-<!--		</plugins>-->
-<!--	</build>-->
-
 	<profiles>
 		<profile>
-			<id>biz-local</id>
-			<properties>
-				<profiles.active>local</profiles.active>
-			</properties>
+			<id>release</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-			<modules>
-				<module>xxl-job-core</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>biz-demo</id>
-			<properties>
-				<profiles.active>demo</profiles.active>
-			</properties>
-			<modules>
-				<module>xxl-job-core</module>
-			</modules>
-		</profile>
-		<profile>
-			<id>biz-prod</id>
-			<properties>
-				<profiles.active>prod</profiles.active>
-			</properties>
 			<modules>
 				<module>xxl-job-core</module>
 			</modules>
