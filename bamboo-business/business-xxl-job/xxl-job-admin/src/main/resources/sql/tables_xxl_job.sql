@@ -132,7 +132,9 @@ CREATE TABLE `xxl_job_lock`
   DEFAULT CHARSET = utf8mb4;
 
 
-## —————————————————————— init data ——————————————————
+-- ========================================
+-- XXL-JOB 系统表初始化数据
+-- ========================================
 
 INSERT INTO `xxl_job_group`(`id`, `app_name`, `title`, `address_type`, `address_list`, `update_time`)
 VALUES (1, 'xxl-job-executor', '默认执行器', 0, NULL, '2025-08-20 12:30:30');
@@ -142,6 +144,53 @@ VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL);
 
 INSERT INTO `xxl_job_lock` (`lock_name`)
 VALUES ('schedule_lock');
+
+
+-- ========================================
+-- XXL-JOB 系统表索引优化 DDL
+-- ========================================
+
+-- 1. xxl_job_registry 表索引
+CREATE INDEX idx_xxl_job_registry_update_time ON xxl_job_registry (update_time);
+CREATE UNIQUE INDEX uk_xxl_job_registry_group_key_value ON xxl_job_registry (registry_group, registry_key, registry_value);
+
+-- 2. xxl_job_user 表索引
+CREATE UNIQUE INDEX uk_xxl_job_user_username ON xxl_job_user (username);
+CREATE INDEX idx_xxl_job_user_role ON xxl_job_user (role);
+
+-- 3. xxl_job_group 表索引
+CREATE INDEX idx_xxl_job_group_address_type ON xxl_job_group (address_type);
+CREATE INDEX idx_xxl_job_group_app_name ON xxl_job_group (app_name);
+CREATE INDEX idx_xxl_job_group_title ON xxl_job_group (title);
+CREATE INDEX idx_xxl_job_group_app_name_title_id ON xxl_job_group (app_name, title, id);
+
+-- 4. xxl_job_info 表索引
+CREATE INDEX idx_xxl_job_info_job_group ON xxl_job_info (job_group);
+CREATE INDEX idx_xxl_job_info_trigger_status ON xxl_job_info (trigger_status);
+CREATE INDEX idx_xxl_job_info_job_desc ON xxl_job_info (job_desc);
+CREATE INDEX idx_xxl_job_info_executor_handler ON xxl_job_info (executor_handler);
+CREATE INDEX idx_xxl_job_info_author ON xxl_job_info (author);
+CREATE INDEX idx_xxl_job_info_trigger_status_next_time ON xxl_job_info (trigger_status, trigger_next_time);
+
+-- 5. xxl_job_logglue 表索引
+CREATE INDEX idx_xxl_job_logglue_job_id ON xxl_job_logglue (job_id);
+CREATE INDEX idx_xxl_job_logglue_job_id_update_time ON xxl_job_logglue (job_id, update_time DESC);
+
+-- 6. xxl_job_log 表索引（重要：日志表数据量大，索引尤为重要）
+CREATE INDEX idx_xxl_job_log_job_group ON xxl_job_log (job_group);
+CREATE INDEX idx_xxl_job_log_job_id ON xxl_job_log (job_id);
+CREATE INDEX idx_xxl_job_log_trigger_time ON xxl_job_log (trigger_time);
+CREATE INDEX idx_xxl_job_log_trigger_time_desc ON xxl_job_log (trigger_time DESC);
+CREATE INDEX idx_xxl_job_log_trigger_code ON xxl_job_log (trigger_code);
+CREATE INDEX idx_xxl_job_log_handle_code ON xxl_job_log (handle_code);
+CREATE INDEX idx_xxl_job_log_alarm_status ON xxl_job_log (alarm_status);
+CREATE INDEX idx_xxl_job_log_executor_address ON xxl_job_log (executor_address);
+CREATE INDEX idx_xxl_job_log_trigger_handle_time ON xxl_job_log (trigger_code, handle_code, trigger_time);
+CREATE INDEX idx_xxl_job_log_job_group_trigger_time ON xxl_job_log (job_group, trigger_time DESC);
+CREATE INDEX idx_xxl_job_log_job_id_trigger_time ON xxl_job_log (job_id, trigger_time DESC);
+
+-- 7. xxl_job_log_report 表索引
+CREATE UNIQUE INDEX uk_xxl_job_log_report_trigger_day ON xxl_job_log_report (trigger_day);
 
 commit;
 
