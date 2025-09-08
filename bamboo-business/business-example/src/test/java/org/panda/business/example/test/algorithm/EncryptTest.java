@@ -3,6 +3,7 @@ package org.panda.business.example.test.algorithm;
 import org.junit.jupiter.api.Test;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
+import org.panda.tech.core.crypto.base64.Base64Encryptor;
 import org.panda.tech.core.crypto.md5.Md5Encryptor;
 import org.panda.tech.core.crypto.sha.ShaEncryptor;
 
@@ -22,10 +23,12 @@ public class EncryptTest {
 
     @Test
     void md5EncryptorTest() {
-        String key = StringUtil.randomNormalMixeds(16);
-        System.out.println(key);
+        String key = StringUtil.randomNormalMixeds(32);
+        System.out.println("密钥：" + key);
         Md5Encryptor encryptor = new Md5Encryptor();
-        System.out.println(encryptor.encrypt(key));
+        System.out.println("Md5密文：" + encryptor.encrypt(key));
+        Base64Encryptor base64Encryptor = Base64Encryptor.INSTANCE;
+        System.out.println("Base64：" + base64Encryptor.encrypt(key));
         String plaintext = "jfg123456/";
         System.out.println("明文：" + plaintext + "《================》秘文：" + encryptor.encrypt(plaintext));
     }
