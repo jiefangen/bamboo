@@ -8,7 +8,7 @@ import org.panda.service.auth.infrastructure.security.service.AuthServerExceptio
 import org.panda.service.auth.infrastructure.security.service.AuthServiceManager;
 import org.panda.tech.core.web.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
-import org.panda.tech.core.jwt.encrypt.JwtGenerator;
+import org.panda.tech.core.jwt.external.JwtGenerator;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;

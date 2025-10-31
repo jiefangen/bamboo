@@ -1,9 +1,9 @@
 package org.panda.service.auth.common.config;
 
-import org.panda.tech.core.jwt.encrypt.JwtGenerator;
-import org.panda.tech.core.jwt.encrypt.JwtGeneratorImpl;
-import org.panda.tech.core.jwt.encrypt.JwtParser;
-import org.panda.tech.core.jwt.encrypt.JwtParserImpl;
+import org.panda.tech.core.jwt.external.JwtGenerator;
+import org.panda.tech.core.jwt.external.JwtGeneratorImpl;
+import org.panda.tech.core.jwt.external.JwtParser;
+import org.panda.tech.core.jwt.external.JwtParserImpl;
 import org.panda.tech.core.rpc.filter.RpcInvokerFilter;
 import org.panda.tech.core.web.mvc.servlet.filter.RequestLogFilter;
 import org.panda.tech.core.web.mvc.support.WebMvcConfigurerSupport;

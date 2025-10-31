@@ -17,7 +17,7 @@ public class EncryptTest {
 
     @Test
     void generateKey() {
-        String key = StringUtil.randomNormalMixeds(16);
+        String key = StringUtil.randomNormalMixeds(8);
         System.out.println(key);
     }
 
