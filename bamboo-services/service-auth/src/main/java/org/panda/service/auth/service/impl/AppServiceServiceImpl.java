@@ -29,7 +29,7 @@ import org.panda.tech.core.config.annotation.GrantAuthority;
 import org.panda.tech.core.util.CommonUtil;
 import org.panda.tech.core.util.http.client.RestTemplateClient;
 import org.panda.tech.core.web.context.SpringWebContext;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.data.mybatis.util.QueryPageHelper;

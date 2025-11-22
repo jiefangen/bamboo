@@ -2,7 +2,7 @@ package org.panda.business.example.modules.components.redis;
 
 
 import org.panda.business.example.modules.system.model.dto.SysUserDto;
-import org.panda.tech.data.redis.support.RedisValueUnityCacheRepoSupport;
+import org.panda.tech.data.redis.repo.RedisValueUnityCacheRepoSupport;
 import org.springframework.stereotype.Repository;
 
 @Repository

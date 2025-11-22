@@ -3,7 +3,7 @@ package org.panda.support.security.executor.strategy;
 import org.panda.bamboo.common.constant.Commons;
 import org.panda.support.security.AuthManagerStrategy;
 import org.panda.support.security.executor.strategy.client.AuthServerClient;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

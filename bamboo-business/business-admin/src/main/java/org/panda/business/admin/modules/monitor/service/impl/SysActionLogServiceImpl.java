@@ -22,8 +22,8 @@ import org.panda.business.admin.modules.monitor.service.repository.SysActionLogM
 import org.panda.tech.core.exception.business.BusinessException;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.web.model.IPAddress;
-import org.panda.tech.core.web.restful.RestfulResult;
-import org.panda.tech.core.web.restful.ResultEnum;
+import org.panda.bamboo.common.model.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.ResultEnum;
 import org.panda.tech.core.web.util.IP2RegionUtil;
 import org.panda.tech.core.web.util.NetUtil;
 import org.panda.tech.core.web.util.WebHttpUtil;

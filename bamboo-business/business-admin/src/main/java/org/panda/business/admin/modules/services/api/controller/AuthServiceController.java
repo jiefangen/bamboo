@@ -9,7 +9,7 @@ import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.business.admin.modules.services.service.manager.AuthServiceManager;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.spec.log.annotation.WebOperationLog;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.data.model.query.QueryResult;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.config.annotation.ConfigPermission;

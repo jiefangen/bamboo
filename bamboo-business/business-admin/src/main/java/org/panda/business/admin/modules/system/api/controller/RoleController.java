@@ -9,7 +9,7 @@ import org.panda.business.admin.modules.system.service.dto.SysRoleDto;
 import org.panda.business.admin.modules.system.service.entity.SysRole;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.spec.log.annotation.WebOperationLog;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.panda.tech.security.config.annotation.ConfigPermission;

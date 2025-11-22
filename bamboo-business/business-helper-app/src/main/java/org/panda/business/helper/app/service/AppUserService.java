@@ -5,7 +5,7 @@ import org.panda.business.helper.app.model.entity.AppUser;
 import org.panda.business.helper.app.model.params.AppLoginParam;
 import org.panda.business.helper.app.model.params.UpdateUserParam;
 import org.panda.business.helper.app.model.vo.UserInfo;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 
 import javax.servlet.http.HttpServletRequest;
 

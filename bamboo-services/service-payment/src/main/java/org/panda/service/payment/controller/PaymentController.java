@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda.service.payment.core.domain.model.PaymentDefinition;
 import org.panda.service.payment.core.domain.model.PaymentRequest;
 import org.panda.service.payment.service.PaymentService;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

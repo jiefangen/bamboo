@@ -7,7 +7,7 @@ import org.panda.service.notice.core.domain.model.sms.SmsNotifyResult;
 import org.panda.service.notice.model.param.CustomSmsParam;
 import org.panda.service.notice.model.param.SmsParam;
 import org.panda.service.notice.service.SmsService;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

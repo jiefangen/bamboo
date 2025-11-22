@@ -3,8 +3,8 @@ package org.panda.business.helper.app.application.aspect;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.panda.tech.core.spec.debounce.annotation.RequestLock;
-import org.panda.tech.core.spec.debounce.support.RequestLockSupport;
+import org.panda.tech.data.redis.lock.annotation.RequestLock;
+import org.panda.tech.data.redis.config.aspect.RequestLockSupport;
 import org.panda.tech.data.redis.lock.RedisCacheLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class RedisRequestLockAspect extends RequestLockSupport {
         this.redisCacheLock = redisCacheLock;
     }
 
-    @Around("execution(public * * (..)) && @annotation(org.panda.tech.core.spec.debounce.annotation.RequestLock)")
+    @Around("execution(public * * (..)) && @annotation(org.panda.tech.data.redis.lock.annotation.RequestLock)")
     public Object interceptor(ProceedingJoinPoint joinPoint) {
         return super.doAround(joinPoint);
     }

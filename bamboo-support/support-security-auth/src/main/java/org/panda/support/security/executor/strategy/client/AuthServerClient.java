@@ -5,7 +5,7 @@ import org.panda.support.security.model.ServiceNodeVO;
 import org.panda.tech.core.rpc.annotation.RpcClient;
 import org.panda.tech.core.rpc.annotation.RpcMethod;
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;

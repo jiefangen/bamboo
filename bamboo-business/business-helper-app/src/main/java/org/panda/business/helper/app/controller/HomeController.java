@@ -3,12 +3,12 @@ package org.panda.business.helper.app.controller;
 import io.swagger.annotations.Api;
 import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.business.helper.app.model.params.LockBodyParam;
-import org.panda.tech.core.spec.debounce.annotation.LockKeyParam;
-import org.panda.tech.core.spec.debounce.annotation.RequestLock;
+import org.panda.tech.data.redis.lock.annotation.LockKeyParam;
+import org.panda.tech.data.redis.lock.annotation.RequestLock;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.spec.log.annotation.WebOperationLog;
 import org.panda.tech.core.web.controller.HomeControllerSupport;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

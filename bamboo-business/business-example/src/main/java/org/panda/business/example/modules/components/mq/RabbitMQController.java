@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import org.panda.business.example.infrastructure.message.rabbitmq.RabbitMQConstants;
 import org.panda.business.example.infrastructure.message.rabbitmq.RabbitMQDeclaredProducer;
 import org.panda.business.example.infrastructure.message.rabbitmq.RabbitMQProducer;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -6,7 +6,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.service.auth.infrastructure.security.authentication.AuthAccountSpecificDetailsAuthenticationToken;
 import org.panda.service.auth.infrastructure.security.service.AuthServerExceptionCodes;
 import org.panda.service.auth.infrastructure.security.service.AuthServiceManager;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.core.jwt.external.JwtGenerator;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;

@@ -6,7 +6,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.core.context.SpringContextHolder;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;

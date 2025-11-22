@@ -5,7 +5,7 @@ import org.panda.business.helper.app.model.params.AppLoginParam;
 import org.panda.business.helper.app.service.AppUserService;
 import org.panda.tech.core.spec.log.ActionType;
 import org.panda.tech.core.spec.log.annotation.WebOperationLog;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

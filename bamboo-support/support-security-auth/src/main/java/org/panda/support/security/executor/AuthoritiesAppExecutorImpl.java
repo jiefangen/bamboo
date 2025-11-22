@@ -14,7 +14,7 @@ import org.panda.support.security.model.AppServiceModel;
 import org.panda.tech.core.config.CommonProperties;
 import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.config.app.AppFacade;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.core.web.util.NetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

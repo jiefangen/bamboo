@@ -6,7 +6,7 @@ import org.apache.rocketmq.client.producer.SendResult;
 import org.panda.bamboo.common.util.lang.UUIDUtil;
 import org.panda.business.example.infrastructure.message.rocketmq.RocketMQConstants;
 import org.panda.business.example.infrastructure.message.rocketmq.RocketMQProducer;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

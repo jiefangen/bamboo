@@ -1,7 +1,7 @@
 package org.panda.business.helper.app.model.params;
 
 import lombok.Data;
-import org.panda.tech.core.spec.debounce.annotation.LockKeyParam;
+import org.panda.tech.data.redis.lock.annotation.LockKeyParam;
 
 @Data
 public class LockBodyParam {

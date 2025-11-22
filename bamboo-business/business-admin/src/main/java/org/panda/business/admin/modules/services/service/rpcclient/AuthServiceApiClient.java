@@ -6,7 +6,7 @@ import org.panda.business.admin.modules.services.api.vo.AuthAccountVO;
 import org.panda.business.admin.modules.services.api.vo.PermissionInfoVO;
 import org.panda.tech.core.rpc.annotation.RpcClient;
 import org.panda.tech.core.rpc.annotation.RpcMethod;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.data.model.query.Pagination;
 import org.panda.tech.data.model.query.QueryResult;
 import org.springframework.http.HttpMethod;

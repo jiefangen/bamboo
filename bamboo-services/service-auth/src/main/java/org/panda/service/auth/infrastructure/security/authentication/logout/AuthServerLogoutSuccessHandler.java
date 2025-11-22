@@ -1,7 +1,7 @@
 package org.panda.service.auth.infrastructure.security.authentication.logout;
 
 import org.panda.tech.core.web.config.WebConstants;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.panda.tech.core.jwt.external.JwtParser;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;

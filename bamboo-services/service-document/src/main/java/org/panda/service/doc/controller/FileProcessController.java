@@ -7,7 +7,7 @@ import org.panda.service.doc.common.utils.DocFileUtils;
 import org.panda.service.doc.model.entity.DocFile;
 import org.panda.service.doc.model.param.DocFileParam;
 import org.panda.service.doc.service.FileProcessService;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

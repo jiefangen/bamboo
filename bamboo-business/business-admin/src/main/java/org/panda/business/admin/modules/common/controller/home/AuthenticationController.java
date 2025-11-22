@@ -2,7 +2,7 @@ package org.panda.business.admin.modules.common.controller.home;
 
 import io.swagger.annotations.Api;
 import org.panda.business.admin.common.constant.Authority;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAnonymous;
 import org.panda.tech.security.config.annotation.ConfigAuthorities;
 import org.panda.tech.security.config.annotation.ConfigAuthority;

@@ -1,6 +1,6 @@
 package org.panda.support.security;
 
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 
 /**
  * 认证授权管理策略

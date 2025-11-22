@@ -8,7 +8,7 @@ import org.panda.bamboo.common.constant.Commons;
 import org.panda.service.auth.infrastructure.security.app.AppServiceModel;
 import org.panda.service.auth.service.AppServiceService;
 import org.panda.tech.core.exception.ExceptionEnum;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.security.config.annotation.ConfigAuthority;
 import org.panda.tech.security.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;

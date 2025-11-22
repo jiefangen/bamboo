@@ -7,7 +7,7 @@ import org.panda.bamboo.common.util.LogUtil;
 import org.panda.bamboo.common.util.date.DateUtil;
 import org.panda.business.example.infrastructure.cache.RedisCacheService;
 import org.panda.business.example.modules.system.model.dto.SysUserDto;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.data.redis.lock.RedisDistributedLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

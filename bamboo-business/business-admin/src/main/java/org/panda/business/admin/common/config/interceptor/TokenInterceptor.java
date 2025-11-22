@@ -9,7 +9,7 @@ import org.panda.tech.core.exception.business.auth.AuthConstants;
 import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
 import org.panda.tech.core.web.config.WebConstants;
 import org.panda.tech.core.web.config.security.WebSecurityProperties;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

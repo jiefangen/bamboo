@@ -1,7 +1,7 @@
 package org.panda.business.admin.infrastructure.security.authentication;
 
 import org.panda.tech.core.exception.business.auth.AuthConstants;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.security.web.authentication.ResolvableExceptionAuthenticationFailureHandler;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;

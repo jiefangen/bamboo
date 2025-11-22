@@ -26,7 +26,7 @@ import org.panda.service.doc.repository.DocFileStorageRepo;
 import org.panda.service.doc.service.DocFileStorageService;
 import org.panda.service.doc.service.FileProcessService;
 import org.panda.tech.core.crypto.md5.Md5Encryptor;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.core.web.util.WebHttpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;

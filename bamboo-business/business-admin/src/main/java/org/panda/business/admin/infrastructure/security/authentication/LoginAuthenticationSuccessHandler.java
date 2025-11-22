@@ -9,7 +9,7 @@ import org.panda.tech.core.config.app.AppConstants;
 import org.panda.tech.core.jwt.internal.InternalJwtConfiguration;
 import org.panda.tech.core.spec.user.DefaultUserIdentity;
 import org.panda.tech.core.jwt.internal.resolver.InternalJwtResolver;
-import org.panda.tech.core.web.restful.RestfulResult;
+import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.tech.security.user.DefaultUserSpecificDetails;
 import org.panda.tech.security.util.SecurityUtil;
 import org.panda.tech.security.web.authentication.DefaultAuthenticationSuccessHandler;
