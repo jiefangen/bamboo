@@ -1,6 +1,7 @@
 package org.panda.business.example.test.algorithm;
 
 import org.junit.jupiter.api.Test;
+import org.panda.bamboo.common.constant.basic.Strings;
 import org.panda.bamboo.common.util.lang.StringUtil;
 import org.panda.tech.core.crypto.aes.AesEncryptor;
 import org.panda.tech.core.crypto.base64.Base64Encryptor;
@@ -19,6 +20,9 @@ public class EncryptTest {
     void generateKey() {
         String key = StringUtil.randomNormalMixeds(8);
         System.out.println(key);
+        for (int i = 0; i < 10; i++) {
+            System.out.println(StringUtil.randomNumbers(11, Strings.EMPTY));
+        }
     }
 
     @Test
