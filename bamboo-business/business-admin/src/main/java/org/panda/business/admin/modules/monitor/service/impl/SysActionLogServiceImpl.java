@@ -20,7 +20,7 @@ import org.panda.business.admin.modules.monitor.service.entity.SysActionLog;
 import org.panda.business.admin.modules.monitor.service.entity.SysUserToken;
 import org.panda.business.admin.modules.monitor.service.repository.SysActionLogMapper;
 import org.panda.tech.core.exception.business.BusinessException;
-import org.panda.tech.core.spec.log.ActionType;
+import org.panda.tech.core.spec.log.web.ActionType;
 import org.panda.tech.core.web.model.IPAddress;
 import org.panda.bamboo.common.model.restful.RestfulResult;
 import org.panda.bamboo.common.model.restful.ResultEnum;

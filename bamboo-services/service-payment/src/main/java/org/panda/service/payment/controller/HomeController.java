@@ -23,7 +23,7 @@ public class HomeController extends HomeControllerSupport {
         ModelAndView modelAndView = new ModelAndView("voucher");
         PaymentResult result = new PaymentResult(orderNo, gatewayPaymentNo, amount, Strings.STR_NULL);
         if (result.isSuccessful()) {
-            modelAndView.addObject("appDesc", super.getApplicationDesc());
+            modelAndView.addObject("appDesc", super.getAppCaption());
             modelAndView.setStatus(HttpStatus.resolve(result.getResponseStatus()));
             modelAndView.addObject("orderNo", result.getOrderNo());
             modelAndView.addObject("gatewayPaymentNo", result.getGatewayPaymentNo());
