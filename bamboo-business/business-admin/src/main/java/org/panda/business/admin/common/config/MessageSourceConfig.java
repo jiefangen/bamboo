@@ -1,6 +1,6 @@
 package org.panda.business.admin.common.config;
 
-import org.panda.tech.core.i18n.message.MessageSourceSupport;
+import org.panda.tech.core.i18n.MessageSourceSupport;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
